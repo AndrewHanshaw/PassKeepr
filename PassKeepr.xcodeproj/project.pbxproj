@@ -1,0 +1,593 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3A02E73A2AF6EE1000383BC2 /* PassKeeprApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7392AF6EE1000383BC2 /* PassKeeprApp.swift */; };
+		3A02E73C2AF6EE1000383BC2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E73B2AF6EE1000383BC2 /* ContentView.swift */; };
+		3A02E73E2AF6EE1A00383BC2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A02E73D2AF6EE1A00383BC2 /* Assets.xcassets */; };
+		3A02E7412AF6EE1A00383BC2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A02E7402AF6EE1A00383BC2 /* Preview Assets.xcassets */; };
+		3A02E74B2AF6EE1B00383BC2 /* PassKeeprTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E74A2AF6EE1B00383BC2 /* PassKeeprTests.swift */; };
+		3A02E7552AF6EE1B00383BC2 /* PassKeeprUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7542AF6EE1B00383BC2 /* PassKeeprUITests.swift */; };
+		3A02E7572AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3A02E7472AF6EE1B00383BC2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A02E72E2AF6EE1000383BC2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A02E7352AF6EE1000383BC2;
+			remoteInfo = PassKeepr;
+		};
+		3A02E7512AF6EE1B00383BC2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A02E72E2AF6EE1000383BC2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A02E7352AF6EE1000383BC2;
+			remoteInfo = PassKeepr;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3A02E7362AF6EE1000383BC2 /* PassKeepr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PassKeepr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A02E7392AF6EE1000383BC2 /* PassKeeprApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprApp.swift; sourceTree = "<group>"; };
+		3A02E73B2AF6EE1000383BC2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3A02E73D2AF6EE1A00383BC2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3A02E7402AF6EE1A00383BC2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3A02E7462AF6EE1B00383BC2 /* PassKeeprTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PassKeeprTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A02E74A2AF6EE1B00383BC2 /* PassKeeprTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprTests.swift; sourceTree = "<group>"; };
+		3A02E7502AF6EE1B00383BC2 /* PassKeeprUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PassKeeprUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A02E7542AF6EE1B00383BC2 /* PassKeeprUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprUITests.swift; sourceTree = "<group>"; };
+		3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3A02E7332AF6EE1000383BC2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A02E7432AF6EE1B00383BC2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A02E74D2AF6EE1B00383BC2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3A02E72D2AF6EE1000383BC2 = {
+			isa = PBXGroup;
+			children = (
+				3A02E7382AF6EE1000383BC2 /* PassKeepr */,
+				3A02E7492AF6EE1B00383BC2 /* PassKeeprTests */,
+				3A02E7532AF6EE1B00383BC2 /* PassKeeprUITests */,
+				3A02E7372AF6EE1000383BC2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3A02E7372AF6EE1000383BC2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3A02E7362AF6EE1000383BC2 /* PassKeepr.app */,
+				3A02E7462AF6EE1B00383BC2 /* PassKeeprTests.xctest */,
+				3A02E7502AF6EE1B00383BC2 /* PassKeeprUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3A02E7382AF6EE1000383BC2 /* PassKeepr */ = {
+			isa = PBXGroup;
+			children = (
+				3A02E7392AF6EE1000383BC2 /* PassKeeprApp.swift */,
+				3A02E73B2AF6EE1000383BC2 /* ContentView.swift */,
+				3A02E73D2AF6EE1A00383BC2 /* Assets.xcassets */,
+				3A02E73F2AF6EE1A00383BC2 /* Preview Content */,
+			);
+			path = PassKeepr;
+			sourceTree = "<group>";
+		};
+		3A02E73F2AF6EE1A00383BC2 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				3A02E7402AF6EE1A00383BC2 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3A02E7492AF6EE1B00383BC2 /* PassKeeprTests */ = {
+			isa = PBXGroup;
+			children = (
+				3A02E74A2AF6EE1B00383BC2 /* PassKeeprTests.swift */,
+			);
+			path = PassKeeprTests;
+			sourceTree = "<group>";
+		};
+		3A02E7532AF6EE1B00383BC2 /* PassKeeprUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3A02E7542AF6EE1B00383BC2 /* PassKeeprUITests.swift */,
+				3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */,
+			);
+			path = PassKeeprUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3A02E7352AF6EE1000383BC2 /* PassKeepr */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A02E75A2AF6EE1B00383BC2 /* Build configuration list for PBXNativeTarget "PassKeepr" */;
+			buildPhases = (
+				3A02E7322AF6EE1000383BC2 /* Sources */,
+				3A02E7332AF6EE1000383BC2 /* Frameworks */,
+				3A02E7342AF6EE1000383BC2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PassKeepr;
+			productName = PassKeepr;
+			productReference = 3A02E7362AF6EE1000383BC2 /* PassKeepr.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3A02E7452AF6EE1B00383BC2 /* PassKeeprTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A02E75D2AF6EE1B00383BC2 /* Build configuration list for PBXNativeTarget "PassKeeprTests" */;
+			buildPhases = (
+				3A02E7422AF6EE1B00383BC2 /* Sources */,
+				3A02E7432AF6EE1B00383BC2 /* Frameworks */,
+				3A02E7442AF6EE1B00383BC2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3A02E7482AF6EE1B00383BC2 /* PBXTargetDependency */,
+			);
+			name = PassKeeprTests;
+			productName = PassKeeprTests;
+			productReference = 3A02E7462AF6EE1B00383BC2 /* PassKeeprTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3A02E74F2AF6EE1B00383BC2 /* PassKeeprUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A02E7602AF6EE1B00383BC2 /* Build configuration list for PBXNativeTarget "PassKeeprUITests" */;
+			buildPhases = (
+				3A02E74C2AF6EE1B00383BC2 /* Sources */,
+				3A02E74D2AF6EE1B00383BC2 /* Frameworks */,
+				3A02E74E2AF6EE1B00383BC2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3A02E7522AF6EE1B00383BC2 /* PBXTargetDependency */,
+			);
+			name = PassKeeprUITests;
+			productName = PassKeeprUITests;
+			productReference = 3A02E7502AF6EE1B00383BC2 /* PassKeeprUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3A02E72E2AF6EE1000383BC2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					3A02E7352AF6EE1000383BC2 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					3A02E7452AF6EE1B00383BC2 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 3A02E7352AF6EE1000383BC2;
+					};
+					3A02E74F2AF6EE1B00383BC2 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 3A02E7352AF6EE1000383BC2;
+					};
+				};
+			};
+			buildConfigurationList = 3A02E7312AF6EE1000383BC2 /* Build configuration list for PBXProject "PassKeepr" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3A02E72D2AF6EE1000383BC2;
+			productRefGroup = 3A02E7372AF6EE1000383BC2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3A02E7352AF6EE1000383BC2 /* PassKeepr */,
+				3A02E7452AF6EE1B00383BC2 /* PassKeeprTests */,
+				3A02E74F2AF6EE1B00383BC2 /* PassKeeprUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3A02E7342AF6EE1000383BC2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A02E7412AF6EE1A00383BC2 /* Preview Assets.xcassets in Resources */,
+				3A02E73E2AF6EE1A00383BC2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A02E7442AF6EE1B00383BC2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A02E74E2AF6EE1B00383BC2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3A02E7322AF6EE1000383BC2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A02E73C2AF6EE1000383BC2 /* ContentView.swift in Sources */,
+				3A02E73A2AF6EE1000383BC2 /* PassKeeprApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A02E7422AF6EE1B00383BC2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A02E74B2AF6EE1B00383BC2 /* PassKeeprTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A02E74C2AF6EE1B00383BC2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A02E7552AF6EE1B00383BC2 /* PassKeeprUITests.swift in Sources */,
+				3A02E7572AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3A02E7482AF6EE1B00383BC2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3A02E7352AF6EE1000383BC2 /* PassKeepr */;
+			targetProxy = 3A02E7472AF6EE1B00383BC2 /* PBXContainerItemProxy */;
+		};
+		3A02E7522AF6EE1B00383BC2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3A02E7352AF6EE1000383BC2 /* PassKeepr */;
+			targetProxy = 3A02E7512AF6EE1B00383BC2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		3A02E7582AF6EE1B00383BC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3A02E7592AF6EE1B00383BC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3A02E75B2AF6EE1B00383BC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PassKeepr/Preview Content\"";
+				DEVELOPMENT_TEAM = NZDS56Z4Q9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeepr;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3A02E75C2AF6EE1B00383BC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"PassKeepr/Preview Content\"";
+				DEVELOPMENT_TEAM = NZDS56Z4Q9;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeepr;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3A02E75E2AF6EE1B00383BC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NZDS56Z4Q9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeeprTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PassKeepr.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PassKeepr";
+			};
+			name = Debug;
+		};
+		3A02E75F2AF6EE1B00383BC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NZDS56Z4Q9;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeeprTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PassKeepr.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/PassKeepr";
+			};
+			name = Release;
+		};
+		3A02E7612AF6EE1B00383BC2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NZDS56Z4Q9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeeprUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PassKeepr;
+			};
+			name = Debug;
+		};
+		3A02E7622AF6EE1B00383BC2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NZDS56Z4Q9;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeeprUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PassKeepr;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3A02E7312AF6EE1000383BC2 /* Build configuration list for PBXProject "PassKeepr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A02E7582AF6EE1B00383BC2 /* Debug */,
+				3A02E7592AF6EE1B00383BC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A02E75A2AF6EE1B00383BC2 /* Build configuration list for PBXNativeTarget "PassKeepr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A02E75B2AF6EE1B00383BC2 /* Debug */,
+				3A02E75C2AF6EE1B00383BC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A02E75D2AF6EE1B00383BC2 /* Build configuration list for PBXNativeTarget "PassKeeprTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A02E75E2AF6EE1B00383BC2 /* Debug */,
+				3A02E75F2AF6EE1B00383BC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A02E7602AF6EE1B00383BC2 /* Build configuration list for PBXNativeTarget "PassKeeprUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A02E7612AF6EE1B00383BC2 /* Debug */,
+				3A02E7622AF6EE1B00383BC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3A02E72E2AF6EE1000383BC2 /* Project object */;
+}
