@@ -1,24 +1,31 @@
-//
-//  ContentView.swift
-//  PassKeepr
-//
-//  Created by Drew on 11/4/23.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(ModelData.self) var modelData
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationView{
+            VStack {
+                List {
+                    ListSection(modelData: _modelData)
+                    .navigationTitle("All Passes")
+                }
+                HStack {
+                    Spacer()
+                    
+                    NavigationLink(destination: Text("Add Content")) {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.largeTitle)
+                            .padding()
+                            .foregroundColor(.accentColor)
+                    }
+                }
+            }
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
+        .environment(ModelData())
 }
