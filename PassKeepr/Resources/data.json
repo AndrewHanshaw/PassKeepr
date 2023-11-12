@@ -2,21 +2,26 @@
     {
         "name": "Pass 1",
         "id": 1001,
+        "type": 1
     },
     {
         "name": "Pass 2",
         "id": 1002,
+        "type": 1
     },
     {
         "name": "Pass 3",
         "id": 1003,
+        "type": 2
     },
     {
         "name": "Pass 4",
         "id": 1004,
+        "type": 2
     },
     {
         "name": "Pass 5",
         "id": 1005,
+        "type": 1
     }
 ]

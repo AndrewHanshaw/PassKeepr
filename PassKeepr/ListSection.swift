@@ -8,15 +8,20 @@
 import SwiftUI
 
 struct ListSection: View {
-    @Environment(ModelData.self) var modelData
     @State private var isListExpanded = true
     
-    var list: [ListItem] {
-        modelData.listItems
+    let list: [ListItem]
+    
+    var type: Int {
+        list.first?.type ?? ListItem().type
+    }
+    
+    var sectionHeaderTitle: String {
+        "Type \(type) Passes"
     }
     
     var body: some View {
-        Section(header: sectionHeader("Type 1 Passes", isExpanded: $isListExpanded)) {
+        Section(header: sectionHeader(sectionHeaderTitle, isExpanded: $isListExpanded)) {
             if isListExpanded {
                 ForEach(list) { ListItem in
                     NavigationLink(ListItem.name, destination: Text(ListItem.name))
@@ -43,8 +48,13 @@ private func sectionHeader(_ title: String, isExpanded: Binding<Bool>) -> some V
 }
 
 #Preview {
-    List {
-        ListSection()
-            .environment(ModelData())
+    let previewList = ModelData().listItems
+    
+    var filteredList: [ListItem] {
+        previewList.filter { $0.type == 1 }
+    }
+    
+    return List {
+        ListSection(list:filteredList)
     }
 }
