@@ -2,16 +2,18 @@ import Foundation
 
 @Observable
 class ModelData {
-    var listItems: [ListItem] = load("data.json")
+    var listItems: [ListItem]
+
+    init() {
+        listItems = load("data.json")
+    }
+
 }
 
 func load<T: Decodable>(_ filename: String) -> T {
+    let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    let file = documentsDirectory.appendingPathComponent(filename)
     let data: Data
-
-    guard let file = Bundle.main.url(forResource: filename, withExtension: nil)
-        else {
-            fatalError("Couldn't find \(filename) in main bundle.")
-    }
 
     do {
         data = try Data(contentsOf: file)
@@ -25,4 +27,17 @@ func load<T: Decodable>(_ filename: String) -> T {
     } catch {
         fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
     }
+}
+
+func encode<T: Encodable>(_ filename: String, _ data: T) {
+    let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    let file = documentsDirectory.appendingPathComponent(filename)
+
+    do {
+        let encoder = JSONEncoder()
+        return try encoder.encode(data).write(to: file, options: .atomic)
+    } catch {
+        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
+    }
+
 }
