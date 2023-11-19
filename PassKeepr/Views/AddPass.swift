@@ -38,7 +38,7 @@ struct AddPass: View {
             }
             Button ("Add Pass") {
                 modelData.listItems.append(addedPass)
-                encode("data.json", modelData.listItems)
+                encode("data2.json", modelData.listItems)
             }
             
             Spacer()
