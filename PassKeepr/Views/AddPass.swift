@@ -9,12 +9,33 @@ import SwiftUI
 
 struct AddPass: View {
     @Environment(ModelData.self) var modelData
-    var addedPass = ListItem(id: 1, name: "added pass", type: 2)
-        
+    
+    @State private var passName: String = ""
+    @State private var selectedPassType: passType = .identificationPass
+
+    var addedPass = ListItem(id: 1, name: "added pass", type: passType.barcodePass)
+
     var body: some View {
         VStack {
-            Spacer()
-            
+            Form(){
+                List {
+                    Picker("Pass Type", selection: $selectedPassType) {
+                        Text("ID Card").tag(passType.identificationPass)
+                        Text("Barcode Pass").tag(passType.barcodePass)
+                        Text("QR Code Pass").tag(passType.barcodePass)
+                        Text("Notecard").tag(passType.notePass)
+                        Text("Business Card").tag(passType.businessCardPass)
+                        Text("Picture Pass").tag(passType.picturePass)
+                    }
+                }
+
+                TextField(
+                    "Pass Name",
+                    text: $passName
+                )
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
+            }
             Button ("Add Pass") {
                 modelData.listItems.append(addedPass)
                 encode("data.json", modelData.listItems)
