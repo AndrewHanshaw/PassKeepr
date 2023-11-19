@@ -16,6 +16,9 @@
 		3A02E7572AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */; };
 		BABAADD22B0A69950014C73B /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD02B0A69950014C73B /* ListItem.swift */; };
 		BABAADD32B0A69950014C73B /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD12B0A69950014C73B /* ModelData.swift */; };
+		BABAADD62B0A6BAA0014C73B /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = BABAADD52B0A6BAA0014C73B /* data.json */; };
+		BABAADD82B0A6BF50014C73B /* ListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD72B0A6BF50014C73B /* ListSection.swift */; };
+		BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD92B0A6C110014C73B /* AddPass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +51,9 @@
 		3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BABAADD02B0A69950014C73B /* ListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
 		BABAADD12B0A69950014C73B /* ModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
+		BABAADD52B0A6BAA0014C73B /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
+		BABAADD72B0A6BF50014C73B /* ListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListSection.swift; path = PassKeepr/Helpers/ListSection.swift; sourceTree = SOURCE_ROOT; };
+		BABAADD92B0A6C110014C73B /* AddPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,9 +104,11 @@
 		3A02E7382AF6EE1000383BC2 /* PassKeepr */ = {
 			isa = PBXGroup;
 			children = (
+				BABAADDC2B0AB8150014C73B /* Helpers */,
+				BABAADDB2B0A6C190014C73B /* Views */,
+				BABAADD42B0A6BAA0014C73B /* Resources */,
 				BABAADCF2B0A69950014C73B /* Model */,
 				3A02E7392AF6EE1000383BC2 /* PassKeeprApp.swift */,
-				3A02E73B2AF6EE1000383BC2 /* ContentView.swift */,
 				3A02E73D2AF6EE1A00383BC2 /* Assets.xcassets */,
 				3A02E73F2AF6EE1A00383BC2 /* Preview Content */,
 			);
@@ -139,6 +147,31 @@
 				BABAADD12B0A69950014C73B /* ModelData.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		BABAADD42B0A6BAA0014C73B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BABAADD52B0A6BAA0014C73B /* data.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		BABAADDB2B0A6C190014C73B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3A02E73B2AF6EE1000383BC2 /* ContentView.swift */,
+				BABAADD92B0A6C110014C73B /* AddPass.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BABAADDC2B0AB8150014C73B /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				BABAADD72B0A6BF50014C73B /* ListSection.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,6 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A02E7412AF6EE1A00383BC2 /* Preview Assets.xcassets in Resources */,
+				BABAADD62B0A6BAA0014C73B /* data.json in Resources */,
 				3A02E73E2AF6EE1A00383BC2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,6 +309,8 @@
 				BABAADD32B0A69950014C73B /* ModelData.swift in Sources */,
 				3A02E73C2AF6EE1000383BC2 /* ContentView.swift in Sources */,
 				3A02E73A2AF6EE1000383BC2 /* PassKeeprApp.swift in Sources */,
+				BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */,
+				BABAADD82B0A6BF50014C73B /* ListSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
