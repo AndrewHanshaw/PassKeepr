@@ -25,7 +25,7 @@ struct ContentView: View {
                 HStack {
                     Spacer()
                     
-                    NavigationLink(destination: Text("Add Content")) {
+                    NavigationLink(destination: AddPass()) {
                         Image(systemName: "plus.circle.fill")
                             .font(.largeTitle)
                             .padding()
