@@ -3,9 +3,6 @@ import SwiftUI
 struct ContentView: View {
     @Environment(ModelData.self) var modelData
     
-    // TODO: Make this dynamic
-    let maxType = 3
-    
     var filteredList1: [ListItem] {
         modelData.listItems.filter { $0.type == 1 }
     }
