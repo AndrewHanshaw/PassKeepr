@@ -12,6 +12,7 @@ struct AddPass: View {
     
     @State private var passName: String = ""
     @State private var selectedPassType: passType = .identificationPass
+    @State private var barcodeNumber = "0"
 
     var addedPass = ListItem(id: 1, name: "added pass", type: passType.barcodePass)
 
@@ -33,22 +34,28 @@ struct AddPass: View {
                     "Pass Name",
                     text: $passName
                 )
-                .textInputAutocapitalization(.never)
                 .disableAutocorrection(true)
+
+                if selectedPassType == passType.barcodePass {
+                    TextField(
+                        "Barcode Number",
+                        text: $barcodeNumber
+                    )
+                    .keyboardType(.numberPad)
+                }
+
             }
             Button ("Add Pass") {
                 modelData.listItems.append(addedPass)
                 encode("data2.json", modelData.listItems)
             }
-            
+
             Spacer()
         }
     }
 }
-    
+
 #Preview {
     AddPass()
         .environment(ModelData())
 }
-
-
