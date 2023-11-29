@@ -25,6 +25,13 @@ struct ListSection: View {
             if isListExpanded {
                 ForEach(list) { ListItem in
                     NavigationLink(ListItem.name, destination: Text(ListItem.name))
+                        .swipeActions(allowsFullSwipe: false) {
+                            Button(role: .destructive) {
+                                deleteItemByID(ListItem.id)
+                            } label: {
+                                Label("Delete", systemImage: "trash.fill")
+                            }
+                        }
                 }
             }
         }
