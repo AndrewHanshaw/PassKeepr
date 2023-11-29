@@ -48,3 +48,39 @@ func encode<T: Encodable>(_ filename: String, _ data: T) {
     }
 
 }
+
+func deleteItemByID(_ idToDelete: Int) {
+    var loadedData: [ListItem] = load("data2.json")!
+
+    // Find the index of the item with the specified ID
+    if let index = loadedData.firstIndex(where: { $0.id == idToDelete }) {
+        // Remove the item from the list
+        loadedData.remove(at: index)
+
+        // Encode and save the updated data
+        encode("data2.json", loadedData)
+    }
+}
+
+func deleteAllItems() {
+    var loadedData: [ListItem] = load("data2.json")!
+    // Clear the listItems array
+    loadedData.removeAll()
+
+    // Encode and save the updated data
+    encode("data2.json", loadedData)
+}
+
+func deleteDataFile() {
+    let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    let fileURL = documentsDirectory.appendingPathComponent("data2.json")
+
+    do {
+        // Check if the file exists before attempting to delete
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            try FileManager.default.removeItem(at: fileURL)
+        }
+    } catch {
+        print("Error deleting data.json file: \(error)")
+    }
+}
