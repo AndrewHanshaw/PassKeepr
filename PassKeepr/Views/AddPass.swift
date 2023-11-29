@@ -49,6 +49,12 @@ struct AddPass: View {
                 modelData.listItems.append(addedPass)
                 encode("data2.json", modelData.listItems)
             }
+            Button ("Delete All Passes") {
+                deleteAllItems()
+            }
+            Button ("Delete Data File") {
+                deleteDataFile()
+            }
 
             Spacer()
         }
