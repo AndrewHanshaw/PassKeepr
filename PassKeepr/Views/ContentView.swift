@@ -19,7 +19,6 @@ struct ContentView: View {
                 List {
                     ListSection(list: filteredList1)
                     ListSection(list: filteredList2)
-                    .navigationTitle("All Passes")
                 }
                 HStack {
                     Spacer()
@@ -40,6 +39,7 @@ struct ContentView: View {
                 }
             }
         }
+        .navigationTitle("All Passes")
     }
 }
 
