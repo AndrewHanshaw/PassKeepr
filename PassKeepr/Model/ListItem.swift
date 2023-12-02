@@ -7,21 +7,22 @@
 
 import Foundation
 
-struct ListItem: Codable, Hashable, Identifiable {
-    var id: Int
-    var name: String
-    var type: passType
+struct ListItem: Codable, Identifiable, Equatable {
+    var id: UUID
+    var passName: String
+    var passType: PassType
+    var identificationNumber: Int?
+    var barcodeNumber: Int?
+    var qrCodeString: String?
+    var noteString: String?
+    var name: String?
+    var title: String?
+    var businessName: String?
+    var phoneNumber: Int?
+    var email: String?
 }
 
-extension ListItem {
-    init() {
-        self.id = 1000
-        self.name = "Default Name" // Set default name value
-        self.type = passType.identificationPass // Set default type value
-    }
-}
-
-enum passType: Int, Codable, Identifiable {
+enum PassType: Int, Codable, Identifiable {
     case identificationPass, barcodePass, qrCodePass, notePass, businessCardPass, picturePass
     var id: Self { self }
 }

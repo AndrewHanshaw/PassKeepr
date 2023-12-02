@@ -1,27 +1,41 @@
 [
     {
-        "name": "Pass 1",
+        "passName": "My ID",
         "id": 1001,
-        "type": 1
+        "passType": 1
+        "identificationNumber": 11223344
     },
     {
-        "name": "Pass 2",
+        "passName": "My Barcode",
         "id": 1002,
-        "type": 1
+        "passType": 2
+        "barcodeNumber": 10203040
     },
     {
-        "name": "Pass 3",
+        "passName": "My QR Code",
         "id": 1003,
-        "type": 2
+        "passType": 3
+        "qrCodeString": "Test 1234!"
     },
     {
-        "name": "Pass 4",
+        "passName": "My Note",
         "id": 1004,
-        "type": 2
+        "passType": 4
+        "noteString": "Lorem ipsum etc etc"
     },
     {
-        "name": "Pass 5",
+        "passName": "My Business Card",
         "id": 1005,
-        "type": 1
+        "passType": 5
+        "name": "Jeff"
+        "title": "CEO"
+        "businessName": "Enron"
+        "phoneNumber": 5123309984
+        "email": "jeff@enron.com"
+    },
+    {
+        "passName": "My Picture",
+        "id": 1006,
+        "passType": 6
     }
 ]
