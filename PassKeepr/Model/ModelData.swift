@@ -2,10 +2,11 @@ import Foundation
 
 @Observable
 class ModelData {
-    var listItems: [ListItem]
+    var listItems: [ListItem] = []
 
     init() {
-        let preLoadedListItems: [ListItem] = [ListItem(id: 3, name: "asdf1", type: passType.barcodePass), ListItem(id: 2, name: "asdf2", type: passType.identificationPass)]
+        let preLoadedListItems: [ListItem] = [ListItem(id: UUID(), passName: "ID Pass 1", passType: PassType.identificationPass, identificationNumber: 1234),
+                                              ListItem(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeNumber: 1234)]
 
         if let loadedData: [ListItem] = load("data2.json") {
             listItems = loadedData
@@ -49,7 +50,7 @@ func encode<T: Encodable>(_ filename: String, _ data: T) {
 
 }
 
-func deleteItemByID(_ idToDelete: Int) {
+func deleteItemByID(_ idToDelete: UUID, filename: String) {
     var loadedData: [ListItem] = load("data2.json")!
 
     // Find the index of the item with the specified ID

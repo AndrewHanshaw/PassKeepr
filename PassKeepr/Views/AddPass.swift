@@ -43,7 +43,8 @@ struct AddPass: View {
     @State private var barcodeNumber = "0"
     @State private var isDocumentPickerPresented: Bool = false
 
-    var addedPass = ListItem(id: 1, name: "added pass", type: passType.barcodePass)
+    var addedPass = ListItem(id: UUID(), passName: "added pass", passType: PassType.barcodePass)
+
     var image: UIImage?
 
     var body: some View {
