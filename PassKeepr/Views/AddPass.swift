@@ -6,6 +6,34 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
+
+struct ImageDocument: FileDocument {
+    static var readableContentTypes: [UTType] { [.image] }
+
+    var image: UIImage
+
+    init(image: UIImage) {
+        self.image = image
+    }
+
+    init(configuration: ReadConfiguration) throws {
+        guard let data = configuration.file.regularFileContents else {
+            throw CocoaError(.fileReadCorruptFile)
+        }
+        guard let loadedImage = UIImage(data: data) else {
+            throw CocoaError(.fileReadCorruptFile)
+        }
+        self.image = loadedImage
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        guard let data = image.pngData() else {
+            throw CocoaError(.fileWriteInapplicableStringEncoding)
+        }
+        return .init(regularFileWithContents: data)
+    }
+}
 
 struct AddPass: View {
     @Environment(ModelData.self) var modelData
@@ -13,8 +41,10 @@ struct AddPass: View {
     @State private var passName: String = ""
     @State private var selectedPassType: passType = .identificationPass
     @State private var barcodeNumber = "0"
+    @State private var isDocumentPickerPresented: Bool = false
 
     var addedPass = ListItem(id: 1, name: "added pass", type: passType.barcodePass)
+    var image: UIImage?
 
     var body: some View {
         VStack {
@@ -54,6 +84,19 @@ struct AddPass: View {
             }
             Button ("Delete Data File") {
                 deleteDataFile()
+            }
+
+            let iconView = AppIcon().frame(width: 1024, height: 1224)
+            let cgImage = ImageRenderer(content: iconView).cgImage!
+            let uiimage = UIImage(cgImage: cgImage)
+            Button ("Save Icon image") {
+                self.isDocumentPickerPresented.toggle()
+            }
+            .fileExporter(isPresented: $isDocumentPickerPresented, document: ImageDocument(image: uiimage), contentType: .image, defaultFilename: "iconImage.png") { result in
+                // Handle export result if needed
+                if case .success = result {
+                    print("Image saved successfully.")
+                }
             }
 
             Spacer()
