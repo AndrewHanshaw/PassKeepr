@@ -86,7 +86,7 @@ struct AddPass: View {
                 deleteDataFile()
             }
 
-            let iconView = AppIcon().frame(width: 1024, height: 1224)
+            let iconView = AppIcon().frame(width: 1024, height: 1024)
             let cgImage = ImageRenderer(content: iconView).cgImage!
             let uiimage = UIImage(cgImage: cgImage)
             Button ("Save Icon image") {
