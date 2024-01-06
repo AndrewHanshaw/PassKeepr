@@ -15,13 +15,9 @@ struct ListSection: View {
     var type: PassType {
         list.first?.passType ?? PassType.barcodePass
     }
-    
-    var sectionHeaderTitle: String {
-        "\(type)"
-    }
-    
+
     var body: some View {
-        Section(header: sectionHeader(sectionHeaderTitle, isExpanded: $isListExpanded)) {
+        Section(header: sectionHeader(type, isExpanded: $isListExpanded)) {
             if isListExpanded {
                 ForEach(list) { ListItem in
                     NavigationLink(ListItem.passName, destination: Text(ListItem.passName))
@@ -38,9 +34,9 @@ struct ListSection: View {
     }
 }
 
-private func sectionHeader(_ title: String, isExpanded: Binding<Bool>) -> some View {
+private func sectionHeader(_ type: PassType, isExpanded: Binding<Bool>) -> some View {
     HStack {
-        Text(title)
+        Text(getHeaderString(type))
         Spacer()
         Button {
             withAnimation {
@@ -51,6 +47,23 @@ private func sectionHeader(_ title: String, isExpanded: Binding<Bool>) -> some V
                 .labelStyle(.iconOnly)
                 .rotationEffect(.degrees(isExpanded.wrappedValue ? 90 : 0))
         }
+    }
+}
+
+private func getHeaderString(_ type: PassType) -> String {
+    switch type {
+        case PassType.identificationPass:
+            return "IDs"
+        case PassType.barcodePass:
+            return "Barcode Passes"
+        case PassType.qrCodePass:
+            return "QR Code Passes"
+        case PassType.notePass:
+            return "Notes"
+        case PassType.businessCardPass:
+            return "Business Cards"
+        case PassType.picturePass:
+            return "Picture Passes"
     }
 }
 
