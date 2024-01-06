@@ -55,7 +55,7 @@ private func sectionHeader(_ title: String, isExpanded: Binding<Bool>) -> some V
 }
 
 #Preview {
-    let previewList = ModelData().listItems
+    let previewList = ModelData(preview: true).listItems
     
     var filteredList: [ListItem] {
         previewList.filter { $0.passType == PassType.barcodePass }

@@ -2,14 +2,22 @@ import Foundation
 
 @Observable
 class ModelData {
+    let preview: Bool
+
     var listItems: [ListItem] = []
 
     let filename: String = "PassKeeprPasses.json"
 
-    init() {
+    init(preview: Bool) {
+        self.preview = preview
+
         let preLoadedListItems: [ListItem] = [ListItem(id: UUID(), passName: "ID Pass 1", passType: PassType.identificationPass, identificationString: "1234"),
                                               ListItem(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234")]
 
+        if(self.preview == true)
+        {
+            encode(filename, preLoadedListItems)
+        }
         if let loadedData: [ListItem] = load(filename) {
             listItems = loadedData
         } else {
