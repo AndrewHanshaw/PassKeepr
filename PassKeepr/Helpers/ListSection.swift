@@ -10,8 +10,8 @@ import SwiftUI
 struct ListSection: View {
     @State private var isListExpanded = true
     
-    let list: [ListItem]
-    
+    @State var list: [ListItem]
+
     var type: PassType {
         list.first?.passType ?? PassType.barcodePass
     }
@@ -19,7 +19,7 @@ struct ListSection: View {
     var body: some View {
         Section(header: sectionHeader(type, isExpanded: $isListExpanded)) {
             if isListExpanded {
-                ForEach(list) { ListItem in
+                ForEach($list) { $ListItem in
                     NavigationLink(ListItem.passName, destination: Text(ListItem.passName))
                         .swipeActions(allowsFullSwipe: false) {
                             Button(role: .destructive) {
