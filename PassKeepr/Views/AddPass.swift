@@ -54,7 +54,7 @@ struct AddPass: View {
             Form(){
                 List {
                     Picker("Pass Type", selection: $selectedPassType) {
-                        Text("QR Code Pass").tag(passType.barcodePass)
+                        Text("QR Code Pass").tag(PassType.qrCodePass)
                         Text("ID Card").tag(PassType.identificationPass)
                         Text("Barcode Pass").tag(PassType.barcodePass)
                         Text("Notecard").tag(PassType.notePass)
