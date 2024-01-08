@@ -39,7 +39,7 @@ struct AddPass: View {
     @Environment(ModelData.self) var modelData
     
     @State private var passName: String = ""
-    @State private var selectedPassType: passType = .identificationPass
+    @State private var selectedPassType: PassType = .identificationPass
     @State private var barcodeNumber = "0"
     @State private var isDocumentPickerPresented: Bool = false
 
@@ -52,12 +52,12 @@ struct AddPass: View {
             Form(){
                 List {
                     Picker("Pass Type", selection: $selectedPassType) {
-                        Text("ID Card").tag(passType.identificationPass)
-                        Text("Barcode Pass").tag(passType.barcodePass)
                         Text("QR Code Pass").tag(passType.barcodePass)
-                        Text("Notecard").tag(passType.notePass)
-                        Text("Business Card").tag(passType.businessCardPass)
-                        Text("Picture Pass").tag(passType.picturePass)
+                        Text("ID Card").tag(PassType.identificationPass)
+                        Text("Barcode Pass").tag(PassType.barcodePass)
+                        Text("Notecard").tag(PassType.notePass)
+                        Text("Business Card").tag(PassType.businessCardPass)
+                        Text("Picture Pass").tag(PassType.picturePass)
                     }
                 }
 
@@ -67,7 +67,7 @@ struct AddPass: View {
                 )
                 .disableAutocorrection(true)
 
-                if selectedPassType == passType.barcodePass {
+                if selectedPassType == PassType.barcodePass {
                     TextField(
                         "Barcode Number",
                         text: $barcodeNumber
