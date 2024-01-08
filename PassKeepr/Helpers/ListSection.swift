@@ -12,7 +12,7 @@ struct ListSection: View {
     
     let list: [ListItem]
     
-    var type: passType {
+    var type: PassType {
         list.first?.type ?? ListItem().type
     }
     
@@ -58,7 +58,7 @@ private func sectionHeader(_ title: String, isExpanded: Binding<Bool>) -> some V
     let previewList = ModelData().listItems
     
     var filteredList: [ListItem] {
-        previewList.filter { $0.type == passType.barcodePass }
+        previewList.filter { $0.type == PassType.barcodePass }
     }
     
     return List {
