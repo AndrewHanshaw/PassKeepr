@@ -3,7 +3,7 @@
         "passName": "My ID",
         "id": 1001,
         "passType": 1
-        "identificationNumber": 11223344
+        "identificationString": "11223344"
     },
     {
         "passName": "My Barcode",

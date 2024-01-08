@@ -40,6 +40,7 @@ struct AddPass: View {
     
     @State private var passName: String = ""
     @State private var selectedPassType: PassType = .identificationPass
+    @State private var identificationInput = ""
     @State private var barcodeNumber = ""
     @State private var qrCodeInput = ""
     @State private var noteInput = ""
@@ -84,6 +85,11 @@ struct AddPass: View {
                     Section {
                         TextField("Barcode Number", text: $barcodeNumber)
                             .keyboardType(.numberPad)
+                    }
+                }
+                if selectedPassType == PassType.identificationPass {
+                    Section {
+                        TextField("ID Text", text: $identificationInput)
                     }
                 }
                 else if selectedPassType == PassType.qrCodePass {
