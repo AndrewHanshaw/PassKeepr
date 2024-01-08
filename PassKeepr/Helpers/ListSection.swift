@@ -27,7 +27,7 @@ struct ListSection: View {
                     NavigationLink(ListItem.passName, destination: Text(ListItem.passName))
                         .swipeActions(allowsFullSwipe: false) {
                             Button(role: .destructive) {
-                                deleteItemByID(ListItem.id)
+                                deleteItemByID(ListItem.id, filename:"PassKeeprData.json")
                             } label: {
                                 Label("Delete", systemImage: "trash.fill")
                             }

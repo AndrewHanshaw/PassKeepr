@@ -45,6 +45,8 @@ struct AddPass: View {
 
     var addedPass = ListItem(id: UUID(), passName: "added pass", passType: PassType.barcodePass)
 
+    let filename = "PassKeeprData.json"
+
     var image: UIImage?
 
     var body: some View {
@@ -78,13 +80,13 @@ struct AddPass: View {
             }
             Button ("Add Pass") {
                 modelData.listItems.append(addedPass)
-                encode("data2.json", modelData.listItems)
+                encode(filename, modelData.listItems)
             }
             Button ("Delete All Passes") {
-                deleteAllItems()
+                deleteAllItems(filename: filename)
             }
             Button ("Delete Data File") {
-                deleteDataFile()
+                deleteDataFile(filename: filename)
             }
 
             let iconView = AppIcon().frame(width: 1024, height: 1024)
