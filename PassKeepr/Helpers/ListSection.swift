@@ -13,7 +13,7 @@ struct ListSection: View {
     let list: [ListItem]
     
     var type: PassType {
-        list.first?.type ?? ListItem().type
+        list.first?.passType ?? PassType.barcodePass
     }
     
     var sectionHeaderTitle: String {
@@ -24,7 +24,7 @@ struct ListSection: View {
         Section(header: sectionHeader(sectionHeaderTitle, isExpanded: $isListExpanded)) {
             if isListExpanded {
                 ForEach(list) { ListItem in
-                    NavigationLink(ListItem.name, destination: Text(ListItem.name))
+                    NavigationLink(ListItem.passName, destination: Text(ListItem.passName))
                         .swipeActions(allowsFullSwipe: false) {
                             Button(role: .destructive) {
                                 deleteItemByID(ListItem.id)
@@ -58,7 +58,7 @@ private func sectionHeader(_ title: String, isExpanded: Binding<Bool>) -> some V
     let previewList = ModelData().listItems
     
     var filteredList: [ListItem] {
-        previewList.filter { $0.type == PassType.barcodePass }
+        previewList.filter { $0.passType == PassType.barcodePass }
     }
     
     return List {

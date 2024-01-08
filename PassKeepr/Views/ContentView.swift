@@ -4,11 +4,11 @@ struct ContentView: View {
     @Environment(ModelData.self) var modelData
     
     var filteredList1: [ListItem] {
-        modelData.listItems.filter { $0.type == PassType.barcodePass }
+        modelData.listItems.filter { $0.passType == PassType.barcodePass }
     }
     
     var filteredList2: [ListItem] {
-        modelData.listItems.filter { $0.type == PassType.identificationPass }
+        modelData.listItems.filter { $0.passType == PassType.identificationPass }
     }
     
     var body: some View {
