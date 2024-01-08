@@ -11,7 +11,7 @@ struct ListItem: Codable, Identifiable, Equatable {
     var id: UUID
     var passName: String
     var passType: PassType
-    var identificationNumber: Int?
+    var identificationString: String?
     var barcodeNumber: Int?
     var qrCodeString: String?
     var noteString: String?
