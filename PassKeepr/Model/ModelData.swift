@@ -4,15 +4,17 @@ import Foundation
 class ModelData {
     var listItems: [ListItem] = []
 
+    let filename: String = "PassKeeprPasses.json"
+
     init() {
         let preLoadedListItems: [ListItem] = [ListItem(id: UUID(), passName: "ID Pass 1", passType: PassType.identificationPass, identificationNumber: 1234),
                                               ListItem(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeNumber: 1234)]
 
-        if let loadedData: [ListItem] = load("data2.json") {
+        if let loadedData: [ListItem] = load(filename) {
             listItems = loadedData
         } else {
             listItems = preLoadedListItems
-            encode("data2.json", listItems)
+            encode(filename, listItems)
         }
     }
 
@@ -51,7 +53,7 @@ func encode<T: Encodable>(_ filename: String, _ data: T) {
 }
 
 func deleteItemByID(_ idToDelete: UUID, filename: String) {
-    var loadedData: [ListItem] = load("data2.json")!
+    var loadedData: [ListItem] = load(filename)!
 
     // Find the index of the item with the specified ID
     if let index = loadedData.firstIndex(where: { $0.id == idToDelete }) {
@@ -59,22 +61,22 @@ func deleteItemByID(_ idToDelete: UUID, filename: String) {
         loadedData.remove(at: index)
 
         // Encode and save the updated data
-        encode("data2.json", loadedData)
+        encode(filename, loadedData)
     }
 }
 
-func deleteAllItems() {
-    var loadedData: [ListItem] = load("data2.json")!
+func deleteAllItems(filename: String) {
+    var loadedData: [ListItem] = load(filename)!
     // Clear the listItems array
     loadedData.removeAll()
 
     // Encode and save the updated data
-    encode("data2.json", loadedData)
+    encode(filename, loadedData)
 }
 
-func deleteDataFile() {
+func deleteDataFile(filename: String) {
     let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    let fileURL = documentsDirectory.appendingPathComponent("data2.json")
+    let fileURL = documentsDirectory.appendingPathComponent(filename)
 
     do {
         // Check if the file exists before attempting to delete
@@ -82,6 +84,6 @@ func deleteDataFile() {
             try FileManager.default.removeItem(at: fileURL)
         }
     } catch {
-        print("Error deleting data.json file: \(error)")
+        print("Error deleting JSON file: \(error)")
     }
 }
