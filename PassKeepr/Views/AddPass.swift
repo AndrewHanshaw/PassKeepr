@@ -49,7 +49,6 @@ struct AddPass: View {
     @State private var businessNameInput = ""
     @State private var phoneNumberInput = ""
     @State private var emailInput = ""
-    @State private var isDocumentPickerPresented: Bool = false
 
     @Binding var isSheetPresented: Bool // Used to close the sheet in the parent view
 
@@ -156,27 +155,6 @@ struct AddPass: View {
                     )
                 }
                 .listRowBackground(Color.accentColor)
-
-                Button ("Delete All Passes", role: .destructive) {
-                    deleteAllItems(filename: filename)
-                }
-
-                Button ("Delete Data File", role: .destructive) {
-                    deleteDataFile(filename: filename)
-                }
-
-                let iconView = AppIcon().frame(width: 1024, height: 1024)
-                let cgImage = ImageRenderer(content: iconView).cgImage!
-                let uiimage = UIImage(cgImage: cgImage)
-                Button ("Save Icon image") {
-                    self.isDocumentPickerPresented.toggle()
-                }
-                .fileExporter(isPresented: $isDocumentPickerPresented, document: ImageDocument(image: uiimage), contentType: .image, defaultFilename: "iconImage.png") { result in
-                    // Handle export result if needed
-                    if case .success = result {
-                        print("Image saved successfully.")
-                    }
-                }
             }
 
             Spacer()
