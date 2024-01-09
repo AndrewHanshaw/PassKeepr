@@ -72,11 +72,8 @@ struct AddPass: View {
                 .disableAutocorrection(true)
 
                 if selectedPassType == PassType.barcodePass {
-                    TextField(
-                        "Barcode Number",
-                        text: $barcodeNumber
-                    )
-                    .keyboardType(.numberPad)
+                    TextField("Barcode Number", text: $barcodeNumber)
+                        .keyboardType(.numberPad)
                 }
 
             }
