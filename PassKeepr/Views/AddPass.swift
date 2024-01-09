@@ -117,6 +117,18 @@ struct AddPass: View {
                 }
 
                 Section {
+                    Button(action: {isSheetPresented.toggle()},
+                           label: {
+                        HStack {
+                            Spacer()
+                            Text("Preview Pass")
+                            Spacer()
+                        }
+                    }
+                    )
+                }
+
+                Section {
                     Button(action: {
                                 var addedPass = ListItem(id: UUID(), passName: passName, passType: selectedPassType)
                                 switch addedPass.passType {
