@@ -121,6 +121,25 @@ struct AddPass: View {
 
                 Section {
                     Button(action: {
+                                var addedPass = ListItem(id: UUID(), passName: passName, passType: selectedPassType)
+                                switch addedPass.passType {
+                                    case PassType.identificationPass:
+                                        addedPass.identificationString = identificationInput
+                                    case PassType.barcodePass:
+                                        addedPass.barcodeString = barcodeInput
+                                    case PassType.qrCodePass:
+                                        addedPass.qrCodeString = qrCodeInput
+                                    case PassType.notePass:
+                                        addedPass.noteString = noteInput
+                                    case PassType.businessCardPass:
+                                        addedPass.name = nameInput
+                                        addedPass.title = titleInput
+                                        addedPass.businessName = businessNameInput
+                                        addedPass.phoneNumber = phoneNumberInput
+                                        addedPass.email = emailInput
+                                    case PassType.picturePass:
+                                        addedPass.pictureID = emailInput // Placeholder
+                                }
                                 modelData.listItems.append(addedPass)
                                 encode(filename, modelData.listItems)
                                 isSheetPresented.toggle()
