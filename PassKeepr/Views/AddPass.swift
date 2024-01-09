@@ -84,28 +84,30 @@ struct AddPass: View {
                     TextField("Note", text: $noteInput)
                 }
 
-            }
-            Button ("Add Pass") {
-                modelData.listItems.append(addedPass)
-                encode(filename, modelData.listItems)
-            }
-            Button ("Delete All Passes") {
-                deleteAllItems(filename: filename)
-            }
-            Button ("Delete Data File") {
-                deleteDataFile(filename: filename)
-            }
+                Button ("Add Pass") {
+                    modelData.listItems.append(addedPass)
+                    encode(filename, modelData.listItems)
+                }
 
-            let iconView = AppIcon().frame(width: 1024, height: 1024)
-            let cgImage = ImageRenderer(content: iconView).cgImage!
-            let uiimage = UIImage(cgImage: cgImage)
-            Button ("Save Icon image") {
-                self.isDocumentPickerPresented.toggle()
-            }
-            .fileExporter(isPresented: $isDocumentPickerPresented, document: ImageDocument(image: uiimage), contentType: .image, defaultFilename: "iconImage.png") { result in
-                // Handle export result if needed
-                if case .success = result {
-                    print("Image saved successfully.")
+                Button ("Delete All Passes", role: .destructive) {
+                    deleteAllItems(filename: filename)
+                }
+
+                Button ("Delete Data File", role: .destructive) {
+                    deleteDataFile(filename: filename)
+                }
+
+                let iconView = AppIcon().frame(width: 1024, height: 1024)
+                let cgImage = ImageRenderer(content: iconView).cgImage!
+                let uiimage = UIImage(cgImage: cgImage)
+                Button ("Save Icon image") {
+                    self.isDocumentPickerPresented.toggle()
+                }
+                .fileExporter(isPresented: $isDocumentPickerPresented, document: ImageDocument(image: uiimage), contentType: .image, defaultFilename: "iconImage.png") { result in
+                    // Handle export result if needed
+                    if case .success = result {
+                        print("Image saved successfully.")
+                    }
                 }
             }
 
