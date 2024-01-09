@@ -43,6 +43,11 @@ struct AddPass: View {
     @State private var barcodeNumber = ""
     @State private var qrCodeInput = ""
     @State private var noteInput = ""
+    @State private var nameInput = ""
+    @State private var titleInput = ""
+    @State private var businessNameInput = ""
+    @State private var phoneNumberInput = ""
+    @State private var emailInput = ""
     @State private var isDocumentPickerPresented: Bool = false
 
     @Binding var isSheetPresented: Bool // Used to close the sheet in the parent view
@@ -90,6 +95,15 @@ struct AddPass: View {
                     Section {
                         TextField("Note", text: $noteInput)
                     } footer: {Text("Notes should be less than XXX characters")
+                    }
+                }
+                else if selectedPassType == PassType.businessCardPass {
+                    Section {
+                        TextField("Name", text: $nameInput)
+                        TextField("Title (optional)", text: $titleInput)
+                        TextField("Business Name (optional)", text: $businessNameInput)
+                        TextField("Phone Number (optional)", text: $phoneNumberInput)
+                        TextField("Email (optional)", text: $emailInput)
                     }
                 }
 
