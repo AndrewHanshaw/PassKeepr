@@ -20,6 +20,7 @@ struct ListItem: Codable, Identifiable, Equatable {
     var businessName: String?
     var phoneNumber: Int?
     var email: String?
+    var pictureID: String? // placeholder until I figure out how to handle images
 }
 
 enum PassType: Int, Codable, Identifiable {
