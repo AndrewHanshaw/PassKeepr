@@ -45,6 +45,8 @@ struct AddPass: View {
     @State private var noteInput = ""
     @State private var isDocumentPickerPresented: Bool = false
 
+    @Binding var isSheetPresented: Bool // Used to close the sheet in the parent view
+
     var addedPass = ListItem(id: UUID(), passName: "added pass", passType: PassType.barcodePass)
 
     let filename = "PassKeeprData.json"
@@ -88,6 +90,7 @@ struct AddPass: View {
                     Button(action: {
                                 modelData.listItems.append(addedPass)
                                 encode(filename, modelData.listItems)
+                                isSheetPresented.toggle()
                             },
                            label: {
                                 HStack {
@@ -130,6 +133,6 @@ struct AddPass: View {
 }
 
 #Preview {
-    AddPass()
+    AddPass(isSheetPresented: .constant(true))
         .environment(ModelData())
 }
