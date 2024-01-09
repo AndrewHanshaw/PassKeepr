@@ -40,7 +40,9 @@ struct AddPass: View {
     
     @State private var passName: String = ""
     @State private var selectedPassType: PassType = .identificationPass
-    @State private var barcodeNumber = "0"
+    @State private var barcodeNumber = ""
+    @State private var qrCodeInput = ""
+    @State private var noteInput = ""
     @State private var isDocumentPickerPresented: Bool = false
 
     var addedPass = ListItem(id: UUID(), passName: "added pass", passType: PassType.barcodePass)
@@ -74,6 +76,12 @@ struct AddPass: View {
                 if selectedPassType == PassType.barcodePass {
                     TextField("Barcode Number", text: $barcodeNumber)
                         .keyboardType(.numberPad)
+                }
+                else if selectedPassType == PassType.qrCodePass {
+                    TextField("QR Code Input", text: $qrCodeInput)
+                }
+                else if selectedPassType == PassType.notePass {
+                    TextField("Note", text: $noteInput)
                 }
 
             }
