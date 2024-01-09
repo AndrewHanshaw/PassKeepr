@@ -84,10 +84,23 @@ struct AddPass: View {
                     TextField("Note", text: $noteInput)
                 }
 
-                Button ("Add Pass") {
-                    modelData.listItems.append(addedPass)
-                    encode(filename, modelData.listItems)
+                Section {
+                    Button(action: {
+                                modelData.listItems.append(addedPass)
+                                encode(filename, modelData.listItems)
+                            },
+                           label: {
+                                HStack {
+                                  Spacer()
+                                  Text("Add Pass")
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color.white)
+                                  Spacer()
+                                }
+                            }
+                    )
                 }
+                .listRowBackground(Color.accentColor)
 
                 Button ("Delete All Passes", role: .destructive) {
                     deleteAllItems(filename: filename)
