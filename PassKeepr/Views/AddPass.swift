@@ -106,6 +106,12 @@ struct AddPass: View {
                         TextField("Email (optional)", text: $emailInput)
                     }
                 }
+                else if selectedPassType == PassType.picturePass {
+                    Section {
+                        Text("placeholder")
+                    } footer: {Text("Images should have a ratio of X:X, and be at least X dpi (XXX x XXXpx)")
+                    }
+                }
 
                 Section {
                     Button(action: {
