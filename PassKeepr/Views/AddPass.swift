@@ -76,14 +76,21 @@ struct AddPass: View {
                 .disableAutocorrection(true)
 
                 if selectedPassType == PassType.barcodePass {
-                    TextField("Barcode Number", text: $barcodeNumber)
-                        .keyboardType(.numberPad)
+                    Section {
+                        TextField("Barcode Number", text: $barcodeNumber)
+                            .keyboardType(.numberPad)
+                    }
                 }
                 else if selectedPassType == PassType.qrCodePass {
-                    TextField("QR Code Input", text: $qrCodeInput)
+                    Section {
+                        TextField("QR Code Input", text: $qrCodeInput)
+                    }
                 }
                 else if selectedPassType == PassType.notePass {
-                    TextField("Note", text: $noteInput)
+                    Section {
+                        TextField("Note", text: $noteInput)
+                    } footer: {Text("Notes should be less than XXX characters")
+                    }
                 }
 
                 Section {
