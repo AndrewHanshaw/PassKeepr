@@ -9,7 +9,7 @@
         "passName": "My Barcode",
         "id": 1002,
         "passType": 2
-        "barcodeNumber": 10203040
+        "barcodeString": "10203040"
     },
     {
         "passName": "My QR Code",
