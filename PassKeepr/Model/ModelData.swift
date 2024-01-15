@@ -78,8 +78,11 @@ func deleteAllItems(filename: String) {
     // Clear the listItems array
     loadedData.removeAll()
 
+    let preLoadedListItems: [ListItem] = [ListItem(id: UUID(), passName: "ID Pass 1", passType: PassType.identificationPass, identificationNumber: "1234"),
+                                          ListItem(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234")]
+
     // Encode and save the updated data
-    encode(filename, loadedData)
+    encode(filename, preLoadedListItems)
 }
 
 func deleteDataFile(filename: String) {
