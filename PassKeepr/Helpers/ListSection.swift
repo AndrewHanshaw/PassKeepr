@@ -20,7 +20,7 @@ struct ListSection: View {
         Section(header: sectionHeader(type, isExpanded: $isListExpanded)) {
             if isListExpanded {
                 ForEach($list) { $ListItem in
-                    NavigationLink(ListItem.passName, destination: Text(ListItem.passName))
+                    NavigationLink(ListItem.passName, destination: EditPass(listItem: $ListItem))
                         .swipeActions(allowsFullSwipe: false) {
                             Button(role: .destructive) {
                                 deleteItemByID(ListItem.id, filename:"PassKeeprData.json")
