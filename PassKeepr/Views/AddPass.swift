@@ -127,7 +127,7 @@ struct AddPass: View {
                                         addedPass.pictureID = emailInput // Placeholder
                                 }
                                 modelData.listItems.append(addedPass)
-                                encode(filename, modelData.listItems)
+                                modelData.encodeListItems()
                                 isSheetPresented.toggle()
                             },
                            label: {
