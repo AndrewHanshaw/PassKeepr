@@ -1,18 +1,21 @@
 import Foundation
 
 @Observable
-class ModelData {
+class ModelData: Sequence {
     let preview: Bool
 
-    var listItems: [ListItem] = []
+    let filename: String = "PassKeeprData.json"
 
-    let filename: String = "PassKeeprPasses.json"
+    var listItems: [ListItem] = [] // Holds all listItems in a single array
+
+    var filteredListItems: [[ListItem]] = [] // Holds all listItems, each item of the array is a filtered array of ListItems, filtered by passType
+
+    let preLoadedListItems: [ListItem] = [ListItem(id: UUID(), passName: "ID Pass 1", passType: PassType.identificationPass, identificationString: "1234"),
+                                          ListItem(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234")]
 
     init(preview: Bool) {
         self.preview = preview
 
-        let preLoadedListItems: [ListItem] = [ListItem(id: UUID(), passName: "ID Pass 1", passType: PassType.identificationPass, identificationString: "1234"),
-                                              ListItem(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234")]
 
         if(self.preview == true)
         {
@@ -24,8 +27,18 @@ class ModelData {
             listItems = preLoadedListItems
             encode(filename, listItems)
         }
+
+        updateFilteredArray()
     }
 
+    func makeIterator() -> some IteratorProtocol {
+        return listItems.makeIterator()
+    }
+
+    func encodeListItems() {
+        encode(filename, listItems)
+        updateFilteredArray()
+    }
 }
 
 func load<T: Decodable>(_ filename: String) -> T? {
@@ -55,9 +68,31 @@ func encode<T: Encodable>(_ filename: String, _ data: T) {
         let encoder = JSONEncoder()
         return try encoder.encode(data).write(to: file, options: .atomic)
     } catch {
-        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
+        return
+//        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
     }
 
+}
+
+func updateFilteredArray() {
+    // Dictionary to hold ListItems as they get sorted
+    var filteredLists: [PassType: [ListItem]] = [:]
+
+    // Iterate through each ListItem in the listItems array
+    for item in listItems {
+        // Check if there's already an array associated with the current PassType
+        if var temp = filteredLists[item.passType] {
+            // If yes, append the current ListItem to the existing array
+            temp.append(item)
+            // Update the dictionary with the modified array
+            filteredLists[item.passType] = temp
+        } else {
+            // If no array exists for the current PassType, create a new array with the current ListItem
+            filteredLists[item.passType] = [item]
+        }
+    }
+    // Convert the values of the dictionary (arrays of ListItems) into an array of arrays
+    filteredListItems = Array(filteredLists.values)
 }
 
 func deleteItemByID(_ idToDelete: UUID, filename: String) {
