@@ -10,16 +10,18 @@ import SwiftUI
 struct Settings: View {
     let filename = "PassKeeprData.json"
 
+    @Environment(ModelData.self) var modelData
+
     @State private var isDocumentPickerPresented: Bool = false
 
     var body: some View {
         Form(){
             Section {
                 Button ("Delete All Passes", role: .destructive) {
-                    deleteAllItems(filename:filename)
+                    modelData.deleteAllItems()
                 }
                 Button ("Delete Data File", role: .destructive) {
-                    deleteDataFile(filename:filename)
+                    modelData.deleteDataFile()
                 }
                 let iconView = AppIcon().frame(width: 1024, height: 1024)
                 let cgImage = ImageRenderer(content: iconView).cgImage!

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ListSection: View {
+    @Environment(ModelData.self) var modelData
+
     @State private var isListExpanded = true
     
     @State var list: [ListItem]
@@ -23,7 +25,7 @@ struct ListSection: View {
                     NavigationLink(ListItem.passName, destination: EditPass(listItem: $ListItem))
                         .swipeActions(allowsFullSwipe: false) {
                             Button(role: .destructive) {
-                                deleteItemByID(ListItem.id, filename:"PassKeeprData.json")
+                                modelData.deleteItemByID(ListItem.id)
                             } label: {
                                 Label("Delete", systemImage: "trash.fill")
                             }
