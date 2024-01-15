@@ -78,42 +78,19 @@ struct AddPass: View {
                 )
                 .disableAutocorrection(true)
 
-                if selectedPassType == PassType.barcodePass {
-                    Section {
-                        TextField("Barcode Number", text: $barcodeInput)
-                            .keyboardType(.numberPad)
-                    }
-                }
-                if selectedPassType == PassType.identificationPass {
-                    Section {
-                        TextField("ID Text", text: $identificationInput)
-                    }
-                }
-                else if selectedPassType == PassType.qrCodePass {
-                    Section {
-                        TextField("QR Code Input", text: $qrCodeInput)
-                    }
-                }
-                else if selectedPassType == PassType.notePass {
-                    Section {
-                        TextField("Note", text: $noteInput)
-                    } footer: {Text("Notes should be less than XXX characters")
-                    }
-                }
-                else if selectedPassType == PassType.businessCardPass {
-                    Section {
-                        TextField("Name", text: $nameInput)
-                        TextField("Title (optional)", text: $titleInput)
-                        TextField("Business Name (optional)", text: $businessNameInput)
-                        TextField("Phone Number (optional)", text: $phoneNumberInput)
-                        TextField("Email (optional)", text: $emailInput)
-                    }
-                }
-                else if selectedPassType == PassType.picturePass {
-                    Section {
-                        Text("placeholder")
-                    } footer: {Text("Images should have a ratio of X:X, and be at least X dpi (XXX x XXXpx)")
-                    }
+                switch selectedPassType {
+                    case PassType.identificationPass:
+                        IdentificationInput(identificationInput: $identificationInput)
+                    case PassType.barcodePass:
+                        BarcodeInput(barcodeInput:$barcodeInput)
+                    case PassType.qrCodePass:
+                        QRCodeInput(qrCodeInput: $qrCodeInput)
+                    case PassType.notePass:
+                        NoteInput(noteInput: $noteInput)
+                    case PassType.businessCardPass:
+                        BusinessCardInput(nameInput: $nameInput, titleInput: $titleInput, businessNameInput: $businessNameInput, phoneNumberInput: $phoneNumberInput, emailInput: $emailInput)
+                    case PassType.picturePass:
+                        PictureInput()
                 }
 
                 Section {

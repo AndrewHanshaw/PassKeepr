@@ -16,25 +16,64 @@ struct EditPass: View {
                 TextField("Pass Name", text: $listItem.passName)
                 .disableAutocorrection(true)
 
-                if listItem.passType == PassType.barcodePass {
-                    TextField("Barcode Number", text: Binding(
-                        get: { listItem.barcodeString ?? "" },
-                        set: { listItem.barcodeString = $0.isEmpty ? nil : $0 }
-                    ))	
-                    .keyboardType(.numberPad)
-                }
-                else if listItem.passType == PassType.qrCodePass {
-                    TextField("QR Code Input", text: Binding(
-                        get: { listItem.qrCodeString ?? "" },
-                        set: { listItem.qrCodeString = $0 }
+                switch listItem.passType {
+                case PassType.identificationPass:
+                    IdentificationInput(identificationInput:
+                        Binding(
+                            get: { listItem.identificationString ?? "" },
+                            set: { listItem.identificationString = $0 }
                         )
                     )
-                }
-                else if listItem.passType == PassType.notePass {
-                    TextField("Note", text: Binding(
-                        get: { listItem.noteString ?? "" },
-                        set: { listItem.noteString = $0 }
-                        ))
+                case PassType.barcodePass:
+                    BarcodeInput(barcodeInput:
+                        Binding(
+                            get: { listItem.barcodeString ?? "" },
+                            set: { listItem.barcodeString = $0 }
+                        )
+                    )
+                case PassType.qrCodePass:
+                    QRCodeInput(qrCodeInput:
+                        Binding(
+                            get: { listItem.qrCodeString ?? "" },
+                            set: { listItem.qrCodeString = $0 }
+                        )
+                    )
+                case PassType.notePass:
+                    NoteInput(noteInput:
+                        Binding(
+                            get: { listItem.noteString ?? "" },
+                            set: { listItem.noteString = $0 }
+                        )
+                    )
+                case PassType.businessCardPass:
+                    BusinessCardInput(nameInput:
+                        Binding(
+                            get: { listItem.name ?? "" },
+                            set: { listItem.name = $0 }
+                        ),
+                      titleInput:
+                        Binding(
+                            get: { listItem.title ?? "" },
+                            set: { listItem.title = $0 }
+                        ),
+                      businessNameInput:
+                        Binding(
+                            get: { listItem.businessName ?? "" },
+                            set: { listItem.businessName = $0 }
+                        ),
+                      phoneNumberInput:
+                        Binding(
+                            get: { listItem.phoneNumber ?? "" },
+                            set: { listItem.phoneNumber = $0 }
+                        ),
+                      emailInput:
+                        Binding(
+                            get: { listItem.email ?? "" },
+                            set: { listItem.email = $0 }
+                        )
+                    )
+                case PassType.picturePass:
+                    PictureInput()
                 }
                 Section {
                     Button(action: {
