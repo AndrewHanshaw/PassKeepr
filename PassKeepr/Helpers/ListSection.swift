@@ -38,6 +38,7 @@ struct ListSection: View {
 
 private func sectionHeader(_ type: PassType, isExpanded: Binding<Bool>) -> some View {
     HStack {
+        Image(systemName: ListItemHelpers.GetSystemIcon(type))
         Text(ListItemHelpers.GetStringPlural(type))
         Spacer()
         Button {
