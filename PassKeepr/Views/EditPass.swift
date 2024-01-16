@@ -8,67 +8,67 @@
 import SwiftUI
 
 struct EditPass: View {
-    @Binding var listItem: ListItem
+    @Binding var passObject: PassObject
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
         VStack {
             Form(){
-                switch listItem.passType {
+                switch passObject.passType {
                 case PassType.identificationPass:
                     IdentificationInput(identificationInput:
                         Binding(
-                            get: { listItem.identificationString ?? "" },
-                            set: { listItem.identificationString = $0 }
+                            get: { passObject.identificationString ?? "" },
+                            set: { passObject.identificationString = $0 }
                         )
                     )
                 case PassType.barcodePass:
                     BarcodeInput(barcodeInput:
                         Binding(
-                            get: { listItem.barcodeString ?? "" },
-                            set: { listItem.barcodeString = $0 }
+                            get: { passObject.barcodeString ?? "" },
+                            set: { passObject.barcodeString = $0 }
                         )
                     )
                 case PassType.qrCodePass:
                     QRCodeInput(qrCodeInput:
                         Binding(
-                            get: { listItem.qrCodeString ?? "" },
-                            set: { listItem.qrCodeString = $0 }
+                            get: { passObject.qrCodeString ?? "" },
+                            set: { passObject.qrCodeString = $0 }
                         )
                     )
                 case PassType.notePass:
                     NoteInput(noteInput:
                         Binding(
-                            get: { listItem.noteString ?? "" },
-                            set: { listItem.noteString = $0 }
+                            get: { passObject.noteString ?? "" },
+                            set: { passObject.noteString = $0 }
                         )
                     )
                 case PassType.businessCardPass:
                     BusinessCardInput(nameInput:
                         Binding(
-                            get: { listItem.name ?? "" },
-                            set: { listItem.name = $0 }
+                            get: { passObject.name ?? "" },
+                            set: { passObject.name = $0 }
                         ),
                       titleInput:
                         Binding(
-                            get: { listItem.title ?? "" },
-                            set: { listItem.title = $0 }
+                            get: { passObject.title ?? "" },
+                            set: { passObject.title = $0 }
                         ),
                       businessNameInput:
                         Binding(
-                            get: { listItem.businessName ?? "" },
-                            set: { listItem.businessName = $0 }
+                            get: { passObject.businessName ?? "" },
+                            set: { passObject.businessName = $0 }
                         ),
                       phoneNumberInput:
                         Binding(
-                            get: { listItem.phoneNumber ?? "" },
-                            set: { listItem.phoneNumber = $0 }
+                            get: { passObject.phoneNumber ?? "" },
+                            set: { passObject.phoneNumber = $0 }
                         ),
                       emailInput:
                         Binding(
-                            get: { listItem.email ?? "" },
-                            set: { listItem.email = $0 }
+                            get: { passObject.email ?? "" },
+                            set: { passObject.email = $0 }
                         )
                     )
                 case PassType.picturePass:
@@ -92,10 +92,10 @@ struct EditPass: View {
                 .listRowBackground(Color.accentColor)
             }
         }
-        .navigationTitle($listItem.passName)
+        .navigationTitle($passObject.passName)
     }
 }
 
 #Preview {
-    EditPass(listItem:.constant(ListItem(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234")))
+    EditPass(passObject:.constant(PassObject(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234")))
 }

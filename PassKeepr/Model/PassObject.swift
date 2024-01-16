@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ListItem: Codable, Identifiable, Equatable, Hashable {
+struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var id: UUID
     var passName: String
     var passType: PassType

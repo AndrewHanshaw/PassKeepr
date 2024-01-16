@@ -10,8 +10,8 @@ struct ContentView: View {
         NavigationView{
             VStack {
                 List {
-                    ForEach(modelData.filteredListItems, id:\.self) { listItemArray in
-                        ListSection(list: listItemArray)
+                    ForEach(modelData.filteredPassObjects, id:\.self) { passObjects in
+                        ListSection(list: passObjects)
                     }
                 }
                 HStack {
