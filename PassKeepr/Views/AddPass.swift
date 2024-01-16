@@ -63,6 +63,7 @@ struct AddPass: View {
                             ForEach(PassType.allCases) { type in
                                 HStack {
                                     Text(ListItemHelpers.GetStringSingular(type))
+                                    Image(systemName: ListItemHelpers.GetSystemIcon(type))
                                 }.tag(type)
                             }
                         }
