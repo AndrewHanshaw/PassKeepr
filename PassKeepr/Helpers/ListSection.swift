@@ -62,5 +62,6 @@ private func sectionHeader(_ type: PassType, isExpanded: Binding<Bool>) -> some 
 
     return List {
         ListSection(list:filteredList)
+            .environment(ModelData(preview: true))
     }
 }
