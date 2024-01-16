@@ -62,8 +62,8 @@ struct AddPass: View {
                         Picker("Pass Type", selection: $selectedPassType) {
                             ForEach(PassType.allCases) { type in
                                 HStack {
-                                    Text(ListItemHelpers.GetStringSingular(type))
-                                    Image(systemName: ListItemHelpers.GetSystemIcon(type))
+                                    Text(PassObjectHelpers.GetStringSingular(type))
+                                    Image(systemName: PassObjectHelpers.GetSystemIcon(type))
                                 }.tag(type)
                             }
                         }
@@ -115,7 +115,7 @@ struct AddPass: View {
 
                 Section {
                     Button(action: {
-                                var addedPass = ListItem(id: UUID(), passName: passName, passType: selectedPassType)
+                                var addedPass = PassObject(id: UUID(), passName: passName, passType: selectedPassType)
                                 switch addedPass.passType {
                                     case PassType.identificationPass:
                                         addedPass.identificationString = identificationInput
@@ -134,8 +134,8 @@ struct AddPass: View {
                                     case PassType.picturePass:
                                         addedPass.pictureID = emailInput // Placeholder
                                 }
-                                modelData.listItems.append(addedPass)
-                                modelData.encodeListItems()
+                                modelData.PassObjects.append(addedPass)
+                                modelData.encodePassObjects()
                                 isSheetPresented.toggle()
                             },
                            label: {

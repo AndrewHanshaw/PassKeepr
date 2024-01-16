@@ -22,10 +22,10 @@
 		BA00B9B62B4F96DA00050C33 /* PictureInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B9B52B4F96DA00050C33 /* PictureInput.swift */; };
 		BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA15EC172B3CE75400078A17 /* AppIcon.swift */; };
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
-		BA55A9B62B55BCEE00853687 /* ListItemHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA55A9B52B55BCEE00853687 /* ListItemHelpers.swift */; };
+		BA55A9B62B55BCEE00853687 /* PassObjectHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */; };
 		BA9ED5E82B0C65380093CC75 /* BarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5E72B0C65380093CC75 /* BarcodeView.swift */; };
 		BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */; };
-		BABAADD22B0A69950014C73B /* ListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD02B0A69950014C73B /* ListItem.swift */; };
+		BABAADD22B0A69950014C73B /* PassObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD02B0A69950014C73B /* PassObject.swift */; };
 		BABAADD32B0A69950014C73B /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD12B0A69950014C73B /* ModelData.swift */; };
 		BABAADD62B0A6BAA0014C73B /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = BABAADD52B0A6BAA0014C73B /* data.json */; };
 		BABAADD82B0A6BF50014C73B /* ListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD72B0A6BF50014C73B /* ListSection.swift */; };
@@ -69,10 +69,10 @@
 		BA00B9B52B4F96DA00050C33 /* PictureInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureInput.swift; sourceTree = "<group>"; };
 		BA15EC172B3CE75400078A17 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 		BA1BACD32B463FCD00F86890 /* EditPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPass.swift; sourceTree = "<group>"; };
-		BA55A9B52B55BCEE00853687 /* ListItemHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemHelpers.swift; sourceTree = "<group>"; };
+		BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassObjectHelpers.swift; sourceTree = "<group>"; };
 		BA9ED5E72B0C65380093CC75 /* BarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeView.swift; sourceTree = "<group>"; };
 		BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
-		BABAADD02B0A69950014C73B /* ListItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItem.swift; sourceTree = "<group>"; };
+		BABAADD02B0A69950014C73B /* PassObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassObject.swift; sourceTree = "<group>"; };
 		BABAADD12B0A69950014C73B /* ModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		BABAADD52B0A6BAA0014C73B /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		BABAADD72B0A6BF50014C73B /* ListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListSection.swift; path = PassKeepr/Helpers/ListSection.swift; sourceTree = SOURCE_ROOT; };
@@ -181,7 +181,7 @@
 		BABAADCF2B0A69950014C73B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				BABAADD02B0A69950014C73B /* ListItem.swift */,
+				BABAADD02B0A69950014C73B /* PassObject.swift */,
 				BABAADD12B0A69950014C73B /* ModelData.swift */,
 			);
 			path = Model;
@@ -213,7 +213,7 @@
 				BABAADD72B0A6BF50014C73B /* ListSection.swift */,
 				BA9ED5E72B0C65380093CC75 /* BarcodeView.swift */,
 				BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */,
-				BA55A9B52B55BCEE00853687 /* ListItemHelpers.swift */,
+				BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -358,8 +358,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA9ED5E82B0C65380093CC75 /* BarcodeView.swift in Sources */,
-				BABAADD22B0A69950014C73B /* ListItem.swift in Sources */,
-				BA55A9B62B55BCEE00853687 /* ListItemHelpers.swift in Sources */,
+				BABAADD22B0A69950014C73B /* PassObject.swift in Sources */,
+				BA55A9B62B55BCEE00853687 /* PassObjectHelpers.swift in Sources */,
 				BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */,
 				BABAADD32B0A69950014C73B /* ModelData.swift in Sources */,
 				BA00B9B62B4F96DA00050C33 /* PictureInput.swift in Sources */,

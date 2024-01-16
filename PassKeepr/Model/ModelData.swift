@@ -6,35 +6,35 @@ class ModelData: Sequence {
 
     let filename: String = "PassKeeprData.json"
 
-    var listItems: [ListItem] = [] // Holds all listItems in a single array
+    var PassObjects: [PassObject] = [] // Holds all PassObjectss in a single array
 
-    var filteredListItems: [[ListItem]] = [] // Holds all listItems, each item of the array is a filtered array of ListItems, filtered by passType
+    var filteredPassObjects: [[PassObject]] = [] // Holds all PassObjectss, each item of the array is a filtered array of PassObjectss, filtered by passType
 
-    let preLoadedListItems: [ListItem] = [ListItem(id: UUID(), passName: "ID Pass 1", passType: PassType.identificationPass, identificationString: "1234"),
-                                          ListItem(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234")]
+    let preLoadedPassObjects: [PassObject] = [PassObject(id: UUID(), passName: "ID Pass 1", passType: PassType.identificationPass, identificationString: "1234"),
+                                          PassObject(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234")]
 
     init(preview: Bool) {
         self.preview = preview
 
         if (self.preview == true)
         {
-            encode(filename, preLoadedListItems)
+            encode(filename, preLoadedPassObjects)
         }
-        else if let loadedData: [ListItem] = load(filename) {
-            listItems = loadedData
+        else if let loadedData: [PassObject] = load(filename) {
+            PassObjects = loadedData
         } else {
-            encode(filename, preLoadedListItems)
+            encode(filename, preLoadedPassObjects)
         }
 
         updateFilteredArray()
     }
 
     func makeIterator() -> some IteratorProtocol {
-        return listItems.makeIterator()
+        return PassObjects.makeIterator()
     }
 
-    func encodeListItems() {
-        encode(filename, listItems)
+    func encodePassObjects() {
+        encode(filename, PassObjects)
         updateFilteredArray()
     }
 
@@ -71,44 +71,44 @@ class ModelData: Sequence {
     }
 
     func updateFilteredArray() {
-        // Dictionary to hold ListItems as they get sorted
-        var filteredLists: [PassType: [ListItem]] = [:]
+        // Dictionary to hold PassObjects as they get sorted
+        var filteredLists: [PassType: [PassObject]] = [:]
 
-        // Iterate through each ListItem in the listItems array
-        for item in listItems {
+        // Iterate through each PassObject in the PassObjects array
+        for item in PassObjects {
             // Check if there's already an array associated with the current PassType
             if var temp = filteredLists[item.passType] {
-                // If yes, append the current ListItem to the existing array
+                // If yes, append the current PassObject to the existing array
                 temp.append(item)
                 // Update the dictionary with the modified array
                 filteredLists[item.passType] = temp
             } else {
-                // If no array exists for the current PassType, create a new array with the current ListItem
+                // If no array exists for the current PassType, create a new array with the current PassObject
                 filteredLists[item.passType] = [item]
             }
         }
 
-        // Convert the values of the dictionary (arrays of ListItems) into an array of arrays
-        filteredListItems = Array(filteredLists.values)
+        // Convert the values of the dictionary (arrays of PassObjects) into an array of arrays
+        filteredPassObjects = Array(filteredLists.values)
     }
 
     func deleteItemByID(_ idToDelete: UUID) {
         // Find the index of the item with the specified ID
-        if let index = listItems.firstIndex(where: { $0.id == idToDelete }) {
+        if let index = PassObjects.firstIndex(where: { $0.id == idToDelete }) {
             // Remove the item from the list
-            listItems.remove(at: index)
+            PassObjects.remove(at: index)
 
             // Encode and save the updated data
-            encodeListItems()
+            encodePassObjects()
         }
     }
 
     func deleteAllItems() {
-        // Clear the listItems array
-        listItems.removeAll()
+        // Clear the PassObjects array
+        PassObjects.removeAll()
 
         // Encode and save the updated data
-        encodeListItems()
+        encodePassObjects()
     }
 
     func deleteDataFile() {

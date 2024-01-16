@@ -1,5 +1,5 @@
 //
-//  ListItemHelpers.swift
+//  PassObjectsHelpers.swift
 //  PassKeepr
 //
 //  Created by Andrew Hanshaw on 1/15/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ListItemHelpers {
+class PassObjectHelpers {
     static func GetStringSingular(_ type: PassType) -> String {
         switch type {
             case PassType.identificationPass:

@@ -12,7 +12,7 @@ struct ListSection: View {
 
     @State private var isListExpanded = true
 
-    @State var list: [ListItem]
+    @State var list: [PassObject]
 
     var type: PassType {
         list.first?.passType ?? PassType.barcodePass
@@ -21,11 +21,11 @@ struct ListSection: View {
     var body: some View {
         Section(header: sectionHeader(type, isExpanded: $isListExpanded)) {
             if isListExpanded {
-                ForEach($list) { $ListItem in
-                    NavigationLink(ListItem.passName, destination: EditPass(listItem: $ListItem))
+                ForEach($list) { $passObject in
+                    NavigationLink(passObject.passName, destination: EditPass(passObject: $passObject))
                         .swipeActions(allowsFullSwipe: false) {
                             Button(role: .destructive) {
-                                modelData.deleteItemByID(ListItem.id)
+                                modelData.deleteItemByID(passObject.id)
                             } label: {
                                 Label("Delete", systemImage: "trash.fill")
                             }
@@ -38,8 +38,8 @@ struct ListSection: View {
 
 private func sectionHeader(_ type: PassType, isExpanded: Binding<Bool>) -> some View {
     HStack {
-        Image(systemName: ListItemHelpers.GetSystemIcon(type))
-        Text(ListItemHelpers.GetStringPlural(type))
+        Image(systemName: PassObjectHelpers.GetSystemIcon(type))
+        Text(PassObjectHelpers.GetStringPlural(type))
         Spacer()
         Button {
             withAnimation {
@@ -54,9 +54,9 @@ private func sectionHeader(_ type: PassType, isExpanded: Binding<Bool>) -> some 
 }
 
 #Preview {
-    let previewList = ModelData(preview: true).preLoadedListItems
+    let previewList = ModelData(preview: true).preLoadedPassObjects
 
-    var filteredList: [ListItem] {
+    var filteredList: [PassObject] {
         previewList.filter { $0.passType == PassType.barcodePass }
     }
 
