@@ -23,7 +23,7 @@ struct ListItem: Codable, Identifiable, Equatable, Hashable {
     var pictureID: String? // placeholder until I figure out how to handle images
 }
 
-enum PassType: Int, Codable, Identifiable {
+enum PassType: Int, Codable, Identifiable, CaseIterable {
     case identificationPass, barcodePass, qrCodePass, notePass, businessCardPass, picturePass
     var id: Self { self }
 }
