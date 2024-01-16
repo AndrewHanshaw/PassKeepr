@@ -38,7 +38,7 @@ struct ListSection: View {
 
 private func sectionHeader(_ type: PassType, isExpanded: Binding<Bool>) -> some View {
     HStack {
-        Text(getHeaderString(type))
+        Text(ListItemHelpers.GetStringPlural(type))
         Spacer()
         Button {
             withAnimation {
@@ -49,23 +49,6 @@ private func sectionHeader(_ type: PassType, isExpanded: Binding<Bool>) -> some 
                 .labelStyle(.iconOnly)
                 .rotationEffect(.degrees(isExpanded.wrappedValue ? 90 : 0))
         }
-    }
-}
-
-private func getHeaderString(_ type: PassType) -> String {
-    switch type {
-        case PassType.identificationPass:
-            return "IDs"
-        case PassType.barcodePass:
-            return "Barcode Passes"
-        case PassType.qrCodePass:
-            return "QR Code Passes"
-        case PassType.notePass:
-            return "Notes"
-        case PassType.businessCardPass:
-            return "Business Cards"
-        case PassType.picturePass:
-            return "Picture Passes"
     }
 }
 

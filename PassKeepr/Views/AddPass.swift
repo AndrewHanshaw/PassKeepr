@@ -60,12 +60,11 @@ struct AddPass: View {
                 List {
                     Section {
                         Picker("Pass Type", selection: $selectedPassType) {
-                            Text("QR Code Pass").tag(PassType.qrCodePass)
-                            Text("ID Card").tag(PassType.identificationPass)
-                            Text("Barcode Pass").tag(PassType.barcodePass)
-                            Text("Notecard").tag(PassType.notePass)
-                            Text("Business Card").tag(PassType.businessCardPass)
-                            Text("Picture Pass").tag(PassType.picturePass)
+                            ForEach(PassType.allCases) { type in
+                                HStack {
+                                    Text(ListItemHelpers.GetStringSingular(type))
+                                }.tag(type)
+                            }
                         }
                     } header: {
                         Text("Add a Pass:")
