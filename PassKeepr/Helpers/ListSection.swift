@@ -54,7 +54,7 @@ private func sectionHeader(_ type: PassType, isExpanded: Binding<Bool>) -> some 
 }
 
 #Preview {
-    let previewList = ModelData(preview: true).listItems
+    let previewList = ModelData(preview: true).preLoadedListItems
 
     var filteredList: [ListItem] {
         previewList.filter { $0.passType == PassType.barcodePass }
