@@ -10,6 +10,8 @@ import SwiftUI
 struct EditPass: View {
     @Binding var listItem: ListItem
 
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     var body: some View {
         VStack {
             Form(){
@@ -77,7 +79,7 @@ struct EditPass: View {
                 }
                 Section {
                     Button(action: {
-                        //isSheetPresented = false
+                        presentationMode.wrappedValue.dismiss()
                     },
                    label: {
                         HStack {
