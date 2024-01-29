@@ -120,7 +120,7 @@ struct AddPass: View {
 
                 Section {
                     Button(action: {
-                                var addedPass = PassObject(id: UUID(), passName: passName, passType: selectedPassType)
+                            var addedPass = PassObject(id: UUID(), passName: passName, passType: selectedPassType, foregroundColor: foregroundColorInput.toHex(), backgroundColor: backgroundColorInput.toHex(), textColor: textColorInput.toHex())
                                 switch addedPass.passType {
                                     case PassType.identificationPass:
                                         addedPass.identificationString = identificationInput
