@@ -49,6 +49,9 @@ struct AddPass: View {
     @State private var businessNameInput = ""
     @State private var phoneNumberInput = ""
     @State private var emailInput = ""
+    @State private var foregroundColorInput = Color(hex:0x000000)
+    @State private var backgroundColorInput = Color(hex:0x000000)
+    @State private var textColorInput = Color(hex:0x000000)
 
     @Binding var isSheetPresented: Bool // Used to close the sheet in the parent view
 
@@ -100,6 +103,8 @@ struct AddPass: View {
                     case PassType.picturePass:
                         PictureInput()
                 }
+
+                ColorInput(bgColor: $foregroundColorInput, fgColor: $backgroundColorInput, textColor: $textColorInput)
 
                 Section {
                     Button(action: {isSheetPresented.toggle()},

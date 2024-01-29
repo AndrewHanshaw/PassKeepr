@@ -10,8 +10,8 @@ class ModelData: Sequence {
 
     var filteredPassObjects: [[PassObject]] = [] // Holds all PassObjectss, each item of the array is a filtered array of PassObjectss, filtered by passType
 
-    let preLoadedPassObjects: [PassObject] = [PassObject(id: UUID(), passName: "ID Pass 1", passType: PassType.identificationPass, identificationString: "1234"),
-                                          PassObject(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234")]
+    let preLoadedPassObjects: [PassObject] = [PassObject(id: UUID(), passName: "ID Pass 1", passType: PassType.identificationPass, identificationString: "1234", foregroundColor: 0xFF00FF, backgroundColor: 0xFFFFFF, textColor: 0x000000),
+                                          PassObject(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234", foregroundColor: 0xFF00FF, backgroundColor: 0x000000, textColor: 0xFFFFFF)]
 
     init(preview: Bool) {
         self.preview = preview
