@@ -6,20 +6,13 @@ struct ContentView: View {
     @State var shouldPresentAddPass = false
     @State var shouldPresentSettings = false
 
-    var filteredList1: [ListItem] {
-        modelData.listItems.filter { $0.passType == PassType.barcodePass }
-    }
-    
-    var filteredList2: [ListItem] {
-        modelData.listItems.filter { $0.passType == PassType.identificationPass }
-    }
-    
     var body: some View {
         NavigationView{
             VStack {
                 List {
-                    ListSection(list: filteredList1)
-                    ListSection(list: filteredList2)
+                    ForEach(modelData.filteredListItems, id:\.self) { listItemArray in
+                        ListSection(list: listItemArray)
+                    }
                 }
                 HStack {
                     Spacer()
