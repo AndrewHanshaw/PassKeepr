@@ -75,18 +75,19 @@ struct EditPass: View {
                     PictureInput()
                 }
                 Section {
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    },
-                   label: {
-                        HStack {
-                          Spacer()
-                          Text("Save")
-                                .fontWeight(.bold)
-                                .foregroundColor(Color.white)
-                          Spacer()
+                    Button(
+                        action: {
+                            presentationMode.wrappedValue.dismiss()
+                        },
+                       label: {
+                            HStack {
+                              Spacer()
+                              Text("Save")
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color.white)
+                              Spacer()
+                            }
                         }
-                    }
                     )
                 }
                 .listRowBackground(Color.accentColor)
