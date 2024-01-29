@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(ModelData.self) var modelData
+    @Environment(\.colorScheme) var colorScheme
 
     @State var shouldPresentAddPass = false
     @State var shouldPresentSettings = false
@@ -32,7 +33,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .background(Color(UIColor.secondarySystemBackground))
+            .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
             .navigationBarTitleDisplayMode(.inline) // Necessary to prevent a gap between the title and the start of the list
             .toolbar {
                 ToolbarItem(placement: .principal) {
