@@ -23,10 +23,12 @@
 		BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA15EC172B3CE75400078A17 /* AppIcon.swift */; };
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
 		BA55A9B62B55BCEE00853687 /* PassObjectHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */; };
+		BA7A4A212B65ABE9006F06DF /* CodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */; };
 		BA7A4A232B65AE3A006F06DF /* ColorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A222B65AE3A006F06DF /* ColorInput.swift */; };
 		BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A242B65B485006F06DF /* ExtendColor.swift */; };
 		BA7A4A272B65C2AB006F06DF /* GenerateQRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */; };
 		BA7A4A292B65C2DA006F06DF /* GenerateBarcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A282B65C2DA006F06DF /* GenerateBarcode.swift */; };
+		BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA863A162B6621B6008746C1 /* ScannerView.swift */; };
 		BA9ED5E82B0C65380093CC75 /* BarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5E72B0C65380093CC75 /* BarcodeView.swift */; };
 		BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */; };
 		BABAADD22B0A69950014C73B /* PassObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD02B0A69950014C73B /* PassObject.swift */; };
@@ -74,10 +76,12 @@
 		BA15EC172B3CE75400078A17 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 		BA1BACD32B463FCD00F86890 /* EditPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPass.swift; sourceTree = "<group>"; };
 		BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassObjectHelpers.swift; sourceTree = "<group>"; };
+		BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScanner.swift; sourceTree = "<group>"; };
 		BA7A4A222B65AE3A006F06DF /* ColorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorInput.swift; sourceTree = "<group>"; };
 		BA7A4A242B65B485006F06DF /* ExtendColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendColor.swift; sourceTree = "<group>"; };
 		BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateQRCode.swift; sourceTree = "<group>"; };
 		BA7A4A282B65C2DA006F06DF /* GenerateBarcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateBarcode.swift; sourceTree = "<group>"; };
+		BA863A162B6621B6008746C1 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		BA9ED5E72B0C65380093CC75 /* BarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeView.swift; sourceTree = "<group>"; };
 		BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		BABAADD02B0A69950014C73B /* PassObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassObject.swift; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 				BA00B9B12B4F942E00050C33 /* NoteInput.swift */,
 				BA00B9B32B4F94F300050C33 /* BusinessCardInput.swift */,
 				BA7A4A222B65AE3A006F06DF /* ColorInput.swift */,
+				BA863A162B6621B6008746C1 /* ScannerView.swift */,
 			);
 			path = "Pass Inputs";
 			sourceTree = "<group>";
@@ -223,6 +228,7 @@
 				BA9ED5E72B0C65380093CC75 /* BarcodeView.swift */,
 				BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */,
 				BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */,
+				BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */,
 				BA7A4A242B65B485006F06DF /* ExtendColor.swift */,
 				BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */,
 				BA7A4A282B65C2DA006F06DF /* GenerateBarcode.swift */,
@@ -375,8 +381,10 @@
 				BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */,
 				BA7A4A272B65C2AB006F06DF /* GenerateQRCode.swift in Sources */,
 				BABAADD32B0A69950014C73B /* ModelData.swift in Sources */,
+				BA7A4A212B65ABE9006F06DF /* CodeScanner.swift in Sources */,
 				BA00B9B62B4F96DA00050C33 /* PictureInput.swift in Sources */,
 				BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */,
+				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
 				3A02E73C2AF6EE1000383BC2 /* ContentView.swift in Sources */,
 				BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */,
 				BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */,
@@ -557,6 +565,7 @@
 				DEVELOPMENT_TEAM = NZDS56Z4Q9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Scanning existing codes to add into passes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -586,6 +595,7 @@
 				DEVELOPMENT_TEAM = NZDS56Z4Q9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Scanning existing codes to add into passes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
