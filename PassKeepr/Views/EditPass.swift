@@ -10,65 +10,73 @@ import SwiftUI
 struct EditPass: View {
     @Binding var passObject: PassObject
 
+    @State private var tempObject: PassObject
+
+    init(passObject: Binding<PassObject>)
+    {
+        _passObject = passObject
+        _tempObject = State(initialValue: passObject.wrappedValue)
+    }
+
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
         VStack {
             Form(){
-                switch passObject.passType {
+                switch tempObject.passType {
                 case PassType.identificationPass:
                     IdentificationInput(identificationInput:
                         Binding(
-                            get: { passObject.identificationString ?? "" },
-                            set: { passObject.identificationString = $0 }
+                            get: { tempObject.identificationString ?? "" },
+                            set: { tempObject.identificationString = $0 }
                         )
                     )
                 case PassType.barcodePass:
                     BarcodeInput(barcodeInput:
                         Binding(
-                            get: { passObject.barcodeString ?? "" },
-                            set: { passObject.barcodeString = $0 }
+                            get: { tempObject.barcodeString ?? "" },
+                            set: { tempObject.barcodeString = $0 }
                         )
                     )
                 case PassType.qrCodePass:
                     QRCodeInput(qrCodeInput:
                         Binding(
-                            get: { passObject.qrCodeString ?? "" },
-                            set: { passObject.qrCodeString = $0 }
+                            get: { tempObject.qrCodeString ?? "" },
+                            set: { tempObject.qrCodeString = $0 }
                         )
                     )
                 case PassType.notePass:
                     NoteInput(noteInput:
                         Binding(
-                            get: { passObject.noteString ?? "" },
-                            set: { passObject.noteString = $0 }
+                            get: { tempObject.noteString ?? "" },
+                            set: { tempObject.noteString = $0 }
                         )
                     )
                 case PassType.businessCardPass:
                     BusinessCardInput(nameInput:
                         Binding(
-                            get: { passObject.name ?? "" },
-                            set: { passObject.name = $0 }
+                            get: { tempObject.name ?? "" },
+                            set: { tempObject.name = $0 }
                         ),
                       titleInput:
                         Binding(
-                            get: { passObject.title ?? "" },
-                            set: { passObject.title = $0 }
+                            get: { tempObject.title ?? "" },
+                            set: { tempObject.title = $0 }
                         ),
                       businessNameInput:
                         Binding(
-                            get: { passObject.businessName ?? "" },
-                            set: { passObject.businessName = $0 }
+                            get: { tempObject.businessName ?? "" },
+                            set: { tempObject.businessName = $0 }
                         ),
                       phoneNumberInput:
                         Binding(
-                            get: { passObject.phoneNumber ?? "" },
-                            set: { passObject.phoneNumber = $0 }
+                            get: { tempObject.phoneNumber ?? "" },
+                            set: { tempObject.phoneNumber = $0 }
                         ),
                       emailInput:
                         Binding(
-                            get: { passObject.email ?? "" },
-                            set: { passObject.email = $0 }
+                            get: { tempObject.email ?? "" },
+                            set: { tempObject.email = $0 }
                         )
                     )
                 case PassType.picturePass:
@@ -77,6 +85,7 @@ struct EditPass: View {
                 Section {
                     Button(
                         action: {
+                            passObject = tempObject
                             presentationMode.wrappedValue.dismiss()
                         },
                        label: {
@@ -93,7 +102,7 @@ struct EditPass: View {
                 .listRowBackground(Color.accentColor)
             }
         }
-        .navigationTitle($passObject.passName)
+        .navigationTitle($tempObject.passName)
     }
 }
 
