@@ -52,8 +52,6 @@ struct AddPass: View {
 
     @Binding var isSheetPresented: Bool // Used to close the sheet in the parent view
 
-    let filename = "PassKeeprData.json"
-
     var image: UIImage?
 
     var body: some View {

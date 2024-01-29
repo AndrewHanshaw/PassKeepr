@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct Settings: View {
-    let filename = "PassKeeprData.json"
-
     @Environment(ModelData.self) var modelData
 
     @State private var isDocumentPickerPresented: Bool = false
