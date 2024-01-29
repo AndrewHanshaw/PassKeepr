@@ -67,13 +67,23 @@ struct AddPass: View {
                             Text("Business Card").tag(PassType.businessCardPass)
                             Text("Picture Pass").tag(PassType.picturePass)
                         }
+                    } header: {
+                        Text("Add a Pass:")
+                            .font(.system(size: 25, weight: .bold, design: .rounded))
+                            .textCase(nil)
+                            .padding([.bottom])
                     }
                 }
 
-                TextField(
-                    "Pass Name",
-                    text: $passName
-                )
+                LabeledContent {
+                    TextField(
+                        "Name",
+                        text: $passName
+                    )
+                } label : {
+                    Text("Pass Name")
+                }
+
                 .disableAutocorrection(true)
 
                 switch selectedPassType {
@@ -141,8 +151,6 @@ struct AddPass: View {
                 }
                 .listRowBackground(Color.accentColor)
             }
-
-            Spacer()
         }
     }
 }
