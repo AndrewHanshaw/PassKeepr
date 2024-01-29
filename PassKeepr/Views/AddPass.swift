@@ -37,7 +37,7 @@ struct ImageDocument: FileDocument {
 
 struct AddPass: View {
     @Environment(ModelData.self) var modelData
-    
+
     @State private var passName: String = ""
     @State private var selectedPassType: PassType = .identificationPass
     @State private var identificationInput = ""

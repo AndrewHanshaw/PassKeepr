@@ -11,7 +11,7 @@ struct ListSection: View {
     @Environment(ModelData.self) var modelData
 
     @State private var isListExpanded = true
-    
+
     @State var list: [ListItem]
 
     var type: PassType {
@@ -71,11 +71,11 @@ private func getHeaderString(_ type: PassType) -> String {
 
 #Preview {
     let previewList = ModelData(preview: true).listItems
-    
+
     var filteredList: [ListItem] {
         previewList.filter { $0.passType == PassType.barcodePass }
     }
-    
+
     return List {
         ListSection(list:filteredList)
     }
