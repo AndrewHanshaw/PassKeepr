@@ -6,16 +6,34 @@
 //
 
 import SwiftUI
+import VisionKit
 
 struct QRCodeInput: View {
     @Binding var qrCodeInput: String
+
+    @State private var scannedCode = ""
+    @State private var isScannerPresented = false
+    @State private var useScannedData = false
 
     var body: some View {
         Section {
             LabeledContent {
                 TextField("Data", text: $qrCodeInput)
+                    .onChange(of: scannedCode) {
+                        qrCodeInput = scannedCode
+                    }
             } label : {
                 Text("Payload")
+            }
+
+            Button("Open Scanner") {
+                isScannerPresented.toggle()
+            }
+            .padding()
+            .sheet(isPresented: $isScannerPresented) {
+                ScannerView(scannedData: $scannedCode, showScanner: $isScannerPresented)
+                    .edgesIgnoringSafeArea(.bottom)
+                    .presentationDragIndicator(.visible)
             }
         }
     }
