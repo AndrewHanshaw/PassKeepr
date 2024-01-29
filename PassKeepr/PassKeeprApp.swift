@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct PassKeeprApp: App {
     @State private var modelData = ModelData(preview: false)
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
