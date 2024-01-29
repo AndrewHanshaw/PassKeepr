@@ -107,51 +107,55 @@ struct AddPass: View {
                 ColorInput(bgColor: $foregroundColorInput, fgColor: $backgroundColorInput, textColor: $textColorInput)
 
                 Section {
-                    Button(action: {isSheetPresented.toggle()},
-                           label: {
-                        HStack {
-                            Spacer()
-                            Text("Preview Pass")
-                            Spacer()
+                    Button(
+                        action: {
+                            isSheetPresented.toggle()
+                        },
+                        label: {
+                            HStack {
+                                Spacer()
+                                Text("Preview Pass")
+                                Spacer()
                         }
                     }
                     )
                 }
 
                 Section {
-                    Button(action: {
+                    Button(
+                        action: {
                             var addedPass = PassObject(id: UUID(), passName: passName, passType: selectedPassType, foregroundColor: foregroundColorInput.toHex(), backgroundColor: backgroundColorInput.toHex(), textColor: textColorInput.toHex())
-                                switch addedPass.passType {
-                                    case PassType.identificationPass:
-                                        addedPass.identificationString = identificationInput
-                                    case PassType.barcodePass:
-                                        addedPass.barcodeString = barcodeInput
-                                    case PassType.qrCodePass:
-                                        addedPass.qrCodeString = qrCodeInput
-                                    case PassType.notePass:
-                                        addedPass.noteString = noteInput
-                                    case PassType.businessCardPass:
-                                        addedPass.name = nameInput
-                                        addedPass.title = titleInput
-                                        addedPass.businessName = businessNameInput
-                                        addedPass.phoneNumber = phoneNumberInput
-                                        addedPass.email = emailInput
-                                    case PassType.picturePass:
-                                        addedPass.pictureID = emailInput // Placeholder
-                                }
-                                modelData.PassObjects.append(addedPass)
-                                modelData.encodePassObjects()
-                                isSheetPresented.toggle()
-                            },
-                           label: {
-                                HStack {
-                                  Spacer()
-                                  Text("Add Pass")
-                                        .fontWeight(.bold)
-                                        .foregroundColor(Color.white)
-                                  Spacer()
-                                }
+                            switch addedPass.passType {
+                                case PassType.identificationPass:
+                                    addedPass.identificationString = identificationInput
+                                case PassType.barcodePass:
+                                    addedPass.barcodeString = barcodeInput
+                                case PassType.qrCodePass:
+                                    addedPass.qrCodeString = qrCodeInput
+                                case PassType.notePass:
+                                    addedPass.noteString = noteInput
+                                case PassType.businessCardPass:
+                                    addedPass.name = nameInput
+                                    addedPass.title = titleInput
+                                    addedPass.businessName = businessNameInput
+                                    addedPass.phoneNumber = phoneNumberInput
+                                    addedPass.email = emailInput
+                                case PassType.picturePass:
+                                    addedPass.pictureID = emailInput // Placeholder
                             }
+                            modelData.PassObjects.append(addedPass)
+                            modelData.encodePassObjects()
+                            isSheetPresented.toggle()
+                        },
+                       label: {
+                            HStack {
+                              Spacer()
+                              Text("Add Pass")
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color.white)
+                              Spacer()
+                            }
+                        }
                     )
                 }
                 .listRowBackground(Color.accentColor)
