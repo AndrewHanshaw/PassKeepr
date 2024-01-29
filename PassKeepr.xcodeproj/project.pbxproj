@@ -26,6 +26,7 @@
 		BA7A4A232B65AE3A006F06DF /* ColorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A222B65AE3A006F06DF /* ColorInput.swift */; };
 		BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A242B65B485006F06DF /* ExtendColor.swift */; };
 		BA7A4A272B65C2AB006F06DF /* GenerateQRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */; };
+		BA7A4A292B65C2DA006F06DF /* GenerateBarcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A282B65C2DA006F06DF /* GenerateBarcode.swift */; };
 		BA9ED5E82B0C65380093CC75 /* BarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5E72B0C65380093CC75 /* BarcodeView.swift */; };
 		BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */; };
 		BABAADD22B0A69950014C73B /* PassObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD02B0A69950014C73B /* PassObject.swift */; };
@@ -76,6 +77,7 @@
 		BA7A4A222B65AE3A006F06DF /* ColorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorInput.swift; sourceTree = "<group>"; };
 		BA7A4A242B65B485006F06DF /* ExtendColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendColor.swift; sourceTree = "<group>"; };
 		BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateQRCode.swift; sourceTree = "<group>"; };
+		BA7A4A282B65C2DA006F06DF /* GenerateBarcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateBarcode.swift; sourceTree = "<group>"; };
 		BA9ED5E72B0C65380093CC75 /* BarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeView.swift; sourceTree = "<group>"; };
 		BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		BABAADD02B0A69950014C73B /* PassObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassObject.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */,
 				BA7A4A242B65B485006F06DF /* ExtendColor.swift */,
 				BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */,
+				BA7A4A282B65C2DA006F06DF /* GenerateBarcode.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */,
 				BA00B9AE2B4F92DE00050C33 /* QRCodeInput.swift in Sources */,
 				BA00B9B22B4F942E00050C33 /* NoteInput.swift in Sources */,
+				BA7A4A292B65C2DA006F06DF /* GenerateBarcode.swift in Sources */,
 				BA00B9B02B4F93A000050C33 /* IdentificationInput.swift in Sources */,
 				BA7A4A232B65AE3A006F06DF /* ColorInput.swift in Sources */,
 				BABAADD82B0A6BF50014C73B /* ListSection.swift in Sources */,
