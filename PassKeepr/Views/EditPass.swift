@@ -15,9 +15,6 @@ struct EditPass: View {
     var body: some View {
         VStack {
             Form(){
-                TextField("Pass Name", text: $listItem.passName)
-                .disableAutocorrection(true)
-
                 switch listItem.passType {
                 case PassType.identificationPass:
                     IdentificationInput(identificationInput:
@@ -95,6 +92,7 @@ struct EditPass: View {
                 .listRowBackground(Color.accentColor)
             }
         }
+        .navigationTitle($listItem.passName)
     }
 }
 
