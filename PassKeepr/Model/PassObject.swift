@@ -21,6 +21,9 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var phoneNumber: String?
     var email: String?
     var pictureID: String? // placeholder until I figure out how to handle images
+    var foregroundColor: UInt
+    var backgroundColor: UInt
+    var textColor: UInt
 }
 
 enum PassType: Int, Codable, Identifiable, CaseIterable {

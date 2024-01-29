@@ -97,5 +97,5 @@ struct EditPass: View {
 }
 
 #Preview {
-    EditPass(passObject:.constant(PassObject(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234")))
+    EditPass(passObject: .constant(PassObject(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234", foregroundColor: 0xFF00FF, backgroundColor: 0xFFFFFF, textColor: 0x000000)))
 }

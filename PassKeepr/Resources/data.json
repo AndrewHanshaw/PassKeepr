@@ -3,25 +3,37 @@
         "passName": "My ID",
         "id": 1001,
         "passType": 1
-        "identificationString": "11223344"
+        "identificationString": "11223344",
+        "foregroundColor": 0x000000,
+        "backgroundColor": 0xFFFFFF,
+        "textColor": 0xFF00FF
     },
     {
         "passName": "My Barcode",
         "id": 1002,
         "passType": 2
-        "barcodeString": "10203040"
+        "barcodeString": "10203040",
+        "foregroundColor": 0x000000,
+        "backgroundColor": 0xFFFFFF,
+        "textColor": 0xFF00FF
     },
     {
         "passName": "My QR Code",
         "id": 1003,
         "passType": 3
-        "qrCodeString": "Test 1234!"
+        "qrCodeString": "Test 1234!",
+        "foregroundColor": 0x000000,
+        "backgroundColor": 0xFFFFFF,
+        "textColor": 0xFF00FF
     },
     {
         "passName": "My Note",
         "id": 1004,
         "passType": 4
-        "noteString": "Lorem ipsum etc etc"
+        "noteString": "Lorem ipsum etc etc",
+        "foregroundColor": 0x000000,
+        "backgroundColor": 0xFFFFFF,
+        "textColor": 0xFF00FF
     },
     {
         "passName": "My Business Card",
@@ -31,11 +43,17 @@
         "title": "CEO"
         "businessName": "Enron"
         "phoneNumber": "5123309984"
-        "email": "jeff@enron.com"
+        "email": "jeff@enron.com",
+        "foregroundColor": 0x000000,
+        "backgroundColor": 0xFFFFFF,
+        "textColor": 0xFF00FF
     },
     {
         "passName": "My Picture",
         "id": 1006,
-        "passType": 6
+        "passType": 6,
+        "foregroundColor": 0x000000,
+        "backgroundColor": 0xFFFFFF,
+        "textColor": 0xFF00FF
     }
 ]
