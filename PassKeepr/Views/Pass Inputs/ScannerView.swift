@@ -10,9 +10,11 @@ import VisionKit
 
 struct ScannerView: View {
     @Binding var scannedData: String
+    @Binding var scannedSymbology: String
     @Binding var showScanner: Bool
 
     @State private var tempScanData = ""
+    @State private var tempScanSymbology = ""
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -20,6 +22,7 @@ struct ScannerView: View {
                 DataScannerRepresentable(
                     shouldStartScanning: $showScanner,
                     scannedText: $tempScanData,
+                    scannedSymbology: $tempScanSymbology,
                     dataToScanFor: [.barcode(symbologies: [.qr])]
                 )
             }
@@ -39,13 +42,14 @@ struct ScannerView: View {
                 .background(Color(UIColor.secondarySystemBackground))
             }
             HStack {
-                Text("Scan: \(tempScanData)")
+                Text("Scan: \(tempScanData), Symbology: \(tempScanSymbology)")
                     .padding()
                     .background(Color(UIColor.systemBackground).opacity(0.8))
                     .cornerRadius(8)
 
                 Button("Insert") {
                     scannedData = tempScanData
+                    scannedSymbology = tempScanSymbology
                     showScanner.toggle()
                 }
                 .padding()
@@ -59,5 +63,5 @@ struct ScannerView: View {
 }
 
 #Preview {
-    ScannerView(scannedData: .constant("asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"), showScanner: .constant(true))
+    ScannerView(scannedData: .constant("asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"), scannedSymbology: .constant("asdfasdf"), showScanner: .constant(true))
 }

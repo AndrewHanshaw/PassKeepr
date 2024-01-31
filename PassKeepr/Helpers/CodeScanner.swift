@@ -11,6 +11,8 @@ import VisionKit
 struct DataScannerRepresentable: UIViewControllerRepresentable {
     @Binding var shouldStartScanning: Bool
     @Binding var scannedText: String
+    @Binding var scannedSymbology: String
+
     var dataToScanFor: Set<DataScannerViewController.RecognizedDataType>
     
     class Coordinator: NSObject, DataScannerViewControllerDelegate {
@@ -22,12 +24,13 @@ struct DataScannerRepresentable: UIViewControllerRepresentable {
 
         func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
             switch item {
-            case .text(let text):
-                parent.scannedText = text.transcript
-            case .barcode(let barcode):
-                parent.scannedText = barcode.payloadStringValue ?? "Unable to decode the scanned code"
-            default:
-                print("unexpected item")
+                case .text(let text):
+                    parent.scannedText = text.transcript
+                case .barcode(let barcode):
+                    parent.scannedText = barcode.payloadStringValue ?? "Unable to decode the scanned code"
+                    parent.scannedSymbology = barcode.observation.symbology.rawValue
+                default:
+                    print("unexpected item")
             }
         }
     }
