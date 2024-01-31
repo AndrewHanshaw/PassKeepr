@@ -22,6 +22,7 @@
         "id": 1003,
         "passType": 3
         "qrCodeString": "Test 1234!",
+        "qrCodeCorrectionLevel": "low"
         "foregroundColor": 0x000000,
         "backgroundColor": 0xFFFFFF,
         "textColor": 0xFF00FF

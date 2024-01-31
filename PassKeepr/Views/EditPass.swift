@@ -43,7 +43,12 @@ struct EditPass: View {
                         Binding(
                             get: { tempObject.qrCodeString ?? "" },
                             set: { tempObject.qrCodeString = $0 }
-                        )
+                        ),
+                      correctionLevel:
+                                    Binding(
+                                        get: { tempObject.qrCodeCorrectionLevel ?? QrCodeCorrectionLevel.medium },
+                                        set: { tempObject.qrCodeCorrectionLevel = $0 }
+                                    )
                     )
                 case PassType.notePass:
                     NoteInput(noteInput:
