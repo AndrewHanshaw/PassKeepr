@@ -177,7 +177,7 @@
 			path = PassKeeprUITests;
 			sourceTree = "<group>";
 		};
-		BA00B9AA2B4F8FAC00050C33 /* Pass Inputs */ = {
+		BA00B9AA2B4F8FAC00050C33 /* PassInputs */ = {
 			isa = PBXGroup;
 			children = (
 				BA00B9AB2B4F8FC800050C33 /* BarcodeInput.swift */,
@@ -189,7 +189,7 @@
 				BA7A4A222B65AE3A006F06DF /* ColorInput.swift */,
 				BA863A162B6621B6008746C1 /* ScannerView.swift */,
 			);
-			path = "Pass Inputs";
+			path = PassInputs;
 			sourceTree = "<group>";
 		};
 		BABAADCF2B0A69950014C73B /* Model */ = {
@@ -212,7 +212,7 @@
 		BABAADDB2B0A6C190014C73B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				BA00B9AA2B4F8FAC00050C33 /* Pass Inputs */,
+				BA00B9AA2B4F8FAC00050C33 /* PassInputs */,
 				3A02E73B2AF6EE1000383BC2 /* ContentView.swift */,
 				BABAADD92B0A6C110014C73B /* AddPass.swift */,
 				BA1BACD32B463FCD00F86890 /* EditPass.swift */,
