@@ -12,6 +12,7 @@ struct QRCodeInput: View {
     @Binding var qrCodeInput: String
 
     @State private var scannedCode = ""
+    @State private var scannedSymbology = ""
     @State private var isScannerPresented = false
     @State private var useScannedData = false
 
@@ -31,7 +32,7 @@ struct QRCodeInput: View {
             }
             .padding()
             .sheet(isPresented: $isScannerPresented) {
-                ScannerView(scannedData: $scannedCode, showScanner: $isScannerPresented)
+                ScannerView(scannedData: $scannedCode, scannedSymbology: $scannedSymbology, showScanner: $isScannerPresented)
                     .edgesIgnoringSafeArea(.bottom)
                     .presentationDragIndicator(.visible)
             }

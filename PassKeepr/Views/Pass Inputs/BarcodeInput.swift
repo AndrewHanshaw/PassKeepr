@@ -10,6 +10,10 @@ import SwiftUI
 struct BarcodeInput: View {
     @Binding var barcodeInput: String
 
+    @State private var scannedCode = ""
+    @State private var isScannerPresented = false
+    @State private var useScannedData = false
+
     var body: some View {
         Section {
             LabeledContent {
