@@ -10,6 +10,7 @@ import VisionKit
 
 struct QRCodeInput: View {
     @Binding var qrCodeInput: String
+    @Binding var correctionLevel: QrCodeCorrectionLevel
 
     @State private var scannedCode = ""
     @State private var scannedSymbology = ""
@@ -22,6 +23,9 @@ struct QRCodeInput: View {
                 TextField("Data", text: $qrCodeInput)
                     .onChange(of: scannedCode) {
                         qrCodeInput = scannedCode
+                    }
+                    .onChange(of: qrCodeInput) {
+                        scannedSymbology = ""
                     }
             } label : {
                 Text("Payload")
@@ -36,10 +40,25 @@ struct QRCodeInput: View {
                     .edgesIgnoringSafeArea(.bottom)
                     .presentationDragIndicator(.visible)
             }
+
+            Picker("Correction Level", selection: $correctionLevel) {
+                ForEach(QrCodeCorrectionLevel.allCases, id: \.self) { level in
+                    Text(String(describing: level))
+                }
+            }
+            .onChange(of: correctionLevel) {
+                scannedSymbology = ""
+            }
+
+            QRCodeView(Data: qrCodeInput, correctionLevel: correctionLevel)
+        } footer: {
+            if(scannedSymbology != "" && scannedSymbology != "VNBarcodeSymbologyQR") {
+                Text("Scanned code was not a QR code")
+            }
         }
     }
 }
 
 #Preview {
-    QRCodeInput(qrCodeInput:.constant("Test QR Code"))
+    QRCodeInput(qrCodeInput:.constant("Test QR Code"), correctionLevel:.constant(QrCodeCorrectionLevel.medium))
 }
