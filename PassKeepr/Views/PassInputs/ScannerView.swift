@@ -29,14 +29,14 @@ struct ScannerView: View {
             else if !DataScannerViewController.isSupported {
                 VStack {
                     Spacer()
-                    Text("It looks like this device doesn't support the DataScannerViewController")
+                    Text("This device doesn't support the DataScannerViewController")
                     Spacer()
                 }
                 .background(Color(UIColor.secondarySystemBackground))
             } else {
                 VStack {
                     Spacer()
-                    Text("It appears your camera may not be available")
+                    Text("Camera is not available")
                     Spacer()
                 }
                 .background(Color(UIColor.secondarySystemBackground))
