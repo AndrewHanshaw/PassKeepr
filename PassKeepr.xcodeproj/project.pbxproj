@@ -39,6 +39,7 @@
 		BABAADD62B0A6BAA0014C73B /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = BABAADD52B0A6BAA0014C73B /* data.json */; };
 		BABAADD82B0A6BF50014C73B /* ListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD72B0A6BF50014C73B /* ListSection.swift */; };
 		BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD92B0A6C110014C73B /* AddPass.swift */; };
+		BAE2D4552B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE2D4542B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift */; };
 		BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE838F82B49BFCE0081A1DE /* Settings.swift */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +96,7 @@
 		BABAADD52B0A6BAA0014C73B /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		BABAADD72B0A6BF50014C73B /* ListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListSection.swift; path = PassKeepr/Helpers/ListSection.swift; sourceTree = SOURCE_ROOT; };
 		BABAADD92B0A6C110014C73B /* AddPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPass.swift; sourceTree = "<group>"; };
+		BAE2D4542B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeTypeHelpers.swift; sourceTree = "<group>"; };
 		BAE838F82B49BFCE0081A1DE /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -249,6 +251,7 @@
 				BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */,
 				BA7A4A242B65B485006F06DF /* ExtendColor.swift */,
 				BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */,
+				BAE2D4542B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 			files = (
 				BA9ED5E82B0C65380093CC75 /* Code128BarcodeView.swift in Sources */,
 				BABAADD22B0A69950014C73B /* PassObject.swift in Sources */,
+				BAE2D4552B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift in Sources */,
 				BA55A9B62B55BCEE00853687 /* PassObjectHelpers.swift in Sources */,
 				BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */,
 				BA7A4A272B65C2AB006F06DF /* GenerateQRCode.swift in Sources */,
