@@ -47,3 +47,19 @@ enum QrCodeCorrectionLevel: Codable, CustomStringConvertible, CaseIterable {
         }
     }
 }
+
+enum BarcodeType: Codable, CustomStringConvertible, CaseIterable {
+    case code128
+    case code93
+    case code39
+    case upce
+
+    var description : String {
+        switch self {
+            case .code128: return "Code 128"
+            case .code93: return "Code 93"
+            case .code39: return "Code 39"
+            case .upce: return "UPC-E"
+        }
+    }
+}
