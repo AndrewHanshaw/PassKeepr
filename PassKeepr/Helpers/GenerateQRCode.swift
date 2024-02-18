@@ -7,22 +7,6 @@
 
 import SwiftUI
 
-enum QrCodeCorrectionLevel: Codable, CustomStringConvertible {
-    case low
-    case medium
-    case quartile
-    case high
-
-    var description : String {
-        switch self {
-            case .low: return "L"
-            case .medium: return "M"
-            case .quartile: return "Q"
-            case .high: return "H"
-        }
-    }
-}
-
 func GenerateQRCode(string: String, viewWidth: CGFloat, correctionLevel: QrCodeCorrectionLevel) -> UIImage? {
     guard let filter = CIFilter(name: "CIQRCodeGenerator") else { return nil }
 

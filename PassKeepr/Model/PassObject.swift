@@ -30,3 +30,19 @@ enum PassType: Int, Codable, Identifiable, CaseIterable {
     case identificationPass, barcodePass, qrCodePass, notePass, businessCardPass, picturePass
     var id: Self { self }
 }
+
+enum QrCodeCorrectionLevel: Codable, CustomStringConvertible, CaseIterable {
+    case low
+    case medium
+    case quartile
+    case high
+
+    var description : String {
+        switch self {
+            case .low: return "L"
+            case .medium: return "M"
+            case .quartile: return "Q"
+            case .high: return "H"
+        }
+    }
+}
