@@ -6,6 +6,34 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
+
+struct ImageDocument: FileDocument {
+    static var readableContentTypes: [UTType] { [.image] }
+
+    var image: UIImage
+
+    init(image: UIImage) {
+        self.image = image
+    }
+
+    init(configuration: ReadConfiguration) throws {
+        guard let data = configuration.file.regularFileContents else {
+            throw CocoaError(.fileReadCorruptFile)
+        }
+        guard let loadedImage = UIImage(data: data) else {
+            throw CocoaError(.fileReadCorruptFile)
+        }
+        self.image = loadedImage
+    }
+
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
+        guard let data = image.pngData() else {
+            throw CocoaError(.fileWriteInapplicableStringEncoding)
+        }
+        return .init(regularFileWithContents: data)
+    }
+}
 
 struct Settings: View {
     @Environment(ModelData.self) var modelData
