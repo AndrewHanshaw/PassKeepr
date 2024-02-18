@@ -19,7 +19,7 @@ struct ScannerView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             if DataScannerViewController.isSupported && DataScannerViewController.isAvailable {
-                DataScannerRepresentable(
+                CodeScanner(
                     shouldStartScanning: $showScanner,
                     scannedText: $tempScanData,
                     scannedSymbology: $tempScanSymbology,

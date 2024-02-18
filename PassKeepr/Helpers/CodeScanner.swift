@@ -8,7 +8,7 @@
 import SwiftUI
 import VisionKit
 
-struct DataScannerRepresentable: UIViewControllerRepresentable {
+struct CodeScanner: UIViewControllerRepresentable {
     @Binding var shouldStartScanning: Bool
     @Binding var scannedText: String
     @Binding var scannedSymbology: String
@@ -16,9 +16,9 @@ struct DataScannerRepresentable: UIViewControllerRepresentable {
     var dataToScanFor: Set<DataScannerViewController.RecognizedDataType>
     
     class Coordinator: NSObject, DataScannerViewControllerDelegate {
-       var parent: DataScannerRepresentable
+       var parent: CodeScanner
        
-       init(_ parent: DataScannerRepresentable) {
+       init(_ parent: CodeScanner) {
            self.parent = parent
        }
 
