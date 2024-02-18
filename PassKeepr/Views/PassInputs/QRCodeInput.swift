@@ -50,7 +50,7 @@ struct QRCodeInput: View {
                 scannedSymbology = ""
             }
 
-            QRCodeView(Data: qrCodeInput, correctionLevel: correctionLevel)
+            QRCodeView(data: qrCodeInput, correctionLevel: correctionLevel)
         } footer: {
             if(scannedSymbology != "" && scannedSymbology != "VNBarcodeSymbologyQR") {
                 Text("Scanned code was not a QR code")
