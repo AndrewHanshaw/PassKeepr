@@ -23,7 +23,7 @@ struct ScannerView: View {
                     shouldStartScanning: $showScanner,
                     scannedText: $tempScanData,
                     scannedSymbology: $tempScanSymbology,
-                    dataToScanFor: [.barcode(symbologies: [.qr])]
+                    dataToScanFor: [.barcode(symbologies: [.qr, .code128, .upce, .code39, .code93])]
                 )
             }
             else if !DataScannerViewController.isSupported {
