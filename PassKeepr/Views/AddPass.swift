@@ -35,6 +35,16 @@ struct AddPass: View {
             Form(){
                 List {
                     Section {
+                        LabeledContent {
+                            TextField(
+                                "Name",
+                                text: $passName
+                            )
+                        } label : {
+                            Text("Pass Name")
+                        }
+                        .disableAutocorrection(true)
+
                         Picker("Pass Type", selection: $selectedPassType) {
                             ForEach(PassType.allCases) { type in
                                 HStack {
@@ -50,17 +60,6 @@ struct AddPass: View {
                             .padding([.bottom])
                     }
                 }
-
-                LabeledContent {
-                    TextField(
-                        "Name",
-                        text: $passName
-                    )
-                } label : {
-                    Text("Pass Name")
-                }
-
-                .disableAutocorrection(true)
 
                 switch selectedPassType {
                     case PassType.identificationPass:
