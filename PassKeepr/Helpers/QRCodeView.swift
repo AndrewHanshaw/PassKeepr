@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct QRCodeView: View {
-    var Data: String
+    var data: String
     var correctionLevel: QrCodeCorrectionLevel
 
     var body: some View {
-        if let QRCodeImage = GenerateQRCode(string: Data, viewWidth: UIScreen.main.bounds.width, correctionLevel: correctionLevel) {
+        if let QRCodeImage = GenerateQRCode(string: data, viewWidth: UIScreen.main.bounds.width, correctionLevel: correctionLevel) {
             Image(uiImage: QRCodeImage)
                 .resizable()
                 .scaledToFit()
@@ -21,5 +21,5 @@ struct QRCodeView: View {
 }
 
 #Preview {
-    QRCodeView(Data: "Hello, Swift QRcode!", correctionLevel: QrCodeCorrectionLevel.high)
+    QRCodeView(data: "Hello, Swift QRcode!", correctionLevel: QrCodeCorrectionLevel.high)
 }
