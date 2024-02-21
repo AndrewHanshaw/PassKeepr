@@ -32,7 +32,7 @@
 		BA7A4A272B65C2AB006F06DF /* GenerateQRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */; };
 		BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA863A162B6621B6008746C1 /* ScannerView.swift */; };
 		BA879C242B7064AB008A685E /* UPCEView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA879C232B7064AB008A685E /* UPCEView.swift */; };
-		BA9ED5E82B0C65380093CC75 /* Code128BarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5E72B0C65380093CC75 /* Code128BarcodeView.swift */; };
+		BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5E72B0C65380093CC75 /* Code128View.swift */; };
 		BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */; };
 		BABAADD22B0A69950014C73B /* PassObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD02B0A69950014C73B /* PassObject.swift */; };
 		BABAADD32B0A69950014C73B /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD12B0A69950014C73B /* ModelData.swift */; };
@@ -89,7 +89,7 @@
 		BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateQRCode.swift; sourceTree = "<group>"; };
 		BA863A162B6621B6008746C1 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		BA879C232B7064AB008A685E /* UPCEView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPCEView.swift; sourceTree = "<group>"; };
-		BA9ED5E72B0C65380093CC75 /* Code128BarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code128BarcodeView.swift; sourceTree = "<group>"; };
+		BA9ED5E72B0C65380093CC75 /* Code128View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code128View.swift; sourceTree = "<group>"; };
 		BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		BABAADD02B0A69950014C73B /* PassObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassObject.swift; sourceTree = "<group>"; };
 		BABAADD12B0A69950014C73B /* ModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
@@ -205,7 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */,
-				BA9ED5E72B0C65380093CC75 /* Code128BarcodeView.swift */,
+				BA9ED5E72B0C65380093CC75 /* Code128View.swift */,
 				BA879C232B7064AB008A685E /* UPCEView.swift */,
 				BA6D4FE02B71C60400CB6ACA /* Code39View.swift */,
 				BA25D8962B76E8300044E423 /* Code93View.swift */,
@@ -395,7 +395,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA9ED5E82B0C65380093CC75 /* Code128BarcodeView.swift in Sources */,
+				BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */,
 				BABAADD22B0A69950014C73B /* PassObject.swift in Sources */,
 				BAE2D4552B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift in Sources */,
 				BA55A9B62B55BCEE00853687 /* PassObjectHelpers.swift in Sources */,
