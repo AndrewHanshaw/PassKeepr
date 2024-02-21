@@ -13,6 +13,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var passType: PassType
     var identificationString: String?
     var barcodeString: String?
+    var barcodeType: BarcodeType?
     var qrCodeString: String?
     var qrCodeCorrectionLevel: QrCodeCorrectionLevel?
     var noteString: String?
