@@ -36,6 +36,11 @@ struct EditPass: View {
                         Binding(
                             get: { tempObject.barcodeString ?? "" },
                             set: { tempObject.barcodeString = $0 }
+                        ),
+                      barcodeType:
+                        Binding(
+                            get: { tempObject.barcodeType ?? BarcodeType.code39 },
+                            set: { tempObject.barcodeType = $0 }
                         )
                     )
                 case PassType.qrCodePass:

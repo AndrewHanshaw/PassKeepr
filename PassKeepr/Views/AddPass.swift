@@ -13,7 +13,8 @@ struct AddPass: View {
     @State private var passName: String = ""
     @State private var selectedPassType: PassType = .identificationPass
     @State private var identificationInput = ""
-    @State private var barcodeInput = ""
+    @State private var barcodeString = ""
+    @State private var barcodeType = BarcodeType.code39
     @State private var qrCodeInput = ""
     @State private var qrCodeCorrectionLevel = QrCodeCorrectionLevel.medium
     @State private var noteInput = ""
@@ -65,7 +66,7 @@ struct AddPass: View {
                     case PassType.identificationPass:
                         IdentificationInput(identificationInput: $identificationInput)
                     case PassType.barcodePass:
-                        BarcodeInput(barcodeInput:$barcodeInput)
+                        BarcodeInput(barcodeInput: $barcodeString, barcodeType: $barcodeType)
                     case PassType.qrCodePass:
                         QRCodeInput(qrCodeInput: $qrCodeInput, correctionLevel: $qrCodeCorrectionLevel)
                     case PassType.notePass:
@@ -101,7 +102,8 @@ struct AddPass: View {
                                 case PassType.identificationPass:
                                     addedPass.identificationString = identificationInput
                                 case PassType.barcodePass:
-                                    addedPass.barcodeString = barcodeInput
+                                    addedPass.barcodeString = barcodeString
+                                    addedPass.barcodeType = barcodeType
                                 case PassType.qrCodePass:
                                     addedPass.qrCodeString = qrCodeInput
                                     addedPass.qrCodeCorrectionLevel = qrCodeCorrectionLevel

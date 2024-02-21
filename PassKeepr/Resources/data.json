@@ -13,6 +13,7 @@
         "id": 1002,
         "passType": 2
         "barcodeString": "10203040",
+        "barcodeType": "code39"
         "foregroundColor": 0x000000,
         "backgroundColor": 0xFFFFFF,
         "textColor": 0xFF00FF

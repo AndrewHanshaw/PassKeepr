@@ -9,12 +9,12 @@ import SwiftUI
 
 struct BarcodeInput: View {
     @Binding var barcodeInput: String
+    @Binding var barcodeType: BarcodeType
 
     @State private var scannedCode = ""
     @State private var scannedSymbology = ""
     @State private var isScannerPresented = false
     @State private var useScannedData = false
-    @State private var barcodeType: BarcodeType = .code39
     @State private var showAlert: Bool = false
 
     var body: some View {
@@ -118,5 +118,5 @@ struct BarcodeInput: View {
 }
 
 #Preview {
-    BarcodeInput(barcodeInput:.constant("Test Barcode"))
+    BarcodeInput(barcodeInput:.constant("Test Barcode"), barcodeType: .constant(BarcodeType.code39))
 }
