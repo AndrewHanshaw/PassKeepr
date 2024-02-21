@@ -81,8 +81,8 @@ struct BarcodeInput: View {
                 .layoutPriority(1)
 
             LabeledContent {
-                TextField("Barcode Number", text: $barcodeInput)
-                    .keyboardType(.numberPad)
+                TextField("Barcode Data", text: $barcodeInput)
+                    .keyboardType(BarcodeTypeHelpers.keyboardTypeForTextField(type:$barcodeType))
             } label : {
                 Text("Data")
             }
