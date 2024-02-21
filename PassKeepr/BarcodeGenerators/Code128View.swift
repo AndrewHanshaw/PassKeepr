@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Code128BarcodeView: View {
+struct Code128View: View {
     var data: String
 
     var body: some View {
@@ -20,7 +20,7 @@ struct Code128BarcodeView: View {
 }
 
 #Preview {
-    Code128BarcodeView(data: "Hello, Swift Barcode!")
+    Code128View(data: "Hello, Swift Barcode!")
 }
 
 func GenerateCode128Barcode(string: String, viewWidth: CGFloat) -> UIImage? {
