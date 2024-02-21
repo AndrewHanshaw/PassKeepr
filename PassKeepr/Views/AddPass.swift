@@ -136,6 +136,7 @@ struct AddPass: View {
                 .listRowBackground(Color.accentColor)
             }
         }
+        .scrollDismissesKeyboard(.immediately)
     }
 }
 
