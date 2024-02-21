@@ -14,7 +14,7 @@ struct BarcodeInput: View {
     @State private var scannedSymbology = ""
     @State private var isScannerPresented = false
     @State private var useScannedData = false
-    @State private var selectedBarcodeType: BarcodeType = .code39
+    @State private var barcodeType: BarcodeType = .code39
     @State private var showAlert: Bool = false
 
     var body: some View {
@@ -51,7 +51,7 @@ struct BarcodeInput: View {
 
         Section {
             HStack() {
-                Picker("Barcode Type", selection: $selectedBarcodeType) {
+                Picker("Barcode Type", selection: $barcodeType) {
                     ForEach(BarcodeType.allCases, id: \.self) { type in
                         Text(String(describing: type))
                     }
@@ -71,8 +71,8 @@ struct BarcodeInput: View {
                             })
                         .buttonStyle(PlainButtonStyle())
                         .alert(isPresented: $showAlert) {
-                            Alert(title: Text(String(describing: selectedBarcodeType)),
-                                  message: Text(BarcodeTypeHelpers.GetBarcodeTypeDescription(selectedBarcodeType)),
+                            Alert(title: Text(String(describing: barcodeType)),
+                                  message: Text(BarcodeTypeHelpers.GetBarcodeTypeDescription(barcodeType)),
                                   dismissButton: .default(Text("OK")))
                         }
                     }
@@ -93,8 +93,8 @@ struct BarcodeInput: View {
         }
 
         Section {
-            if(BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: barcodeInput, type: selectedBarcodeType) == true) {
-                switch selectedBarcodeType {
+            if(BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: barcodeInput, type: barcodeType) == true) {
+                switch barcodeType {
                     case BarcodeType.code39:
                         Code39View(ratio: 2, value: $barcodeInput)
                     case BarcodeType.code93:
