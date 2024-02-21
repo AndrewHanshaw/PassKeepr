@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class BarcodeTypeHelpers {
     static func GetBarcodeTypeDescription(_ type: BarcodeType) -> String {
@@ -30,6 +31,15 @@ class BarcodeTypeHelpers {
             case BarcodeType.upce:
                 let regex = /^\d{6}$/
                 return string.firstMatch(of: regex) != nil
+        }
+    }
+
+    static func keyboardTypeForTextField(type: Binding<BarcodeType>) -> UIKeyboardType {
+        switch type.wrappedValue {
+            case BarcodeType.code128, BarcodeType.code39, BarcodeType.code93:
+                return .default
+            default:
+                return .numberPad
         }
     }
 }
