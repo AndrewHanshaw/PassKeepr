@@ -8,19 +8,23 @@
 import SwiftUI
 
 struct Code128View: View {
-    var data: String
+    @State var ratio: CGFloat
+    @Binding var data: String
 
     var body: some View {
         if let code128BarcodeImage = GenerateCode128Barcode(string: data,  viewWidth: UIScreen.main.bounds.width) {
-            Image(uiImage: code128BarcodeImage)
-                .resizable()
-                .scaledToFit()
+            GeometryReader { geometry in
+                Image(uiImage: code128BarcodeImage)
+                    .resizable()
+                    .frame(width:geometry.size.width)
+            }
+            .aspectRatio(ratio, contentMode: .fit)
         }
     }
 }
 
 #Preview {
-    Code128View(data: "Hello, Swift Barcode!")
+    Code128View(ratio: 1.0, data: .constant("Hello, Swift Barcode!"))
 }
 
 func GenerateCode128Barcode(string: String, viewWidth: CGFloat) -> UIImage? {
