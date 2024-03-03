@@ -30,6 +30,7 @@
 		BA7A4A232B65AE3A006F06DF /* ColorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A222B65AE3A006F06DF /* ColorInput.swift */; };
 		BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A242B65B485006F06DF /* ExtendColor.swift */; };
 		BA7A4A272B65C2AB006F06DF /* GenerateQRCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */; };
+		BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82A7922B84424900279103 /* InvalidBarcodeView.swift */; };
 		BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA863A162B6621B6008746C1 /* ScannerView.swift */; };
 		BA879C242B7064AB008A685E /* UPCEView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA879C232B7064AB008A685E /* UPCEView.swift */; };
 		BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5E72B0C65380093CC75 /* Code128View.swift */; };
@@ -87,6 +88,7 @@
 		BA7A4A222B65AE3A006F06DF /* ColorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorInput.swift; sourceTree = "<group>"; };
 		BA7A4A242B65B485006F06DF /* ExtendColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendColor.swift; sourceTree = "<group>"; };
 		BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateQRCode.swift; sourceTree = "<group>"; };
+		BA82A7922B84424900279103 /* InvalidBarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidBarcodeView.swift; sourceTree = "<group>"; };
 		BA863A162B6621B6008746C1 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		BA879C232B7064AB008A685E /* UPCEView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPCEView.swift; sourceTree = "<group>"; };
 		BA9ED5E72B0C65380093CC75 /* Code128View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code128View.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 				BA879C232B7064AB008A685E /* UPCEView.swift */,
 				BA6D4FE02B71C60400CB6ACA /* Code39View.swift */,
 				BA25D8962B76E8300044E423 /* Code93View.swift */,
+				BA82A7922B84424900279103 /* InvalidBarcodeView.swift */,
 			);
 			path = BarcodeGenerators;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 				BA00B9B62B4F96DA00050C33 /* PictureInput.swift in Sources */,
 				BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */,
 				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
+				BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */,
 				BA25D8972B76E8300044E423 /* Code93View.swift in Sources */,
 				3A02E73C2AF6EE1000383BC2 /* ContentView.swift in Sources */,
 				BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */,
