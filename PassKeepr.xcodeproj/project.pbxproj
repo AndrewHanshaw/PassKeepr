@@ -206,14 +206,22 @@
 		BA7C075C2B6C8B1200F09154 /* BarcodeGenerators */ = {
 			isa = PBXGroup;
 			children = (
-				BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */,
 				BA9ED5E72B0C65380093CC75 /* Code128View.swift */,
-				BA879C232B7064AB008A685E /* UPCEView.swift */,
-				BA6D4FE02B71C60400CB6ACA /* Code39View.swift */,
-				BA25D8962B76E8300044E423 /* Code93View.swift */,
+				BA8671CD2B95105500F20608 /* Metal */,
 				BA82A7922B84424900279103 /* InvalidBarcodeView.swift */,
 			);
 			path = BarcodeGenerators;
+			sourceTree = "<group>";
+		};
+		BA8671CD2B95105500F20608 /* Metal */ = {
+			isa = PBXGroup;
+			children = (
+				BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */,
+				BA879C232B7064AB008A685E /* UPCEView.swift */,
+				BA6D4FE02B71C60400CB6ACA /* Code39View.swift */,
+				BA25D8962B76E8300044E423 /* Code93View.swift */,
+			);
+			path = Metal;
 			sourceTree = "<group>";
 		};
 		BABAADCF2B0A69950014C73B /* Model */ = {
