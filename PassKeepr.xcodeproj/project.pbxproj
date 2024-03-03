@@ -206,7 +206,7 @@
 		BA7C075C2B6C8B1200F09154 /* BarcodeGenerators */ = {
 			isa = PBXGroup;
 			children = (
-				BA9ED5E72B0C65380093CC75 /* Code128View.swift */,
+				BA8671CE2B95106600F20608 /* CoreImage */,
 				BA8671CD2B95105500F20608 /* Metal */,
 				BA82A7922B84424900279103 /* InvalidBarcodeView.swift */,
 			);
@@ -222,6 +222,16 @@
 				BA25D8962B76E8300044E423 /* Code93View.swift */,
 			);
 			path = Metal;
+			sourceTree = "<group>";
+		};
+		BA8671CE2B95106600F20608 /* CoreImage */ = {
+			isa = PBXGroup;
+			children = (
+				BA9ED5E72B0C65380093CC75 /* Code128View.swift */,
+				BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */,
+				BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */,
+			);
+			path = CoreImage;
 			sourceTree = "<group>";
 		};
 		BABAADCF2B0A69950014C73B /* Model */ = {
@@ -257,11 +267,9 @@
 			isa = PBXGroup;
 			children = (
 				BABAADD72B0A6BF50014C73B /* ListSection.swift */,
-				BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */,
 				BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */,
 				BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */,
 				BA7A4A242B65B485006F06DF /* ExtendColor.swift */,
-				BA7A4A262B65C2AB006F06DF /* GenerateQRCode.swift */,
 				BAE2D4542B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift */,
 			);
 			path = Helpers;
