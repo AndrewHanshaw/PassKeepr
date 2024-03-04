@@ -1,11 +1,12 @@
 //
-//  Code128Barcode.swift
+//  Code128View.swift
 //  PassKeepr
 //
 //  Created by Andrew Hanshaw on 11/20/23.
 //
 
 import SwiftUI
+import CoreImage.CIFilterBuiltins
 
 struct Code128View: View {
     @State var ratio: CGFloat
@@ -24,15 +25,14 @@ struct Code128View: View {
 }
 
 #Preview {
-    Code128View(ratio: 1.0, data: .constant("Hello, Swift Barcode!"))
+    Code128View(ratio: 2.0, data: .constant("Hello, Swift Barcode!"))
 }
 
 func GenerateCode128Barcode(string: String, viewWidth: CGFloat) -> UIImage? {
-    guard let filter = CIFilter(name: "CICode128BarcodeGenerator") else { return nil }
+    let filter = CIFilter.code128BarcodeGenerator()
 
-    let data = string.data(using: String.Encoding.ascii)
-    filter.setDefaults() // probably not needed?
-    filter.setValue(data, forKey: "inputMessage")
+    filter.quietSpace = 4
+    filter.message = string.data(using: String.Encoding.ascii)!
 
     guard let outputImage = filter.outputImage else { return nil }
 
