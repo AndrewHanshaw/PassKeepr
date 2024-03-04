@@ -20,6 +20,7 @@
 		BA00B9B22B4F942E00050C33 /* NoteInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B9B12B4F942E00050C33 /* NoteInput.swift */; };
 		BA00B9B42B4F94F300050C33 /* BusinessCardInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B9B32B4F94F300050C33 /* BusinessCardInput.swift */; };
 		BA00B9B62B4F96DA00050C33 /* PictureInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B9B52B4F96DA00050C33 /* PictureInput.swift */; };
+		BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869B2B95756500AC82E4 /* AztecView.swift */; };
 		BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA15EC172B3CE75400078A17 /* AppIcon.swift */; };
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
 		BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */ = {isa = PBXBuildFile; fileRef = BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */; };
@@ -31,6 +32,7 @@
 		BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A242B65B485006F06DF /* ExtendColor.swift */; };
 		BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82A7922B84424900279103 /* InvalidBarcodeView.swift */; };
 		BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA863A162B6621B6008746C1 /* ScannerView.swift */; };
+		BA8671DF2B951FD700F20608 /* PDF417View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8671DE2B951FD700F20608 /* PDF417View.swift */; };
 		BA879C242B7064AB008A685E /* UPCEView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA879C232B7064AB008A685E /* UPCEView.swift */; };
 		BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5E72B0C65380093CC75 /* Code128View.swift */; };
 		BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */; };
@@ -77,6 +79,7 @@
 		BA00B9B12B4F942E00050C33 /* NoteInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInput.swift; sourceTree = "<group>"; };
 		BA00B9B32B4F94F300050C33 /* BusinessCardInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessCardInput.swift; sourceTree = "<group>"; };
 		BA00B9B52B4F96DA00050C33 /* PictureInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureInput.swift; sourceTree = "<group>"; };
+		BA12869B2B95756500AC82E4 /* AztecView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AztecView.swift; sourceTree = "<group>"; };
 		BA15EC172B3CE75400078A17 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 		BA1BACD32B463FCD00F86890 /* EditPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPass.swift; sourceTree = "<group>"; };
 		BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OneDimensionalBarcodeFilter.metal; sourceTree = "<group>"; };
@@ -88,6 +91,7 @@
 		BA7A4A242B65B485006F06DF /* ExtendColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendColor.swift; sourceTree = "<group>"; };
 		BA82A7922B84424900279103 /* InvalidBarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidBarcodeView.swift; sourceTree = "<group>"; };
 		BA863A162B6621B6008746C1 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
+		BA8671DE2B951FD700F20608 /* PDF417View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDF417View.swift; sourceTree = "<group>"; };
 		BA879C232B7064AB008A685E /* UPCEView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPCEView.swift; sourceTree = "<group>"; };
 		BA9ED5E72B0C65380093CC75 /* Code128View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code128View.swift; sourceTree = "<group>"; };
 		BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
@@ -225,6 +229,8 @@
 		BA8671CE2B95106600F20608 /* CoreImage */ = {
 			isa = PBXGroup;
 			children = (
+				BA12869B2B95756500AC82E4 /* AztecView.swift */,
+				BA8671DE2B951FD700F20608 /* PDF417View.swift */,
 				BA9ED5E72B0C65380093CC75 /* Code128View.swift */,
 				BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */,
 			);
@@ -429,12 +435,14 @@
 				3A02E73A2AF6EE1000383BC2 /* PassKeeprApp.swift in Sources */,
 				BA00B9B42B4F94F300050C33 /* BusinessCardInput.swift in Sources */,
 				BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */,
+				BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */,
 				BA00B9AC2B4F8FC800050C33 /* BarcodeInput.swift in Sources */,
 				BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */,
 				BA00B9AE2B4F92DE00050C33 /* QRCodeInput.swift in Sources */,
 				BA879C242B7064AB008A685E /* UPCEView.swift in Sources */,
 				BA00B9B22B4F942E00050C33 /* NoteInput.swift in Sources */,
 				BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */,
+				BA8671DF2B951FD700F20608 /* PDF417View.swift in Sources */,
 				BA00B9B02B4F93A000050C33 /* IdentificationInput.swift in Sources */,
 				BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */,
 				BA7A4A232B65AE3A006F06DF /* ColorInput.swift in Sources */,
