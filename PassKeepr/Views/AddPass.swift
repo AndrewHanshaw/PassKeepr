@@ -76,7 +76,7 @@ struct AddPass: View {
                         BusinessCardInput(nameInput: $nameInput, titleInput: $titleInput, businessNameInput: $businessNameInput, phoneNumberInput: $phoneNumberInput, emailInput: $emailInput)
                     case PassType.picturePass:
                         PictureInput()
-                }
+                } // Switch
 
                 ColorInput(bgColor: $foregroundColorInput, fgColor: $backgroundColorInput, textColor: $textColorInput)
 
@@ -132,14 +132,14 @@ struct AddPass: View {
                               Spacer()
                             }
                         }
-                    )
-                }
+                    ) // Button
+                } // Section
                 .listRowBackground(Color.accentColor)
-            }
-        }
+            } // Form
+        } // VStack
         .scrollDismissesKeyboard(.immediately)
-    }
-}
+    } // View
+} // Struct
 
 #Preview {
     AddPass(isSheetPresented: .constant(true))
