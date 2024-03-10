@@ -24,7 +24,7 @@ struct AddPass: View {
     @State private var phoneNumberInput = ""
     @State private var emailInput = ""
     @State private var foregroundColorInput = Color(hex:0x000000)
-    @State private var backgroundColorInput = Color(hex:0x000000)
+    @State private var backgroundColorInput = Color(hex:0xFFFFFF)
     @State private var textColorInput = Color(hex:0x000000)
     @State private var iconImage = Image("")
 
