@@ -96,21 +96,21 @@ struct BarcodeInput: View {
             if(BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: barcodeInput, type: barcodeType) == true) {
                 switch barcodeType {
                     case BarcodeType.code39:
-                        Code39View(ratio: 2, value: $barcodeInput)
+                        Code39View(ratio: 3, value: $barcodeInput)
                     case BarcodeType.code93:
-                        Code93View(ratio: 2, value: $barcodeInput)
+                        Code93View(ratio: 3, value: $barcodeInput)
                     case BarcodeType.upce:
-                        UPCEView(ratio: 2, value: $barcodeInput)
+                        UPCEView(ratio: 3, value: $barcodeInput)
                     case BarcodeType.code128:
-                        Code128View(ratio: 2, data: $barcodeInput)
+                        Code128View(ratio: 3, data: $barcodeInput)
                 }
             }
             else {
                 if(barcodeInput == "") {
-                    InvalidBarcodeView(ratio: 2, isEmpty:true)
+                    InvalidBarcodeView(ratio: 3, isEmpty:true)
                 }
                 else {
-                    InvalidBarcodeView(ratio: 2, isEmpty:false)
+                    InvalidBarcodeView(ratio: 3, isEmpty:false)
                 }
             }
         }
