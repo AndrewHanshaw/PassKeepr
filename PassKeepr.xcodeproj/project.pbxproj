@@ -20,6 +20,7 @@
 		BA00B9B22B4F942E00050C33 /* NoteInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B9B12B4F942E00050C33 /* NoteInput.swift */; };
 		BA00B9B42B4F94F300050C33 /* BusinessCardInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B9B32B4F94F300050C33 /* BusinessCardInput.swift */; };
 		BA00B9B62B4F96DA00050C33 /* PictureInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B9B52B4F96DA00050C33 /* PictureInput.swift */; };
+		BA0F32E92B9AC84D007120B8 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F32E82B9AC84D007120B8 /* PhotoPicker.swift */; };
 		BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869B2B95756500AC82E4 /* AztecView.swift */; };
 		BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA15EC172B3CE75400078A17 /* AppIcon.swift */; };
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
@@ -209,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				BA7A4A222B65AE3A006F06DF /* ColorInput.swift */,
+				BA0F32E82B9AC84D007120B8 /* PhotoPicker.swift */,
 			);
 			path = Pickers;
 			sourceTree = "<group>";
@@ -446,6 +448,7 @@
 				BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */,
 				BA00B9AC2B4F8FC800050C33 /* BarcodeInput.swift in Sources */,
 				BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */,
+				BA0F32E92B9AC84D007120B8 /* PhotoPicker.swift in Sources */,
 				BA00B9AE2B4F92DE00050C33 /* QRCodeInput.swift in Sources */,
 				BA879C242B7064AB008A685E /* UPCEView.swift in Sources */,
 				BA00B9B22B4F942E00050C33 /* NoteInput.swift in Sources */,

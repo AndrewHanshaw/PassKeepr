@@ -26,6 +26,7 @@ struct AddPass: View {
     @State private var foregroundColorInput = Color(hex:0x000000)
     @State private var backgroundColorInput = Color(hex:0x000000)
     @State private var textColorInput = Color(hex:0x000000)
+    @State private var iconImage = Image("")
 
     @Binding var isSheetPresented: Bool // Used to close the sheet in the parent view
 
