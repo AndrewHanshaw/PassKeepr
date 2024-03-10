@@ -27,6 +27,9 @@ struct AddPass: View {
     @State private var backgroundColorInput = Color(hex:0xFFFFFF)
     @State private var textColorInput = Color(hex:0x000000)
     @State private var iconImage = Image("")
+    @State private var enableHeaderField = false
+    @State private var headerFieldLabel = ""
+    @State private var headerFieldText = ""
 
     @Binding var isSheetPresented: Bool // Used to close the sheet in the parent view
 
@@ -130,6 +133,8 @@ struct AddPass: View {
                     ColorInput(bgColor: $foregroundColorInput, fgColor: $backgroundColorInput, textColor: $textColorInput)
 
                     PhotoPicker(selectedImage: $iconImage)
+
+                    AdditionalFieldInput(enableHeaderField: $enableHeaderField, labelInput: $headerFieldLabel, textInput: $headerFieldText)
 
                 } // List
                 .listSectionSpacing(30)
