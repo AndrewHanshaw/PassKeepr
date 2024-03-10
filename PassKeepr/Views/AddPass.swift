@@ -77,23 +77,6 @@ struct AddPass: View {
                             PictureInput()
                     } // Switch
 
-                    ColorInput(bgColor: $foregroundColorInput, fgColor: $backgroundColorInput, textColor: $textColorInput)
-
-                    Section {
-                        Button(
-                            action: {
-                                isSheetPresented.toggle()
-                            },
-                            label: {
-                                HStack {
-                                    Spacer()
-                                    Text("Preview Pass")
-                                    Spacer()
-                                }
-                            }
-                        )
-                    }
-
                     Section {
                         Button(
                             action: {
@@ -132,8 +115,21 @@ struct AddPass: View {
                                 }
                             }
                         ) // Button
+                    } footer: {
+                        HStack() {
+                            Spacer()
+                            Text("Optional Customizations:")
+                                .font(.system(size: 20))
+                            Spacer()
+                        }
+                        .padding(.bottom, -999)
+                        .padding(.top, 10)
                     } // Section
                     .listRowBackground(Color.accentColor)
+
+                    ColorInput(bgColor: $foregroundColorInput, fgColor: $backgroundColorInput, textColor: $textColorInput)
+
+                    PhotoPicker(selectedImage: $iconImage)
                 } // List
             } // Form
         } // VStack
