@@ -61,80 +61,80 @@ struct AddPass: View {
                             .textCase(nil)
                             .padding([.bottom])
                     }
-                }
 
-                switch selectedPassType {
-                    case PassType.identificationPass:
-                        IdentificationInput(identificationInput: $identificationInput)
-                    case PassType.barcodePass:
-                        BarcodeInput(barcodeInput: $barcodeString, barcodeType: $barcodeType)
-                    case PassType.qrCodePass:
-                        QRCodeInput(qrCodeInput: $qrCodeInput, correctionLevel: $qrCodeCorrectionLevel)
-                    case PassType.notePass:
-                        NoteInput(noteInput: $noteInput)
-                    case PassType.businessCardPass:
-                        BusinessCardInput(nameInput: $nameInput, titleInput: $titleInput, businessNameInput: $businessNameInput, phoneNumberInput: $phoneNumberInput, emailInput: $emailInput)
-                    case PassType.picturePass:
-                        PictureInput()
-                } // Switch
+                    switch selectedPassType {
+                        case PassType.identificationPass:
+                            IdentificationInput(identificationInput: $identificationInput)
+                        case PassType.barcodePass:
+                            BarcodeInput(barcodeInput: $barcodeString, barcodeType: $barcodeType)
+                        case PassType.qrCodePass:
+                            QRCodeInput(qrCodeInput: $qrCodeInput, correctionLevel: $qrCodeCorrectionLevel)
+                        case PassType.notePass:
+                            NoteInput(noteInput: $noteInput)
+                        case PassType.businessCardPass:
+                            BusinessCardInput(nameInput: $nameInput, titleInput: $titleInput, businessNameInput: $businessNameInput, phoneNumberInput: $phoneNumberInput, emailInput: $emailInput)
+                        case PassType.picturePass:
+                            PictureInput()
+                    } // Switch
 
-                ColorInput(bgColor: $foregroundColorInput, fgColor: $backgroundColorInput, textColor: $textColorInput)
+                    ColorInput(bgColor: $foregroundColorInput, fgColor: $backgroundColorInput, textColor: $textColorInput)
 
-                Section {
-                    Button(
-                        action: {
-                            isSheetPresented.toggle()
-                        },
-                        label: {
-                            HStack {
-                                Spacer()
-                                Text("Preview Pass")
-                                Spacer()
-                        }
+                    Section {
+                        Button(
+                            action: {
+                                isSheetPresented.toggle()
+                            },
+                            label: {
+                                HStack {
+                                    Spacer()
+                                    Text("Preview Pass")
+                                    Spacer()
+                                }
+                            }
+                        )
                     }
-                    )
-                }
 
-                Section {
-                    Button(
-                        action: {
-                            var addedPass = PassObject(id: UUID(), passName: passName, passType: selectedPassType, foregroundColor: foregroundColorInput.toHex(), backgroundColor: backgroundColorInput.toHex(), textColor: textColorInput.toHex())
-                            switch addedPass.passType {
-                                case PassType.identificationPass:
-                                    addedPass.identificationString = identificationInput
-                                case PassType.barcodePass:
-                                    addedPass.barcodeString = barcodeString
-                                    addedPass.barcodeType = barcodeType
-                                case PassType.qrCodePass:
-                                    addedPass.qrCodeString = qrCodeInput
-                                    addedPass.qrCodeCorrectionLevel = qrCodeCorrectionLevel
-                                case PassType.notePass:
-                                    addedPass.noteString = noteInput
-                                case PassType.businessCardPass:
-                                    addedPass.name = nameInput
-                                    addedPass.title = titleInput
-                                    addedPass.businessName = businessNameInput
-                                    addedPass.phoneNumber = phoneNumberInput
-                                    addedPass.email = emailInput
-                                case PassType.picturePass:
-                                    addedPass.pictureID = emailInput // Placeholder
+                    Section {
+                        Button(
+                            action: {
+                                var addedPass = PassObject(id: UUID(), passName: passName, passType: selectedPassType, foregroundColor: foregroundColorInput.toHex(), backgroundColor: backgroundColorInput.toHex(), textColor: textColorInput.toHex())
+                                switch addedPass.passType {
+                                    case PassType.identificationPass:
+                                        addedPass.identificationString = identificationInput
+                                    case PassType.barcodePass:
+                                        addedPass.barcodeString = barcodeString
+                                        addedPass.barcodeType = barcodeType
+                                    case PassType.qrCodePass:
+                                        addedPass.qrCodeString = qrCodeInput
+                                        addedPass.qrCodeCorrectionLevel = qrCodeCorrectionLevel
+                                    case PassType.notePass:
+                                        addedPass.noteString = noteInput
+                                    case PassType.businessCardPass:
+                                        addedPass.name = nameInput
+                                        addedPass.title = titleInput
+                                        addedPass.businessName = businessNameInput
+                                        addedPass.phoneNumber = phoneNumberInput
+                                        addedPass.email = emailInput
+                                    case PassType.picturePass:
+                                        addedPass.pictureID = emailInput // Placeholder
+                                }
+                                modelData.PassObjects.append(addedPass)
+                                modelData.encodePassObjects()
+                                isSheetPresented.toggle()
+                            },
+                            label: {
+                                HStack {
+                                    Spacer()
+                                    Text("Add Pass")
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color.white)
+                                    Spacer()
+                                }
                             }
-                            modelData.PassObjects.append(addedPass)
-                            modelData.encodePassObjects()
-                            isSheetPresented.toggle()
-                        },
-                       label: {
-                            HStack {
-                              Spacer()
-                              Text("Add Pass")
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color.white)
-                              Spacer()
-                            }
-                        }
-                    ) // Button
-                } // Section
-                .listRowBackground(Color.accentColor)
+                        ) // Button
+                    } // Section
+                    .listRowBackground(Color.accentColor)
+                } // List
             } // Form
         } // VStack
         .scrollDismissesKeyboard(.immediately)
