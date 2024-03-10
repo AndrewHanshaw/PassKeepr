@@ -6,9 +6,9 @@ class ModelData: Sequence {
 
     let filename: String = "PassKeeprData.json"
 
-    var PassObjects: [PassObject] = [] // Holds all PassObjectss in a single array
+    var PassObjects: [PassObject] = [] // Holds all PassObjects in a single array
 
-    var filteredPassObjects: [[PassObject]] = [] // Holds all PassObjectss, each item of the array is a filtered array of PassObjectss, filtered by passType
+    var filteredPassObjects: [[PassObject]] = [] // Holds all PassObjects, each item of the array is a filtered array of PassObjects, filtered by passType
 
     let preLoadedPassObjects: [PassObject] = [PassObject(id: UUID(), passName: "ID Pass 1", passType: PassType.identificationPass, identificationString: "1234", foregroundColor: 0xFF00FF, backgroundColor: 0xFFFFFF, textColor: 0x000000),
                                           PassObject(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234", foregroundColor: 0xFF00FF, backgroundColor: 0x000000, textColor: 0xFFFFFF)]
