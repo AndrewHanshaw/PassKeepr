@@ -200,16 +200,24 @@
 			isa = PBXGroup;
 			children = (
 				BA0F32E72B9AC837007120B8 /* Pickers */,
+				BA0F32E62B9AC82C007120B8 /* PassTypes */,
+				BA863A162B6621B6008746C1 /* ScannerView.swift */,
+				BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */,
+			);
+			path = PassInputs;
+			sourceTree = "<group>";
+		};
+		BA0F32E62B9AC82C007120B8 /* PassTypes */ = {
+			isa = PBXGroup;
+			children = (
 				BA00B9AB2B4F8FC800050C33 /* BarcodeInput.swift */,
 				BA00B9B52B4F96DA00050C33 /* PictureInput.swift */,
 				BA00B9AD2B4F92DE00050C33 /* QRCodeInput.swift */,
 				BA00B9AF2B4F93A000050C33 /* IdentificationInput.swift */,
 				BA00B9B12B4F942E00050C33 /* NoteInput.swift */,
 				BA00B9B32B4F94F300050C33 /* BusinessCardInput.swift */,
-				BA863A162B6621B6008746C1 /* ScannerView.swift */,
-				BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */,
 			);
-			path = PassInputs;
+			path = PassTypes;
 			sourceTree = "<group>";
 		};
 		BA0F32E72B9AC837007120B8 /* Pickers */ = {
