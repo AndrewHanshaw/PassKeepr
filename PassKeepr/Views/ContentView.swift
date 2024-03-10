@@ -30,6 +30,7 @@ struct ContentView: View {
                     .padding([.trailing], 33)
                     .sheet(isPresented: $shouldPresentAddPass) {
                         AddPass(isSheetPresented: $shouldPresentAddPass)
+                            .presentationDragIndicator(.visible)
                     }
                 }
             }
@@ -54,6 +55,7 @@ struct ContentView: View {
                         .labelStyle(.iconOnly)
                         .sheet(isPresented: $shouldPresentSettings) {
                             Settings()
+                                .presentationDragIndicator(.visible)
                         }
                     }
                 }
