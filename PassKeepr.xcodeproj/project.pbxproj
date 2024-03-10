@@ -26,6 +26,7 @@
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
 		BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */ = {isa = PBXBuildFile; fileRef = BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */; };
 		BA25D8972B76E8300044E423 /* Code93View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA25D8962B76E8300044E423 /* Code93View.swift */; };
+		BA460E6D2B9E474300BC3D81 /* AdditionalFieldInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */; };
 		BA55A9B62B55BCEE00853687 /* PassObjectHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */; };
 		BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D4FE02B71C60400CB6ACA /* Code39View.swift */; };
 		BA7A4A212B65ABE9006F06DF /* CodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */; };
@@ -80,11 +81,15 @@
 		BA00B9B12B4F942E00050C33 /* NoteInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInput.swift; sourceTree = "<group>"; };
 		BA00B9B32B4F94F300050C33 /* BusinessCardInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessCardInput.swift; sourceTree = "<group>"; };
 		BA00B9B52B4F96DA00050C33 /* PictureInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureInput.swift; sourceTree = "<group>"; };
+		BA0F32E42B9AB997007120B8 /* PassKitPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKitPass.swift; sourceTree = "<group>"; };
+		BA0F32E82B9AC84D007120B8 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		BA12869B2B95756500AC82E4 /* AztecView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AztecView.swift; sourceTree = "<group>"; };
+		BA12869D2B957BD700AC82E4 /* GeneratePass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePass.swift; sourceTree = "<group>"; };
 		BA15EC172B3CE75400078A17 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 		BA1BACD32B463FCD00F86890 /* EditPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPass.swift; sourceTree = "<group>"; };
 		BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OneDimensionalBarcodeFilter.metal; sourceTree = "<group>"; };
 		BA25D8962B76E8300044E423 /* Code93View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code93View.swift; sourceTree = "<group>"; };
+		BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalFieldInput.swift; sourceTree = "<group>"; };
 		BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassObjectHelpers.swift; sourceTree = "<group>"; };
 		BA6D4FE02B71C60400CB6ACA /* Code39View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code39View.swift; sourceTree = "<group>"; };
 		BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScanner.swift; sourceTree = "<group>"; };
@@ -202,6 +207,7 @@
 				BA00B9B12B4F942E00050C33 /* NoteInput.swift */,
 				BA00B9B32B4F94F300050C33 /* BusinessCardInput.swift */,
 				BA863A162B6621B6008746C1 /* ScannerView.swift */,
+				BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */,
 			);
 			path = PassInputs;
 			sourceTree = "<group>";
@@ -427,6 +433,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA460E6D2B9E474300BC3D81 /* AdditionalFieldInput.swift in Sources */,
 				BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */,
 				BABAADD22B0A69950014C73B /* PassObject.swift in Sources */,
 				BAE2D4552B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift in Sources */,
