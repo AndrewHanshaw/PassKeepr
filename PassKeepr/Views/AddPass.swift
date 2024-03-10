@@ -130,7 +130,10 @@ struct AddPass: View {
                     ColorInput(bgColor: $foregroundColorInput, fgColor: $backgroundColorInput, textColor: $textColorInput)
 
                     PhotoPicker(selectedImage: $iconImage)
+
                 } // List
+                .listSectionSpacing(30)
+
             } // Form
         } // VStack
         .scrollDismissesKeyboard(.immediately)
