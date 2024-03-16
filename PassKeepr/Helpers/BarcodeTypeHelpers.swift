@@ -18,4 +18,18 @@ class BarcodeTypeHelpers {
                 return "default text"
         }
     }
+
+    static func GetIsEnteredBarcodeValueValid(string: String, type: BarcodeType) -> Bool {
+        switch type {
+            case BarcodeType.code128:
+                let regex = /^[ -~]+$/
+                return string.firstMatch(of: regex) != nil
+            case BarcodeType.code39, BarcodeType.code93:
+                let regex = /^[0-9a-zA-Z \-$%.\/+]+$/
+                return string.firstMatch(of: regex) != nil
+            case BarcodeType.upce:
+                let regex = /^\d{6}$/
+                return string.firstMatch(of: regex) != nil
+        }
+    }
 }
