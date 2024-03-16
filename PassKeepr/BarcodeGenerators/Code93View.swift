@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Code93View: View {
     @State var ratio: CGFloat
-    @State var value: String
+    @Binding var value: String
 
     var numberOfSegments: Int {
         return (value.count * 9) + 1 + 18 + 18
@@ -29,7 +29,7 @@ struct Code93View: View {
 }
 
 #Preview {
-    Code93View(ratio: 0.5, value: "TEST93")
+    Code93View(ratio: 0.5, value: .constant("TEST93"))
 }
 
 import Foundation
