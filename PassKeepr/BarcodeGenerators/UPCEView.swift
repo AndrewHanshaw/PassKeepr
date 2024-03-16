@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UPCEView: View {
     @State var ratio: CGFloat
-    @State var value: String
+    @Binding var value: String
 
     var barcodeDataBuffer: Data {
         stringToUPCEBarcodeData(value, paritySequence: 0x15) ?? Data()
@@ -27,7 +27,7 @@ struct UPCEView: View {
 }
 
 #Preview {
-    UPCEView(ratio: 1.0, value: "654321")
+    UPCEView(ratio: 1.0, value: .constant("654321"))
 }
 
 import Foundation
