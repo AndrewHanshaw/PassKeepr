@@ -16,7 +16,7 @@ struct Code93View: View {
     }
 
     var barcodeDataBuffer: Data {
-        stringToCode93BarcodeData(value) ?? Data()
+        stringToCode93BarcodeData(value.uppercased()) ?? Data()
     }
 
     var body: some View {
