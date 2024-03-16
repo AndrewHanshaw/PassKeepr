@@ -93,15 +93,25 @@ struct BarcodeInput: View {
         }
 
         Section {
-            switch selectedBarcodeType {
-                case BarcodeType.code39:
-                    Code39View(ratio: 2, value: "WIKIPE")
-                case BarcodeType.code93:
-                    Code93View(ratio: 2, value: "TEST93")
-                case BarcodeType.upce:
-                    UPCEView(ratio: 2, value: "654321")
-                default:
-                    Text("default text")
+            if(BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: barcodeInput, type: selectedBarcodeType) == true) {
+                switch selectedBarcodeType {
+                    case BarcodeType.code39:
+                        Code39View(ratio: 2, value: $barcodeInput)
+                    case BarcodeType.code93:
+                        Code93View(ratio: 2, value: $barcodeInput)
+                    case BarcodeType.upce:
+                        UPCEView(ratio: 2, value: $barcodeInput)
+                    case BarcodeType.code128:
+                        Code128View(ratio: 2, data: $barcodeInput)
+                }
+            }
+            else {
+                if(barcodeInput == "") {
+                    InvalidBarcodeView(ratio: 2, isEmpty:true)
+                }
+                else {
+                    InvalidBarcodeView(ratio: 2, isEmpty:false)
+                }
             }
         }
     }
