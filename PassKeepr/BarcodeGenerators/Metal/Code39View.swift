@@ -12,7 +12,7 @@ struct Code39View: View {
     @Binding var value: String
 
     var numberOfSegments: Int {
-        return (value.count * 13) + 27
+        (value.count * 13) + 27
     }
 
     var barcodeDataBuffer: Data {
@@ -81,7 +81,7 @@ func stringToCode39BarcodeData(_ stringValue: String) -> Data? {
         "+": "1001010010010",
     ]
 
-    var binaryString = stringValue.enumerated().compactMap { index, character in
+    var binaryString = stringValue.enumerated().compactMap { _, character in
         guard
             let encodedCharacter = characterTo13Bit[character]
         else {
@@ -97,7 +97,7 @@ func stringToCode39BarcodeData(_ stringValue: String) -> Data? {
 
     while index < binaryString.endIndex {
         let endIndex = binaryString.index(index, offsetBy: 8, limitedBy: binaryString.endIndex) ?? binaryString.endIndex
-        let byteString = binaryString[index..<endIndex]
+        let byteString = binaryString[index ..< endIndex]
 
         if let byte = UInt8(byteString, radix: 2) {
             byteArray.append(byte)

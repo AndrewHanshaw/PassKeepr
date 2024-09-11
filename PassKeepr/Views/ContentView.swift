@@ -8,30 +8,29 @@ struct ContentView: View {
     @State var shouldPresentSettings = false
 
     var body: some View {
-        NavigationView{
+        NavigationView {
             VStack {
                 List {
-                    ForEach(modelData.filteredPassObjects, id:\.self) { passObjects in
+                    ForEach(modelData.filteredPassObjects, id: \.self) { passObjects in
                         ListSection(list: passObjects)
                     }
                 }
                 HStack {
                     Spacer()
                     Button(role: .none,
-                           action: {shouldPresentAddPass.toggle()},
+                           action: { shouldPresentAddPass.toggle() },
                            label: {
-                            Image(systemName:"plus.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 50)
+                               Image(systemName: "plus.circle.fill")
+                                   .resizable()
+                                   .scaledToFit()
+                                   .frame(width: 50)
+                           })
+                           .labelStyle(.iconOnly)
+                           .padding([.trailing], 33)
+                           .sheet(isPresented: $shouldPresentAddPass) {
+                               AddPass(isSheetPresented: $shouldPresentAddPass)
+                                   .presentationDragIndicator(.visible)
                            }
-                    )
-                    .labelStyle(.iconOnly)
-                    .padding([.trailing], 33)
-                    .sheet(isPresented: $shouldPresentAddPass) {
-                        AddPass(isSheetPresented: $shouldPresentAddPass)
-                            .presentationDragIndicator(.visible)
-                    }
                 }
             }
             .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
@@ -44,19 +43,18 @@ struct ContentView: View {
                             .padding()
                         Spacer()
                         Button(role: .none,
-                               action: {shouldPresentSettings.toggle()},
+                               action: { shouldPresentSettings.toggle() },
                                label: {
-                                Image(systemName:"gearshape.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 20)
+                                   Image(systemName: "gearshape.fill")
+                                       .resizable()
+                                       .scaledToFit()
+                                       .frame(width: 20)
+                               })
+                               .labelStyle(.iconOnly)
+                               .sheet(isPresented: $shouldPresentSettings) {
+                                   Settings()
+                                       .presentationDragIndicator(.visible)
                                }
-                        )
-                        .labelStyle(.iconOnly)
-                        .sheet(isPresented: $shouldPresentSettings) {
-                            Settings()
-                                .presentationDragIndicator(.visible)
-                        }
                     }
                 }
             }

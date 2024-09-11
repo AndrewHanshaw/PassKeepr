@@ -1,5 +1,5 @@
 //
-//  ListStruct.swift
+//  PassObject.swift
 //  PassKeepr
 //
 //  Created by Andrew Hanshaw on 11/8/23.
@@ -39,12 +39,12 @@ enum QrCodeCorrectionLevel: Codable, CustomStringConvertible, CaseIterable {
     case quartile
     case high
 
-    var description : String {
+    var description: String {
         switch self {
-            case .low: return "L"
-            case .medium: return "M"
-            case .quartile: return "Q"
-            case .high: return "H"
+        case .low: return "L"
+        case .medium: return "M"
+        case .quartile: return "Q"
+        case .high: return "H"
         }
     }
 }
@@ -55,12 +55,12 @@ enum BarcodeType: Codable, CustomStringConvertible, CaseIterable {
     case code39
     case upce
 
-    var description : String {
+    var description: String {
         switch self {
-            case .code128: return "Code 128"
-            case .code93: return "Code 93"
-            case .code39: return "Code 39"
-            case .upce: return "UPC-E"
+        case .code128: return "Code 128"
+        case .code93: return "Code 93"
+        case .code39: return "Code 39"
+        case .upce: return "UPC-E"
         }
     }
 }

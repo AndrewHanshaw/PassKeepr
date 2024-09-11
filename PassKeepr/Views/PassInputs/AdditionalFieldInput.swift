@@ -18,17 +18,16 @@ struct AdditionalFieldInput: View {
                 Text("Additional Header field")
             }
 
-            if(enableHeaderField == true)
-            {
+            if enableHeaderField == true {
                 LabeledContent {
                     TextField("Text", text: $textInput)
-                } label : {
+                } label: {
                     Text("Text")
                 }
 
                 LabeledContent {
                     TextField("Optional", text: $labelInput)
-                } label : {
+                } label: {
                     Text("Label")
                 }
             }
@@ -37,5 +36,5 @@ struct AdditionalFieldInput: View {
 }
 
 #Preview {
-    AdditionalFieldInput(enableHeaderField: .constant(false), labelInput:.constant(""), textInput: .constant(""))
+    AdditionalFieldInput(enableHeaderField: .constant(false), labelInput: .constant(""), textInput: .constant(""))
 }

@@ -13,8 +13,8 @@ struct NoteInput: View {
     var body: some View {
         Section {
             TextField("Note", text: $noteInput, axis: .vertical)
-                .lineLimit(5...10)
-        } footer: {Text("Notes should be less than XXX characters")
+                .lineLimit(5 ... 10)
+        } footer: { Text("Notes should be less than XXX characters")
         }
     }
 }

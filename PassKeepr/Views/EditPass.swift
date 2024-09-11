@@ -12,8 +12,7 @@ struct EditPass: View {
 
     @State private var tempObject: PassObject
 
-    init(passObject: Binding<PassObject>)
-    {
+    init(passObject: Binding<PassObject>) {
         _passObject = passObject
         _tempObject = State(initialValue: passObject.wrappedValue)
     }
@@ -22,7 +21,7 @@ struct EditPass: View {
 
     var body: some View {
         VStack {
-            Form(){
+            Form {
                 switch tempObject.passType {
                 case PassType.identificationPass:
                     IdentificationInput(identificationInput:
@@ -37,24 +36,22 @@ struct EditPass: View {
                             get: { tempObject.barcodeString ?? "" },
                             set: { tempObject.barcodeString = $0 }
                         ),
-                      barcodeType:
+                        barcodeType:
                         Binding(
                             get: { tempObject.barcodeType ?? BarcodeType.code39 },
                             set: { tempObject.barcodeType = $0 }
-                        )
-                    )
+                        ))
                 case PassType.qrCodePass:
                     QRCodeInput(qrCodeInput:
                         Binding(
                             get: { tempObject.qrCodeString ?? "" },
                             set: { tempObject.qrCodeString = $0 }
                         ),
-                      correctionLevel:
+                        correctionLevel:
                         Binding(
                             get: { tempObject.qrCodeCorrectionLevel ?? QrCodeCorrectionLevel.medium },
                             set: { tempObject.qrCodeCorrectionLevel = $0 }
-                        )
-                    )
+                        ))
                 case PassType.notePass:
                     NoteInput(noteInput:
                         Binding(
@@ -68,27 +65,26 @@ struct EditPass: View {
                             get: { tempObject.name ?? "" },
                             set: { tempObject.name = $0 }
                         ),
-                      titleInput:
+                        titleInput:
                         Binding(
                             get: { tempObject.title ?? "" },
                             set: { tempObject.title = $0 }
                         ),
-                      businessNameInput:
+                        businessNameInput:
                         Binding(
                             get: { tempObject.businessName ?? "" },
                             set: { tempObject.businessName = $0 }
                         ),
-                      phoneNumberInput:
+                        phoneNumberInput:
                         Binding(
                             get: { tempObject.phoneNumber ?? "" },
                             set: { tempObject.phoneNumber = $0 }
                         ),
-                      emailInput:
+                        emailInput:
                         Binding(
                             get: { tempObject.email ?? "" },
                             set: { tempObject.email = $0 }
-                        )
-                    )
+                        ))
                 case PassType.picturePass:
                     PictureInput()
                 }
@@ -98,13 +94,13 @@ struct EditPass: View {
                             passObject = tempObject
                             presentationMode.wrappedValue.dismiss()
                         },
-                       label: {
+                        label: {
                             HStack {
-                              Spacer()
-                              Text("Save")
+                                Spacer()
+                                Text("Save")
                                     .fontWeight(.bold)
                                     .foregroundColor(Color.white)
-                              Spacer()
+                                Spacer()
                             }
                         }
                     )

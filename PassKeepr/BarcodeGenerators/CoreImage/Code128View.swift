@@ -5,19 +5,19 @@
 //  Created by Andrew Hanshaw on 11/20/23.
 //
 
-import SwiftUI
 import CoreImage.CIFilterBuiltins
+import SwiftUI
 
 struct Code128View: View {
     @State var ratio: CGFloat
     @Binding var data: String
 
     var body: some View {
-        if let code128BarcodeImage = GenerateCode128Barcode(string: data,  viewWidth: UIScreen.main.bounds.width) {
+        if let code128BarcodeImage = GenerateCode128Barcode(string: data, viewWidth: UIScreen.main.bounds.width) {
             GeometryReader { geometry in
                 Image(uiImage: code128BarcodeImage)
                     .resizable()
-                    .frame(width:geometry.size.width)
+                    .frame(width: geometry.size.width)
             }
             .aspectRatio(ratio, contentMode: .fit)
         }

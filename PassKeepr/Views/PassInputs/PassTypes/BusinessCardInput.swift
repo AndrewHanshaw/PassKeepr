@@ -18,27 +18,27 @@ struct BusinessCardInput: View {
         Section {
             LabeledContent {
                 TextField("Name", text: $nameInput)
-            } label : {
+            } label: {
                 Text("Name")
             }
             LabeledContent {
                 TextField("Optional", text: $titleInput)
-            } label : {
+            } label: {
                 Text("Title")
             }
             LabeledContent {
                 TextField("Optional", text: $businessNameInput)
-            } label : {
+            } label: {
                 Text("Business Name")
             }
             LabeledContent {
                 TextField("Optional", text: $phoneNumberInput)
-            } label : {
+            } label: {
                 Text("Phone Number")
             }
             LabeledContent {
                 TextField("Optional", text: $emailInput)
-            } label : {
+            } label: {
                 Text("Email Address")
             }
         }
