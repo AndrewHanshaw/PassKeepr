@@ -27,7 +27,7 @@ struct QRCodeInput: View {
                     .onChange(of: qrCodeInput) {
                         scannedSymbology = ""
                     }
-            } label : {
+            } label: {
                 Text("Payload")
             }
 
@@ -52,7 +52,7 @@ struct QRCodeInput: View {
 
             QRCodeView(data: qrCodeInput, correctionLevel: correctionLevel)
         } footer: {
-            if(scannedSymbology != "" && scannedSymbology != "VNBarcodeSymbologyQR") {
+            if scannedSymbology != "" && scannedSymbology != "VNBarcodeSymbologyQR" {
                 Text("Scanned code was not a valid QR code")
             }
         }
@@ -60,5 +60,5 @@ struct QRCodeInput: View {
 }
 
 #Preview {
-    QRCodeInput(qrCodeInput:.constant("Test QR Code"), correctionLevel:.constant(QrCodeCorrectionLevel.medium))
+    QRCodeInput(qrCodeInput: .constant("Test QR Code"), correctionLevel: .constant(QrCodeCorrectionLevel.medium))
 }

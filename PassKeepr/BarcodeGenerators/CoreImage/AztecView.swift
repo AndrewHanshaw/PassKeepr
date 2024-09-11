@@ -5,8 +5,8 @@
 //  Created by Andrew Hanshaw on 03/03/24.
 //
 
-import SwiftUI
 import CoreImage.CIFilterBuiltins
+import SwiftUI
 
 struct AztecView: View {
     @Binding var data: String
@@ -15,11 +15,11 @@ struct AztecView: View {
     @Binding var percentCorrectionLevel: Int
 
     var body: some View {
-        if let AztecImage = GenerateAztecBarcode(string: data,  viewWidth: UIScreen.main.bounds.width, numberOfLayers: numberOfLayers, isCompact: isCompact, percentCorrectionLevel: percentCorrectionLevel) {
+        if let AztecImage = GenerateAztecBarcode(string: data, viewWidth: UIScreen.main.bounds.width, numberOfLayers: numberOfLayers, isCompact: isCompact, percentCorrectionLevel: percentCorrectionLevel) {
             GeometryReader { geometry in
                 Image(uiImage: AztecImage)
                     .resizable()
-                    .frame(width:geometry.size.width)
+                    .frame(width: geometry.size.width)
             }
             .aspectRatio(1.0, contentMode: .fit)
         }

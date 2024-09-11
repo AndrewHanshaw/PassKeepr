@@ -5,8 +5,8 @@
 //  Created by Andrew Hanshaw on 11/22/23.
 //
 
-import SwiftUI
 import CoreImage.CIFilterBuiltins
+import SwiftUI
 
 struct QRCodeView: View {
     var data: String
@@ -14,7 +14,7 @@ struct QRCodeView: View {
 
     var body: some View {
         if let QRCodeImage = GenerateQRCode(string: data, viewWidth: UIScreen.main.bounds.width, correctionLevel: correctionLevel) {
-            GeometryReader { geometry in
+            GeometryReader { _ in
                 Image(uiImage: QRCodeImage)
                     .resizable()
                     .scaledToFit()

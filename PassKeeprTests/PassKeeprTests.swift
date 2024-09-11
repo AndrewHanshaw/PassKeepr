@@ -5,11 +5,10 @@
 //  Created by Drew on 11/4/23.
 //
 
-import XCTest
 @testable import PassKeepr
+import XCTest
 
 final class PassKeeprTests: XCTestCase {
-
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -28,9 +27,8 @@ final class PassKeeprTests: XCTestCase {
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }
-
 }

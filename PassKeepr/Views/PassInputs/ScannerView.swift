@@ -25,8 +25,7 @@ struct ScannerView: View {
                     scannedSymbology: $tempScanSymbology,
                     dataToScanFor: [.barcode(symbologies: [.qr, .code128, .upce, .code39, .code93])]
                 )
-            }
-            else if !DataScannerViewController.isSupported {
+            } else if !DataScannerViewController.isSupported {
                 VStack {
                     Spacer()
                     Text("This device doesn't support the DataScannerViewController")

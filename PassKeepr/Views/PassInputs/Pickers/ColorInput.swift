@@ -27,6 +27,5 @@ struct ColorInput: View {
 #Preview {
     ColorInput(bgColor: .constant(Color.accentColor),
                fgColor: .constant(Color.accentColor),
-               textColor: .constant(Color.accentColor)
-    )
+               textColor: .constant(Color.accentColor))
 }

@@ -5,19 +5,19 @@
 //  Created by Andrew Hanshaw on 03/03/24.
 //
 
-import SwiftUI
 import CoreImage.CIFilterBuiltins
+import SwiftUI
 
 struct PDF417View: View {
     @State var ratio: CGFloat
     @Binding var data: String
 
     var body: some View {
-        if let PDF417Image = GeneratePDF417Barcode(string: data,  viewWidth: UIScreen.main.bounds.width, viewHeight: UIScreen.main.bounds.height) {
+        if let PDF417Image = GeneratePDF417Barcode(string: data, viewWidth: UIScreen.main.bounds.width, viewHeight: UIScreen.main.bounds.height) {
             GeometryReader { geometry in
                 Image(uiImage: PDF417Image)
                     .resizable()
-                    .frame(width:geometry.size.width)
+                    .frame(width: geometry.size.width)
             }
             .aspectRatio(ratio, contentMode: .fit)
         }

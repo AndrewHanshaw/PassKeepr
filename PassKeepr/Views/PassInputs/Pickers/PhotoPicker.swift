@@ -5,9 +5,9 @@
 //  Created by Andrew Hanshaw on 3/7/24.
 //
 
+import CoreTransferable
 import PhotosUI
 import SwiftUI
-import CoreTransferable
 
 struct PhotoPicker: View {
     @State private var photoItem: PhotosPickerItem?
@@ -19,8 +19,7 @@ struct PhotoPicker: View {
     var body: some View {
         Section {
             VStack {
-                if(selectedImage != Image(""))
-                {
+                if selectedImage != Image("") {
                     HStack {
                         Spacer()
                         selectedImage
@@ -34,16 +33,17 @@ struct PhotoPicker: View {
 
                 HStack {
                     Spacer()
-                    PhotosPicker("Choose Icon Photo", selection: $photoItem, matching: .any(of:[.images, .not(.videos)]))
+                    PhotosPicker("Choose Icon Photo", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
                     Spacer()
-                    Button (
+                    Button(
                         action: {
                             showAlert.toggle()
                         },
                         label: {
                             Image(systemName: "info.circle")
                                 .foregroundColor(Color(.secondaryLabel))
-                        })
+                        }
+                    )
                     .buttonStyle(PlainButtonStyle())
                     .alert(isPresented: $showAlert) {
                         Alert(title: Text(alertTitleText),
@@ -60,7 +60,6 @@ struct PhotoPicker: View {
                         }
                     }
                 }
-                
             }
         }
     }

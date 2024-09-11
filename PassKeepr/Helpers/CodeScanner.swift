@@ -14,23 +14,23 @@ struct CodeScanner: UIViewControllerRepresentable {
     @Binding var scannedSymbology: String
 
     var dataToScanFor: Set<DataScannerViewController.RecognizedDataType>
-    
-    class Coordinator: NSObject, DataScannerViewControllerDelegate {
-       var parent: CodeScanner
-       
-       init(_ parent: CodeScanner) {
-           self.parent = parent
-       }
 
-        func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
+    class Coordinator: NSObject, DataScannerViewControllerDelegate {
+        var parent: CodeScanner
+
+        init(_ parent: CodeScanner) {
+            self.parent = parent
+        }
+
+        func dataScanner(_: DataScannerViewController, didTapOn item: RecognizedItem) {
             switch item {
-                case .text(let text):
-                    parent.scannedText = text.transcript
-                case .barcode(let barcode):
-                    parent.scannedText = barcode.payloadStringValue ?? "Unable to decode the scanned code"
-                    parent.scannedSymbology = barcode.observation.symbology.rawValue
-                default:
-                    print("unexpected item")
+            case let .text(text):
+                parent.scannedText = text.transcript
+            case let .barcode(barcode):
+                parent.scannedText = barcode.payloadStringValue ?? "Unable to decode the scanned code"
+                parent.scannedSymbology = barcode.observation.symbology.rawValue
+            default:
+                print("unexpected item")
             }
         }
     }
@@ -48,18 +48,18 @@ struct CodeScanner: UIViewControllerRepresentable {
 
         dataScannerVC.delegate = context.coordinator
 
-       return dataScannerVC
+        return dataScannerVC
     }
 
-    func updateUIViewController(_ uiViewController: DataScannerViewController, context: Context) {
-       if shouldStartScanning {
-           try? uiViewController.startScanning()
-       } else {
-           uiViewController.stopScanning()
-       }
+    func updateUIViewController(_ uiViewController: DataScannerViewController, context _: Context) {
+        if shouldStartScanning {
+            try? uiViewController.startScanning()
+        } else {
+            uiViewController.stopScanning()
+        }
     }
 
     func makeCoordinator() -> Coordinator {
-       Coordinator(self)
+        Coordinator(self)
     }
 }

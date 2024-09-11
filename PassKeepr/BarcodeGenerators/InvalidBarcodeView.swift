@@ -13,7 +13,7 @@ struct InvalidBarcodeView: View {
     var isEmpty: Bool
 
     var body: some View {
-        GeometryReader { geometry in
+        GeometryReader { _ in
             Rectangle()
                 .fill(colorScheme == .light ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground))
                 .overlay(
@@ -29,10 +29,9 @@ struct InvalidBarcodeView: View {
 }
 
 func returnString(_ isEmpty: Bool) -> String {
-        if (true == isEmpty) {
-            return "Enter barcode data"
-        }
-        else {
-            return "Invalid barcode data"
-        }
+    if isEmpty == true {
+        return "Enter barcode data"
+    } else {
+        return "Invalid barcode data"
+    }
 }

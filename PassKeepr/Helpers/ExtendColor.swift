@@ -22,7 +22,7 @@ extension Color {
 extension Color {
     func toHex() -> UInt {
         @Environment(\.self) var environment
-        let resolvedColor = self.resolve(in: environment)
+        let resolvedColor = resolve(in: environment)
 
         let red = UInt(resolvedColor.red * 255)
         let green = UInt(resolvedColor.green * 255)

@@ -11,16 +11,14 @@ class ModelData: Sequence {
     var filteredPassObjects: [[PassObject]] = [] // Holds all PassObjects, each item of the array is a filtered array of PassObjects, filtered by passType
 
     let preLoadedPassObjects: [PassObject] = [PassObject(id: UUID(), passName: "ID Pass 1", passType: PassType.identificationPass, identificationString: "1234", foregroundColor: 0xFF00FF, backgroundColor: 0xFFFFFF, textColor: 0x000000),
-                                          PassObject(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234", foregroundColor: 0xFF00FF, backgroundColor: 0x000000, textColor: 0xFFFFFF)]
+                                              PassObject(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234", foregroundColor: 0xFF00FF, backgroundColor: 0x000000, textColor: 0xFFFFFF)]
 
     init(preview: Bool) {
         self.preview = preview
 
-        if (self.preview == true)
-        {
+        if self.preview == true {
             encode(filename, preLoadedPassObjects)
-        }
-        else if let loadedData: [PassObject] = load(filename) {
+        } else if let loadedData: [PassObject] = load(filename) {
             PassObjects = loadedData
         } else {
             encode(filename, preLoadedPassObjects)
@@ -30,7 +28,7 @@ class ModelData: Sequence {
     }
 
     func makeIterator() -> some IteratorProtocol {
-        return PassObjects.makeIterator()
+        PassObjects.makeIterator()
     }
 
     func encodePassObjects() {
@@ -66,7 +64,7 @@ class ModelData: Sequence {
             return try encoder.encode(data).write(to: file, options: .atomic)
         } catch {
             return
-            //        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
+                //        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
         }
     }
 

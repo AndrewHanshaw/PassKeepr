@@ -20,8 +20,8 @@ struct BarcodeInput: View {
     var body: some View {
         Section {
             Button(
-                action:{isScannerPresented.toggle()},
-                label:{
+                action: { isScannerPresented.toggle() },
+                label: {
                     HStack {
                         Spacer()
                         Text("Scan Existing Barcode")
@@ -39,7 +39,7 @@ struct BarcodeInput: View {
                     .presentationDragIndicator(.visible)
             }
         } footer: {
-            HStack() {
+            HStack {
                 Spacer()
                 Text("Or:")
                     .font(.system(size: 20))
@@ -50,67 +50,66 @@ struct BarcodeInput: View {
         }
 
         Section {
-            HStack() {
+            HStack {
                 Picker("Barcode Type", selection: $barcodeType) {
                     ForEach(BarcodeType.allCases, id: \.self) { type in
                         Text(String(describing: type))
                     }
                 }
                 Spacer().frame(width: 25)
-                }
-                .overlay(
-                    HStack {
-                        Spacer()
-                        Button (
-                            action: {
-                                showAlert.toggle()
-                            },
-                            label: {
-                                Image(systemName: "info.circle")
-                                    .foregroundColor(Color(.secondaryLabel))
-                            })
-                        .buttonStyle(PlainButtonStyle())
-                        .alert(isPresented: $showAlert) {
-                            Alert(title: Text(String(describing: barcodeType)),
-                                  message: Text(BarcodeTypeHelpers.GetBarcodeTypeDescription(barcodeType)),
-                                  dismissButton: .default(Text("OK")))
+            }
+            .overlay(
+                HStack {
+                    Spacer()
+                    Button(
+                        action: {
+                            showAlert.toggle()
+                        },
+                        label: {
+                            Image(systemName: "info.circle")
+                                .foregroundColor(Color(.secondaryLabel))
                         }
+                    )
+                    .buttonStyle(PlainButtonStyle())
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text(String(describing: barcodeType)),
+                              message: Text(BarcodeTypeHelpers.GetBarcodeTypeDescription(barcodeType)),
+                              dismissButton: .default(Text("OK")))
                     }
-                )
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .layoutPriority(1)
+                }
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .layoutPriority(1)
 
             LabeledContent {
                 TextField("Barcode Data", text: $barcodeInput)
-                    .keyboardType(BarcodeTypeHelpers.keyboardTypeForTextField(type:$barcodeType))
-            } label : {
+                    .keyboardType(BarcodeTypeHelpers.keyboardTypeForTextField(type: $barcodeType))
+            } label: {
                 Text("Data")
             }
         } footer: {
-            if(scannedSymbology != "" && scannedSymbology != "VNBarcodeSymbologyCode128") {
+            if scannedSymbology != "" && scannedSymbology != "VNBarcodeSymbologyCode128" {
                 Text("Scanned code was not a valid barcode")
             }
         }
 
         Section {
-            if(BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: barcodeInput, type: barcodeType) == true) {
+            if BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: barcodeInput, type: barcodeType) == true {
                 switch barcodeType {
-                    case BarcodeType.code39:
-                        Code39View(ratio: 3, value: $barcodeInput)
-                    case BarcodeType.code93:
-                        Code93View(ratio: 3, value: $barcodeInput)
-                    case BarcodeType.upce:
-                        UPCEView(ratio: 3, value: $barcodeInput)
-                    case BarcodeType.code128:
-                        Code128View(ratio: 3, data: $barcodeInput)
+                case BarcodeType.code39:
+                    Code39View(ratio: 3, value: $barcodeInput)
+                case BarcodeType.code93:
+                    Code93View(ratio: 3, value: $barcodeInput)
+                case BarcodeType.upce:
+                    UPCEView(ratio: 3, value: $barcodeInput)
+                case BarcodeType.code128:
+                    Code128View(ratio: 3, data: $barcodeInput)
                 }
-            }
-            else {
-                if(barcodeInput == "") {
-                    InvalidBarcodeView(ratio: 3, isEmpty:true)
-                }
-                else {
-                    InvalidBarcodeView(ratio: 3, isEmpty:false)
+            } else {
+                if barcodeInput == "" {
+                    InvalidBarcodeView(ratio: 3, isEmpty: true)
+                } else {
+                    InvalidBarcodeView(ratio: 3, isEmpty: false)
                 }
             }
         }
@@ -118,5 +117,5 @@ struct BarcodeInput: View {
 }
 
 #Preview {
-    BarcodeInput(barcodeInput:.constant("Test Barcode"), barcodeType: .constant(BarcodeType.code39))
+    BarcodeInput(barcodeInput: .constant("Test Barcode"), barcodeType: .constant(BarcodeType.code39))
 }

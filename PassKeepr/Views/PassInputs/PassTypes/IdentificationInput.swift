@@ -14,7 +14,7 @@ struct IdentificationInput: View {
         Section {
             LabeledContent {
                 TextField("ID", text: $identificationInput)
-            } label : {
+            } label: {
                 Text("ID Text")
             }
         }
@@ -22,5 +22,5 @@ struct IdentificationInput: View {
 }
 
 #Preview {
-    IdentificationInput(identificationInput:.constant("T35T-1D3NT1F1C4T10N"))
+    IdentificationInput(identificationInput: .constant("T35T-1D3NT1F1C4T10N"))
 }
