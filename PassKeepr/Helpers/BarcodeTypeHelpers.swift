@@ -1,10 +1,3 @@
-//
-//  BarcodeTypeHelpers.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 2/17/24.
-//
-
 import Foundation
 import SwiftUI
 

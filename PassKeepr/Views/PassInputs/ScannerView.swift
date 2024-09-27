@@ -1,10 +1,3 @@
-//
-//  ScannerView.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 1/27/24.
-//
-
 import SwiftUI
 import VisionKit
 

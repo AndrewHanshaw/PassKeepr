@@ -1,10 +1,3 @@
-//
-//  ColorInput.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 1/27/24.
-//
-
 import SwiftUI
 
 struct ColorInput: View {

@@ -1,10 +1,3 @@
-//
-//  OneDimensionalBarcodeFilter.metal
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 2/3/24.
-//
-
 #include <metal_stdlib>
 using namespace metal;
 

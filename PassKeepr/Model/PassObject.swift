@@ -1,10 +1,3 @@
-//
-//  PassObject.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 11/8/23.
-//
-
 import Foundation
 
 struct PassObject: Codable, Identifiable, Equatable, Hashable {

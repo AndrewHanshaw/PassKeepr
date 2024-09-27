@@ -1,10 +1,3 @@
-//
-//  AddPass.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 11/12/23.
-//
-
 import SwiftUI
 
 struct AddPass: View {

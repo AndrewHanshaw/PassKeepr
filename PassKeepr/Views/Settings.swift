@@ -1,10 +1,3 @@
-//
-//  Settings.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 1/6/24.
-//
-
 import SwiftUI
 import UniformTypeIdentifiers
 

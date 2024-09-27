@@ -1,10 +1,3 @@
-//
-//  PDF417View.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 03/03/24.
-//
-
 import CoreImage.CIFilterBuiltins
 import SwiftUI
 

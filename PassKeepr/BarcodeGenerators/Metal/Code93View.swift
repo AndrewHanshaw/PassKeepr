@@ -1,10 +1,3 @@
-//
-//  Code93View.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 2/5/24.
-//
-
 import SwiftUI
 
 struct Code93View: View {
