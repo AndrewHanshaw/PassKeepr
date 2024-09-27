@@ -1,10 +1,3 @@
-//
-//  Code128View.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 11/20/23.
-//
-
 import CoreImage.CIFilterBuiltins
 import SwiftUI
 

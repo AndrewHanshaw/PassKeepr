@@ -1,10 +1,3 @@
-//
-//  QRCodeView.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 11/22/23.
-//
-
 import CoreImage.CIFilterBuiltins
 import SwiftUI
 

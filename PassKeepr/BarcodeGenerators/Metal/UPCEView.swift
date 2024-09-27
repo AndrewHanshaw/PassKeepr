@@ -1,10 +1,3 @@
-//
-//  UPCEView.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 2/4/24.
-//
-
 import SwiftUI
 
 struct UPCEView: View {

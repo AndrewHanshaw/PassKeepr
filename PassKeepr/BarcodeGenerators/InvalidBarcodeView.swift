@@ -1,10 +1,3 @@
-//
-//  InvalidBarcodeView.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 2/19/24.
-//
-
 import SwiftUI
 
 struct InvalidBarcodeView: View {

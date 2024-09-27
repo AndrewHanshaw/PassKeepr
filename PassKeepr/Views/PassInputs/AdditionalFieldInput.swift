@@ -1,10 +1,3 @@
-//
-//  AdditionalFieldInput.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 3/10/24.
-//
-
 import SwiftUI
 
 struct AdditionalFieldInput: View {

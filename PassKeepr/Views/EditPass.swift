@@ -1,10 +1,3 @@
-//
-//  EditPass.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 1/3/24.
-//
-
 import SwiftUI
 
 struct EditPass: View {

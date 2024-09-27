@@ -1,10 +1,3 @@
-//
-//  ListSection.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 11/8/23.
-//
-
 import SwiftUI
 
 struct ListSection: View {

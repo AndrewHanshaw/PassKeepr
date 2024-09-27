@@ -1,10 +1,3 @@
-//
-//  AppIcon.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 12/27/23.
-//
-
 import SwiftUI
 
 struct IconShape: Shape {

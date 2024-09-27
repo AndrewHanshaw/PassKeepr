@@ -1,10 +1,3 @@
-//
-//  PassObjectHelpers.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 1/15/24.
-//
-
 import Foundation
 
 class PassObjectHelpers {

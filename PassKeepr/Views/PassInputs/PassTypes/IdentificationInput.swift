@@ -1,10 +1,3 @@
-//
-//  IdentificationInput.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 1/10/24.
-//
-
 import SwiftUI
 
 struct IdentificationInput: View {
