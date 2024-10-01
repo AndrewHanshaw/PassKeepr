@@ -1,24 +1,20 @@
 import SwiftUI
 
 struct ColorInput: View {
-    @Binding var bgColor: Color
-    @Binding var fgColor: Color
-    @Binding var textColor: Color
+    @Binding var pass: PassObject
 
     var body: some View {
         VStack {
-            ColorPicker("Background Color", selection: $bgColor)
+            ColorPicker("Background Color", selection: Color.binding(from: $pass.backgroundColor))
                 .padding(.top, 5)
-            ColorPicker("Foreground Color", selection: $fgColor)
+            ColorPicker("Foreground Color", selection: Color.binding(from: $pass.foregroundColor))
                 .padding([.top, .bottom], 10)
-            ColorPicker("Text Color", selection: $textColor)
+            ColorPicker("Text Color", selection: Color.binding(from: $pass.textColor))
                 .padding(.bottom, 5)
         }
     }
 }
 
 #Preview {
-    ColorInput(bgColor: .constant(Color.accentColor),
-               fgColor: .constant(Color.accentColor),
-               textColor: .constant(Color.accentColor))
+    ColorInput(pass: .constant(ModelData().PassObjects[0]))
 }

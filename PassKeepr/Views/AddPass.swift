@@ -3,9 +3,6 @@ import SwiftUI
 struct AddPass: View {
     @Environment(ModelData.self) var modelData
 
-    @State private var foregroundColorInput = Color(hex: 0x000000)
-    @State private var backgroundColorInput = Color(hex: 0xFFFFFF)
-    @State private var textColorInput = Color(hex: 0x000000)
     @State private var iconImage = Image("")
     @State private var enableHeaderField = false
     @State private var headerFieldLabel = ""
@@ -91,7 +88,7 @@ struct AddPass: View {
                     } // Section
                     .listRowBackground(Color.accentColor)
 
-                    ColorInput(bgColor: $foregroundColorInput, fgColor: $backgroundColorInput, textColor: $textColorInput)
+                    ColorInput(pass: $addedPass)
 
                     PhotoPicker(selectedImage: $iconImage)
 
