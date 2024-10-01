@@ -24,3 +24,16 @@ extension Color {
         return (red << 16) + (green << 8) + blue
     }
 }
+
+extension Color {
+    static func binding(from hexBinding: Binding<UInt>) -> Binding<Color> {
+        Binding<Color>(
+            get: {
+                Color(hex: hexBinding.wrappedValue) // Convert UInt to Color
+            },
+            set: { newColor in
+                hexBinding.wrappedValue = newColor.toHex() // Convert Color to UInt
+            }
+        )
+    }
+}
