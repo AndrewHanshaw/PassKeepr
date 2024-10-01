@@ -25,20 +25,8 @@ struct EditPass: View {
     var body: some View {
         VStack {
             Form {
-                switch tempObject.passType {
-                case PassType.identificationPass:
-                    IdentificationInput(identificationInput: $tempObject)
-                case PassType.barcodePass:
-                        BarcodeInput(passObject: $tempObject)
-                case PassType.qrCodePass:
-                    QRCodeInput(passObject: $tempObject)
-                case PassType.notePass:
-                    NoteInput(passObject: $tempObject)
-                case PassType.businessCardPass:
-                    BusinessCardInput(passObject: $tempObject)
-                case PassType.picturePass:
-                    PictureInput()
-                }
+                PassInput(pass: $tempObject)
+
                 Section {
                     Button(
                         // When the save button is pressed, save the @Binding
