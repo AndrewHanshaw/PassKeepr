@@ -44,20 +44,7 @@ struct AddPass: View {
                             .padding([.bottom])
                     }
 
-                    switch addedPass.passType {
-                    case PassType.identificationPass:
-                        IdentificationInput(identificationInput: $addedPass.identificationString)
-                    case PassType.barcodePass:
-                            BarcodeInput(passObject: $addedPass)
-                    case PassType.qrCodePass:
-                        QRCodeInput(passObject: $addedPass)
-                    case PassType.notePass:
-                        NoteInput(passObject: $addedPass)
-                    case PassType.businessCardPass:
-                        BusinessCardInput(passObject: $addedPass)
-                    case PassType.picturePass:
-                        PictureInput()
-                    } // Switch
+                    PassInput(pass: $addedPass)
 
                     Section {
                         Button(
