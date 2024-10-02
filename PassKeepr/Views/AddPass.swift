@@ -51,13 +51,13 @@ struct AddPass: View {
                     case PassType.identificationPass:
                         IdentificationInput(identificationInput: $addedPass.identificationString)
                     case PassType.barcodePass:
-                        BarcodeInput(barcodeInput: $addedPass.barcodeString, barcodeType: $addedPass.barcodeType)
+                            BarcodeInput(passObject: $addedPass)
                     case PassType.qrCodePass:
-                        QRCodeInput(qrCodeInput: $addedPass.qrCodeString, correctionLevel: $addedPass.qrCodeCorrectionLevel)
+                        QRCodeInput(passObject: $addedPass)
                     case PassType.notePass:
-                        NoteInput(noteInput: $addedPass.noteString)
+                        NoteInput(passObject: $addedPass)
                     case PassType.businessCardPass:
-                        BusinessCardInput(nameInput: $addedPass.name, titleInput: $addedPass.title, businessNameInput: $addedPass.businessName, phoneNumberInput: $addedPass.phoneNumber, emailInput: $addedPass.email)
+                        BusinessCardInput(passObject: $addedPass)
                     case PassType.picturePass:
                         PictureInput()
                     } // Switch

@@ -1,36 +1,32 @@
 import SwiftUI
 
 struct BusinessCardInput: View {
-    @Binding var nameInput: String
-    @Binding var titleInput: String
-    @Binding var businessNameInput: String
-    @Binding var phoneNumberInput: String
-    @Binding var emailInput: String
+    @Binding var passObject: PassObject
 
     var body: some View {
         Section {
             LabeledContent {
-                TextField("Name", text: $nameInput)
+                TextField("Name", text: $passObject.name)
             } label: {
                 Text("Name")
             }
             LabeledContent {
-                TextField("Optional", text: $titleInput)
+                TextField("Optional", text: $passObject.title)
             } label: {
                 Text("Title")
             }
             LabeledContent {
-                TextField("Optional", text: $businessNameInput)
+                TextField("Optional", text: $passObject.businessName)
             } label: {
                 Text("Business Name")
             }
             LabeledContent {
-                TextField("Optional", text: $phoneNumberInput)
+                TextField("Optional", text: $passObject.phoneNumber)
             } label: {
                 Text("Phone Number")
             }
             LabeledContent {
-                TextField("Optional", text: $emailInput)
+                TextField("Optional", text: $passObject.email)
             } label: {
                 Text("Email Address")
             }
@@ -39,5 +35,5 @@ struct BusinessCardInput: View {
 }
 
 #Preview {
-    BusinessCardInput(nameInput: .constant("Test Name"), titleInput: .constant("Test Title"), businessNameInput: .constant("Test Business"), phoneNumberInput: .constant("(111) 222-3333"), emailInput: .constant("test@test.com"))
+    BusinessCardInput(passObject: .constant(MockModelData().PassObjects[0]))
 }

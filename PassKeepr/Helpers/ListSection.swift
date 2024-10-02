@@ -15,7 +15,7 @@ struct ListSection: View {
         Section(header: sectionHeader(type, isExpanded: $isListExpanded)) {
             if isListExpanded {
                 ForEach($list) { $passObject in
-                    NavigationLink(passObject.passName, destination: EditPass(passObject: $passObject))
+                    NavigationLink(passObject.passName, destination: EditPass(objectToEdit: $passObject))
                         .swipeActions(allowsFullSwipe: false) {
                             Button(role: .destructive) {
                                 modelData.deleteItemByID(passObject.id)

@@ -1,13 +1,23 @@
 import SwiftUI
 
 struct EditPass: View {
-    @Binding var passObject: PassObject
+    // Pass object passed into this view.
+    // We want to update this object when the save button is pressed
+    @Binding var objectToEdit: PassObject
 
-    @State private var tempObject: PassObject
+    // Pass object created by this view.
+    // This is @State because this view owns this PassObject
+    // This PassObject will be swapped in for the @Binding passObject
+    // when the save button is pressed
+    // This is done so the user can made edits, which won't be saved until
+    // the Save button is pressed
+    @State private var tempObject: PassObject = .init()
 
-    init(passObject: Binding<PassObject>) {
-        _passObject = passObject
-        _tempObject = State(initialValue: passObject.wrappedValue)
+    // On init, set the temp object owned by this view equal to the
+    // one passed in via @Binding
+    init(objectToEdit: Binding<PassObject>) {
+        _objectToEdit = objectToEdit
+        _tempObject = State(initialValue: objectToEdit.wrappedValue)
     }
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -17,74 +27,24 @@ struct EditPass: View {
             Form {
                 switch tempObject.passType {
                 case PassType.identificationPass:
-                    IdentificationInput(identificationInput:
-                        Binding(
-                            get: { tempObject.identificationString },
-                            set: { tempObject.identificationString = $0 }
-                        )
-                    )
+                    IdentificationInput(identificationInput: $tempObject)
                 case PassType.barcodePass:
-                    BarcodeInput(barcodeInput:
-                        Binding(
-                            get: { tempObject.barcodeString },
-                            set: { tempObject.barcodeString = $0 }
-                        ),
-                        barcodeType:
-                        Binding(
-                            get: { tempObject.barcodeType },
-                            set: { tempObject.barcodeType = $0 }
-                        ))
+                        BarcodeInput(passObject: $tempObject)
                 case PassType.qrCodePass:
-                    QRCodeInput(qrCodeInput:
-                        Binding(
-                            get: { tempObject.qrCodeString },
-                            set: { tempObject.qrCodeString = $0 }
-                        ),
-                        correctionLevel:
-                        Binding(
-                            get: { tempObject.qrCodeCorrectionLevel },
-                            set: { tempObject.qrCodeCorrectionLevel = $0 }
-                        ))
+                    QRCodeInput(passObject: $tempObject)
                 case PassType.notePass:
-                    NoteInput(noteInput:
-                        Binding(
-                            get: { tempObject.noteString },
-                            set: { tempObject.noteString = $0 }
-                        )
-                    )
+                    NoteInput(passObject: $tempObject)
                 case PassType.businessCardPass:
-                    BusinessCardInput(nameInput:
-                        Binding(
-                            get: { tempObject.name },
-                            set: { tempObject.name = $0 }
-                        ),
-                        titleInput:
-                        Binding(
-                            get: { tempObject.title },
-                            set: { tempObject.title = $0 }
-                        ),
-                        businessNameInput:
-                        Binding(
-                            get: { tempObject.businessName },
-                            set: { tempObject.businessName = $0 }
-                        ),
-                        phoneNumberInput:
-                        Binding(
-                            get: { tempObject.phoneNumber },
-                            set: { tempObject.phoneNumber = $0 }
-                        ),
-                        emailInput:
-                        Binding(
-                            get: { tempObject.email },
-                            set: { tempObject.email = $0 }
-                        ))
+                    BusinessCardInput(passObject: $tempObject)
                 case PassType.picturePass:
                     PictureInput()
                 }
                 Section {
                     Button(
+                        // When the save button is pressed, save the @Binding
+                        // PassObject to the temp object with any user edits
                         action: {
-                            passObject = tempObject
+                            objectToEdit = tempObject
                             presentationMode.wrappedValue.dismiss()
                         },
                         label: {
@@ -106,5 +66,5 @@ struct EditPass: View {
 }
 
 #Preview {
-    EditPass(passObject: .constant(PassObject(id: UUID(), passName: "Barcode Pass 1", passType: PassType.barcodePass, barcodeString: "1234", foregroundColor: 0xFF00FF, backgroundColor: 0xFFFFFF, textColor: 0x000000)))
+    EditPass(objectToEdit: .constant(MockModelData().PassObjects[0]))
 }
