@@ -3,19 +3,6 @@ import SwiftUI
 struct AddPass: View {
     @Environment(ModelData.self) var modelData
 
-    @State private var passName: String = ""
-    @State private var selectedPassType: PassType = .identificationPass
-    @State private var identificationInput = ""
-    @State private var barcodeString = ""
-    @State private var barcodeType = BarcodeType.code39
-    @State private var qrCodeInput = ""
-    @State private var qrCodeCorrectionLevel = QrCodeCorrectionLevel.medium
-    @State private var noteInput = ""
-    @State private var nameInput = ""
-    @State private var titleInput = ""
-    @State private var businessNameInput = ""
-    @State private var phoneNumberInput = ""
-    @State private var emailInput = ""
     @State private var foregroundColorInput = Color(hex: 0x000000)
     @State private var backgroundColorInput = Color(hex: 0xFFFFFF)
     @State private var textColorInput = Color(hex: 0x000000)
@@ -23,6 +10,8 @@ struct AddPass: View {
     @State private var enableHeaderField = false
     @State private var headerFieldLabel = ""
     @State private var headerFieldText = ""
+
+    @State private var addedPass = PassObject()
 
     @Binding var isSheetPresented: Bool // Used to close the sheet in the parent view
 
@@ -36,14 +25,14 @@ struct AddPass: View {
                         LabeledContent {
                             TextField(
                                 "Name",
-                                text: $passName
+                                text: $addedPass.passName
                             )
                         } label: {
                             Text("Pass Name")
                         }
                         .disableAutocorrection(true)
 
-                        Picker("Pass Type", selection: $selectedPassType) {
+                        Picker("Pass Type", selection: $addedPass.passType) {
                             ForEach(PassType.allCases) { type in
                                 HStack {
                                     Text(PassObjectHelpers.GetStringSingular(type))
@@ -58,17 +47,17 @@ struct AddPass: View {
                             .padding([.bottom])
                     }
 
-                    switch selectedPassType {
+                    switch addedPass.passType {
                     case PassType.identificationPass:
-                        IdentificationInput(identificationInput: $identificationInput)
+                        IdentificationInput(identificationInput: $addedPass.identificationString)
                     case PassType.barcodePass:
-                        BarcodeInput(barcodeInput: $barcodeString, barcodeType: $barcodeType)
+                        BarcodeInput(barcodeInput: $addedPass.barcodeString, barcodeType: $addedPass.barcodeType)
                     case PassType.qrCodePass:
-                        QRCodeInput(qrCodeInput: $qrCodeInput, correctionLevel: $qrCodeCorrectionLevel)
+                        QRCodeInput(qrCodeInput: $addedPass.qrCodeString, correctionLevel: $addedPass.qrCodeCorrectionLevel)
                     case PassType.notePass:
-                        NoteInput(noteInput: $noteInput)
+                        NoteInput(noteInput: $addedPass.noteString)
                     case PassType.businessCardPass:
-                        BusinessCardInput(nameInput: $nameInput, titleInput: $titleInput, businessNameInput: $businessNameInput, phoneNumberInput: $phoneNumberInput, emailInput: $emailInput)
+                        BusinessCardInput(nameInput: $addedPass.name, titleInput: $addedPass.title, businessNameInput: $addedPass.businessName, phoneNumberInput: $addedPass.phoneNumber, emailInput: $addedPass.email)
                     case PassType.picturePass:
                         PictureInput()
                     } // Switch
@@ -76,29 +65,8 @@ struct AddPass: View {
                     Section {
                         Button(
                             action: {
-                                var addedPass = PassObject(id: UUID(), passName: passName, passType: selectedPassType, foregroundColor: foregroundColorInput.toHex(), backgroundColor: backgroundColorInput.toHex(), textColor: textColorInput.toHex())
-                                switch addedPass.passType {
-                                case PassType.identificationPass:
-                                    addedPass.identificationString = identificationInput
-                                case PassType.barcodePass:
-                                    addedPass.barcodeString = barcodeString
-                                    addedPass.barcodeType = barcodeType
-                                case PassType.qrCodePass:
-                                    addedPass.qrCodeString = qrCodeInput
-                                    addedPass.qrCodeCorrectionLevel = qrCodeCorrectionLevel
-                                case PassType.notePass:
-                                    addedPass.noteString = noteInput
-                                case PassType.businessCardPass:
-                                    addedPass.name = nameInput
-                                    addedPass.title = titleInput
-                                    addedPass.businessName = businessNameInput
-                                    addedPass.phoneNumber = phoneNumberInput
-                                    addedPass.email = emailInput
-                                case PassType.picturePass:
-                                    addedPass.pictureID = emailInput // Placeholder
-                                }
                                 modelData.PassObjects.append(addedPass)
-                                modelData.encodePassObjects()
+                                modelData.encodePassObjects() // need to modify to only encode variables that are relevant based on PassType
                                 isSheetPresented.toggle()
                             },
                             label: {
