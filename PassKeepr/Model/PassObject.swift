@@ -4,18 +4,18 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var id: UUID
     var passName: String
     var passType: PassType
-    var identificationString: String?
-    var barcodeString: String?
-    var barcodeType: BarcodeType?
-    var qrCodeString: String?
-    var qrCodeCorrectionLevel: QrCodeCorrectionLevel?
-    var noteString: String?
-    var name: String?
-    var title: String?
-    var businessName: String?
-    var phoneNumber: String?
-    var email: String?
-    var pictureID: String? // placeholder until I figure out how to handle images
+    var identificationString: String
+    var barcodeString: String
+    var barcodeType: BarcodeType
+    var qrCodeString: String
+    var qrCodeCorrectionLevel: QrCodeCorrectionLevel
+    var noteString: String
+    var name: String
+    var title: String
+    var businessName: String
+    var phoneNumber: String
+    var email: String
+    var pictureID: String // placeholder until I figure out how to handle images
     var foregroundColor: UInt
     var backgroundColor: UInt
     var textColor: UInt

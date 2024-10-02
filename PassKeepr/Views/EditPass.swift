@@ -19,63 +19,63 @@ struct EditPass: View {
                 case PassType.identificationPass:
                     IdentificationInput(identificationInput:
                         Binding(
-                            get: { tempObject.identificationString ?? "" },
+                            get: { tempObject.identificationString },
                             set: { tempObject.identificationString = $0 }
                         )
                     )
                 case PassType.barcodePass:
                     BarcodeInput(barcodeInput:
                         Binding(
-                            get: { tempObject.barcodeString ?? "" },
+                            get: { tempObject.barcodeString },
                             set: { tempObject.barcodeString = $0 }
                         ),
                         barcodeType:
                         Binding(
-                            get: { tempObject.barcodeType ?? BarcodeType.code39 },
+                            get: { tempObject.barcodeType },
                             set: { tempObject.barcodeType = $0 }
                         ))
                 case PassType.qrCodePass:
                     QRCodeInput(qrCodeInput:
                         Binding(
-                            get: { tempObject.qrCodeString ?? "" },
+                            get: { tempObject.qrCodeString },
                             set: { tempObject.qrCodeString = $0 }
                         ),
                         correctionLevel:
                         Binding(
-                            get: { tempObject.qrCodeCorrectionLevel ?? QrCodeCorrectionLevel.medium },
+                            get: { tempObject.qrCodeCorrectionLevel },
                             set: { tempObject.qrCodeCorrectionLevel = $0 }
                         ))
                 case PassType.notePass:
                     NoteInput(noteInput:
                         Binding(
-                            get: { tempObject.noteString ?? "" },
+                            get: { tempObject.noteString },
                             set: { tempObject.noteString = $0 }
                         )
                     )
                 case PassType.businessCardPass:
                     BusinessCardInput(nameInput:
                         Binding(
-                            get: { tempObject.name ?? "" },
+                            get: { tempObject.name },
                             set: { tempObject.name = $0 }
                         ),
                         titleInput:
                         Binding(
-                            get: { tempObject.title ?? "" },
+                            get: { tempObject.title },
                             set: { tempObject.title = $0 }
                         ),
                         businessNameInput:
                         Binding(
-                            get: { tempObject.businessName ?? "" },
+                            get: { tempObject.businessName },
                             set: { tempObject.businessName = $0 }
                         ),
                         phoneNumberInput:
                         Binding(
-                            get: { tempObject.phoneNumber ?? "" },
+                            get: { tempObject.phoneNumber },
                             set: { tempObject.phoneNumber = $0 }
                         ),
                         emailInput:
                         Binding(
-                            get: { tempObject.email ?? "" },
+                            get: { tempObject.email },
                             set: { tempObject.email = $0 }
                         ))
                 case PassType.picturePass:
