@@ -61,5 +61,5 @@ struct Settings: View {
 
 #Preview {
     Settings()
-        .environment(ModelData(preview: true))
+        .environment(MockModelData())
 }
