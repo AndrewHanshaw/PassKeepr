@@ -2,8 +2,7 @@ import SwiftUI
 import VisionKit
 
 struct QRCodeInput: View {
-    @Binding var qrCodeInput: String
-    @Binding var correctionLevel: QrCodeCorrectionLevel
+    @Binding var passObject: PassObject
 
     @State private var scannedCode = ""
     @State private var scannedSymbology = ""
@@ -13,11 +12,11 @@ struct QRCodeInput: View {
     var body: some View {
         Section {
             LabeledContent {
-                TextField("Data", text: $qrCodeInput)
+                TextField("Data", text: $passObject.qrCodeString)
                     .onChange(of: scannedCode) {
-                        qrCodeInput = scannedCode
+                        passObject.qrCodeString = scannedCode
                     }
-                    .onChange(of: qrCodeInput) {
+                    .onChange(of: passObject.qrCodeString) {
                         scannedSymbology = ""
                     }
             } label: {
@@ -34,16 +33,16 @@ struct QRCodeInput: View {
                     .presentationDragIndicator(.visible)
             }
 
-            Picker("Correction Level", selection: $correctionLevel) {
+            Picker("Correction Level", selection: $passObject.qrCodeCorrectionLevel) {
                 ForEach(QrCodeCorrectionLevel.allCases, id: \.self) { level in
                     Text(String(describing: level))
                 }
             }
-            .onChange(of: correctionLevel) {
+            .onChange(of: passObject.qrCodeCorrectionLevel) {
                 scannedSymbology = ""
             }
 
-            QRCodeView(data: qrCodeInput, correctionLevel: correctionLevel)
+            QRCodeView(data: passObject.qrCodeString, correctionLevel: passObject.qrCodeCorrectionLevel)
         } footer: {
             if scannedSymbology != "" && scannedSymbology != "VNBarcodeSymbologyQR" {
                 Text("Scanned code was not a valid QR code")
@@ -53,5 +52,5 @@ struct QRCodeInput: View {
 }
 
 #Preview {
-    QRCodeInput(qrCodeInput: .constant("Test QR Code"), correctionLevel: .constant(QrCodeCorrectionLevel.medium))
+    QRCodeInput(passObject: .constant(MockModelData().PassObjects[0]))
 }

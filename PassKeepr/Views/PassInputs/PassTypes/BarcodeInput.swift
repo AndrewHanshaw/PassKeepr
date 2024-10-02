@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct BarcodeInput: View {
-    @Binding var barcodeInput: String
-    @Binding var barcodeType: BarcodeType
+    @Binding var passObject: PassObject
 
     @State private var scannedCode = ""
     @State private var scannedSymbology = ""
@@ -44,7 +43,7 @@ struct BarcodeInput: View {
 
         Section {
             HStack {
-                Picker("Barcode Type", selection: $barcodeType) {
+                Picker("Barcode Type", selection: $passObject.barcodeType) {
                     ForEach(BarcodeType.allCases, id: \.self) { type in
                         Text(String(describing: type))
                     }
@@ -65,8 +64,8 @@ struct BarcodeInput: View {
                     )
                     .buttonStyle(PlainButtonStyle())
                     .alert(isPresented: $showAlert) {
-                        Alert(title: Text(String(describing: barcodeType)),
-                              message: Text(BarcodeTypeHelpers.GetBarcodeTypeDescription(barcodeType)),
+                        Alert(title: Text(String(describing: passObject.barcodeType)),
+                              message: Text(BarcodeTypeHelpers.GetBarcodeTypeDescription(passObject.barcodeType)),
                               dismissButton: .default(Text("OK")))
                     }
                 }
@@ -75,8 +74,8 @@ struct BarcodeInput: View {
             .layoutPriority(1)
 
             LabeledContent {
-                TextField("Barcode Data", text: $barcodeInput)
-                    .keyboardType(BarcodeTypeHelpers.keyboardTypeForTextField(type: $barcodeType))
+                TextField("Barcode Data", text: $passObject.barcodeString)
+                    .keyboardType(BarcodeTypeHelpers.keyboardTypeForTextField(type: $passObject.barcodeType))
             } label: {
                 Text("Data")
             }
@@ -87,19 +86,19 @@ struct BarcodeInput: View {
         }
 
         Section {
-            if BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: barcodeInput, type: barcodeType) == true {
-                switch barcodeType {
+            if BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: passObject.barcodeString, type: passObject.barcodeType) == true {
+                switch passObject.barcodeType {
                 case BarcodeType.code39:
-                    Code39View(ratio: 3, value: $barcodeInput)
+                    Code39View(ratio: 3, value: $passObject.barcodeString)
                 case BarcodeType.code93:
-                    Code93View(ratio: 3, value: $barcodeInput)
+                    Code93View(ratio: 3, value: $passObject.barcodeString)
                 case BarcodeType.upce:
-                    UPCEView(ratio: 3, value: $barcodeInput)
+                    UPCEView(ratio: 3, value: $passObject.barcodeString)
                 case BarcodeType.code128:
-                    Code128View(ratio: 3, data: $barcodeInput)
+                    Code128View(ratio: 3, data: $passObject.barcodeString)
                 }
             } else {
-                if barcodeInput == "" {
+                if passObject.barcodeString == "" {
                     InvalidBarcodeView(ratio: 3, isEmpty: true)
                 } else {
                     InvalidBarcodeView(ratio: 3, isEmpty: false)
@@ -110,5 +109,5 @@ struct BarcodeInput: View {
 }
 
 #Preview {
-    BarcodeInput(barcodeInput: .constant("Test Barcode"), barcodeType: .constant(BarcodeType.code39))
+    BarcodeInput(passObject: .constant(MockModelData().PassObjects[0]))
 }

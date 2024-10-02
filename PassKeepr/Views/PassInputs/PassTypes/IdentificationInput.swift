@@ -1,12 +1,12 @@
 import SwiftUI
 
 struct IdentificationInput: View {
-    @Binding var identificationInput: String
+    @Binding var passObject: PassObject
 
     var body: some View {
         Section {
             LabeledContent {
-                TextField("ID", text: $identificationInput)
+                TextField("ID", text: $passObject.identificationString)
             } label: {
                 Text("ID Text")
             }
@@ -15,5 +15,5 @@ struct IdentificationInput: View {
 }
 
 #Preview {
-    IdentificationInput(identificationInput: .constant("T35T-1D3NT1F1C4T10N"))
+    IdentificationInput(passObject: .constant(MockModelData().PassObjects[0]))
 }

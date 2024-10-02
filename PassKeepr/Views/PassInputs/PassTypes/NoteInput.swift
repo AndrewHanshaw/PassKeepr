@@ -1,11 +1,11 @@
 import SwiftUI
 
 struct NoteInput: View {
-    @Binding var noteInput: String
+    @Binding var passObject: PassObject
 
     var body: some View {
         Section {
-            TextField("Note", text: $noteInput, axis: .vertical)
+            TextField("Note", text: $passObject.noteString, axis: .vertical)
                 .lineLimit(5 ... 10)
         } footer: { Text("Notes should be less than XXX characters")
         }
@@ -13,5 +13,5 @@ struct NoteInput: View {
 }
 
 #Preview {
-    NoteInput(noteInput: .constant("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."))
+    NoteInput(passObject: .constant(MockModelData().PassObjects[0]))
 }
