@@ -138,5 +138,5 @@ struct AddPass: View {
 
 #Preview {
     AddPass(isSheetPresented: .constant(true))
-        .environment(ModelData(preview: true))
+        .environment(ModelData())
 }
