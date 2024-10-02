@@ -47,7 +47,7 @@ private func sectionHeader(_ type: PassType, isExpanded: Binding<Bool>) -> some 
 }
 
 #Preview {
-    let previewList = ModelData(preview: true).preLoadedPassObjects
+    let previewList = MockModelData().PassObjects
 
     var filteredList: [PassObject] {
         previewList.filter { $0.passType == PassType.barcodePass }
@@ -55,6 +55,6 @@ private func sectionHeader(_ type: PassType, isExpanded: Binding<Bool>) -> some 
 
     return List {
         ListSection(list: filteredList)
-            .environment(ModelData())
+            .environment(MockModelData())
     }
 }
