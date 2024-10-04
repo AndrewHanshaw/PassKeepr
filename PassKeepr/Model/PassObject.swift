@@ -21,6 +21,29 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var textColor: UInt
 }
 
+extension PassObject {
+    init() {
+        id = UUID()
+        passName = ""
+        passType = PassType.barcodePass
+        identificationString = ""
+        barcodeString = ""
+        barcodeType = BarcodeType.code128
+        qrCodeString = ""
+        qrCodeCorrectionLevel = QrCodeCorrectionLevel.medium
+        noteString = ""
+        name = ""
+        title = ""
+        businessName = ""
+        phoneNumber = ""
+        email = ""
+        pictureID = "" // placeholder until I figure out how to handle images
+        foregroundColor = 0x000000
+        backgroundColor = 0xFFFFFF
+        textColor = 0x000000
+    }
+}
+
 enum PassType: Int, Codable, Identifiable, CaseIterable {
     case identificationPass, barcodePass, qrCodePass, notePass, businessCardPass, picturePass
     var id: Self { self }
