@@ -22,6 +22,7 @@
 		BA00B9B62B4F96DA00050C33 /* PictureInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B9B52B4F96DA00050C33 /* PictureInput.swift */; };
 		BA0F32E92B9AC84D007120B8 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F32E82B9AC84D007120B8 /* PhotoPicker.swift */; };
 		BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869B2B95756500AC82E4 /* AztecView.swift */; };
+		BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869D2B957BD700AC82E4 /* GeneratePass.swift */; };
 		BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA15EC172B3CE75400078A17 /* AppIcon.swift */; };
 		BA18C8922CB837E100012876 /* DefaultPassIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BA18C8912CB837E100012876 /* DefaultPassIcon.png */; };
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
@@ -275,6 +276,7 @@
 				BABAADD02B0A69950014C73B /* PassObject.swift */,
 				BABAADD12B0A69950014C73B /* ModelData.swift */,
 				BADD64672CA5021D00E8F0A0 /* MockModelData.swift */,
+				BA12869D2B957BD700AC82E4 /* GeneratePass.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -481,6 +483,7 @@
 				BA00B9AC2B4F8FC800050C33 /* BarcodeInput.swift in Sources */,
 				BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */,
 				BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */,
+				BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */,
 				BA0F32E92B9AC84D007120B8 /* PhotoPicker.swift in Sources */,
 				BA00B9AE2B4F92DE00050C33 /* QRCodeInput.swift in Sources */,
 				BA879C242B7064AB008A685E /* UPCEView.swift in Sources */,
