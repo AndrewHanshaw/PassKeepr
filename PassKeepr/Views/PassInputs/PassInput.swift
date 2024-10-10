@@ -6,7 +6,7 @@ struct PassInput: View {
     var body: some View {
         switch pass.passType {
         case PassType.identificationPass:
-                IdentificationInput(passObject: $pass)
+            IdentificationInput(passObject: $pass)
         case PassType.barcodePass:
             BarcodeInput(passObject: $pass)
         case PassType.qrCodePass:
