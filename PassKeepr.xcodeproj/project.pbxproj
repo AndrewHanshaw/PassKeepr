@@ -47,6 +47,7 @@
 		BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD64672CA5021D00E8F0A0 /* MockModelData.swift */; };
 		BAE2D4552B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE2D4542B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift */; };
 		BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE838F82B49BFCE0081A1DE /* Settings.swift */; };
+		BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = BAF9428A2CB35689009CF225 /* ZIPFoundation */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +334,9 @@
 			dependencies = (
 			);
 			name = PassKeepr;
+			packageProductDependencies = (
+				BAF9428A2CB35689009CF225 /* ZIPFoundation */,
+			);
 			productName = PassKeepr;
 			productReference = 3A02E7362AF6EE1000383BC2 /* PassKeepr.app */;
 			productType = "com.apple.product-type.application";
@@ -404,6 +409,9 @@
 				Base,
 			);
 			mainGroup = 3A02E72D2AF6EE1000383BC2;
+			packageReferences = (
+				BAF942892CB35689009CF225 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+			);
 			productRefGroup = 3A02E7372AF6EE1000383BC2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -812,6 +820,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BAF942892CB35689009CF225 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.19;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BAF9428A2CB35689009CF225 /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAF942892CB35689009CF225 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3A02E72E2AF6EE1000383BC2 /* Project object */;
 }
