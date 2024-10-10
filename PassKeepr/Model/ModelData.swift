@@ -50,6 +50,7 @@ class ModelData: Sequence {
 
         do {
             let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
             return try encoder.encode(data).write(to: file, options: .atomic)
         } catch {
             return
