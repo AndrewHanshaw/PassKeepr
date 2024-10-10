@@ -23,6 +23,7 @@
 		BA0F32E92B9AC84D007120B8 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F32E82B9AC84D007120B8 /* PhotoPicker.swift */; };
 		BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869B2B95756500AC82E4 /* AztecView.swift */; };
 		BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA15EC172B3CE75400078A17 /* AppIcon.swift */; };
+		BA18C8922CB837E100012876 /* DefaultPassIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BA18C8912CB837E100012876 /* DefaultPassIcon.png */; };
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
 		BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */ = {isa = PBXBuildFile; fileRef = BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */; };
 		BA25D8972B76E8300044E423 /* Code93View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA25D8962B76E8300044E423 /* Code93View.swift */; };
@@ -84,11 +85,11 @@
 		BA00B9B12B4F942E00050C33 /* NoteInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInput.swift; sourceTree = "<group>"; };
 		BA00B9B32B4F94F300050C33 /* BusinessCardInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessCardInput.swift; sourceTree = "<group>"; };
 		BA00B9B52B4F96DA00050C33 /* PictureInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureInput.swift; sourceTree = "<group>"; };
-		BA0F32E42B9AB997007120B8 /* PassKitPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKitPass.swift; sourceTree = "<group>"; };
 		BA0F32E82B9AC84D007120B8 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		BA12869B2B95756500AC82E4 /* AztecView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AztecView.swift; sourceTree = "<group>"; };
 		BA12869D2B957BD700AC82E4 /* GeneratePass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePass.swift; sourceTree = "<group>"; };
 		BA15EC172B3CE75400078A17 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
+		BA18C8912CB837E100012876 /* DefaultPassIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPassIcon.png; sourceTree = "<group>"; };
 		BA1BACD32B463FCD00F86890 /* EditPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPass.swift; sourceTree = "<group>"; };
 		BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OneDimensionalBarcodeFilter.metal; sourceTree = "<group>"; };
 		BA25D8962B76E8300044E423 /* Code93View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code93View.swift; sourceTree = "<group>"; };
@@ -281,6 +282,7 @@
 		BABAADD42B0A6BAA0014C73B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BA18C8912CB837E100012876 /* DefaultPassIcon.png */,
 				BABAADD52B0A6BAA0014C73B /* data.json */,
 			);
 			path = Resources;
@@ -431,6 +433,7 @@
 				3A02E7412AF6EE1A00383BC2 /* Preview Assets.xcassets in Resources */,
 				BABAADD62B0A6BAA0014C73B /* data.json in Resources */,
 				3A02E73E2AF6EE1A00383BC2 /* Assets.xcassets in Resources */,
+				BA18C8922CB837E100012876 /* DefaultPassIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
