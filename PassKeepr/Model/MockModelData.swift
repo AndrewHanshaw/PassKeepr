@@ -42,7 +42,8 @@ private extension PassObject {
         pictureID: "123123", // placeholder until I figure out how to handle images,
         foregroundColor: 0xFF00FF,
         backgroundColor: 0xFFFFFF,
-        textColor: 0x000000
+        textColor: 0x000000,
+        description: "Preview pass 1"
     )
 
     static let preview2 = PassObject(
@@ -63,6 +64,7 @@ private extension PassObject {
         pictureID: "", // placeholder until I figure out how to handle images,
         foregroundColor: 0xFF00FF,
         backgroundColor: 0xFFFFFF,
-        textColor: 0x000000
+        textColor: 0x000000,
+        description: "Preview pass 0"
     )
 }
