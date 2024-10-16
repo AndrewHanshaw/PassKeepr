@@ -3,7 +3,7 @@ import SwiftUI
 struct AddPass: View {
     @Environment(ModelData.self) var modelData
 
-    @State private var iconImage = Image("")
+    @State private var iconImage = UIImage()
     @State private var enableHeaderField = false
     @State private var headerFieldLabel = ""
     @State private var headerFieldText = ""
@@ -11,8 +11,6 @@ struct AddPass: View {
     @State private var addedPass = PassObject()
 
     @Binding var isSheetPresented: Bool // Used to close the sheet in the parent view
-
-    var image: UIImage?
 
     var body: some View {
         VStack {
