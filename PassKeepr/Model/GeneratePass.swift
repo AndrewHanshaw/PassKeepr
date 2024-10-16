@@ -30,7 +30,7 @@ func generatePass(passObject: PassObject) -> Bool {
         passData.merge(populatePass(passObject: passObject)) { current, _ in current }
         let jsonData = try JSONSerialization.data(withJSONObject: passData, options: .prettyPrinted)
         try jsonData.write(to: fileURL)
-        savePNGToDirectory(destinationDirectory: passDirectory)
+        savePNGToDirectory(pngData: passObject.passIcon, destinationDirectory: passDirectory)
 
         try zipDirectory(uuid: passObject.id)
 
@@ -157,14 +157,11 @@ func encodeQrCodePass(passObject: PassObject) -> [String: Any] {
     // Custom case where the QR code must be represented as an image
 }
 
-func savePNGToDirectory(destinationDirectory: URL) {
-    // Create the destination URL by appending the image name to the destination directory
-    let sourceURL = Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png")
+func savePNGToDirectory(pngData: Data, destinationDirectory: URL) {
     let destinationURL = destinationDirectory.appendingPathComponent("icon.png")
 
     do {
-        // Copy the file to the destination
-        try FileManager.default.copyItem(at: sourceURL!, to: destinationURL)
+        try pngData.write(to: destinationURL, options: .atomic)
         print("Image saved successfully at \(destinationURL.path)")
     } catch {
         print("Error saving image: \(error.localizedDescription)")
