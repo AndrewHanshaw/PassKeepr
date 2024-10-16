@@ -4,6 +4,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var id: UUID
     var passName: String
     var passType: PassType
+    var passIcon: Data
     var identificationString: String
     var barcodeString: String
     var barcodeType: BarcodeType
@@ -27,6 +28,7 @@ extension PassObject {
         id = UUID()
         passName = ""
         passType = PassType.barcodePass
+        passIcon = (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
         identificationString = ""
         barcodeString = ""
         barcodeType = BarcodeType.code128
