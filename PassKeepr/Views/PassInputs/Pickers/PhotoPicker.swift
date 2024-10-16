@@ -4,7 +4,7 @@ import SwiftUI
 
 struct PhotoPicker: View {
     @State private var photoItem: PhotosPickerItem?
-    @Binding var selectedImage: Image
+    @Binding var selectedImage: UIImage
     @State private var showAlert: Bool = false
     private let alertTitleText = "Pass Icon"
     private let alertDescriptionText = "The pass icon is used to quickly identify the pass at a glance. It is shown in the top corner of the pass"
@@ -12,10 +12,10 @@ struct PhotoPicker: View {
     var body: some View {
         Section {
             VStack {
-                if selectedImage != Image("") {
+                if selectedImage != UIImage() {
                     HStack {
                         Spacer()
-                        selectedImage
+                        Image(uiImage: selectedImage)
                             .resizable()
                             .scaledToFit()
                             .frame(height: 100)
@@ -46,8 +46,8 @@ struct PhotoPicker: View {
                 }
                 .onChange(of: photoItem) {
                     Task {
-                        if let loaded = try? await photoItem?.loadTransferable(type: Image.self) {
-                            selectedImage = loaded
+                        if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
+                            selectedImage = UIImage(data: loaded)!
                         } else {
                             print("Failed")
                         }
@@ -59,5 +59,5 @@ struct PhotoPicker: View {
 }
 
 #Preview {
-    PhotoPicker(selectedImage: .constant(Image(systemName: "circle.plus.fill")))
+    PhotoPicker(selectedImage: .constant(UIImage(systemName: "circle.plus.fill")!))
 }
