@@ -16,7 +16,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var businessName: String
     var phoneNumber: String
     var email: String
-    var pictureID: String // placeholder until I figure out how to handle images
+    var pictureData: Data
     var foregroundColor: UInt
     var backgroundColor: UInt
     var textColor: UInt
@@ -40,7 +40,7 @@ extension PassObject {
         businessName = ""
         phoneNumber = ""
         email = ""
-        pictureID = "" // placeholder until I figure out how to handle images
+        pictureData = Data()
         foregroundColor = 0x000000
         backgroundColor = 0xFFFFFF
         textColor = 0x000000
