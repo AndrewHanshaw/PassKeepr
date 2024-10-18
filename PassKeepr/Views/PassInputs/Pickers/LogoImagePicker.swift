@@ -2,12 +2,12 @@ import CoreTransferable
 import PhotosUI
 import SwiftUI
 
-struct PhotoPicker: View {
+struct LogoImagePicker: View {
     @State private var photoItem: PhotosPickerItem?
     @Binding var selectedImage: UIImage
     @State private var showAlert: Bool = false
-    private let alertTitleText = "Pass Icon"
-    private let alertDescriptionText = "The pass icon is used to quickly identify the pass at a glance. It is shown in the top corner of the pass"
+    private let alertTitleText = "Pass Logo"
+    private let alertDescriptionText = "The pass logo is used to quickly identify the pass at a glance. It is shown in the top corner of the pass"
 
     var body: some View {
         Section {
@@ -26,7 +26,7 @@ struct PhotoPicker: View {
 
                 HStack {
                     Spacer()
-                    PhotosPicker("Choose Icon Photo", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                    PhotosPicker("Choose Logo Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
                     Spacer()
                     Button(
                         action: {
@@ -59,5 +59,5 @@ struct PhotoPicker: View {
 }
 
 #Preview {
-    PhotoPicker(selectedImage: .constant(UIImage(systemName: "circle.plus.fill")!))
+    LogoImagePicker(selectedImage: .constant(UIImage(systemName: "circle.plus.fill")!))
 }
