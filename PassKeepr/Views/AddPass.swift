@@ -49,10 +49,12 @@ struct AddPass: View {
                             action: {
                                 modelData.PassObjects.append(addedPass)
                                 modelData.encodePassObjects() // need to modify to only encode variables that are relevant based on PassType
-                                let wasGenerationSuccessful = generatePass(passObject: addedPass)
 
-                                // TODO: Indicate why generation was unsuccessful
-                                isSheetPresented = !wasGenerationSuccessful
+                                // TODO: Indicate why generation was unsuccessful if it fails
+                                if let pkpassDir = generatePass(passObject: addedPass) {
+                                    pkPassSigner().uploadPKPassFile(fileURL: pkpassDir)
+                                    isSheetPresented = false
+                                }
                             },
                             label: {
                                 HStack {
