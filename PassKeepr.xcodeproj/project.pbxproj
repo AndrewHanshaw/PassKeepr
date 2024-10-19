@@ -49,6 +49,7 @@
 		BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD64672CA5021D00E8F0A0 /* MockModelData.swift */; };
 		BAE2D4552B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE2D4542B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift */; };
 		BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE838F82B49BFCE0081A1DE /* Settings.swift */; };
+		BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */; };
 		BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = BAF9428A2CB35689009CF225 /* ZIPFoundation */; };
 /* End PBXBuildFile section */
 
@@ -115,6 +116,7 @@
 		BADD64672CA5021D00E8F0A0 /* MockModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockModelData.swift; sourceTree = "<group>"; };
 		BAE2D4542B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeTypeHelpers.swift; sourceTree = "<group>"; };
 		BAE838F82B49BFCE0081A1DE /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignPass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,6 +312,7 @@
 				BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */,
 				BA7A4A242B65B485006F06DF /* ExtendColor.swift */,
 				BAE2D4542B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift */,
+				BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -469,6 +472,7 @@
 				BABAADD32B0A69950014C73B /* ModelData.swift in Sources */,
 				BA7A4A212B65ABE9006F06DF /* CodeScanner.swift in Sources */,
 				BA00B9B62B4F96DA00050C33 /* PictureInput.swift in Sources */,
+				BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */,
 				BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */,
 				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
 				BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */,
