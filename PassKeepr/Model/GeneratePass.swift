@@ -11,7 +11,7 @@ let requiredFields: [String: Any] = [
 ]
 
 // Initializes a new PassKit pass for the given pass
-func generatePass(passObject: PassObject) -> Bool {
+func generatePass(passObject: PassObject) -> URL? {
     let fileManager = FileManager.default
     let passDirectory = URL.documentsDirectory.appending(path: "\(passObject.id.uuidString).pass")
 
@@ -32,22 +32,25 @@ func generatePass(passObject: PassObject) -> Bool {
         try jsonData.write(to: fileURL)
         savePNGToDirectory(pngData: passObject.passIcon, destinationDirectory: passDirectory)
 
-        try zipDirectory(uuid: passObject.id)
+        if let pkpassDir = try zipDirectory(uuid: passObject.id) {
+            return pkpassDir
+        } else {
+            return nil
+        }
 
-        return true
     } catch {
-        return false
+        return nil
     }
 }
 
-func zipDirectory(uuid: UUID) throws {
+func zipDirectory(uuid: UUID) throws -> URL? {
     let fileManager = FileManager()
     let passDirectory = URL.documentsDirectory.appending(path: "\(uuid.uuidString).pass")
     let pkpassDirectory = URL.documentsDirectory.appending(path: "\(uuid.uuidString).pkpass")
 
     guard let archive = Archive(url: pkpassDirectory, accessMode: .create) else {
         print("Unable to create zip file at path: \(pkpassDirectory.path)")
-        return
+        return nil
     }
 
     let directoryContents = try fileManager.contentsOfDirectory(at: passDirectory, includingPropertiesForKeys: nil)
@@ -55,6 +58,8 @@ func zipDirectory(uuid: UUID) throws {
     for fileURL in directoryContents {
         try archive.addEntry(with: fileURL.lastPathComponent, relativeTo: fileURL.deletingLastPathComponent(), compressionMethod: .deflate)
     }
+
+    return pkpassDirectory
 }
 
 // Returns encoded JSON data with the required information for an identificationPass
