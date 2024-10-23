@@ -99,7 +99,7 @@ func encodeIdentificationPass(passObject: PassObject) -> [String: Any] {
     ]
 
     let generic: [String: Any] = [
-        "generic": [data],
+        "generic": data,
     ]
 
     return generic
@@ -117,22 +117,40 @@ func encodeBarcodePass(passObject: PassObject, passDirectory: URL) -> [String: A
         let primaryFields: [String: Any] = [
             "key": "name",
             "label": "NAME",
-            "value": "asdfasdfasdf",
+            "value": passObject.passName,
         ]
 
         let data: [String: Any] = [
-            "barcode": [barcodeFields],
             "primaryFields": [primaryFields],
         ]
 
         let generic: [String: Any] = [
             "generic": data,
+            "barcode": barcodeFields,
         ]
         return generic
     }
 
     // Custom case where the barcode must be represented as an image
-    else { return [:] }
+    else {
+        let secondaryFields: [String: Any] = [
+            "key": "name",
+            "label": "NAME",
+            "value": passObject.passName,
+        ]
+
+        let data: [String: Any] = [
+            "secondaryFields": [secondaryFields],
+        ]
+
+        let storeCard: [String: Any] = [
+            "storeCard": data,
+        ]
+
+        savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
+
+        return storeCard
+    }
 }
 
 func encodeQrCodePass(passObject: PassObject) -> [String: Any] {
@@ -147,16 +165,16 @@ func encodeQrCodePass(passObject: PassObject) -> [String: Any] {
     let primaryFields: [String: Any] = [
         "key": "name",
         "label": "NAME",
-        "value": passObject.name,
+        "value": passObject.passName,
     ]
 
     let data: [String: Any] = [
-        "barcode": [barcodeFields],
         "primaryFields": [primaryFields],
     ]
 
     let generic: [String: Any] = [
-        "generic": [data],
+        "generic": data,
+        "barcode": barcodeFields,
     ]
     return generic
     // Custom case where the QR code must be represented as an image
