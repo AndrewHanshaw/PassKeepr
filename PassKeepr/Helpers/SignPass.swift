@@ -1,7 +1,7 @@
 import Foundation
 
 class pkPassSigner: NSObject, URLSessionDelegate {
-    func uploadPKPassFile(fileURL: URL) {
+    func uploadPKPassFile(fileURL: URL, passUuid: UUID) {
         let url = URL(string: "https://localhost:3000/sign")
 
         var request = URLRequest(url: url!)
@@ -47,7 +47,7 @@ class pkPassSigner: NSObject, URLSessionDelegate {
                 if let data = data {
                     let fileManager = FileManager.default
                     let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-                    let destinationURL = documentsDirectory.appendingPathComponent("signed_file.pkpass")
+                    let destinationURL = documentsDirectory.appendingPathComponent("\(passUuid).pkpass")
 
                     do {
                         try data.write(to: destinationURL)
