@@ -2,7 +2,6 @@ import CoreImage.CIFilterBuiltins
 import SwiftUI
 
 struct Code128View: View {
-    @State var ratio: CGFloat
     @Binding var data: String
 
     var body: some View {
@@ -12,13 +11,12 @@ struct Code128View: View {
                     .resizable()
                     .frame(width: geometry.size.width)
             }
-            .aspectRatio(ratio, contentMode: .fit)
         }
     }
 }
 
 #Preview {
-    Code128View(ratio: 2.0, data: .constant("Hello, Swift Barcode!"))
+    Code128View(data: .constant("Hello, Swift Barcode!"))
 }
 
 func GenerateCode128Barcode(string: String, viewWidth: CGFloat) -> UIImage? {

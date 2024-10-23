@@ -89,13 +89,16 @@ struct BarcodeInput: View {
             if BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: passObject.barcodeString, type: passObject.barcodeType) == true {
                 switch passObject.barcodeType {
                 case BarcodeType.code39:
-                    Code39View(ratio: 3, value: $passObject.barcodeString)
+                    Code39View(value: $passObject.barcodeString).aspectRatio(3, contentMode: .fit)
+
                 case BarcodeType.code93:
-                    Code93View(ratio: 3, value: $passObject.barcodeString)
+                    Code93View(value: $passObject.barcodeString).aspectRatio(3, contentMode: .fit)
+
                 case BarcodeType.upce:
-                    UPCEView(ratio: 3, value: $passObject.barcodeString)
+                    UPCEView(value: $passObject.barcodeString).aspectRatio(3, contentMode: .fit)
+
                 case BarcodeType.code128:
-                    Code128View(ratio: 3, data: $passObject.barcodeString)
+                    Code128View(data: $passObject.barcodeString).aspectRatio(3, contentMode: .fit)
                 }
             } else {
                 if passObject.barcodeString == "" {
