@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct Code39View: View {
-    @State var ratio: CGFloat
     @Binding var value: String
 
     var numberOfSegments: Int {
@@ -17,12 +16,11 @@ struct Code39View: View {
             Rectangle()
                 .colorEffect(ShaderLibrary.OneDimensionalBarcodeFilter(.float(geometry.size.width), .data(barcodeDataBuffer), .data(Data([UInt8(numberOfSegments)]))))
         }
-        .aspectRatio(ratio, contentMode: .fit)
     }
 }
 
 #Preview {
-    Code39View(ratio: 1.0, value: .constant("WIKIPEDIA"))
+    Code39View(value: .constant("WIKIPEDIA"))
 }
 
 import Foundation

@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct UPCEView: View {
-    @State var ratio: CGFloat
     @Binding var value: String
 
     var barcodeDataBuffer: Data {
@@ -15,12 +14,11 @@ struct UPCEView: View {
             Rectangle()
                 .colorEffect(ShaderLibrary.OneDimensionalBarcodeFilter(.float(geometry.size.width), .data(barcodeDataBuffer), .data(Data([numberOfSegments]))))
         }
-        .aspectRatio(ratio, contentMode: .fit)
     }
 }
 
 #Preview {
-    UPCEView(ratio: 1.0, value: .constant("654321"))
+    UPCEView(value: .constant("654321"))
 }
 
 import Foundation
