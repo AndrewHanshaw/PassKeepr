@@ -9,6 +9,8 @@ struct BarcodeInput: View {
     @State private var useScannedData = false
     @State private var showAlert: Bool = false
 
+    @Environment(\.displayScale) var displayScale
+
     var body: some View {
         Section {
             Button(
@@ -108,6 +110,41 @@ struct BarcodeInput: View {
                 }
             }
         }
+        .onChange(of: passObject.barcodeString) { _, _ in
+            render()
+        }
+        .onAppear { render() }
+    }
+
+    @MainActor func render() {
+        let imageWidth = 375 * displayScale
+        let imageHeight = 98 * displayScale
+        var uiImage: UIImage
+
+        switch passObject.barcodeType {
+        case BarcodeType.code39:
+            uiImage = ImageRenderer(content:
+                Code39View(value: $passObject.barcodeString).frame(width: imageWidth, height: imageHeight)
+            ).uiImage!
+
+        case BarcodeType.code93:
+            uiImage = ImageRenderer(content:
+                Code93View(value: $passObject.barcodeString).frame(width: imageWidth, height: imageHeight)
+            ).uiImage!
+
+        case BarcodeType.upce:
+            uiImage = ImageRenderer(content:
+                UPCEView(value: $passObject.barcodeString).frame(width: imageWidth, height: imageHeight)
+            ).uiImage!
+
+        case BarcodeType.code128:
+            uiImage = ImageRenderer(content:
+
+                Code128View(data: $passObject.barcodeString).frame(width: imageWidth, height: imageHeight)
+            ).uiImage!
+        }
+
+        passObject.stripImage = uiImage.pngData() ?? Data()
     }
 }
 
