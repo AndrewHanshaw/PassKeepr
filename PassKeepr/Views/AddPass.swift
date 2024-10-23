@@ -52,7 +52,7 @@ struct AddPass: View {
 
                                 // TODO: Indicate why generation was unsuccessful if it fails
                                 if let pkpassDir = generatePass(passObject: addedPass) {
-                                    pkPassSigner().uploadPKPassFile(fileURL: pkpassDir)
+                                    pkPassSigner().uploadPKPassFile(fileURL: pkpassDir, passUuid: addedPass.id)
                                     isSheetPresented = false
                                 }
                             },

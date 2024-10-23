@@ -27,10 +27,10 @@ func generatePass(passObject: PassObject) -> URL? {
         var passData: [String: Any] = requiredFields
         passData.merge(["description": passObject.description]) { current, _ in current }
         passData.merge(["serialNumber": passObject.id.uuidString]) { current, _ in current }
-        passData.merge(populatePass(passObject: passObject)) { current, _ in current }
+        passData.merge(populatePass(passObject: passObject, passDirectory: passDirectory)) { current, _ in current }
         let jsonData = try JSONSerialization.data(withJSONObject: passData, options: .prettyPrinted)
         try jsonData.write(to: fileURL)
-        savePNGToDirectory(pngData: passObject.passIcon, destinationDirectory: passDirectory)
+        savePNGToDirectory(pngData: passObject.passIcon, destinationDirectory: passDirectory, fileName: "icon")
 
         if let pkpassDir = try zipDirectory(uuid: passObject.id) {
             return pkpassDir
@@ -63,14 +63,14 @@ func zipDirectory(uuid: UUID) throws -> URL? {
 }
 
 // Returns encoded JSON data with the required information for an identificationPass
-func populatePass(passObject: PassObject) -> [String: Any] {
+func populatePass(passObject: PassObject, passDirectory: URL) -> [String: Any] {
     var encodedData: [String: Any]
 
     switch passObject.passType {
     case PassType.identificationPass:
         encodedData = encodeIdentificationPass(passObject: passObject)
     case PassType.barcodePass:
-        encodedData = encodeBarcodePass(passObject: passObject)
+        encodedData = encodeBarcodePass(passObject: passObject, passDirectory: passDirectory)
     case PassType.qrCodePass:
         encodedData = encodeQrCodePass(passObject: passObject)
     default:
@@ -105,7 +105,7 @@ func encodeIdentificationPass(passObject: PassObject) -> [String: Any] {
     return generic
 }
 
-func encodeBarcodePass(passObject: PassObject) -> [String: Any] {
+func encodeBarcodePass(passObject: PassObject, passDirectory: URL) -> [String: Any] {
     // Nominal case where the barcode type is directly supported by PassKit
     if passObject.barcodeType == BarcodeType.code128 {
         let barcodeFields: [String: Any] = [
@@ -162,8 +162,8 @@ func encodeQrCodePass(passObject: PassObject) -> [String: Any] {
     // Custom case where the QR code must be represented as an image
 }
 
-func savePNGToDirectory(pngData: Data, destinationDirectory: URL) {
-    let destinationURL = destinationDirectory.appendingPathComponent("icon.png")
+func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: String) {
+    let destinationURL = destinationDirectory.appendingPathComponent("\(fileName).png")
 
     do {
         try pngData.write(to: destinationURL, options: .atomic)
