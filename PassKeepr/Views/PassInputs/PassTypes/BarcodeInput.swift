@@ -119,32 +119,28 @@ struct BarcodeInput: View {
     @MainActor func render() {
         let imageWidth = 375 * displayScale
         let imageHeight = 98 * displayScale
-        var uiImage: UIImage
 
         switch passObject.barcodeType {
         case BarcodeType.code39:
-            uiImage = ImageRenderer(content:
+            passObject.stripImage = ImageRenderer(content:
                 Code39View(value: $passObject.barcodeString).frame(width: imageWidth, height: imageHeight)
-            ).uiImage!
+            ).uiImage?.pngData() ?? Data()
 
         case BarcodeType.code93:
-            uiImage = ImageRenderer(content:
+            passObject.stripImage = ImageRenderer(content:
                 Code93View(value: $passObject.barcodeString).frame(width: imageWidth, height: imageHeight)
-            ).uiImage!
+            ).uiImage?.pngData() ?? Data()
 
         case BarcodeType.upce:
-            uiImage = ImageRenderer(content:
+            passObject.stripImage = ImageRenderer(content:
                 UPCEView(value: $passObject.barcodeString).frame(width: imageWidth, height: imageHeight)
-            ).uiImage!
+            ).uiImage?.pngData() ?? Data()
 
         case BarcodeType.code128:
-            uiImage = ImageRenderer(content:
-
+            passObject.stripImage = ImageRenderer(content:
                 Code128View(data: $passObject.barcodeString).frame(width: imageWidth, height: imageHeight)
-            ).uiImage!
+            ).uiImage?.pngData() ?? Data()
         }
-
-        passObject.stripImage = uiImage.pngData() ?? Data()
     }
 }
 
