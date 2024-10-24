@@ -18,6 +18,11 @@ struct EditPass: View {
     init(objectToEdit: Binding<PassObject>) {
         _objectToEdit = objectToEdit
         _tempObject = State(initialValue: objectToEdit.wrappedValue)
+        initializeTempObject()
+    }
+
+    private func initializeTempObject() {
+        tempObject.passName == "" ? tempObject.passName = "Default Name" : ()
     }
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
