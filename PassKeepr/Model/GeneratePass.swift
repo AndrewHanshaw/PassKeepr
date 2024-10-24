@@ -147,7 +147,9 @@ func encodeBarcodePass(passObject: PassObject, passDirectory: URL) -> [String: A
             "storeCard": data,
         ]
 
-        savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
+        if passObject.stripImage != Data() {
+            savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
+        }
 
         return storeCard
     }
