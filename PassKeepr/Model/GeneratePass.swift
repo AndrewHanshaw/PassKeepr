@@ -32,6 +32,10 @@ func generatePass(passObject: PassObject) -> URL? {
         try jsonData.write(to: fileURL)
         savePNGToDirectory(pngData: passObject.passIcon, destinationDirectory: passDirectory, fileName: "icon")
 
+        if passObject.stripImage != Data() {
+            savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
+        }
+
         if let pkpassDir = try zipDirectory(uuid: passObject.id) {
             return pkpassDir
         } else {
@@ -146,10 +150,6 @@ func encodeBarcodePass(passObject: PassObject, passDirectory: URL) -> [String: A
         let storeCard: [String: Any] = [
             "storeCard": data,
         ]
-
-        if passObject.stripImage != Data() {
-            savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
-        }
 
         return storeCard
     }
