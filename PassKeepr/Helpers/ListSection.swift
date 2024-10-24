@@ -23,6 +23,7 @@ struct ListSection: View {
                                 Label("Delete", systemImage: "trash.fill")
                             }
                         }
+                        .navigationTitle("Cancel")
                 }
             }
         }
