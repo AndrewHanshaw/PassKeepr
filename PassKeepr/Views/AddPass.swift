@@ -47,6 +47,7 @@ struct AddPass: View {
                     Section {
                         Button(
                             action: {
+                                addedPass.passName == "" ? addedPass.passName = "Default Name" : ()
                                 modelData.PassObjects.append(addedPass)
                                 modelData.encodePassObjects() // need to modify to only encode variables that are relevant based on PassType
 
