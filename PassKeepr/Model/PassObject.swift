@@ -9,6 +9,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var barcodeString: String
     var barcodeType: BarcodeType
     var stripImage: Data // PNG data for all passes that use the strip image (may be a barcode, picture, etc)
+    var backgroundImage: Data // PNG data for all passes that use the background image
     var qrCodeString: String
     var qrCodeCorrectionLevel: QrCodeCorrectionLevel
     var noteString: String
@@ -34,6 +35,7 @@ extension PassObject {
         barcodeString = ""
         barcodeType = BarcodeType.code128
         stripImage = Data()
+        backgroundImage = Data()
         qrCodeString = ""
         qrCodeCorrectionLevel = QrCodeCorrectionLevel.medium
         noteString = ""
