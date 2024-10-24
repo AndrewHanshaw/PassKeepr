@@ -132,6 +132,6 @@ struct AppIcon: View {
 
 #Preview {
     AppIcon()
-        .previewLayout(.fixed(width: AppIcon.appIconSize,
-                              height: AppIcon.appIconSize))
+        .frame(width: AppIcon.appIconSize,
+               height: AppIcon.appIconSize)
 }
