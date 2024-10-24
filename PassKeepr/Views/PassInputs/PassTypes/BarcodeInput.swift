@@ -136,10 +136,8 @@ struct BarcodeInput: View {
                 UPCEView(value: $passObject.barcodeString).frame(width: imageWidth, height: imageHeight)
             ).uiImage?.pngData() ?? Data()
 
-        case BarcodeType.code128:
-            passObject.stripImage = ImageRenderer(content:
-                Code128View(data: $passObject.barcodeString).frame(width: imageWidth, height: imageHeight)
-            ).uiImage?.pngData() ?? Data()
+        default:
+            break
         }
     }
 }
