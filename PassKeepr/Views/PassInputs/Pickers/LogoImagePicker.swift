@@ -4,7 +4,8 @@ import SwiftUI
 
 struct LogoImagePicker: View {
     @State private var photoItem: PhotosPickerItem?
-    @Binding var selectedImage: UIImage
+    @Binding var passObject: PassObject
+    @State private var selectedImage: UIImage = .init()
     @State private var showAlert: Bool = false
     private let alertTitleText = "Pass Logo"
     private let alertDescriptionText = "The pass logo is used to quickly identify the pass at a glance. It is shown in the top corner of the pass"
@@ -12,6 +13,7 @@ struct LogoImagePicker: View {
     var body: some View {
         Section {
             VStack {
+                // Display the image if it exsits (i.e. user has picked an image)
                 if selectedImage != UIImage() {
                     HStack {
                         Spacer()
@@ -24,6 +26,7 @@ struct LogoImagePicker: View {
                     Divider()
                 }
 
+                // Display the button that opens the photo picker
                 HStack {
                     Spacer()
                     PhotosPicker("Choose Logo Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
@@ -48,6 +51,7 @@ struct LogoImagePicker: View {
                     Task {
                         if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
                             selectedImage = UIImage(data: loaded)!
+                            passObject.passIcon = loaded
                         } else {
                             print("Failed")
                         }
@@ -59,5 +63,5 @@ struct LogoImagePicker: View {
 }
 
 #Preview {
-    LogoImagePicker(selectedImage: .constant(UIImage(systemName: "circle.plus.fill")!))
+    LogoImagePicker(passObject: .constant(MockModelData().PassObjects[0]))
 }
