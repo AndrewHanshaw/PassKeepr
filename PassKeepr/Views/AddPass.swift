@@ -3,7 +3,6 @@ import SwiftUI
 struct AddPass: View {
     @Environment(ModelData.self) var modelData
 
-    @State private var logoImage = UIImage()
     @State private var enableHeaderField = false
     @State private var headerFieldLabel = ""
     @State private var headerFieldText = ""
@@ -81,7 +80,7 @@ struct AddPass: View {
 
                     ColorInput(pass: $addedPass)
 
-                    LogoImagePicker(selectedImage: $logoImage)
+                    LogoImagePicker(passObject: $addedPass)
 
                     AdditionalFieldInput(enableHeaderField: $enableHeaderField, labelInput: $headerFieldLabel, textInput: $headerFieldText)
                 } // List
