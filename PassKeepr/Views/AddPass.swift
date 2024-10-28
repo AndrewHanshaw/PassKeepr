@@ -74,7 +74,7 @@ struct AddPass: View {
                             Spacer()
                         }
                         .padding(.bottom, -999)
-                        .padding(.top, 10)
+                        .padding(.top, 20)
                     } // Section
                     .listRowBackground(Color.accentColor)
 
@@ -84,7 +84,7 @@ struct AddPass: View {
 
                     AdditionalFieldInput(enableHeaderField: $enableHeaderField, labelInput: $headerFieldLabel, textInput: $headerFieldText)
                 } // List
-                .listSectionSpacing(30)
+                .listSectionSpacing(20)
             } // Form
         } // VStack
         .scrollDismissesKeyboard(.immediately)

@@ -40,7 +40,7 @@ struct BarcodeInput: View {
                 Spacer()
             }
             .padding(.bottom, -999)
-            .padding(.top, -10)
+            .padding(.top, 10)
         }
 
         Section {
