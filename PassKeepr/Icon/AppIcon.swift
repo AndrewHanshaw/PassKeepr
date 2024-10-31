@@ -125,18 +125,30 @@ struct AppIcon: View {
                 LinearGradient(colors: [AppIcon.outlineColortint4, AppIcon.outlineColor], startPoint: .top, endPoint: .bottom)
                     .mask(Text("P")
                         .font(Font.system(size: 500 * (appIconSize / 1024), weight: .bold, design: .rounded))
-                        .offset(x: -70 * appIconSize / 1024, y: -150 * appIconSize / 1024)
+                        .offset(x: -60 * appIconSize / 1024, y: -150 * appIconSize / 1024)
+                        .modifier(SkewEffect(xSkew: -0.15, ySkew: 0))
                     )
                     .shadow(radius: 20)
 
                 LinearGradient(colors: [AppIcon.outlineColortint4, AppIcon.outlineColor], startPoint: .top, endPoint: .bottom)
                     .mask(Text("K")
                         .font(Font.system(size: 500 * (appIconSize / 1024), weight: .bold, design: .rounded))
-                        .offset(x: 70 * (appIconSize / 1024), y: 150 * (appIconSize / 1024))
+                        .offset(x: 130 * (appIconSize / 1024), y: 150 * (appIconSize / 1024))
+                        .modifier(SkewEffect(xSkew: -0.15, ySkew: 0))
                     )
                     .shadow(radius: 20)
             }.frame(width: geometry.size.width, height: geometry.size.width)
         }
+    }
+}
+
+struct SkewEffect: GeometryEffect {
+    var xSkew: CGFloat
+    var ySkew: CGFloat
+
+    func effectValue(size: CGSize) -> ProjectionTransform {
+        let skewTransform = CGAffineTransform(a: 1, b: ySkew, c: xSkew, d: 1, tx: 0, ty: 0)
+        return ProjectionTransform(skewTransform)
     }
 }
 
