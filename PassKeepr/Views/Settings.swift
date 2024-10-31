@@ -32,6 +32,7 @@ struct Settings: View {
     @Environment(ModelData.self) var modelData
 
     @State private var isDocumentPickerPresented: Bool = false
+    @State private var showIcon = false
 
     var body: some View {
         Form {
@@ -42,9 +43,21 @@ struct Settings: View {
                 Button("Delete Data File", role: .destructive) {
                     modelData.deleteDataFile()
                 }
-                let iconView = AppIcon().frame(width: 1024, height: 1024)
-                let cgImage = ImageRenderer(content: iconView).cgImage!
-                let uiimage = UIImage(cgImage: cgImage)
+                Button(action: {
+                    showIcon = true
+                }) {
+                    Text("Show App Icon")
+                }
+                .sheet(isPresented: $showIcon) {
+                    VStack {
+                        Spacer()
+                        AppIcon()
+                        Spacer()
+                    }
+                }
+
+                let uiimage = ImageRenderer(content: AppIcon().frame(width: 1024, height: 1024)).uiImage!
+
                 Button("Save Icon image") {
                     self.isDocumentPickerPresented.toggle()
                 }
