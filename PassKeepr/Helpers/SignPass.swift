@@ -1,6 +1,9 @@
 import Foundation
 
-class pkPassSigner: NSObject, URLSessionDelegate {
+class pkPassSigner: NSObject, ObservableObject, URLSessionDelegate {
+    @Published var isDataLoaded: Bool = false
+    @Published var fileURL: URL? = nil
+
     func uploadPKPassFile(fileURL: URL, passUuid: UUID) {
         let url = URL(string: "https://localhost:3000/sign")
 
@@ -33,36 +36,54 @@ class pkPassSigner: NSObject, URLSessionDelegate {
         let session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
 
         // Perform the upload task
-        let task = session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-                return
-            }
+        DispatchQueue.global(qos: .userInitiated).async {
+            let task = session.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print("Error: \(error.localizedDescription)")
+                    return
+                }
 
-            // Handle response
-            if let httpResponse = response as? HTTPURLResponse, (200 ... 299).contains(httpResponse.statusCode) {
-                print("Upload successful!")
+                // Handle response
+                if let httpResponse = response as? HTTPURLResponse, (200 ... 299).contains(httpResponse.statusCode) {
+                    print("Upload successful!")
 
-                // Save the response data to a file
-                if let data = data {
-                    let fileManager = FileManager.default
-                    let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-                    let destinationURL = documentsDirectory.appendingPathComponent("\(passUuid).pkpass")
+                    // Save the response data to a file
+                    if let data = data {
+                        let fileManager = FileManager.default
+                        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+                        let destinationURL = documentsDirectory.appendingPathComponent("\(passUuid).pkpass")
+                        DispatchQueue.main.async {
+                            self.fileURL = destinationURL
+                        }
 
-                    do {
-                        try data.write(to: destinationURL)
-                        print("File saved to: \(destinationURL.path)")
-                    } catch {
-                        print("Error saving file: \(error)")
+                        do {
+                            try data.write(to: destinationURL)
+                            print("File saved to: \(destinationURL.path)")
+                            DispatchQueue.main.async {
+                                self.isDataLoaded = true
+                            }
+                        } catch {
+                            print("Error saving file: \(error)")
+                            DispatchQueue.main.async {
+                                self.isDataLoaded = false
+                            }
+                        }
+                    }
+                } else {
+                    print("Upload failed with response: \(String(describing: response))")
+                    DispatchQueue.main.async {
+                        self.isDataLoaded = false
                     }
                 }
-            } else {
-                print("Upload failed with response: \(String(describing: response))")
+            }
+
+            // Start the upload task
+            task.resume()
+            DispatchQueue.main.async {
+                self.isDataLoaded = false // Immediately set isDataLoaded to false, it will be set to true once the signed pass is successfully received
             }
         }
-
-        // Start the upload task
-        task.resume()
+        print("waiting for pass to be signed, isDataLoaded = false")
     }
 
     // Trust the self-signed certificate
