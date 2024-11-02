@@ -1,15 +1,20 @@
+import PassKit
 import SwiftUI
 
 struct AddPass: View {
     @Environment(ModelData.self) var modelData
+    @StateObject var passSigner: pkPassSigner = .init()
 
     @State private var enableHeaderField = false
     @State private var headerFieldLabel = ""
     @State private var headerFieldText = ""
 
     @State private var addedPass = PassObject()
+    @State private var addedPKPass = PKPass()
 
     @Binding var isSheetPresented: Bool // Used to close the sheet in the parent view
+    @State var isWalletSheetPresented: Bool = false // Used to close the sheet in the parent view
+    @State private var isDoneSigningPass: Bool = false
 
     var body: some View {
         VStack {
@@ -52,8 +57,10 @@ struct AddPass: View {
 
                                 // TODO: Indicate why generation was unsuccessful if it fails
                                 if let pkpassDir = generatePass(passObject: addedPass) {
-                                    pkPassSigner().uploadPKPassFile(fileURL: pkpassDir, passUuid: addedPass.id)
-                                    isSheetPresented = false
+                                    Task {
+                                        passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: addedPass.id)
+                                    }
+                                    isWalletSheetPresented = true
                                 }
                             },
                             label: {
@@ -88,8 +95,21 @@ struct AddPass: View {
             } // Form
         } // VStack
         .scrollDismissesKeyboard(.immediately)
+        .sheet(isPresented: $isWalletSheetPresented) {
+            if passSigner.isDataLoaded {
+                AddToWalletView(pass: getPkPass(fileURL: passSigner.fileURL!))
+            }
+        }
     } // View
 } // Struct
+
+func getPkPass(fileURL: URL) -> PKPass {
+    do {
+        return try PKPass(data: Data(contentsOf: fileURL))
+    } catch {
+        return PKPass()
+    }
+}
 
 #Preview {
     AddPass(isSheetPresented: .constant(true))
