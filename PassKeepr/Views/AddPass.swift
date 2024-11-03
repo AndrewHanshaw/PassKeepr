@@ -97,7 +97,14 @@ struct AddPass: View {
         .scrollDismissesKeyboard(.immediately)
         .sheet(isPresented: $isWalletSheetPresented) {
             if passSigner.isDataLoaded {
-                AddToWalletView(pass: getPkPass(fileURL: passSigner.fileURL!))
+                AddToWalletView(pass: getPkPass(fileURL: passSigner.fileURL!)) { wasAdded in
+                    if wasAdded {
+                        print("Pass was successfully added to wallet")
+                        isSheetPresented = false
+                    } else {
+                        print("Pass was not added to wallet")
+                    }
+                }
             }
         }
     } // View
