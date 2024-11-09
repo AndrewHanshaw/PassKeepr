@@ -146,7 +146,7 @@ struct SkewEffect: GeometryEffect {
     var xSkew: CGFloat
     var ySkew: CGFloat
 
-    func effectValue(size: CGSize) -> ProjectionTransform {
+    func effectValue(size _: CGSize) -> ProjectionTransform {
         let skewTransform = CGAffineTransform(a: 1, b: ySkew, c: xSkew, d: 1, tx: 0, ty: 0)
         return ProjectionTransform(skewTransform)
     }
