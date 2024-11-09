@@ -15,6 +15,7 @@ struct AddPass: View {
     @Binding var isSheetPresented: Bool // Used to close the sheet in the parent view
     @State var isWalletSheetPresented: Bool = false // Used to close the sheet in the parent view
     @State private var isDoneSigningPass: Bool = false
+    @State private var hasAddPassButtonBeenPressed = false
 
     var body: some View {
         VStack {
@@ -51,6 +52,7 @@ struct AddPass: View {
                     Section {
                         Button(
                             action: {
+                                hasAddPassButtonBeenPressed = true // Set flag so we can disable the button once pressed
                                 addedPass.passName == "" ? addedPass.passName = "Default Name" : ()
                                 modelData.PassObjects.append(addedPass)
                                 modelData.encodePassObjects() // need to modify to only encode variables that are relevant based on PassType
@@ -62,17 +64,25 @@ struct AddPass: View {
                                     }
                                     isWalletSheetPresented = true
                                 }
-                            },
-                            label: {
-                                HStack {
-                                    Spacer()
-                                    Text("Add Pass")
-                                        .fontWeight(.bold)
-                                        .foregroundColor(Color.white)
-                                    Spacer()
+                            }) {
+                                ZStack {
+                                    ProgressView()
+                                        .tint(.white)
+                                        .padding(.leading, 110)
+                                        .opacity(hasAddPassButtonBeenPressed && !passSigner.isDataLoaded ? 1 : 0) // Fade-in effect
+                                        .animation(.easeInOut(duration: 0.2), value: hasAddPassButtonBeenPressed && !passSigner.isDataLoaded)
+                                    HStack {
+                                        Spacer()
+                                        Text("Add Pass")
+                                            .fontWeight(.bold)
+                                            .foregroundColor(Color.white)
+                                        Spacer()
+                                    }
                                 }
                             }
-                        ) // Button
+                            .disabled(hasAddPassButtonBeenPressed)
+                            .opacity(hasAddPassButtonBeenPressed ? 0.4 : 1.0)
+                            .animation(.easeInOut(duration: 0.2), value: hasAddPassButtonBeenPressed)
                     } footer: {
                         HStack {
                             Spacer()
@@ -103,6 +113,8 @@ struct AddPass: View {
                 } else {
                     print("Pass was not added to wallet")
                 }
+
+                hasAddPassButtonBeenPressed = false // Disable loading circle
             }
         }
     } // View
