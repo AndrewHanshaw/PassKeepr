@@ -5,7 +5,11 @@ class pkPassSigner: NSObject, ObservableObject, URLSessionDelegate {
     @Published var fileURL: URL? = nil
 
     func uploadPKPassFile(fileURL: URL, passUuid: UUID) {
-        let url = URL(string: "https://localhost:3000/sign")
+        var url = URL(string: "https://pk-server.azurewebsites.net/sign")
+
+        if Bundle.main.object(forInfoDictionaryKey: "LocalServer") as? String == "true" {
+            url = URL(string: "https://localhost:3000/sign")
+        }
 
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
