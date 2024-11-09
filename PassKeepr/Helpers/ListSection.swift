@@ -4,6 +4,7 @@ struct ListSection: View {
     @Environment(ModelData.self) var modelData
 
     @State private var isListExpanded = true
+    @State private var isObjectEdited = false
 
     @State var list: [PassObject]
 
@@ -15,7 +16,7 @@ struct ListSection: View {
         Section(header: sectionHeader(type, isExpanded: $isListExpanded)) {
             if isListExpanded {
                 ForEach($list) { $passObject in
-                    NavigationLink(passObject.passName, destination: EditPass(objectToEdit: $passObject))
+                    NavigationLink(passObject.passName, destination: EditPass(objectToEdit: $passObject, isObjectEdited: $isObjectEdited))
                         .swipeActions(allowsFullSwipe: false) {
                             Button(role: .destructive) {
                                 modelData.deleteItemByID(passObject.id)
@@ -23,7 +24,7 @@ struct ListSection: View {
                                 Label("Delete", systemImage: "trash.fill")
                             }
                         }
-                        .navigationTitle("Cancel")
+                        .navigationTitle(isObjectEdited ? "Cancel" : "Back")
                 }
             }
         }
