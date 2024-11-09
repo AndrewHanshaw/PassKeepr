@@ -92,6 +92,7 @@
 		BA0F32E82B9AC84D007120B8 /* LogoImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoImagePicker.swift; sourceTree = "<group>"; };
 		BA12869B2B95756500AC82E4 /* AztecView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AztecView.swift; sourceTree = "<group>"; };
 		BA12869D2B957BD700AC82E4 /* GeneratePass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePass.swift; sourceTree = "<group>"; };
+		BA15A2C92CE0002800ECD183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BA15EC172B3CE75400078A17 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 		BA18C8912CB837E100012876 /* DefaultPassIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPassIcon.png; sourceTree = "<group>"; };
 		BA1BACD32B463FCD00F86890 /* EditPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPass.swift; sourceTree = "<group>"; };
@@ -172,6 +173,7 @@
 		3A02E7382AF6EE1000383BC2 /* PassKeepr */ = {
 			isa = PBXGroup;
 			children = (
+				BA15A2C92CE0002800ECD183 /* Info.plist */,
 				BA7C075C2B6C8B1200F09154 /* BarcodeGenerators */,
 				BAE53CDD2B3CE5260080FFFD /* Icon */,
 				BABAADDC2B0AB8150014C73B /* Helpers */,
@@ -673,6 +675,7 @@
 				DEVELOPMENT_TEAM = NZDS56Z4Q9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PassKeepr/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Scanning existing codes to add into passes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -684,6 +687,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LOCAL_SERVER = false;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeepr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -704,6 +708,7 @@
 				DEVELOPMENT_TEAM = NZDS56Z4Q9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PassKeepr/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Scanning existing codes to add into passes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -715,6 +720,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LOCAL_SERVER = false;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeepr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
