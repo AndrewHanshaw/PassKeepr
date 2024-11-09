@@ -9,28 +9,31 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
+            ZStack {
                 List {
                     ForEach(modelData.filteredPassObjects, id: \.self) { passObjects in
                         ListSection(list: passObjects)
                     }
                 }
-                HStack {
+                VStack {
                     Spacer()
-                    Button(role: .none,
-                           action: { shouldPresentAddPass.toggle() },
-                           label: {
-                               Image(systemName: "plus.circle.fill")
-                                   .resizable()
-                                   .scaledToFit()
-                                   .frame(width: 50)
-                           })
-                           .labelStyle(.iconOnly)
-                           .padding([.trailing], 33)
-                           .sheet(isPresented: $shouldPresentAddPass) {
-                               AddPass(isSheetPresented: $shouldPresentAddPass)
-                                   .presentationDragIndicator(.visible)
-                           }
+                    HStack {
+                        Spacer()
+                        Button(role: .none,
+                               action: { shouldPresentAddPass.toggle() },
+                               label: {
+                                   Image(systemName: "plus.circle.fill")
+                                       .resizable()
+                                       .scaledToFit()
+                                       .frame(width: 50)
+                               })
+                               .labelStyle(.iconOnly)
+                               .padding([.trailing], 33)
+                               .sheet(isPresented: $shouldPresentAddPass) {
+                                   AddPass(isSheetPresented: $shouldPresentAddPass)
+                                       .presentationDragIndicator(.visible)
+                               }
+                    }
                 }
             }
             .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
