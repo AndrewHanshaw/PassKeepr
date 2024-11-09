@@ -113,7 +113,7 @@ func encodeIdentificationPass(passObject: PassObject) -> [String: Any] {
     return generic
 }
 
-func encodeBarcodePass(passObject: PassObject, passDirectory: URL) -> [String: Any] {
+func encodeBarcodePass(passObject: PassObject, passDirectory _: URL) -> [String: Any] {
     // Nominal case where the barcode type is directly supported by PassKit
     if passObject.barcodeType == BarcodeType.code128 {
         let barcodeFields: [String: Any] = [
