@@ -28,7 +28,7 @@ struct ColorInput: View {
 
         Section {
             ColorPicker("Foreground Color", selection: Color.binding(from: $pass.foregroundColor))
-            ColorPicker("Text Color", selection: Color.binding(from: $pass.textColor))
+            ColorPicker("Label Color", selection: Color.binding(from: $pass.labelColor))
         }
     }
 }
