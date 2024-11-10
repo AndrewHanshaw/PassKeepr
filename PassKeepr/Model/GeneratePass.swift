@@ -45,6 +45,10 @@ func generatePass(passObject: PassObject) -> URL? {
             savePNGToDirectory(pngData: resizeImage(image: UIImage(data: passObject.backgroundImage)!, targetSize: CGSize(width: 112, height: 142))!.pngData()!, destinationDirectory: passDirectory, fileName: "background")
         }
 
+        if passObject.logoImage != Data() {
+            savePNGToDirectory(pngData: passObject.logoImage, destinationDirectory: passDirectory, fileName: "logo")
+        }
+
         if let pkpassDir = try zipDirectory(uuid: passObject.id) {
             return pkpassDir
         } else {
