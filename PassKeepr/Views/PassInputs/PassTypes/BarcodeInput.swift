@@ -121,8 +121,11 @@ struct BarcodeInput: View {
     }
 
     @MainActor func render() {
-        let imageWidth = 375 * displayScale
-        let imageHeight = 98 * displayScale
+        // Strip image size according to
+        // https://help.passkit.com/en/articles/2214902-what-are-the-optimum-image-sizes
+        // (Seems to be accurate)
+        let imageWidth = 1125.0
+        let imageHeight = 432.0
 
         switch passObject.barcodeType {
         case BarcodeType.code39:
