@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import ZIPFoundation
 
 // Fields required by every PassKit pass
@@ -34,10 +35,12 @@ func generatePass(passObject: PassObject) -> URL? {
 
         if passObject.stripImage != Data() {
             savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
+            savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip@2x")
         }
 
-        if passObject.backgroundImage != Data() {
-            savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "background")
+        if shouldBackgroundImageBeAddedToPass(passObject: passObject) {
+            savePNGToDirectory(pngData: passObject.backgroundImage, destinationDirectory: passDirectory, fileName: "background@2x")
+            savePNGToDirectory(pngData: resizeImage(image: UIImage(data: passObject.backgroundImage)!, targetSize: CGSize(width: 112, height: 142))!.pngData()!, destinationDirectory: passDirectory, fileName: "background")
         }
 
         if let pkpassDir = try zipDirectory(uuid: passObject.id) {
@@ -132,11 +135,19 @@ func encodeBarcodePass(passObject: PassObject, passDirectory _: URL) -> [String:
             "primaryFields": [primaryFields],
         ]
 
-        let generic: [String: Any] = [
-            "generic": data,
-            "barcode": barcodeFields,
-        ]
-        return generic
+        if shouldBackgroundImageBeAddedToPass(passObject: passObject) {
+            let eventTicket: [String: Any] = [
+                "eventTicket": data,
+                "barcode": barcodeFields,
+            ]
+            return eventTicket
+        } else {
+            let generic: [String: Any] = [
+                "generic": data,
+                "barcode": barcodeFields,
+            ]
+            return generic
+        }
     }
 
     // Custom case where the barcode must be represented as an image
@@ -194,5 +205,21 @@ func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: Stri
         print("Image saved successfully at \(destinationURL.path)")
     } catch {
         print("Error saving image: \(error.localizedDescription)")
+    }
+}
+
+func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
+    if (passObject.stripImage == Data()) && ((passObject.barcodeType == BarcodeType.code128) || (passObject.passType == PassType.qrCodePass)) {
+        return true
+    } else {
+        return false
+    }
+}
+
+func shouldBackgroundImageBeAddedToPass(passObject: PassObject) -> Bool {
+    if (passObject.backgroundImage != Data()) && getIsBackgroundImageSupported(passObject: passObject) {
+        return true
+    } else {
+        return false
     }
 }

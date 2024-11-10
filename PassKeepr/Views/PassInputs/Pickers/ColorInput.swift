@@ -8,20 +8,22 @@ struct ColorInput: View {
             ColorPicker("Background Color", selection: Color.binding(from: $pass.backgroundColor))
         }
 
-        Section {
-            HStack {
-                Spacer()
-                Text("Or:")
-                    .font(.system(size: 20))
-                    .foregroundColor(.secondary)
-                Spacer()
+        if getIsBackgroundImageSupported(passObject: pass) {
+            Section {
+                HStack {
+                    Spacer()
+                    Text("Or:")
+                        .font(.system(size: 20))
+                        .foregroundColor(.secondary)
+                    Spacer()
+                }
             }
-        }
-        .listSectionSpacing(0)
-        .listRowBackground(Color.clear)
+            .listSectionSpacing(0)
+            .listRowBackground(Color.clear)
 
-        Section {
-            BackgroundImagePicker(passObject: $pass)
+            Section {
+                BackgroundImagePicker(passObject: $pass)
+            }
         }
 
         Section {
