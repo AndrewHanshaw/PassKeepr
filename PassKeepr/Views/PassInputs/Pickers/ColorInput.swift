@@ -6,20 +6,24 @@ struct ColorInput: View {
     var body: some View {
         Section {
             ColorPicker("Background Color", selection: Color.binding(from: $pass.backgroundColor))
-        } footer: {
+        }
+
+        Section {
             HStack {
                 Spacer()
                 Text("Or:")
                     .font(.system(size: 20))
+                    .foregroundColor(.secondary)
                 Spacer()
             }
-            .padding(.bottom, -.infinity)
-            .padding(.top, 10)
         }
+        .listSectionSpacing(0)
+        .listRowBackground(Color.clear)
 
         Section {
             BackgroundImagePicker(passObject: $pass)
         }
+
         Section {
             ColorPicker("Foreground Color", selection: Color.binding(from: $pass.foregroundColor))
             ColorPicker("Text Color", selection: Color.binding(from: $pass.textColor))

@@ -32,16 +32,20 @@ struct BarcodeInput: View {
                     .edgesIgnoringSafeArea(.bottom)
                     .presentationDragIndicator(.visible)
             }
-        } footer: {
+        }
+        .listSectionSeparator(.hidden)
+
+        Section {
             HStack {
                 Spacer()
                 Text("Or:")
                     .font(.system(size: 20))
+                    .foregroundColor(.secondary)
                 Spacer()
             }
-            .padding(.bottom, -999)
-            .padding(.top, 10)
         }
+        .listSectionSpacing(0)
+        .listRowBackground(Color.clear)
 
         Section {
             HStack {

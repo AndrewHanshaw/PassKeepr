@@ -84,17 +84,20 @@ struct AddPass: View {
                             .disabled(hasAddPassButtonBeenPressed)
                             .opacity(hasAddPassButtonBeenPressed ? 0.4 : 1.0)
                             .animation(.easeInOut(duration: 0.2), value: hasAddPassButtonBeenPressed)
-                    } footer: {
+                    }
+                    .listRowBackground(Color.accentColor)
+
+                    Section {
                         HStack {
                             Spacer()
                             Text("Optional Customizations:")
                                 .font(.system(size: 20))
+                                .foregroundColor(.secondary)
                             Spacer()
                         }
-                        .padding(.bottom, -999)
-                        .padding(.top, 20)
-                    } // Section
-                    .listRowBackground(Color.accentColor)
+                    }
+                    .listSectionSpacing(0)
+                    .listRowBackground(Color.clear)
 
                     ColorInput(pass: $addedPass)
 
