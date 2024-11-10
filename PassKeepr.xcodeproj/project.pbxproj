@@ -22,6 +22,7 @@
 		BA00B9B62B4F96DA00050C33 /* PictureInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA00B9B52B4F96DA00050C33 /* PictureInput.swift */; };
 		BA0F32E92B9AC84D007120B8 /* LogoImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F32E82B9AC84D007120B8 /* LogoImagePicker.swift */; };
 		BA0F98212CE2BA4800F76501 /* ExtendUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */; };
+		BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */; };
 		BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869B2B95756500AC82E4 /* AztecView.swift */; };
 		BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869D2B957BD700AC82E4 /* GeneratePass.swift */; };
 		BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA15EC172B3CE75400078A17 /* AppIcon.swift */; };
@@ -92,6 +93,7 @@
 		BA00B9B52B4F96DA00050C33 /* PictureInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureInput.swift; sourceTree = "<group>"; };
 		BA0F32E82B9AC84D007120B8 /* LogoImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoImagePicker.swift; sourceTree = "<group>"; };
 		BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendUInt.swift; sourceTree = "<group>"; };
+		BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendUIImage.swift; sourceTree = "<group>"; };
 		BA12869B2B95756500AC82E4 /* AztecView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AztecView.swift; sourceTree = "<group>"; };
 		BA12869D2B957BD700AC82E4 /* GeneratePass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePass.swift; sourceTree = "<group>"; };
 		BA15A2C92CE0002800ECD183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -317,6 +319,7 @@
 		BABAADDC2B0AB8150014C73B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */,
 				BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */,
 				BABAADD72B0A6BF50014C73B /* ListSection.swift */,
 				BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */,
@@ -487,6 +490,7 @@
 				BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */,
 				BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */,
 				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
+				BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */,
 				BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */,
 				BA25D8972B76E8300044E423 /* Code93View.swift in Sources */,
 				3A02E73C2AF6EE1000383BC2 /* ContentView.swift in Sources */,

@@ -51,7 +51,10 @@ struct LogoImagePicker: View {
                     Task {
                         if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
                             selectedImage = UIImage(data: loaded)!
-                            passObject.passIcon = loaded
+
+                            selectedImage = selectedImage.resizeToFit()
+
+                            passObject.logoImage = selectedImage.pngData()!
                         } else {
                             print("Failed")
                         }
