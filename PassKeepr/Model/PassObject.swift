@@ -74,7 +74,7 @@ enum QrCodeCorrectionLevel: Codable, CustomStringConvertible, CaseIterable {
 }
 
 enum BarcodeType: Codable, CustomStringConvertible, CaseIterable {
-    case code128
+    case code128 // natively supported by PassKit
     case code93
     case code39
     case upce

@@ -8,7 +8,7 @@ struct BackgroundImagePicker: View {
     @State private var selectedImage: UIImage = .init()
     @State private var showAlert: Bool = false
     private let alertTitleText = "Background Image"
-    private let alertDescriptionText = "The background image is displayed behind the pass. The image will be blurred"
+    private let alertDescriptionText = "The background image is displayed behind the pass. The image will be blurred. It is only available for code 128 barcode passes and qr code passes"
 
     var body: some View {
         Section {
@@ -49,7 +49,10 @@ struct BackgroundImagePicker: View {
                     Task {
                         if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
                             selectedImage = UIImage(data: loaded)!
-                            passObject.backgroundImage = loaded
+
+                            selectedImage = resizeImage(image: selectedImage, targetSize: CGSize(width: 224, height: 284))!
+
+                            passObject.backgroundImage = selectedImage.pngData()!
                         } else {
                             print("Failed")
                         }
@@ -58,6 +61,16 @@ struct BackgroundImagePicker: View {
             }
         }
     }
+}
+
+func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
+    UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
+    let rect = CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
+    image.draw(in: rect)
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+
+    return newImage!
 }
 
 #Preview {
