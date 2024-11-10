@@ -45,7 +45,7 @@ private extension PassObject {
         pictureData: Data(),
         foregroundColor: 0xFF00FF,
         backgroundColor: 0xFFFFFF,
-        textColor: 0x000000,
+        labelColor: 0x000000,
         description: "Preview pass 1"
     )
 
@@ -70,7 +70,7 @@ private extension PassObject {
         pictureData: Data(),
         foregroundColor: 0xFF00FF,
         backgroundColor: 0xFFFFFF,
-        textColor: 0x000000,
+        labelColor: 0x000000,
         description: "Preview pass 0"
     )
 }
