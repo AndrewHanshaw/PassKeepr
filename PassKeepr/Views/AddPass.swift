@@ -44,7 +44,8 @@ struct AddPass: View {
                         Text("Add a Pass:")
                             .font(.system(size: 25, weight: .bold, design: .rounded))
                             .textCase(nil)
-                            .padding([.bottom])
+                            .padding(.bottom, 4)
+                            .padding(.top, 8)
                     }
 
                     PassInput(pass: $addedPass)
