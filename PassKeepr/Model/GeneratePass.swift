@@ -28,8 +28,8 @@ func generatePass(passObject: PassObject) -> URL? {
         var passData: [String: Any] = requiredFields
         passData.merge(["description": passObject.description]) { current, _ in current }
         passData.merge(["serialNumber": passObject.id.uuidString]) { current, _ in current }
-        passData.merge(["foregroundColor": passObject.foregroundColor.toRGBString]) { current, _ in current }
-        passData.merge(["backgroundColor": passObject.backgroundColor.toRGBString]) { current, _ in current }
+        passData.merge(["foregroundColor": passObject.foregroundColor.toRGBString()]) { current, _ in current }
+        passData.merge(["backgroundColor": passObject.backgroundColor.toRGBString()]) { current, _ in current }
         passData.merge(populatePass(passObject: passObject, passDirectory: passDirectory)) { current, _ in current }
         let jsonData = try JSONSerialization.data(withJSONObject: passData, options: .prettyPrinted)
         try jsonData.write(to: fileURL)
