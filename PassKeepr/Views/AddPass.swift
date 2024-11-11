@@ -3,7 +3,8 @@ import SwiftUI
 
 struct AddPass: View {
     @Environment(ModelData.self) var modelData
-    @StateObject var passSigner: pkPassSigner = .init()
+
+    @EnvironmentObject var passSigner: pkPassSigner
 
     @State private var enableHeaderField = false
     @State private var headerFieldLabel = ""
