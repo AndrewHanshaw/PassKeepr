@@ -16,6 +16,7 @@ struct AddPass: View {
     @State var isWalletSheetPresented: Bool = false // Used to close the sheet in the parent view
     @State private var isDoneSigningPass: Bool = false
     @State private var hasAddPassButtonBeenPressed = false
+    @State private var textWidth: CGFloat = 0
 
     var body: some View {
         VStack {
@@ -69,14 +70,15 @@ struct AddPass: View {
                                 ZStack {
                                     ProgressView()
                                         .tint(.white)
-                                        .padding(.leading, 110)
                                         .opacity(hasAddPassButtonBeenPressed && !passSigner.isDataLoaded ? 1 : 0) // Fade-in effect
                                         .animation(.easeInOut(duration: 0.2), value: hasAddPassButtonBeenPressed && !passSigner.isDataLoaded)
+                                        .offset(x: textWidth / 2 + 20)
                                     HStack {
                                         Spacer()
                                         Text("Add Pass")
                                             .fontWeight(.bold)
                                             .foregroundColor(Color.white)
+                                            .readWidth(into: $textWidth)
                                         Spacer()
                                     }
                                 }

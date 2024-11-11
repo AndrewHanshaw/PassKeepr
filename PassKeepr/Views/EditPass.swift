@@ -16,6 +16,8 @@ struct EditPass: View {
     // the Save button is pressed
     @State private var tempObject: PassObject = .init()
 
+    @State private var hasEditPassButtonBeenPressed = false
+
     // On init, set the temp object owned by this view equal to the
     // one passed in via @Binding
     init(objectToEdit: Binding<PassObject>, isObjectEdited: Binding<Bool>) {
