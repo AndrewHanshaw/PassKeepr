@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct EditPass: View {
+    @EnvironmentObject var passSigner: pkPassSigner
+
     // Pass object passed into this view.
     // We want to update this object when the save button is pressed
     @Binding var objectToEdit: PassObject
@@ -17,6 +19,7 @@ struct EditPass: View {
     @State private var tempObject: PassObject = .init()
 
     @State private var hasEditPassButtonBeenPressed = false
+    @State private var textWidth: CGFloat = 0
 
     // On init, set the temp object owned by this view equal to the
     // one passed in via @Binding
@@ -40,22 +43,45 @@ struct EditPass: View {
 
                 Section {
                     Button(
-                        // When the save button is pressed, save the @Binding
-                        // PassObject to the temp object with any user edits
                         action: {
+                            hasEditPassButtonBeenPressed = true
                             objectToEdit = tempObject
-                            presentationMode.wrappedValue.dismiss()
-                        },
-                        label: {
-                            HStack {
-                                Spacer()
-                                Text("Save")
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color.white)
-                                Spacer()
+
+                            // Delete existing pass's directory altogether, we will regenerate from scratch
+                            let passDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pass")
+                            let pkPassDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pkpass")
+                            do {
+                                try FileManager.default.removeItem(at: passDirectory)
+                                try FileManager.default.removeItem(at: pkPassDirectory)
+                            } catch {
+                                print("Unable to delete pass dir")
+                            }
+
+                            if let pkpassDir = generatePass(passObject: objectToEdit) {
+                                Task {
+                                    passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: objectToEdit.id)
+                                }
+                            }
+                        }) {
+                            ZStack {
+                                ProgressView()
+                                    .tint(.white)
+                                    .opacity(hasEditPassButtonBeenPressed && !passSigner.isDataLoaded ? 1 : 0) // Fade-in effect
+                                    .animation(.easeInOut(duration: 0.2), value: hasEditPassButtonBeenPressed && !passSigner.isDataLoaded)
+                                    .offset(x: textWidth / 2 + 20)
+                                HStack {
+                                    Spacer()
+                                    Text("Save")
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color.white)
+                                        .readWidth(into: $textWidth)
+                                    Spacer()
+                                }
                             }
                         }
-                    )
+                        .disabled(hasEditPassButtonBeenPressed)
+                        .opacity(hasEditPassButtonBeenPressed ? 0.4 : 1.0)
+                        .animation(.easeInOut(duration: 0.2), value: hasEditPassButtonBeenPressed)
                 }
                 .listRowBackground(Color.accentColor)
             }
@@ -71,6 +97,18 @@ struct EditPass: View {
         .onDisappear {
             // This will be triggered when the back button is pressed
             isObjectEdited = false // Reset the flag because the user did not save changes
+        }
+        .sheet(isPresented: $passSigner.isDataLoaded) {
+            AddToWalletView(pass: getPkPass(fileURL: passSigner.fileURL!)) { wasAdded in
+                if wasAdded {
+                    print("Pass was successfully added to wallet")
+                    presentationMode.wrappedValue.dismiss()
+                } else {
+                    print("Pass was not added to wallet")
+                }
+
+                hasEditPassButtonBeenPressed = false // Disable loading circle
+            }
         }
     }
 }
