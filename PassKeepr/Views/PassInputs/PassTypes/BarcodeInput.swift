@@ -1,10 +1,11 @@
 import SwiftUI
+import Vision
 
 struct BarcodeInput: View {
     @Binding var passObject: PassObject
 
     @State private var scannedCode = ""
-    @State private var scannedSymbology = ""
+    @State private var scannedSymbology: VNBarcodeSymbology?
     @State private var isScannerPresented = false
     @State private var useScannedData = false
     @State private var showAlert: Bool = false
@@ -86,7 +87,7 @@ struct BarcodeInput: View {
                 Text("Data")
             }
         } footer: {
-            if scannedSymbology != "" && scannedSymbology != "VNBarcodeSymbologyCode128" {
+            if !IsScannedBarcodeSupported(symbology: scannedSymbology) {
                 Text("Scanned code was not a valid barcode")
             }
         }
@@ -113,6 +114,10 @@ struct BarcodeInput: View {
                     InvalidBarcodeView(ratio: 3, isEmpty: false)
                 }
             }
+        }
+        .onChange(of: scannedCode) {
+            passObject.barcodeString = scannedCode
+            passObject.barcodeType = scannedSymbology?.toBarcodeType() ?? BarcodeType.code128
         }
         .onChange(of: passObject.barcodeString) { _, _ in
             render()
@@ -147,6 +152,17 @@ struct BarcodeInput: View {
             break
         }
     }
+}
+
+func IsScannedBarcodeSupported(symbology: VNBarcodeSymbology?) -> Bool {
+    if symbology == nil {
+        return false
+    }
+    if (symbology != VNBarcodeSymbology.code128) || (symbology != VNBarcodeSymbology.code93) || (symbology != VNBarcodeSymbology.code39) || (symbology != VNBarcodeSymbology.upce) {
+        return true
+    }
+
+    return false
 }
 
 #Preview {
