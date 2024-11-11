@@ -1,11 +1,12 @@
 import SwiftUI
+import Vision
 import VisionKit
 
 struct QRCodeInput: View {
     @Binding var passObject: PassObject
 
     @State private var scannedCode = ""
-    @State private var scannedSymbology = ""
+    @State private var scannedSymbology: VNBarcodeSymbology?
     @State private var isScannerPresented = false
     @State private var useScannedData = false
 
@@ -17,7 +18,7 @@ struct QRCodeInput: View {
                         passObject.qrCodeString = scannedCode
                     }
                     .onChange(of: passObject.qrCodeString) {
-                        scannedSymbology = ""
+                        scannedSymbology = nil
                     }
             } label: {
                 Text("Payload")
@@ -39,12 +40,12 @@ struct QRCodeInput: View {
                 }
             }
             .onChange(of: passObject.qrCodeCorrectionLevel) {
-                scannedSymbology = ""
+                scannedSymbology = nil
             }
 
             QRCodeView(data: passObject.qrCodeString, correctionLevel: passObject.qrCodeCorrectionLevel)
         } footer: {
-            if scannedSymbology != "" && scannedSymbology != "VNBarcodeSymbologyQR" {
+            if scannedSymbology != nil && scannedSymbology != VNBarcodeSymbology.qr {
                 Text("Scanned code was not a valid QR code")
             }
         }

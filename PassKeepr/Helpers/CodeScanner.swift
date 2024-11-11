@@ -1,10 +1,11 @@
 import SwiftUI
+import Vision
 import VisionKit
 
 struct CodeScanner: UIViewControllerRepresentable {
     @Binding var shouldStartScanning: Bool
     @Binding var scannedText: String
-    @Binding var scannedSymbology: String
+    @Binding var scannedSymbology: VNBarcodeSymbology?
 
     var dataToScanFor: Set<DataScannerViewController.RecognizedDataType>
 
@@ -21,7 +22,7 @@ struct CodeScanner: UIViewControllerRepresentable {
                 parent.scannedText = text.transcript
             case let .barcode(barcode):
                 parent.scannedText = barcode.payloadStringValue ?? "Unable to decode the scanned code"
-                parent.scannedSymbology = barcode.observation.symbology.rawValue
+                parent.scannedSymbology = barcode.observation.symbology
             default:
                 print("unexpected item")
             }
