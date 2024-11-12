@@ -7,7 +7,7 @@ struct BackgroundImagePicker: View {
     @Binding var passObject: PassObject
     @State private var showAlert: Bool = false
     private let alertTitleText = "Background Image"
-    private let alertDescriptionText = "The background image is displayed behind the pass. The image will be blurred. It is only available for code 128 barcode passes and qr code passes"
+    private let alertDescriptionText = "The background image is displayed behind the pass. The image will be blurred. (Only available for code 128 barcode and qr code passes)"
 
     var body: some View {
         Section {
@@ -19,7 +19,12 @@ struct BackgroundImagePicker: View {
                         Image(uiImage: UIImage(data: passObject.backgroundImage)!)
                             .resizable()
                             .scaledToFit()
-                            .frame(height: 100)
+                            .blur(radius: 6)
+                            .mask(
+                                Rectangle()
+                                    .cornerRadius(10.0)
+                            )
+                            .padding([.top, .bottom], 16)
                         Spacer()
                     }
                     Divider()

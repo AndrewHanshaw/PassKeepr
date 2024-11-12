@@ -7,7 +7,7 @@ struct LogoImagePicker: View {
     @Binding var passObject: PassObject
     @State private var showAlert: Bool = false
     private let alertTitleText = "Pass Logo"
-    private let alertDescriptionText = "The pass logo is used to quickly identify the pass at a glance. It is shown in the top corner of the pass"
+    private let alertDescriptionText = "The pass logo is a small image shown in the top left corner of the pass"
 
     var body: some View {
         Section {
@@ -19,7 +19,7 @@ struct LogoImagePicker: View {
                         Image(uiImage: UIImage(data: passObject.logoImage)!)
                             .resizable()
                             .scaledToFit()
-                            .frame(height: 100)
+                            .frame(maxHeight: 150, alignment: .top)
                         Spacer()
                     }
                     Divider()
@@ -49,11 +49,7 @@ struct LogoImagePicker: View {
                 .onChange(of: photoItem) {
                     Task {
                         if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                            selectedImage = UIImage(data: loaded)!
-
-                            selectedImage = selectedImage.resizeToFit()
-
-                            passObject.logoImage = selectedImage.pngData()!
+                            passObject.logoImage = UIImage(data: loaded)!.resizeToFit().pngData()!
                         } else {
                             print("Failed")
                         }
