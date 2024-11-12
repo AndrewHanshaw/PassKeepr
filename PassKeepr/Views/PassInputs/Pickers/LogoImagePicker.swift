@@ -5,7 +5,6 @@ import SwiftUI
 struct LogoImagePicker: View {
     @State private var photoItem: PhotosPickerItem?
     @Binding var passObject: PassObject
-    @State private var selectedImage: UIImage = .init()
     @State private var showAlert: Bool = false
     private let alertTitleText = "Pass Logo"
     private let alertDescriptionText = "The pass logo is used to quickly identify the pass at a glance. It is shown in the top corner of the pass"
@@ -14,10 +13,10 @@ struct LogoImagePicker: View {
         Section {
             VStack {
                 // Display the image if it exsits (i.e. user has picked an image)
-                if selectedImage != UIImage() {
+                if UIImage(data: passObject.logoImage) != nil {
                     HStack {
                         Spacer()
-                        Image(uiImage: selectedImage)
+                        Image(uiImage: UIImage(data: passObject.logoImage)!)
                             .resizable()
                             .scaledToFit()
                             .frame(height: 100)
