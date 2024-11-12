@@ -6,10 +6,6 @@ struct AddPass: View {
 
     @EnvironmentObject var passSigner: pkPassSigner
 
-    @State private var enableHeaderField = false
-    @State private var headerFieldLabel = ""
-    @State private var headerFieldText = ""
-
     @State private var addedPass = PassObject()
     @State private var addedPKPass = PKPass()
 
@@ -90,23 +86,7 @@ struct AddPass: View {
                     }
                     .listRowBackground(Color.accentColor)
 
-                    Section {
-                        HStack {
-                            Spacer()
-                            Text("Optional Customizations:")
-                                .font(.system(size: 20))
-                                .foregroundColor(.secondary)
-                            Spacer()
-                        }
-                    }
-                    .listSectionSpacing(0)
-                    .listRowBackground(Color.clear)
-
-                    ColorInput(pass: $addedPass)
-
-                    LogoImagePicker(passObject: $addedPass)
-
-                    AdditionalFieldInput(enableHeaderField: $enableHeaderField, labelInput: $headerFieldLabel, textInput: $headerFieldText)
+                    OptionalPassConfiguration(passObject: $addedPass)
                 } // List
                 .listSectionSpacing(20)
             } // Form

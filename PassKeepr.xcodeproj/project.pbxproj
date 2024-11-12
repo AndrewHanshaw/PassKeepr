@@ -26,6 +26,7 @@
 		BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869B2B95756500AC82E4 /* AztecView.swift */; };
 		BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869D2B957BD700AC82E4 /* GeneratePass.swift */; };
 		BA1515B92CE2BC6900DB1799 /* MeasureViewWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1515B82CE2BC6900DB1799 /* MeasureViewWidth.swift */; };
+		BA1515BB2CE2E45800DB1799 /* OptionalPassConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1515BA2CE2E45800DB1799 /* OptionalPassConfiguration.swift */; };
 		BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA15EC172B3CE75400078A17 /* AppIcon.swift */; };
 		BA18C8922CB837E100012876 /* DefaultPassIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BA18C8912CB837E100012876 /* DefaultPassIcon.png */; };
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
@@ -98,6 +99,7 @@
 		BA12869B2B95756500AC82E4 /* AztecView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AztecView.swift; sourceTree = "<group>"; };
 		BA12869D2B957BD700AC82E4 /* GeneratePass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePass.swift; sourceTree = "<group>"; };
 		BA1515B82CE2BC6900DB1799 /* MeasureViewWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureViewWidth.swift; sourceTree = "<group>"; };
+		BA1515BA2CE2E45800DB1799 /* OptionalPassConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalPassConfiguration.swift; sourceTree = "<group>"; };
 		BA15A2C92CE0002800ECD183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BA15EC172B3CE75400078A17 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 		BA18C8912CB837E100012876 /* DefaultPassIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPassIcon.png; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				BA1BACD32B463FCD00F86890 /* EditPass.swift */,
 				BAE838F82B49BFCE0081A1DE /* Settings.swift */,
 				BA95576C2CD69ADE0010721A /* AddToWalletView.swift */,
+				BA1515BA2CE2E45800DB1799 /* OptionalPassConfiguration.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -493,6 +496,7 @@
 				BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */,
 				BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */,
 				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
+				BA1515BB2CE2E45800DB1799 /* OptionalPassConfiguration.swift in Sources */,
 				BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */,
 				BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */,
 				BA25D8972B76E8300044E423 /* Code93View.swift in Sources */,
