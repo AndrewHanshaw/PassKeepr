@@ -34,4 +34,15 @@ extension UIImage {
 
         return resizedImage
     }
+
+    // Resizes the image to the dimensions as defined by targetSize. The image will be stretched as needed to meet these dimensions exactly
+    func resize(targetSize: CGSize) -> UIImage? {
+    UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
+    let rect = CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
+    self.draw(in: rect)
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+
+    return newImage!
+}
 }
