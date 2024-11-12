@@ -5,7 +5,6 @@ import SwiftUI
 struct BackgroundImagePicker: View {
     @State private var photoItem: PhotosPickerItem?
     @Binding var passObject: PassObject
-    @State private var selectedImage: UIImage = .init()
     @State private var showAlert: Bool = false
     private let alertTitleText = "Background Image"
     private let alertDescriptionText = "The background image is displayed behind the pass. The image will be blurred. It is only available for code 128 barcode passes and qr code passes"
@@ -13,10 +12,11 @@ struct BackgroundImagePicker: View {
     var body: some View {
         Section {
             VStack {
-                if selectedImage != UIImage() {
+                if UIImage(data: passObject.backgroundImage) != nil {
                     HStack {
                         Spacer()
-                        Image(uiImage: selectedImage)
+
+                        Image(uiImage: UIImage(data: passObject.backgroundImage)!)
                             .resizable()
                             .scaledToFit()
                             .frame(height: 100)
