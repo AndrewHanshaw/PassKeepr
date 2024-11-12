@@ -48,11 +48,7 @@ struct BackgroundImagePicker: View {
                 .onChange(of: photoItem) {
                     Task {
                         if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                            selectedImage = UIImage(data: loaded)!
-
-                            selectedImage = resizeImage(image: selectedImage, targetSize: CGSize(width: 224, height: 284))!
-
-                            passObject.backgroundImage = selectedImage.pngData()!
+                            passObject.backgroundImage = UIImage(data: loaded)!.resize(targetSize: CGSize(width: 224, height: 284))!.pngData()!
                         } else {
                             print("Failed")
                         }
@@ -61,16 +57,6 @@ struct BackgroundImagePicker: View {
             }
         }
     }
-}
-
-func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage? {
-    UIGraphicsBeginImageContextWithOptions(targetSize, false, 1.0)
-    let rect = CGRect(x: 0, y: 0, width: targetSize.width, height: targetSize.height)
-    image.draw(in: rect)
-    let newImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
-
-    return newImage!
 }
 
 #Preview {

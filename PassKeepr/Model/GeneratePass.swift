@@ -42,7 +42,7 @@ func generatePass(passObject: PassObject) -> URL? {
 
         if shouldBackgroundImageBeAddedToPass(passObject: passObject) {
             savePNGToDirectory(pngData: passObject.backgroundImage, destinationDirectory: passDirectory, fileName: "background@2x")
-            savePNGToDirectory(pngData: resizeImage(image: UIImage(data: passObject.backgroundImage)!, targetSize: CGSize(width: 112, height: 142))!.pngData()!, destinationDirectory: passDirectory, fileName: "background")
+            savePNGToDirectory(pngData: UIImage(data: passObject.backgroundImage)!.resize(targetSize: CGSize(width: 112, height: 142))!.pngData()!, destinationDirectory: passDirectory, fileName: "background")
         }
 
         if passObject.logoImage != Data() {
