@@ -84,6 +84,8 @@ struct EditPass: View {
                         .animation(.easeInOut(duration: 0.2), value: hasEditPassButtonBeenPressed)
                 }
                 .listRowBackground(Color.accentColor)
+
+                OptionalPassConfiguration(passObject: $tempObject)
             }
         }
         .navigationTitle($tempObject.passName)
