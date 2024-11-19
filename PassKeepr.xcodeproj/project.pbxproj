@@ -35,6 +35,7 @@
 		BA460E6D2B9E474300BC3D81 /* AdditionalFieldInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */; };
 		BA55A9B62B55BCEE00853687 /* PassObjectHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */; };
 		BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D4FE02B71C60400CB6ACA /* Code39View.swift */; };
+		BA6D6C682CE83628007D4C9A /* CustomizeLogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */; };
 		BA6DC62E2CAB8987000B153F /* PassInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6DC62D2CAB8987000B153F /* PassInput.swift */; };
 		BA7A4A212B65ABE9006F06DF /* CodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */; };
 		BA7A4A232B65AE3A006F06DF /* ColorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A222B65AE3A006F06DF /* ColorInput.swift */; };
@@ -109,6 +110,7 @@
 		BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalFieldInput.swift; sourceTree = "<group>"; };
 		BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassObjectHelpers.swift; sourceTree = "<group>"; };
 		BA6D4FE02B71C60400CB6ACA /* Code39View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code39View.swift; sourceTree = "<group>"; };
+		BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeLogoImage.swift; sourceTree = "<group>"; };
 		BA6DC62D2CAB8987000B153F /* PassInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassInput.swift; sourceTree = "<group>"; };
 		BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScanner.swift; sourceTree = "<group>"; };
 		BA7A4A222B65AE3A006F06DF /* ColorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorInput.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				BA7A4A222B65AE3A006F06DF /* ColorInput.swift */,
 				BA0F32E82B9AC84D007120B8 /* LogoImagePicker.swift */,
 				BADD7E422CCEF8340077F4AB /* BackgroundImagePicker.swift */,
+				BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */,
 			);
 			path = Pickers;
 			sourceTree = "<group>";
@@ -500,6 +503,7 @@
 				BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */,
 				BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */,
 				BA25D8972B76E8300044E423 /* Code93View.swift in Sources */,
+				BA6D6C682CE83628007D4C9A /* CustomizeLogoImage.swift in Sources */,
 				3A02E73C2AF6EE1000383BC2 /* ContentView.swift in Sources */,
 				BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */,
 				BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */,

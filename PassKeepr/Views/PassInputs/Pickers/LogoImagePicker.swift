@@ -9,6 +9,8 @@ struct LogoImagePicker: View {
     private let alertTitleText = "Pass Logo"
     private let alertDescriptionText = "The pass logo is a small image shown in the top left corner of the pass"
 
+    @State private var isSheetPresented = false
+
     var body: some View {
         Section {
             VStack {
@@ -55,6 +57,14 @@ struct LogoImagePicker: View {
                         }
                     }
                 }
+            }
+
+            if passObject.logoImage != Data() {
+                Button(action: { isSheetPresented.toggle() }, label: { Text("Customize") })
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .sheet(isPresented: $isSheetPresented) {
+                        CustomizeLogoImage(passObject: $passObject)
+                    }
             }
         }
     }
