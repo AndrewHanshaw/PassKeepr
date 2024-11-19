@@ -67,7 +67,7 @@ struct AddPass: View {
                                 ZStack {
                                     ProgressView()
                                         .tint(.white)
-                                        .opacity(hasAddPassButtonBeenPressed && !passSigner.isDataLoaded ? 1 : 0) // Fade-in effect
+                                        .opacity(hasAddPassButtonBeenPressed && !passSigner.isDataLoaded ? 1 : 0)
                                         .animation(.easeInOut(duration: 0.2), value: hasAddPassButtonBeenPressed && !passSigner.isDataLoaded)
                                         .offset(x: textWidth / 2 + 20)
                                     HStack {
