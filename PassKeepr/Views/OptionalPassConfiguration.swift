@@ -9,13 +9,10 @@ struct OptionalPassConfiguration: View {
 
     var body: some View {
         Section {
-            HStack {
-                Spacer()
-                Text("Optional Customizations:")
-                    .font(.system(size: 20))
-                    .foregroundColor(.secondary)
-                Spacer()
-            }
+            Text("Optional Customizations:")
+                .frame(maxWidth: .infinity, alignment: .center)
+                .font(.system(size: 20))
+                .foregroundColor(.secondary)
         }
         .listSectionSpacing(0)
         .listRowBackground(Color.clear)

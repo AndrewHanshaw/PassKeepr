@@ -69,14 +69,11 @@ struct EditPass: View {
                                     .opacity(hasEditPassButtonBeenPressed && !passSigner.isDataLoaded ? 1 : 0) // Fade-in effect
                                     .animation(.easeInOut(duration: 0.2), value: hasEditPassButtonBeenPressed && !passSigner.isDataLoaded)
                                     .offset(x: textWidth / 2 + 20)
-                                HStack {
-                                    Spacer()
-                                    Text("Save")
-                                        .fontWeight(.bold)
-                                        .foregroundColor(Color.white)
-                                        .readWidth(into: $textWidth)
-                                    Spacer()
-                                }
+                                Text("Save")
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Color.white)
+                                    .readWidth(into: $textWidth)
                             }
                         }
                         .disabled(hasEditPassButtonBeenPressed)
