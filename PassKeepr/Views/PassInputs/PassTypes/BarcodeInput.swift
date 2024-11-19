@@ -37,13 +37,10 @@ struct BarcodeInput: View {
         .listSectionSeparator(.hidden)
 
         Section {
-            HStack {
-                Spacer()
-                Text("Or:")
-                    .font(.system(size: 20))
-                    .foregroundColor(.secondary)
-                Spacer()
-            }
+            Text("Or:")
+                .frame(maxWidth: .infinity, alignment: .center)
+                .font(.system(size: 20))
+                .foregroundColor(.secondary)
         }
         .listSectionSpacing(0)
         .listRowBackground(Color.clear)
