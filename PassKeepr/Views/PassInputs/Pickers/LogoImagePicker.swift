@@ -13,24 +13,24 @@ struct LogoImagePicker: View {
 
     var body: some View {
         Section {
-            VStack {
-                // Display the image if it exsits (i.e. user has picked an image)
-                if UIImage(data: passObject.logoImage) != nil {
-                    HStack {
-                        Spacer()
-                        Image(uiImage: UIImage(data: passObject.logoImage)!)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxHeight: 150, alignment: .top)
-                        Spacer()
-                    }
-                    Divider()
-                }
-
-                // Display the button that opens the photo picker
+            // Display the image if it exsits (i.e. user has picked an image)
+            if UIImage(data: passObject.logoImage) != nil {
                 HStack {
                     Spacer()
-                    PhotosPicker("Choose Logo Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                    Image(uiImage: UIImage(data: passObject.logoImage)!)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxHeight: 150, alignment: .top)
+                    Spacer()
+                }
+            }
+
+            // Display the button that opens the photo picker
+            ZStack {
+                PhotosPicker("Choose Logo Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                    .frame(maxWidth: .infinity, alignment: .center)
+
+                HStack {
                     Spacer()
                     Button(
                         action: {
@@ -48,13 +48,13 @@ struct LogoImagePicker: View {
                               dismissButton: .default(Text("OK")))
                     }
                 }
-                .onChange(of: photoItem) {
-                    Task {
-                        if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                            passObject.logoImage = UIImage(data: loaded)!.resizeToFit().pngData()!
-                        } else {
-                            print("Failed")
-                        }
+            }
+            .onChange(of: photoItem) {
+                Task {
+                    if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
+                        passObject.logoImage = UIImage(data: loaded)!.pngData()!
+                    } else {
+                        print("Failed")
                     }
                 }
             }
