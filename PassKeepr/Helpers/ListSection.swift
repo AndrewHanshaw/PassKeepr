@@ -55,7 +55,7 @@ private func sectionHeader(_ type: PassType, isExpanded: Binding<Bool>) -> some 
         previewList.filter { $0.passType == PassType.barcodePass }
     }
 
-    return List {
+    List {
         ListSection(list: filteredList)
             .environment(MockModelData())
     }
