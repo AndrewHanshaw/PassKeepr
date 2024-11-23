@@ -49,7 +49,7 @@ private func sectionHeader(_ type: PassType, isExpanded: Binding<Bool>) -> some 
 }
 
 #Preview {
-    let previewList = MockModelData().PassObjects
+    let previewList = MockModelData().passObjects
 
     var filteredList: [PassObject] {
         previewList.filter { $0.passType == PassType.barcodePass }

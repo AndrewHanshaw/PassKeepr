@@ -4,19 +4,19 @@ import Foundation
 
 @Observable
 class MockModelData: ModelData {
-    override var PassObjects: [PassObject] {
+    override var passObjects: [PassObject] {
         get {
-            super.PassObjects
+            super.passObjects
         }
         set {
-            super.PassObjects = newValue
+            super.passObjects = newValue
         }
     }
 
     override init() {
         super.init()
         // Initialize with mock data
-        PassObjects = [PassObject.preview1, PassObject.preview2]
+        passObjects = [PassObject.preview1, PassObject.preview2]
         encodePassObjects()
 
         updateFilteredArray()

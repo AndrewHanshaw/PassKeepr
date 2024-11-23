@@ -53,5 +53,5 @@ struct QRCodeInput: View {
 }
 
 #Preview {
-    QRCodeInput(passObject: .constant(MockModelData().PassObjects[0]))
+    QRCodeInput(passObject: .constant(MockModelData().passObjects[0]))
 }

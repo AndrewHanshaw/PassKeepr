@@ -35,5 +35,5 @@ struct BusinessCardInput: View {
 }
 
 #Preview {
-    BusinessCardInput(passObject: .constant(MockModelData().PassObjects[0]))
+    BusinessCardInput(passObject: .constant(MockModelData().passObjects[0]))
 }

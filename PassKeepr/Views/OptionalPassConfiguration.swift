@@ -26,5 +26,5 @@ struct OptionalPassConfiguration: View {
 }
 
 #Preview {
-    OptionalPassConfiguration(passObject: .constant(MockModelData().PassObjects[0]))
+    OptionalPassConfiguration(passObject: .constant(MockModelData().passObjects[0]))
 }

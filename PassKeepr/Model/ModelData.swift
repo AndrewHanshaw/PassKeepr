@@ -4,24 +4,24 @@ import Foundation
 class ModelData: Sequence {
     let filename: String = "PassKeeprData.json"
 
-    var PassObjects: [PassObject] = [] // Holds all PassObjects in a single array
+    var passObjects: [PassObject] = [] // Holds all PassObjects in a single array
 
     var filteredPassObjects: [[PassObject]] = [] // Holds all PassObjects, each item of the array is a filtered array of PassObjects, filtered by passType
 
     init() {
         if let loadedData: [PassObject] = load(filename) {
-            PassObjects = loadedData
+            passObjects = loadedData
         }
 
         updateFilteredArray()
     }
 
     func makeIterator() -> some IteratorProtocol {
-        PassObjects.makeIterator()
+        passObjects.makeIterator()
     }
 
     func encodePassObjects() {
-        encode(filename, PassObjects)
+        encode(filename, passObjects)
         updateFilteredArray()
     }
 
@@ -63,7 +63,7 @@ class ModelData: Sequence {
         var filteredLists: [PassType: [PassObject]] = [:]
 
         // Iterate through each PassObject in the PassObjects array
-        for item in PassObjects {
+        for item in passObjects {
             // Check if there's already an array associated with the current PassType
             if var temp = filteredLists[item.passType] {
                 // If yes, append the current PassObject to the existing array
@@ -82,9 +82,9 @@ class ModelData: Sequence {
 
     func deleteItemByID(_ idToDelete: UUID) {
         // Find the index of the item with the specified ID
-        if let index = PassObjects.firstIndex(where: { $0.id == idToDelete }) {
+        if let index = passObjects.firstIndex(where: { $0.id == idToDelete }) {
             // Remove the item from the list
-            PassObjects.remove(at: index)
+            passObjects.remove(at: index)
 
             // Encode and save the updated data
             encodePassObjects()
@@ -93,7 +93,7 @@ class ModelData: Sequence {
 
     func deleteAllItems() {
         // Clear the PassObjects array
-        PassObjects.removeAll()
+        passObjects.removeAll()
 
         // Encode and save the updated data
         encodePassObjects()

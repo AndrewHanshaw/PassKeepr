@@ -113,5 +113,5 @@ struct EditPass: View {
 }
 
 #Preview {
-    EditPass(objectToEdit: .constant(MockModelData().PassObjects[0]), isObjectEdited: .constant(false))
+    EditPass(objectToEdit: .constant(MockModelData().passObjects[0]), isObjectEdited: .constant(false))
 }

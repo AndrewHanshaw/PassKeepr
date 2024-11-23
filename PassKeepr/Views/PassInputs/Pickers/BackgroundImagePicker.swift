@@ -60,5 +60,5 @@ struct BackgroundImagePicker: View {
 }
 
 #Preview {
-    BackgroundImagePicker(passObject: .constant(MockModelData().PassObjects[0]))
+    BackgroundImagePicker(passObject: .constant(MockModelData().passObjects[0]))
 }

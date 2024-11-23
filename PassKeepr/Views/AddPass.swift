@@ -53,7 +53,7 @@ struct AddPass: View {
                             action: {
                                 hasAddPassButtonBeenPressed = true // Set flag so we can disable the button once pressed
                                 addedPass.passName == "" ? addedPass.passName = "Default Name" : ()
-                                modelData.PassObjects.append(addedPass)
+                                modelData.passObjects.append(addedPass)
                                 modelData.encodePassObjects() // need to modify to only encode variables that are relevant based on PassType
 
                                 // TODO: Indicate why generation was unsuccessful if it fails
