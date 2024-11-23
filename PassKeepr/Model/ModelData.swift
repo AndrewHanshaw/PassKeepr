@@ -1,10 +1,9 @@
 import Foundation
 
-@Observable
-class ModelData: Sequence {
+class ModelData: Sequence, ObservableObject {
     let filename: String = "PassKeeprData.json"
 
-    var passObjects: [PassObject] = [] // Holds all PassObjects in a single array
+    @Published var passObjects: [PassObject] = [] // Holds all PassObjects in a single array
 
     var filteredPassObjects: [[PassObject]] = [] // Holds all PassObjects, each item of the array is a filtered array of PassObjects, filtered by passType
 

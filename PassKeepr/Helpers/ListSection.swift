@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ListSection: View {
-    @Environment(ModelData.self) var modelData
+    @EnvironmentObject var modelData: ModelData
 
     @State private var isListExpanded = true
     @State private var isObjectEdited = false

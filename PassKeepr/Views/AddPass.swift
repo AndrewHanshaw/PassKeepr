@@ -2,7 +2,7 @@ import PassKit
 import SwiftUI
 
 struct AddPass: View {
-    @Environment(ModelData.self) var modelData
+    @EnvironmentObject var modelData: ModelData
 
     @EnvironmentObject var passSigner: pkPassSigner
 
