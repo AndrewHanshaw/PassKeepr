@@ -44,6 +44,7 @@
 		BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA863A162B6621B6008746C1 /* ScannerView.swift */; };
 		BA8671DF2B951FD700F20608 /* PDF417View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8671DE2B951FD700F20608 /* PDF417View.swift */; };
 		BA879C242B7064AB008A685E /* UPCEView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA879C232B7064AB008A685E /* UPCEView.swift */; };
+		BA885AE62CF252A50084FC25 /* PassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA885AE52CF252A50084FC25 /* PassCard.swift */; };
 		BA95576D2CD69ADE0010721A /* AddToWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA95576C2CD69ADE0010721A /* AddToWalletView.swift */; };
 		BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5E72B0C65380093CC75 /* Code128View.swift */; };
 		BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */; };
@@ -119,6 +120,7 @@
 		BA863A162B6621B6008746C1 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		BA8671DE2B951FD700F20608 /* PDF417View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDF417View.swift; sourceTree = "<group>"; };
 		BA879C232B7064AB008A685E /* UPCEView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPCEView.swift; sourceTree = "<group>"; };
+		BA885AE52CF252A50084FC25 /* PassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassCard.swift; sourceTree = "<group>"; };
 		BA95576C2CD69ADE0010721A /* AddToWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToWalletView.swift; sourceTree = "<group>"; };
 		BA9ED5E72B0C65380093CC75 /* Code128View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code128View.swift; sourceTree = "<group>"; };
 		BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 				BAE838F82B49BFCE0081A1DE /* Settings.swift */,
 				BA95576C2CD69ADE0010721A /* AddToWalletView.swift */,
 				BA1515BA2CE2E45800DB1799 /* OptionalPassConfiguration.swift */,
+				BA885AE52CF252A50084FC25 /* PassCard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -516,6 +519,7 @@
 				BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */,
 				BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */,
 				BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */,
+				BA885AE62CF252A50084FC25 /* PassCard.swift in Sources */,
 				BA0F32E92B9AC84D007120B8 /* LogoImagePicker.swift in Sources */,
 				BA1515B92CE2BC6900DB1799 /* MeasureViewWidth.swift in Sources */,
 				BA00B9AE2B4F92DE00050C33 /* QRCodeInput.swift in Sources */,
