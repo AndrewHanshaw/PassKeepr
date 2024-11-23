@@ -13,5 +13,5 @@ struct NoteInput: View {
 }
 
 #Preview {
-    NoteInput(passObject: .constant(MockModelData().PassObjects[0]))
+    NoteInput(passObject: .constant(MockModelData().passObjects[0]))
 }

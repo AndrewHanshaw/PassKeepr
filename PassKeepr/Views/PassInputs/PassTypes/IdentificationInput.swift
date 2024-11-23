@@ -15,5 +15,5 @@ struct IdentificationInput: View {
 }
 
 #Preview {
-    IdentificationInput(passObject: .constant(MockModelData().PassObjects[0]))
+    IdentificationInput(passObject: .constant(MockModelData().passObjects[0]))
 }

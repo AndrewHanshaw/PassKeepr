@@ -163,5 +163,5 @@ func IsScannedBarcodeSupported(symbology: VNBarcodeSymbology?) -> Bool {
 }
 
 #Preview {
-    BarcodeInput(passObject: .constant(MockModelData().PassObjects[0]))
+    BarcodeInput(passObject: .constant(MockModelData().passObjects[0]))
 }

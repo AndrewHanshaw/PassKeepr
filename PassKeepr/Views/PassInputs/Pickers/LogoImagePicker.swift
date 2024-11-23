@@ -71,5 +71,5 @@ struct LogoImagePicker: View {
 }
 
 #Preview {
-    LogoImagePicker(passObject: .constant(MockModelData().PassObjects[0]))
+    LogoImagePicker(passObject: .constant(MockModelData().passObjects[0]))
 }

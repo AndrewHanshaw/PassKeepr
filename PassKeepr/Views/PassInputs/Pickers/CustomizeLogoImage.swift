@@ -213,5 +213,5 @@ private func cropToVisibleContent(image: UIImage) -> UIImage? {
 }
 
 #Preview {
-    CustomizeLogoImage(passObject: .constant(MockModelData().PassObjects[0]))
+    CustomizeLogoImage(passObject: .constant(MockModelData().passObjects[0]))
 }

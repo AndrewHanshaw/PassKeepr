@@ -22,5 +22,5 @@ struct PassInput: View {
 }
 
 #Preview {
-    PassInput(pass: .constant(MockModelData().PassObjects[0]))
+    PassInput(pass: .constant(MockModelData().passObjects[0]))
 }
