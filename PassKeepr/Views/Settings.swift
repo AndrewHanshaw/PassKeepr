@@ -29,7 +29,7 @@ struct ImageDocument: FileDocument {
 }
 
 struct Settings: View {
-    @Environment(ModelData.self) var modelData
+    @EnvironmentObject var modelData: ModelData
 
     @State private var isDocumentPickerPresented: Bool = false
     @State private var showIcon = false

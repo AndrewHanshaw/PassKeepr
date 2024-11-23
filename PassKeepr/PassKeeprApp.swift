@@ -9,14 +9,12 @@ import SwiftUI
 
 @main
 struct PassKeeprApp: App {
-    @State private var modelData = ModelData()
-
     @StateObject var passSigner: pkPassSigner = .init()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(modelData)
+                .environmentObject(ModelData())
                 .environmentObject(passSigner)
         }
     }
