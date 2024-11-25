@@ -84,8 +84,10 @@ struct BarcodeInput: View {
                 Text("Data")
             }
         } footer: {
-            if !IsScannedBarcodeSupported(symbology: scannedSymbology) {
-                Text("Scanned code was not a valid barcode")
+            if let barcodeSupported = IsScannedBarcodeSupported(symbology: scannedSymbology) {
+                if !barcodeSupported {
+                    Text("Scanned code is not a valid barcode")
+                }
             }
         }
 
@@ -151,9 +153,9 @@ struct BarcodeInput: View {
     }
 }
 
-func IsScannedBarcodeSupported(symbology: VNBarcodeSymbology?) -> Bool {
+func IsScannedBarcodeSupported(symbology: VNBarcodeSymbology?) -> Bool? {
     if symbology == nil {
-        return false
+        return nil
     }
     if (symbology != VNBarcodeSymbology.code128) || (symbology != VNBarcodeSymbology.code93) || (symbology != VNBarcodeSymbology.code39) || (symbology != VNBarcodeSymbology.upce) {
         return true
