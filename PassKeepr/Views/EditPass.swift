@@ -21,6 +21,9 @@ struct EditPass: View {
     @State private var hasEditPassButtonBeenPressed = false
     @State private var textWidth: CGFloat = 0
 
+    @State private var isEditing: Bool = false
+    @FocusState private var isTextFieldFocused: Bool
+
     // On init, set the temp object owned by this view equal to the
     // one passed in via @Binding
     init(objectToEdit: Binding<PassObject>, isObjectEdited: Binding<Bool>) {
@@ -39,6 +42,39 @@ struct EditPass: View {
     var body: some View {
         VStack {
             Form {
+                Section {
+                    HStack {
+                        Text("Editing")
+                        TextFieldDynamicWidth(title: "Pass Name", text: $tempObject.passName, onEditingChanged: { isFocused in
+                            if isFocused {
+                                isEditing = true
+                            } else {
+                                isEditing = false
+                            }
+                        }, onCommit: {
+                            isEditing = false
+                        })
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .focused($isTextFieldFocused)
+                        .disableAutocorrection(true)
+
+                        if isEditing == false {
+                            Button(action: {
+                                isTextFieldFocused = true // Programmatically focus TextField
+                            }) {
+                                Image(systemName: "pencil")
+                                    .font(.system(size: 15, weight: .bold, design: .rounded))
+                                    .padding(.leading, -4)
+                            }
+                        }
+                        Spacer()
+                    }
+                    .listRowBackground(Color.clear)
+                    .font(.system(size: 25, weight: .bold, design: .rounded))
+                    .frame(height: UIFont.systemFont(ofSize: 25, weight: .bold).lineHeight) // For some reason, if the TextField's text is too long for the view to the point of showing an ellipse, it makes it much taller. This restriction keeps it the normal height.
+                }
+                .listSectionSpacing(0)
+
                 PassInput(pass: $tempObject)
 
                 Section {
@@ -109,6 +145,7 @@ struct EditPass: View {
                 hasEditPassButtonBeenPressed = false // Disable loading circle
             }
         }
+        .scrollDismissesKeyboard(.immediately)
     }
 }
 
