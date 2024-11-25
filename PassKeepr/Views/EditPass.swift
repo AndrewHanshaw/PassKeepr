@@ -75,6 +75,15 @@ struct EditPass: View {
                 }
                 .listSectionSpacing(0)
 
+                Picker("Pass Type", selection: $tempObject.passType) {
+                    ForEach(PassType.allCases) { type in
+                        HStack {
+                            Text(PassObjectHelpers.GetStringSingular(type))
+                            Image(systemName: PassObjectHelpers.GetSystemIcon(type))
+                        }.tag(type)
+                    }
+                }
+
                 PassInput(pass: $tempObject)
 
                 Section {
