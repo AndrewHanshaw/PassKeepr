@@ -36,6 +36,16 @@ struct EditablePassCard: View {
                 )
                 .shadow(color: .gray, radius: 5, x: 0, y: 5)
 
+            if passObject.backgroundImage != Data() {
+                VStack {
+                    Circle()
+                        .foregroundColor(Color(UIColor.secondarySystemBackground)) // Match this to your background color
+                        .frame(width: 80) // Adjust to the desired size
+                        .offset(y: -65)
+                    Spacer()
+                }
+            }
+
             VStack {
                 if passObject.logoImage != Data() {
                     HStack {
