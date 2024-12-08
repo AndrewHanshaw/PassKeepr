@@ -54,11 +54,6 @@ struct EditablePassCard: View {
                 }
                 .padding([.leading, .trailing], 45)
                 .padding(.bottom, 40)
-                .sheet(isPresented: $isCustomizeBarcodePresented) {
-                    CustomizeBarcode(passObject: $passObject)
-                        .edgesIgnoringSafeArea(.bottom)
-                        .presentationDragIndicator(.visible)
-                }
             }
 
             VStack {
@@ -91,6 +86,30 @@ struct EditablePassCard: View {
                         Spacer()
                     }
                 }
+
+                // TODO: Make this more dynamic (i.e. show strip image if available and data is valid, otherwise show "enter barcode data if barcode pass, etc"
+                if passObject.stripImage != Data() && passObject.barcodeType != BarcodeType.code128 {
+                    ZStack {
+                        Image(uiImage: UIImage(data: passObject.stripImage)!)
+                            .resizable()
+
+                        Button(action: {
+                            isCustomizeBarcodePresented.toggle()
+                        }) {
+                            Image(systemName: "pencil.circle.fill")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.green, .white)
+                                .font(.system(size: 24))
+                                .offset(x: 12, y: 12)
+                                .shadow(color: .gray, radius: 2, x: 0, y: 0)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                    .padding(.top, 10)
+                    .aspectRatio(1125 / 432, contentMode: .fit)
+                }
+
                 EditablePassTextField(textFieldTitle: "NAME", textToEdit: $passObject.passName, textColor: Binding<Color>(
                     get: {
                         Color(hex: passObject.foregroundColor)
@@ -108,12 +127,6 @@ struct EditablePassCard: View {
                 ))
                 .padding(.leading, 20)
 
-                if passObject.stripImage != Data() {
-                    Image(uiImage: UIImage(data: passObject.stripImage)!)
-                        .resizable()
-                        .padding(.top, 10)
-                        .aspectRatio(1125 / 432, contentMode: .fit)
-                }
                 Spacer()
 
                 // I'd prefer this to hang off the edge of the PassCard itself, similar to the LogoImage button but since this is ultimately part of a form, and there's no way to add a symbol that hangs off the edge of the form section (as far as I know), this will have to do.
@@ -134,6 +147,11 @@ struct EditablePassCard: View {
                     .offset(x: 12, y: 12)
             }
             .buttonStyle(PlainButtonStyle())
+        }
+        .sheet(isPresented: $isCustomizeBarcodePresented) {
+            CustomizeBarcode(passObject: $passObject)
+                .edgesIgnoringSafeArea(.bottom)
+                .presentationDragIndicator(.visible)
         }
         .frame(maxWidth: .infinity)
         .aspectRatio(1 / 1.45, contentMode: .fill)
