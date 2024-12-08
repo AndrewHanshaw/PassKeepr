@@ -102,7 +102,6 @@ struct EditablePassCard: View {
                 Spacer()
 
                 // I'd prefer this to hang off the edge of the PassCard itself, similar to the LogoImage button but since this is ultimately part of a form, and there's no way to add a symbol that hangs off the edge of the form section (as far as I know), this will have to do.
-
             }
             .sheet(isPresented: $isCustomizeBackgroundImagePresented) {
                 CustomizeBackgroundImage(passObject: $passObject)

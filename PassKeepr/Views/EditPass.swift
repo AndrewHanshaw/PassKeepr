@@ -54,12 +54,12 @@ struct EditPass: View {
                 }
                 header: { // Slightly hacky way to get a custom view into a Form/List without having to adhere to the typical styling of the Form/List
                     EditablePassCard(passObject: $tempObject)
-                    .textCase(nil) // Otherwise all text within the view will be all caps
-                    .listRowInsets(.init(top: 40,
-                                         leading: 0,
-                                         bottom: 40,
-                                         trailing: 0))
-                    .listRowBackground(Color.clear)
+                        .textCase(nil) // Otherwise all text within the view will be all caps
+                        .listRowInsets(.init(top: 40,
+                                             leading: 0,
+                                             bottom: 40,
+                                             trailing: 0))
+                        .listRowBackground(Color.clear)
                 }
 
                 PassInput(pass: $tempObject)
