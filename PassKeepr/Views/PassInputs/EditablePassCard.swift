@@ -87,27 +87,8 @@ struct EditablePassCard: View {
                     }
                 }
 
-                // TODO: Make this more dynamic (i.e. show strip image if available and data is valid, otherwise show "enter barcode data if barcode pass, etc"
-                if passObject.stripImage != Data() && passObject.barcodeType != BarcodeType.code128 {
-                    ZStack {
-                        Image(uiImage: UIImage(data: passObject.stripImage)!)
-                            .resizable()
-
-                        Button(action: {
-                            isCustomizeBarcodePresented.toggle()
-                        }) {
-                            Image(systemName: "pencil.circle.fill")
-                                .symbolRenderingMode(.palette)
-                                .foregroundStyle(.green, .white)
-                                .font(.system(size: 24))
-                                .offset(x: 12, y: 12)
-                                .shadow(color: .gray, radius: 2, x: 0, y: 0)
-                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                    .padding(.top, 10)
-                    .aspectRatio(1125 / 432, contentMode: .fit)
+                if passObject.passType == PassType.barcodePass && passObject.barcodeType != BarcodeType.code128 {
+                    StripImageBarcodeView(passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                 }
 
                 EditablePassTextField(textFieldTitle: "NAME", textToEdit: $passObject.passName, textColor: Binding<Color>(
@@ -145,6 +126,7 @@ struct EditablePassCard: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                     .font(.system(size: 24))
                     .offset(x: 12, y: 12)
+                    .shadow(color: .gray, radius: 5, x: 0, y: 0)
             }
             .buttonStyle(PlainButtonStyle())
         }
