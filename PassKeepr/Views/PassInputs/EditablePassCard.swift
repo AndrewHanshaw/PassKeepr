@@ -8,6 +8,7 @@ struct EditablePassCard: View {
     @State private var isCustomizeLogoImagePresented = false
     @State private var isCustomizeBackgroundImagePresented = false
     @State private var isCustomizeBarcodePresented = false
+    @State private var isCustomizeQrCodePresented = false
 
     var body: some View {
         ZStack {
@@ -111,6 +112,17 @@ struct EditablePassCard: View {
                 Spacer()
 
                 // I'd prefer this to hang off the edge of the PassCard itself, similar to the LogoImage button but since this is ultimately part of a form, and there's no way to add a symbol that hangs off the edge of the form section (as far as I know), this will have to do.
+                if passObject.passType == PassType.qrCodePass {
+                    BuiltInQrCodeView(passObject: $passObject, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
+                        .padding([.leading, .trailing], 55)
+                        .padding(.bottom, 15)
+                        .frame(maxHeight: 170)
+                        .sheet(isPresented: $isCustomizeQrCodePresented) {
+                            CustomizeQrCode(passObject: $passObject)
+                                .edgesIgnoringSafeArea(.bottom)
+                                .presentationDragIndicator(.visible)
+                        }
+                }
             }
             .sheet(isPresented: $isCustomizeBackgroundImagePresented) {
                 CustomizeBackgroundImage(passObject: $passObject)

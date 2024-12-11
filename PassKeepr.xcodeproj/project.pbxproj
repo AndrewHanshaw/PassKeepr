@@ -65,6 +65,8 @@
 		BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE838F82B49BFCE0081A1DE /* Settings.swift */; };
 		BAED92C52D04D596000822CA /* CustomizeBackgroundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */; };
 		BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */; };
+		BAF5EF932D094FCE00259BEA /* BuiltInQrCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */; };
+		BAF5EF952D09542200259BEA /* CustomizeQrCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */; };
 		BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = BAF9428A2CB35689009CF225 /* ZIPFoundation */; };
 /* End PBXBuildFile section */
 
@@ -148,6 +150,8 @@
 		BAE838F82B49BFCE0081A1DE /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeBackgroundImage.swift; sourceTree = "<group>"; };
 		BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignPass.swift; sourceTree = "<group>"; };
+		BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInQrCodeView.swift; sourceTree = "<group>"; };
+		BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeQrCode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,6 +252,7 @@
 				BA6DC62D2CAB8987000B153F /* PassInput.swift */,
 				BA409E412CF427160079193E /* EditablePassCard.swift */,
 				BA4918FE2CF5727500202180 /* EditablePassTextField.swift */,
+				BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */,
 				BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */,
 				BAE7B33F2D066AD600DD0251 /* StripImageBarcode.swift */,
 			);
@@ -275,6 +280,7 @@
 				BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */,
 				BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */,
 				BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */,
+				BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */,
 			);
 			path = Pickers;
 			sourceTree = "<group>";
@@ -516,11 +522,13 @@
 				BA885AE82CF2A01C0084FC25 /* TextFieldDynamicWidth.swift in Sources */,
 				BAE2D4552B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift in Sources */,
 				BA55A9B62B55BCEE00853687 /* PassObjectHelpers.swift in Sources */,
+				BAF5EF932D094FCE00259BEA /* BuiltInQrCodeView.swift in Sources */,
 				BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */,
 				BABAADD32B0A69950014C73B /* ModelData.swift in Sources */,
 				BA7A4A212B65ABE9006F06DF /* CodeScanner.swift in Sources */,
 				BA00B9B62B4F96DA00050C33 /* PictureInput.swift in Sources */,
 				BADD7E432CCEF8340077F4AB /* BackgroundImagePicker.swift in Sources */,
+				BAF5EF952D09542200259BEA /* CustomizeQrCode.swift in Sources */,
 				BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */,
 				BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */,
 				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
