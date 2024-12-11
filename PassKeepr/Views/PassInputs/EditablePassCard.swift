@@ -75,7 +75,8 @@ struct EditablePassCard: View {
                                     .symbolRenderingMode(.palette)
                                     .foregroundStyle(.green, .white)
                                     .font(.system(size: 24))
-                                    .padding(-12)
+                                    .offset(x: 12, y: 12)
+                                    .shadow(color: .gray, radius: 2, x: 0, y: 0)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
@@ -111,7 +112,6 @@ struct EditablePassCard: View {
 
                 Spacer()
 
-                // I'd prefer this to hang off the edge of the PassCard itself, similar to the LogoImage button but since this is ultimately part of a form, and there's no way to add a symbol that hangs off the edge of the form section (as far as I know), this will have to do.
                 if passObject.passType == PassType.qrCodePass {
                     BuiltInQrCodeView(passObject: $passObject, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
                         .padding([.leading, .trailing], 55)
