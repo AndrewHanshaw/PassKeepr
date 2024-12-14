@@ -58,35 +58,42 @@ struct EditablePassCard: View {
             }
 
             VStack {
-                if passObject.logoImage != Data() {
-                    HStack {
-                        ZStack(alignment: .bottomTrailing) {
+                HStack {
+                    ZStack(alignment: .bottomTrailing) {
+                        if passObject.logoImage != Data() {
                             Image(uiImage: UIImage(data: passObject.logoImage)!)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(maxHeight: 50)
                                 .padding(.top, 10)
                                 .padding(.leading, 20)
+                        } else {
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                                .frame(maxHeight: 50)
+                                .padding(.top, 10)
+                                .padding(.leading, 20)
+                                .aspectRatio(3.2, contentMode: .fit)
+                        }
 
-                            Button(action: {
-                                isCustomizeLogoImagePresented.toggle()
-                            }) {
-                                Image("custom.photo.circle.fill")
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.green, .white)
-                                    .font(.system(size: 24))
-                                    .offset(x: 12, y: 12)
-                                    .shadow(color: .gray, radius: 2, x: 0, y: 0)
-                            }
-                            .buttonStyle(PlainButtonStyle())
+                        Button(action: {
+                            isCustomizeLogoImagePresented.toggle()
+                        }) {
+                            Image("custom.photo.circle.fill")
+                                .symbolRenderingMode(.palette)
+                                .foregroundStyle(.green, .white)
+                                .font(.system(size: 24))
+                                .offset(x: 12, y: 12)
+                                .shadow(color: .gray, radius: 2, x: 0, y: 0)
                         }
-                        .sheet(isPresented: $isCustomizeLogoImagePresented) {
-                            CustomizeLogoImage(passObject: $passObject)
-                                .edgesIgnoringSafeArea(.bottom)
-                                .presentationDragIndicator(.visible)
-                        }
-                        Spacer()
+                        .buttonStyle(PlainButtonStyle())
                     }
+                    .sheet(isPresented: $isCustomizeLogoImagePresented) {
+                        CustomizeLogoImage(passObject: $passObject)
+                            .edgesIgnoringSafeArea(.bottom)
+                            .presentationDragIndicator(.visible)
+                    }
+                    Spacer()
                 }
 
                 if passObject.passType == PassType.barcodePass && passObject.barcodeType != BarcodeType.code128 {

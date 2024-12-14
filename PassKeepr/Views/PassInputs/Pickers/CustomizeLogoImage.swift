@@ -8,7 +8,7 @@ struct CustomizeLogoImage: View {
     @Binding var passObject: PassObject
     @State private var isTransparencyOn: Bool = false
 
-    @State private var tempLogo: UIImage
+    @State private var tempLogo: UIImage?
     @State private var isTransparencyAvailable: Bool = true
 
     @State private var photoItem: PhotosPickerItem?
@@ -17,28 +17,60 @@ struct CustomizeLogoImage: View {
 
     init(passObject: Binding<PassObject>) {
         _passObject = passObject
-        _tempLogo = State(initialValue: UIImage(data: passObject.wrappedValue.logoImage)!)
+        _tempLogo = State(initialValue: UIImage(data: passObject.wrappedValue.logoImage))
         _isTransparencyAvailable = State(initialValue: removeBackground(image: tempLogo) != nil)
     }
 
     var body: some View {
-        Image(uiImage: tempLogo)
-            .resizable()
-            .scaledToFit()
-            .padding(20)
-
         List {
-            PhotosPicker("Change image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
-                .frame(maxWidth: .infinity, alignment: .center)
-                .onChange(of: photoItem) {
-                    Task {
-                        if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                            tempLogo = UIImage(data: loaded)!
-                        } else {
-                            print("Failed")
+            Section {
+                PhotosPicker("Change Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .onChange(of: photoItem) {
+                        Task {
+                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
+                                tempLogo = UIImage(data: loaded)
+                            } else {
+                                print("Failed")
+                            }
                         }
                     }
+            } header: {
+                if let logo = tempLogo {
+                    HStack {
+                        Spacer()
+                        Image(uiImage: logo)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxHeight: 80)
+                            .padding(20)
+                        Spacer()
+                    }
+                } else {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                            .frame(maxHeight: 80)
+                            .aspectRatio(3.2, contentMode: .fit)
+                        Text("Add your logo")
+                            .scaledToFit()
+                            .textCase(nil)
+                    }
+                    .padding([.top, .bottom], 20)
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
+            }
+
+            Section {
+                Button(role: .destructive) {
+                    passObject.logoImage = Data()
+                    presentationMode.wrappedValue.dismiss()
+                }
+                label: {
+                    Text("Remove Logo Image")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+            }
 
             Toggle(isOn: $isTransparencyOn) {
                 Text("Transparent background")
@@ -49,7 +81,9 @@ struct CustomizeLogoImage: View {
             Section {
                 Button(
                     action: {
-                        passObject.logoImage = tempLogo.pngData()!
+                        if let logo = tempLogo {
+                            passObject.logoImage = logo.pngData()!
+                        }
                         presentationMode.wrappedValue.dismiss()
                     }) {
                         Text("Save")
@@ -120,12 +154,16 @@ private func convertToUIImage(ciImage: CIImage, originalOrientation: UIImage.Ori
     return UIImage(cgImage: cgImage, scale: 1.0, orientation: originalOrientation)
 }
 
-private func removeBackground(image: UIImage) -> UIImage? {
+private func removeBackground(image: UIImage?) -> UIImage? {
     // Store the original orientation
-    let originalOrientation = image.imageOrientation
+    if image == nil {
+        return nil
+    }
+
+    let originalOrientation = image!.imageOrientation
 
     // Create CIImage while preserving orientation properties
-    guard var inputImage = CIImage(image: image) else {
+    guard var inputImage = CIImage(image: image!) else {
         print("Failed to create CIImage")
         return nil
     }
