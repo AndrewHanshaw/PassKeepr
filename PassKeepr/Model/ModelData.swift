@@ -61,7 +61,6 @@ class ModelData: Sequence, ObservableObject {
         // Dictionary to hold PassObjects as they get sorted
         var filteredLists: [PassType: [PassObject]] = [:]
 
-        // Iterate through each PassObject in the PassObjects array
         for item in passObjects {
             // Check if there's already an array associated with the current PassType
             if var temp = filteredLists[item.passType] {
@@ -80,21 +79,15 @@ class ModelData: Sequence, ObservableObject {
     }
 
     func deleteItemByID(_ idToDelete: UUID) {
-        // Find the index of the item with the specified ID
         if let index = passObjects.firstIndex(where: { $0.id == idToDelete }) {
-            // Remove the item from the list
             passObjects.remove(at: index)
 
-            // Encode and save the updated data
             encodePassObjects()
         }
     }
 
     func deleteAllItems() {
-        // Clear the PassObjects array
         passObjects.removeAll()
-
-        // Encode and save the updated data
         encodePassObjects()
     }
 
@@ -103,7 +96,6 @@ class ModelData: Sequence, ObservableObject {
         let fileURL = documentsDirectory.appendingPathComponent(filename)
 
         do {
-            // Check if the file exists before attempting to delete
             if FileManager.default.fileExists(atPath: fileURL.path) {
                 try FileManager.default.removeItem(at: fileURL)
             }
