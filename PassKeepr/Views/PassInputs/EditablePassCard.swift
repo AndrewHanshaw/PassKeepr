@@ -30,7 +30,7 @@ struct EditablePassCard: View {
                             )
                             .background(Color.clear)
                         } else {
-                            AnyView(Color(hex: passObject.backgroundColor)                                    .clipShape(
+                            AnyView(Color(hex: passObject.backgroundColor).clipShape(
                                 RoundedRectangle(cornerRadius: 10)
                             ))
                         }

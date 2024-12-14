@@ -35,7 +35,7 @@ struct CustomizeBackgroundImage: View {
                                 }
                             }
                         }
-                    
+
                     HStack {
                         Spacer()
                         Button(
