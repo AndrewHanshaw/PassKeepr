@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct EditPass: View {
+    @EnvironmentObject var modelData: ModelData
     @EnvironmentObject var passSigner: pkPassSigner
 
     // Pass object passed into this view.
@@ -81,6 +82,8 @@ struct EditPass: View {
                             } catch {
                                 print("Unable to delete pass dir")
                             }
+
+                            modelData.encodePassObjects()
 
                             if let pkpassDir = generatePass(passObject: objectToEdit) {
                                 Task {
