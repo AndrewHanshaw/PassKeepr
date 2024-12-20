@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PrimaryTextFieldGeneric: View {
+struct SecondaryTextField: View {
     @Binding var textLabel: String
     @Binding var text: String
 
@@ -18,7 +18,8 @@ struct PrimaryTextFieldGeneric: View {
                         .foregroundColor(labelColor)
                         .disableAutocorrection(true)
                         .textCase(.uppercase)
-                        .font(.system(size: 12))
+                        .font(.system(size: 11))
+                        .fontWeight(.semibold)
                         .padding(0)
                         .padding(.top, -2)
                     Spacer()
@@ -29,7 +30,8 @@ struct PrimaryTextFieldGeneric: View {
                         .frame(maxHeight: .infinity, alignment: .bottom)
                         .foregroundColor(textColor)
                         .disableAutocorrection(true)
-                        .font(.system(size: 30))
+                        .font(.system(size: 28))
+                        .fontWeight(.thin)
                         .padding(0)
                         .padding(.bottom, -6)
                     Spacer()
@@ -54,7 +56,8 @@ struct PrimaryTextFieldGeneric: View {
             .offset(x: 9, y: 9)
             .buttonStyle(PlainButtonStyle())
         }
-        .popover(isPresented: $isCustomizeTextPresented, arrowEdge: .leading) {
+        .frame(maxWidth: .infinity)
+        .popover(isPresented: $isCustomizeTextPresented, arrowEdge: .top) {
             CustomizePassTextField(textLabel: $textLabel, text: $text)
                 .presentationCompactAdaptation((.popover))
         }
@@ -62,5 +65,5 @@ struct PrimaryTextFieldGeneric: View {
 }
 
 #Preview {
-    PrimaryTextFieldGeneric(textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
+    SecondaryTextField(textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
 }

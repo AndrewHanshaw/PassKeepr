@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct HeaderFieldSelection: View {
+struct SecondaryFieldSelection: View {
     @State private var shouldShowAdditionalHeaderField: Bool = false
     @Binding var passObject: PassObject
 
@@ -32,5 +32,5 @@ struct HeaderFieldSelection: View {
 }
 
 #Preview {
-    HeaderFieldSelection(passObject: .constant(ModelData().passObjects[0]))
+    SecondaryFieldSelection(passObject: .constant(ModelData().passObjects[0]))
 }
