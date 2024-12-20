@@ -4,6 +4,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var id: UUID
     var passName: String
     var passType: PassType
+    var passStyle: PassStyle
     var passIcon: Data
     var identificationString: String
     var barcodeString: String
@@ -48,6 +49,7 @@ extension PassObject {
         id = UUID()
         passName = ""
         passType = PassType.barcodePass
+        passStyle = PassStyle.generic
         passIcon = (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
         identificationString = ""
         barcodeString = ""
@@ -90,6 +92,7 @@ extension PassObject {
         var newObject = PassObject()
         newObject.passName = passName
         newObject.passType = passType
+        newObject.passStyle = passStyle
         newObject.passIcon = passIcon
         newObject.identificationString = identificationString
         newObject.barcodeString = barcodeString
@@ -163,6 +166,24 @@ enum BarcodeType: Codable, CustomStringConvertible, CaseIterable {
         case .code93: return "Code 93"
         case .code39: return "Code 39"
         case .upce: return "UPC-E"
+        }
+    }
+}
+
+enum PassStyle: Codable, CustomStringConvertible, CaseIterable {
+    case boardingPass
+    case coupon
+    case eventTicket
+    case storeCard
+    case generic
+
+    var description: String {
+        switch self {
+        case .boardingPass: return "boardingPass"
+        case .coupon: return "coupon"
+        case .eventTicket: return "eventTicket"
+        case .storeCard: return "storeCard"
+        case .generic: return "generic"
         }
     }
 }
