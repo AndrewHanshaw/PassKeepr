@@ -6,7 +6,6 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var passType: PassType
     var passStyle: PassStyle
     var passIcon: Data
-    var identificationString: String
     var barcodeString: String
     var barcodeType: BarcodeType
     var barcodeBorder: Double
@@ -15,13 +14,6 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var logoImage: Data // PNG data for all passes that use the logo image
     var qrCodeString: String
     var qrCodeCorrectionLevel: QrCodeCorrectionLevel
-    var noteString: String
-    var name: String
-    var title: String
-    var businessName: String
-    var phoneNumber: String
-    var email: String
-    var pictureData: Data
     var foregroundColor: UInt
     var backgroundColor: UInt
     var labelColor: UInt
@@ -55,7 +47,6 @@ extension PassObject {
         passType = PassType.barcodePass
         passStyle = PassStyle.generic
         passIcon = (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
-        identificationString = ""
         barcodeString = ""
         barcodeType = BarcodeType.code128
         barcodeBorder = 0
@@ -64,13 +55,6 @@ extension PassObject {
         logoImage = Data()
         qrCodeString = ""
         qrCodeCorrectionLevel = QrCodeCorrectionLevel.medium
-        noteString = ""
-        name = ""
-        title = ""
-        businessName = ""
-        phoneNumber = ""
-        email = ""
-        pictureData = Data()
         foregroundColor = 0x000000
         backgroundColor = 0xFFFFFF
         labelColor = 0x000000
@@ -102,7 +86,6 @@ extension PassObject {
         newObject.passType = passType
         newObject.passStyle = passStyle
         newObject.passIcon = passIcon
-        newObject.identificationString = identificationString
         newObject.barcodeString = barcodeString
         newObject.barcodeType = barcodeType
         newObject.barcodeBorder = barcodeBorder
@@ -111,13 +94,6 @@ extension PassObject {
         newObject.logoImage = logoImage
         newObject.qrCodeString = qrCodeString
         newObject.qrCodeCorrectionLevel = qrCodeCorrectionLevel
-        newObject.noteString = noteString
-        newObject.name = name
-        newObject.title = title
-        newObject.businessName = businessName
-        newObject.phoneNumber = phoneNumber
-        newObject.email = email
-        newObject.pictureData = pictureData
         newObject.foregroundColor = foregroundColor
         newObject.backgroundColor = backgroundColor
         newObject.labelColor = labelColor

@@ -39,8 +39,6 @@ struct AddPass: View {
                             .listRowBackground(Color.clear)
                     }
 
-                    PassInput(pass: $addedPass)
-
                     Section {
                         Button(
                             action: {

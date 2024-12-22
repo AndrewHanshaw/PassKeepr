@@ -3,7 +3,6 @@
         "passName": "My ID",
         "id": 1001,
         "passType": 1
-        "identificationString": "11223344",
         "foregroundColor": 0x000000,
         "backgroundColor": 0xFFFFFF,
         "textColor": 0xFF00FF
@@ -32,7 +31,6 @@
         "passName": "My Note",
         "id": 1004,
         "passType": 4
-        "noteString": "Lorem ipsum etc etc",
         "foregroundColor": 0x000000,
         "backgroundColor": 0xFFFFFF,
         "textColor": 0xFF00FF

@@ -63,8 +63,6 @@ struct EditPass: View {
                         .listRowBackground(Color.clear)
                 }
 
-                PassInput(pass: $tempObject)
-
                 ColorInput(pass: $tempObject)
 
                 HeaderFieldSelection(passObject: $tempObject)
