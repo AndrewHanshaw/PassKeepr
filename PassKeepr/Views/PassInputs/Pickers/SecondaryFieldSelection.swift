@@ -7,18 +7,18 @@ struct SecondaryFieldSelection: View {
     var body: some View {
         Section {
             Toggle("Additional Secondary Field", isOn: $passObject.isSecondaryFieldTwoOn)
-            .onChange(of: passObject.isSecondaryFieldTwoOn) {
-                withAnimation {
-                    shouldShowThirdSecondaryField = passObject.isSecondaryFieldTwoOn
-                    if !passObject.isSecondaryFieldTwoOn {
-                        passObject.isSecondaryFieldThreeOn = false
+                .onChange(of: passObject.isSecondaryFieldTwoOn) {
+                    withAnimation {
+                        shouldShowThirdSecondaryField = passObject.isSecondaryFieldTwoOn
+                        if !passObject.isSecondaryFieldTwoOn {
+                            passObject.isSecondaryFieldThreeOn = false
+                        }
                     }
                 }
-            }
 
             if shouldShowThirdSecondaryField {
                 Toggle("Additional Secondary Field", isOn: $passObject.isSecondaryFieldThreeOn)
-                .transition(.slide)
+                    .transition(.slide)
             }
         }
         .onAppear {
