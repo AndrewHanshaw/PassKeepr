@@ -87,6 +87,7 @@ struct EditPass: View {
                                 try FileManager.default.removeItem(at: pkPassDirectory)
                             } catch {
                                 print("Unable to delete pass dir")
+                                modelData.passObjects.append(objectToEdit)
                             }
 
                             modelData.encodePassObjects()

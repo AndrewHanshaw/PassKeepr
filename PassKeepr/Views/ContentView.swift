@@ -130,7 +130,7 @@ struct ContentView: View {
                                .labelStyle(.iconOnly)
                                .padding([.trailing], 33)
                                .sheet(isPresented: $shouldPresentAddPass) {
-                                   AddPass(isSheetPresented: $shouldPresentAddPass)
+                                   AddPass()
                                        .presentationDragIndicator(.visible)
                                }
                                .readSize(into: $plusButtonSize)
