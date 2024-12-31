@@ -52,11 +52,8 @@ struct EditablePassCardTopSection: View {
                             .padding(.trailing, 10)
                     }
 
-                    // Header field 1 is to the *right* of header field 2
-                    if passObject.isHeaderFieldOneOn {
-                        HeaderTextField(textLabel: $passObject.headerFieldOneLabel, text: $passObject.headerFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
-                            .padding(.trailing, 5)
-                    }
+                    HeaderTextField(textLabel: $passObject.headerFieldOneLabel, text: $passObject.headerFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                        .padding(.trailing, 5)
                 }
                 .padding(.top, 4)
                 .frame(width: geometry.size.width * 0.36)

@@ -45,11 +45,11 @@ func generatePass(passObject: PassObject) -> URL? {
             data.merge(["primaryFields": [primaryFields]]) { _, _ in }
         }
 
-        if passObject.isHeaderFieldOneOn || passObject.isHeaderFieldTwoOn {
+        if passObject.headerFieldOneLabel != "" || passObject.headerFieldOneText != "" || passObject.isHeaderFieldTwoOn {
             data.merge(encodeHeaderFields(passObject: passObject)) { _, _ in }
         }
 
-        if passObject.isSecondaryFieldOneOn || passObject.isSecondaryFieldTwoOn {
+        if passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" || passObject.isSecondaryFieldTwoOn || passObject.isSecondaryFieldThreeOn {
             data.merge(encodeSecondaryFields(passObject: passObject)) { _, _ in }
         }
 
@@ -157,29 +157,28 @@ func zipDirectory(uuid: UUID) throws -> URL? {
 
 func encodeHeaderFields(passObject: PassObject) -> [String: Any] {
     var encodedData: [Any] = []
-    var headerFields: [String: Any] = [:]
 
-    let headerField1: [String: Any] = [
-        "key": passObject.headerFieldOneLabel,
-        "label": passObject.headerFieldOneLabel,
-        "value": passObject.headerFieldOneText,
-    ]
+    if passObject.headerFieldOneLabel != "" || passObject.headerFieldOneText != "" {
+        let headerField1: [String: Any] = [
+            "key": passObject.headerFieldOneLabel,
+            "label": passObject.headerFieldOneLabel,
+            "value": passObject.headerFieldOneText,
+        ]
 
-    let headerField2: [String: Any] = [
-        "key": passObject.headerFieldTwoLabel,
-        "label": passObject.headerFieldTwoLabel,
-        "value": passObject.headerFieldTwoText,
-    ]
-
-    if passObject.isHeaderFieldOneOn == true {
         encodedData.append(headerField1)
     }
 
     if passObject.isHeaderFieldTwoOn == true {
+        let headerField2: [String: Any] = [
+            "key": passObject.headerFieldTwoLabel,
+            "label": passObject.headerFieldTwoLabel,
+            "value": passObject.headerFieldTwoText,
+        ]
+
         encodedData.append(headerField2)
     }
 
-    headerFields = [
+    let headerFields: [String: Any] = [
         "headerFields": encodedData,
     ]
 
@@ -188,39 +187,38 @@ func encodeHeaderFields(passObject: PassObject) -> [String: Any] {
 
 func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
     var encodedData: [Any] = []
-    var secondaryFields: [String: Any] = [:]
 
-    let secondaryField1: [String: Any] = [
-        "key": passObject.secondaryFieldOneLabel,
-        "label": passObject.secondaryFieldOneLabel,
-        "value": passObject.secondaryFieldOneText,
-    ]
+    if passObject.secondaryFieldOneLabel != "" && passObject.secondaryFieldOneText != "" {
+        let secondaryField1: [String: Any] = [
+            "key": passObject.secondaryFieldOneLabel,
+            "label": passObject.secondaryFieldOneLabel,
+            "value": passObject.secondaryFieldOneText,
+        ]
 
-    let secondaryField2: [String: Any] = [
-        "key": passObject.secondaryFieldTwoLabel,
-        "label": passObject.secondaryFieldTwoLabel,
-        "value": passObject.secondaryFieldTwoText,
-    ]
-
-    let secondaryField3: [String: Any] = [
-        "key": passObject.secondaryFieldThreeLabel,
-        "label": passObject.secondaryFieldThreeLabel,
-        "value": passObject.secondaryFieldThreeText,
-    ]
-
-    if passObject.isSecondaryFieldOneOn == true {
         encodedData.append(secondaryField1)
     }
 
     if passObject.isSecondaryFieldTwoOn == true {
+        let secondaryField2: [String: Any] = [
+            "key": passObject.secondaryFieldTwoLabel,
+            "label": passObject.secondaryFieldTwoLabel,
+            "value": passObject.secondaryFieldTwoText,
+        ]
+
         encodedData.append(secondaryField2)
     }
 
     if passObject.isSecondaryFieldThreeOn == true {
+        let secondaryField3: [String: Any] = [
+            "key": passObject.secondaryFieldThreeLabel,
+            "label": passObject.secondaryFieldThreeLabel,
+            "value": passObject.secondaryFieldThreeText,
+        ]
+
         encodedData.append(secondaryField3)
     }
 
-    secondaryFields = [
+    let secondaryFields: [String: Any] = [
         "secondaryFields": encodedData,
     ]
 

@@ -42,10 +42,8 @@ struct EditablePassCard: View {
                 }
 
                 HStack {
-                    if passObject.isSecondaryFieldOneOn {
-                        // These only apply when strip image is on?
-                        SecondaryTextField(textLabel: $passObject.secondaryFieldOneLabel, text: $passObject.secondaryFieldOneText, isStripImageOn: passObject.stripImage != Data(), textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
-                    }
+                    // These only apply when strip image is on?
+                    SecondaryTextField(textLabel: $passObject.secondaryFieldOneLabel, text: $passObject.secondaryFieldOneText, isStripImageOn: passObject.stripImage != Data(), textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
 
                     Spacer()
 

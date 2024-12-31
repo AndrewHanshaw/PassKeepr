@@ -1,41 +1,28 @@
 import SwiftUI
 
 struct SecondaryFieldSelection: View {
-    @State private var shouldShowSecondSecondaryField: Bool = false
-    @State private var shouldShowThirdSecondaryField: Bool = false
+    @State private var shouldShowThirdSecondaryField: Bool = false // This state var, which shall always track the state of passObject.isSecondaryFieldTwoOn, is necessary for the animation to work
     @Binding var passObject: PassObject
 
     var body: some View {
         Section {
-            withAnimation {
-                Toggle(isOn: $passObject.isSecondaryFieldOneOn) {
-                    Text("Secondary Field")
+            Toggle("Additional Secondary Field", isOn: $passObject.isSecondaryFieldTwoOn)
+            .onChange(of: passObject.isSecondaryFieldTwoOn) {
+                withAnimation {
+                    shouldShowThirdSecondaryField = passObject.isSecondaryFieldTwoOn
+                    if !passObject.isSecondaryFieldTwoOn {
+                        passObject.isSecondaryFieldThreeOn = false
+                    }
                 }
-            }
-            .onChange(of: passObject.isSecondaryFieldOneOn) {
-                if !passObject.isSecondaryFieldOneOn {
-                    passObject.isSecondaryFieldTwoOn = false
-                }
-                withAnimation { shouldShowSecondSecondaryField = passObject.isSecondaryFieldOneOn }
-            }
-
-            if shouldShowSecondSecondaryField {
-                Toggle(isOn: $passObject.isSecondaryFieldTwoOn) {
-                    Text("Additional Secondary Field")
-                }
-                .transition(.slide)
             }
 
             if shouldShowThirdSecondaryField {
-                Toggle(isOn: $passObject.isSecondaryFieldThreeOn) {
-                    Text("Additional Secondary Field")
-                }
+                Toggle("Additional Secondary Field", isOn: $passObject.isSecondaryFieldThreeOn)
                 .transition(.slide)
             }
         }
         .onAppear {
-            shouldShowSecondSecondaryField = passObject.isSecondaryFieldOneOn
-            shouldShowThirdSecondaryField = passObject.isSecondaryFieldTwoOn && passObject.isSecondaryFieldOneOn
+            shouldShowThirdSecondaryField = passObject.isSecondaryFieldTwoOn
         }
     }
 }
