@@ -5,14 +5,10 @@ class ModelData: Sequence, ObservableObject {
 
     @Published var passObjects: [PassObject] = [] // Holds all PassObjects in a single array
 
-    var filteredPassObjects: [[PassObject]] = [] // Holds all PassObjects, each item of the array is a filtered array of PassObjects, filtered by passType
-
     init() {
         if let loadedData: [PassObject] = load(filename) {
             passObjects = loadedData
         }
-
-        updateFilteredArray()
     }
 
     func makeIterator() -> some IteratorProtocol {
@@ -21,7 +17,6 @@ class ModelData: Sequence, ObservableObject {
 
     func encodePassObjects() {
         encode(filename, passObjects)
-        updateFilteredArray()
     }
 
     func load<T: Decodable>(_ filename: String) -> T? {
@@ -55,27 +50,6 @@ class ModelData: Sequence, ObservableObject {
             return
                 //        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
         }
-    }
-
-    func updateFilteredArray() {
-        // Dictionary to hold PassObjects as they get sorted
-        var filteredLists: [PassType: [PassObject]] = [:]
-
-        for item in passObjects {
-            // Check if there's already an array associated with the current PassType
-            if var temp = filteredLists[item.passType] {
-                // If yes, append the current PassObject to the existing array
-                temp.append(item)
-                // Update the dictionary with the modified array
-                filteredLists[item.passType] = temp
-            } else {
-                // If no array exists for the current PassType, create a new array with the current PassObject
-                filteredLists[item.passType] = [item]
-            }
-        }
-
-        // Convert the values of the dictionary (arrays of PassObjects) into an array of arrays
-        filteredPassObjects = Array(filteredLists.values)
     }
 
     func deleteItemByID(_ idToDelete: UUID) {
