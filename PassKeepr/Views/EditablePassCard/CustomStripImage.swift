@@ -13,7 +13,7 @@ struct CustomStripImage: View {
             } else {
                 ZStack {
                     RoundedRectangle(cornerRadius: 5)
-                        .stroke(style: StrokeStyle(lineWidth: 4, dash: [10, 5]))
+                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
                     RoundedRectangle(cornerRadius: 5)
                         .fill(Color.white)
                         .opacity(0.2)
