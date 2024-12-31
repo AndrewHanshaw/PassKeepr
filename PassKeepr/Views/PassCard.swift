@@ -5,7 +5,6 @@ struct PassCard: View {
 
     @Binding var passObject: PassObject
     @State var shouldPresentEditPass = false
-    @State private var isObjectEdited = false
     @State private var isDragging = false
 
     @State private var showContextMenu = false
@@ -73,7 +72,7 @@ struct PassCard: View {
                     )
             }
             .sheet(isPresented: $shouldPresentEditPass) {
-                EditPass(objectToEdit: $passObject, isObjectEdited: $isObjectEdited)
+                EditPass(objectToEdit: $passObject)
                     .presentationDragIndicator(.visible)
             }
             .gesture(longPress)
