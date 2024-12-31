@@ -2,7 +2,6 @@ import Foundation
 
 struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var id: UUID
-    var passName: String
     var passStyle: PassStyle
     var passIcon: Data
     var barcodeString: String
@@ -40,7 +39,6 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
 extension PassObject {
     init() {
         id = UUID()
-        passName = ""
         passStyle = PassStyle.generic
         passIcon = (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
         barcodeString = ""
@@ -76,7 +74,6 @@ extension PassObject {
 
     func duplicate() -> PassObject {
         var newObject = PassObject()
-        newObject.passName = passName
         newObject.passStyle = passStyle
         newObject.passIcon = passIcon
         newObject.barcodeString = barcodeString

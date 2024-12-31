@@ -55,7 +55,7 @@ struct PassCard: View {
                                 }
                             }
                             HStack {
-                                Text("\(passObject.passName)")
+                                Text("\(passObject.primaryFieldText)")
                                     .foregroundColor(.white)
                                     .fontWeight(.bold)
                                     .padding([.bottom, .leading], 10)

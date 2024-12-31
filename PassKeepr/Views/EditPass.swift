@@ -35,7 +35,7 @@ struct EditPass: View {
     }
 
     private func initializeTempObject() {
-        tempObject.passName == "" ? tempObject.passName = "Default Name" : ()
+        tempObject.primaryFieldText == "" ? tempObject.primaryFieldText = "Default" : ()
     }
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>

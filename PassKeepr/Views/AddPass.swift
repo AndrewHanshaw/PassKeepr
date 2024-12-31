@@ -49,7 +49,7 @@ struct AddPass: View {
                         Button(
                             action: {
                                 hasAddPassButtonBeenPressed = true // Set flag so we can disable the button once pressed
-                                addedPass.passName == "" ? addedPass.passName = "Default Name" : ()
+                                addedPass.primaryFieldText == "" ? addedPass.primaryFieldText = "Default" : ()
                                 modelData.passObjects.append(addedPass)
                                 modelData.encodePassObjects()
 
