@@ -144,7 +144,7 @@ enum BarcodeType: Codable, CustomStringConvertible, CaseIterable {
     case code93
     case code39
     case upce
-    case pdf417
+    case pdf417 // natively supported by PassKit
 
     var description: String {
         switch self {
