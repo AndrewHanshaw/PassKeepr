@@ -57,8 +57,9 @@ func generatePass(passObject: PassObject) -> URL? {
             passObject.passStyle.description: data,
         ]
 
-            var barcodeFields: [String: Any] = [:]
+        var barcodeFields: [String: Any] = [:]
 
+        if passObject.barcodeType != BarcodeType.none {
             if passObject.barcodeType == BarcodeType.code128 {
                 barcodeFields = [
                     "message": passObject.barcodeString,
@@ -84,6 +85,7 @@ func generatePass(passObject: PassObject) -> URL? {
             }
 
             passStyle.merge(["barcode": barcodeFields]) { _, _ in }
+        }
 
         passData.merge(passStyle) { _, _ in }
 
