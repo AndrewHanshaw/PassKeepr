@@ -69,7 +69,7 @@ struct EditablePassCard: View {
 
                 if passObject.barcodeType == BarcodeType.qr {
                     BuiltInQrCodeView(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
-                        .frame(height: 170)
+                        .frame(height: passObject.altText == "" ? size.height * 0.27 : size.height * 0.29)
                         .sheet(isPresented: $isCustomizeQrCodePresented) {
                             CustomizeQrCode(passObject: $passObject)
                                 .edgesIgnoringSafeArea(.bottom)

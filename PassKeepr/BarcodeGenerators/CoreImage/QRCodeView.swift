@@ -1,8 +1,6 @@
 import CoreImage.CIFilterBuiltins
 import SwiftUI
 
-//TODO: Implement alt text support
-
 struct QRCodeView: View {
     var data: String
     var correctionLevel: QrCodeCorrectionLevel
