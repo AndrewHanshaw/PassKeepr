@@ -116,7 +116,7 @@ func generatePass(passObject: PassObject) -> URL? {
             } else {
 //                savePNGToDirectory(pngData: (UIImage(data: passObject.stripImage)?.resizeToFit2(maxWidth: 1125, maxHeight: 432).pngData()!)!, destinationDirectory: passDirectory, fileName: "strip")
                 savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
-                savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip@2x")
+//                savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip@2x")
             }
         }
 
