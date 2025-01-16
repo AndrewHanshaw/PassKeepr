@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct InvalidBarcodeView: View {
+    @EnvironmentObject var modelData: ModelData
     @Environment(\.colorScheme) var colorScheme
     @State var ratio: CGFloat
     var isEmpty: Bool

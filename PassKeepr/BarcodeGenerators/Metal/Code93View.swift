@@ -89,14 +89,17 @@ func stringToCode93BarcodeData(_ stringValue: String) -> Data? {
     for (index, character) in tempString.enumerated() {
         // kvp is a pair [String : Int] that holds the encoded char
         // and the weight associated with the character
-        let kvp = characterTo9Bit[character]!
-        for (_, weightedValue) in kvp {
-            // generate the weighted sum for this character per the code93 algo
-            var currentPos: Int = (tempString.count - index) % 20
-            if currentPos == 0 {
-                currentPos = 20
+        if let kvp = characterTo9Bit[character] {
+            for (_, weightedValue) in kvp {
+                // generate the weighted sum for this character per the code93 algo
+                var currentPos: Int = (tempString.count - index) % 20
+                if currentPos == 0 {
+                    currentPos = 20
+                }
+                weightedSum += currentPos * weightedValue
             }
-            weightedSum += currentPos * weightedValue
+        } else {
+            return nil
         }
     }
 
