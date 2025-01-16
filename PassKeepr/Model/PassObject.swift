@@ -158,18 +158,6 @@ enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {
     case pdf417 // natively supported by PassKit
     case qr
 
-    func toBarcodeCategory() -> BarcodeCategory {
-        switch self {
-        case .none: return BarcodeCategory.none
-        case .code128: return BarcodeCategory.oneDimensional
-        case .code93: return BarcodeCategory.oneDimensional
-        case .code39: return BarcodeCategory.oneDimensional
-        case .upce: return BarcodeCategory.oneDimensional
-        case .pdf417: return BarcodeCategory.oneDimensional
-        case .qr: return BarcodeCategory.twoDimensional
-        }
-    }
-
     var description: String {
         switch self {
         case .none: return "None"

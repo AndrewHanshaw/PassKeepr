@@ -106,7 +106,7 @@ struct PassCard: View {
                                     .padding(.bottom, 15)
                             } else if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 {
                                 Group {
-                                    if BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: passObject.barcodeString, type: passObject.barcodeType) == true {
+                                    if passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) == true {
                                         if passObject.barcodeType == BarcodeType.code128 {
                                             Code128View(data: passObject.barcodeString)
                                                 .padding(10)

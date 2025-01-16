@@ -12,7 +12,7 @@ struct BuiltInBarcodeView: View {
                 .shadow(radius: 0.2)
 
             VStack {
-                if BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: passObject.barcodeString, type: passObject.barcodeType) == true {
+                if passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) == true {
                     if passObject.barcodeType == BarcodeType.code128 {
                         Code128View(data: passObject.barcodeString)
                             .padding(.top, 15)

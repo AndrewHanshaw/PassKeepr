@@ -60,7 +60,7 @@ struct CustomizeBarcode: View {
                 }
             } header: {
                 Group {
-                    if BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: tempBarcodeData, type: tempBarcodeType) == true {
+                    if tempBarcodeType.isEnteredBarcodeValueValid(string: tempBarcodeData) == true {
                         switch tempBarcodeType {
                         case BarcodeType.none:
                             EmptyView()
@@ -207,7 +207,7 @@ struct CustomizeBarcode: View {
                         .buttonStyle(PlainButtonStyle())
                         .alert(isPresented: $showAlert) {
                             Alert(title: Text(String(describing: tempBarcodeType)),
-                                  message: Text(BarcodeTypeHelpers.GetBarcodeTypeDescription(tempBarcodeType)),
+                                  message: Text(tempBarcodeType.info()),
                                   dismissButton: .default(Text("OK")))
                         }
                     }
@@ -218,7 +218,7 @@ struct CustomizeBarcode: View {
                 if tempBarcodeType != BarcodeType.none {
                     LabeledContent {
                         TextField("Barcode Data", text: $tempBarcodeData)
-                            .keyboardType(BarcodeTypeHelpers.keyboardTypeForTextField(type: tempBarcodeType))
+                            .keyboardType(tempBarcodeType.keyboardType())
                             .disableAutocorrection(true)
                             .keyboardType(.asciiCapable)
                     } label: {

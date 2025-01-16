@@ -48,7 +48,7 @@ struct StripImageBarcodeView: View {
     }
 
     func shouldShowStripBarcodeImage() -> Bool {
-        BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: passObject.barcodeString, type: passObject.barcodeType) == true && passObject.stripImage != Data()
+        passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) == true && passObject.stripImage != Data()
     }
 }
 

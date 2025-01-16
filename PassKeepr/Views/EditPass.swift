@@ -128,7 +128,7 @@ struct EditPass: View {
                     }
                     .onChange(of: tempObject.barcodeType) { oldType, newType in
                         // Clear barcode string and strip image when a barcode that uses the strip image is selected
-                        if BarcodeTypeHelpers.getDoesBarcodeUseStripImage(type: oldType) && !BarcodeTypeHelpers.getDoesBarcodeUseStripImage(type: newType) {
+                        if oldType.doesBarcodeUseStripImage() && !newType.doesBarcodeUseStripImage() {
 //                            tempObject.barcodeString = ""
                             tempObject.stripImage = Data()
                         }
