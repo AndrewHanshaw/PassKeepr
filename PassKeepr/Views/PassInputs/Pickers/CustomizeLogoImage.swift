@@ -47,6 +47,7 @@ struct CustomizeLogoImage: View {
                         }
                     }) {
                         Text("None")
+                            .foregroundColor(tempLogoImageType == LogoImageType.none ? Color(.systemBackground) : Color(.label))
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(tempLogoImageType == LogoImageType.none ? Color.blue : Color(.secondarySystemFill))
@@ -64,6 +65,7 @@ struct CustomizeLogoImage: View {
                         }
                     }) {
                         Text("Photo")
+                            .foregroundColor(tempLogoImageType == LogoImageType.photo ? Color(.systemBackground) : Color(.label))
                     }
                     .photosPicker(isPresented: $isPhotosPickerOn, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
                     .onChange(of: photoItem) {
@@ -93,6 +95,7 @@ struct CustomizeLogoImage: View {
                         }
                     }) {
                         Text("Emoji")
+                            .foregroundColor(tempLogoImageType == LogoImageType.emoji ? Color(.systemBackground) : Color(.label))
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background((tempLogoImageType == LogoImageType.emoji) ? Color.blue : Color(.secondarySystemFill))
@@ -126,6 +129,7 @@ struct CustomizeLogoImage: View {
                         }
                     }) {
                         Text("Symbol")
+                            .foregroundColor(tempLogoImageType == LogoImageType.symbol ? Color(.systemBackground) : Color(.label))
                     }
                     .onChange(of: icon) {
                         tempLogoImageType = LogoImageType.symbol
