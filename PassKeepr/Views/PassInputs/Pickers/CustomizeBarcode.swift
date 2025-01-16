@@ -93,11 +93,8 @@ struct CustomizeBarcode: View {
                             EmptyView()
                         }
                     } else {
-                        if tempBarcodeData == "" {
-                            InvalidBarcodeView(ratio: 1125.0 / 432.0, isEmpty: true)
-                        } else {
-                            InvalidBarcodeView(ratio: 1125.0 / 432.0, isEmpty: false)
-                        }
+                        InvalidBarcodeView(isEmpty: tempBarcodeData == "")
+                            .aspectRatio(1125.0 / 432.0, contentMode: .fit)
                     }
                 }
                 .padding(.bottom, 20)

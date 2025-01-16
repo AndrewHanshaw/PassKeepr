@@ -12,22 +12,7 @@ struct StripImageBarcodeView: View {
                 Image(uiImage: UIImage(data: passObject.stripImage)!)
                     .resizable()
             } else {
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                    .foregroundColor(placeholderColor)
-                    .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
-                    .padding([.leading, .trailing], 5)
-                if passObject.barcodeString == "" {
-                    Text("Enter Barcode Data")
-                        .font(Font.system(size: 16))
-                        .foregroundColor(placeholderColor)
-                        .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
-                } else {
-                    Text("Invalid Barcode Data")
-                        .font(Font.system(size: 16))
-                        .foregroundColor(placeholderColor)
-                        .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
-                }
+                InvalidBarcodeView(placeholderColor: placeholderColor, isEmpty: passObject.barcodeString == "")
             }
 
             Button(action: {
