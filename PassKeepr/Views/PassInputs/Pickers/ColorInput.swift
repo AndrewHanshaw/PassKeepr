@@ -20,6 +20,9 @@ struct ColorInput: View {
                     }
             }
             ColorPicker("Label Color", selection: $labelColor)
+                .onChange(of: labelColor) {
+                    pass.labelColor = labelColor.toHex()
+                }
         }
         .onAppear {
             backgroundColor = Color(hex: pass.backgroundColor)
