@@ -57,12 +57,22 @@ func generatePass(passObject: PassObject) -> URL? {
             passObject.passStyle.description: data,
         ]
 
-        if passObject.passType == PassType.barcodePass, passObject.barcodeType == BarcodeType.code128 {
-            var barcodeFields: [String: Any] = [
-                "message": passObject.barcodeString,
-                "format": "PKBarcodeFormatCode128",
-                "messageEncoding": "iso-8859-1",
-            ]
+        if passObject.passType == PassType.barcodePass {
+            var barcodeFields: [String: Any] = [:]
+
+            if passObject.barcodeType == BarcodeType.code128 {
+                barcodeFields = [
+                    "message": passObject.barcodeString,
+                    "format": "PKBarcodeFormatCode128",
+                    "messageEncoding": "iso-8859-1",
+                ]
+            } else if passObject.barcodeType == BarcodeType.pdf417 {
+                barcodeFields = [
+                    "message": passObject.barcodeString,
+                    "format": "PKBarcodeFormatPDF417",
+                    "messageEncoding": "iso-8859-1",
+                ]
+            }
 
             if passObject.altText != "" {
                 barcodeFields.merge(["altText": passObject.altText]) { _, _ in }
@@ -229,7 +239,7 @@ func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: Stri
 }
 
 func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
-    if /* (passObject.stripImage == Data()) && */ (passObject.barcodeType == BarcodeType.code128) || (passObject.passType == PassType.qrCodePass) {
+    if /* (passObject.stripImage == Data()) && */ (passObject.barcodeType == BarcodeType.code128) || (passObject.barcodeType == BarcodeType.pdf417) || (passObject.passType == PassType.qrCodePass) {
         return true
     } else {
         return false
