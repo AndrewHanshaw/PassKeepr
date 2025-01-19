@@ -266,7 +266,9 @@ struct CustomizeBarcode: View {
                         passObject.altText = tempAltText
                         passObject.barcodeType = tempBarcodeType
                         passObject.barcodeBorder = tempBarcodeBorder
-                        passObject.stripImage = tempStripImage
+                        if tempBarcodeType.doesBarcodeUseStripImage() {
+                            passObject.stripImage = tempStripImage
+                        }
                         if tempStripImage != Data() {
                             passObject.backgroundImage = Data()
                         }
