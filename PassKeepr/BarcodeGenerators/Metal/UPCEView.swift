@@ -2,6 +2,7 @@ import SwiftUI
 
 struct UPCEView: View {
     @Binding var value: String
+    var border: Double
 
     var barcodeDataBuffer: Data {
         stringToUPCEBarcodeData(value, paritySequence: 0x15) ?? Data()
@@ -12,13 +13,15 @@ struct UPCEView: View {
     var body: some View {
         GeometryReader { geometry in
             Rectangle()
-                .colorEffect(ShaderLibrary.OneDimensionalBarcodeFilter(.float(geometry.size.width), .data(barcodeDataBuffer), .data(Data([numberOfSegments]))))
+                .colorEffect(ShaderLibrary.OneDimensionalBarcodeFilter(.float(geometry.size.width - CGFloat(border * 2)), .data(barcodeDataBuffer), .data(Data([numberOfSegments]))))
+                .padding(CGFloat(border))
+                .background(Color.white)
         }
     }
 }
 
 #Preview {
-    UPCEView(value: .constant("654321"))
+    UPCEView(value: .constant("654321"), border: 20)
 }
 
 import Foundation

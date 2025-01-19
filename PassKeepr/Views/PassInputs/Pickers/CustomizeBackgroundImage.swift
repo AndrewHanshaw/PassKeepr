@@ -5,7 +5,7 @@ import SwiftUI
 struct CustomizeBackgroundImage: View {
     @Binding var passObject: PassObject
 
-    @State private var tempBackground: UIImage
+    @State private var tempBackground: UIImage?
 
     @State private var photoItem: PhotosPickerItem?
 
@@ -17,7 +17,7 @@ struct CustomizeBackgroundImage: View {
 
     init(passObject: Binding<PassObject>) {
         _passObject = passObject
-        _tempBackground = State(initialValue: UIImage(data: passObject.wrappedValue.backgroundImage)!)
+        _tempBackground = State(initialValue: UIImage(data: passObject.wrappedValue.backgroundImage))
     }
 
     var body: some View {
@@ -57,10 +57,12 @@ struct CustomizeBackgroundImage: View {
                 }
             }
             header: {
-                Image(uiImage: tempBackground)
-                    .resizable()
-                    .scaledToFit()
-                    .padding(20)
+                if let background = tempBackground {
+                    Image(uiImage: background)
+                        .resizable()
+                        .scaledToFit()
+                        .padding(20)
+                }
             }
 
             Section {
@@ -69,7 +71,7 @@ struct CustomizeBackgroundImage: View {
                     presentationMode.wrappedValue.dismiss()
                 }
                 label: {
-                    Text("Remove Background image")
+                    Text("Remove Background Image")
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
             }
@@ -77,7 +79,9 @@ struct CustomizeBackgroundImage: View {
             Section {
                 Button(
                     action: {
-                        passObject.backgroundImage = tempBackground.pngData()!
+                        if let background = tempBackground {
+                            passObject.backgroundImage = background.pngData()!
+                        }
                         presentationMode.wrappedValue.dismiss()
                     }) {
                         Text("Save")

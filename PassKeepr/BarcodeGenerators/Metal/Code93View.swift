@@ -2,6 +2,7 @@ import SwiftUI
 
 struct Code93View: View {
     @Binding var value: String
+    var border: Double
 
     var numberOfSegments: Int {
         (value.count * 9) + 1 + 18 + 18
@@ -13,14 +14,17 @@ struct Code93View: View {
 
     var body: some View {
         GeometryReader { geometry in
+            let borderWidth = geometry.size.width * border
             Rectangle()
-                .colorEffect(ShaderLibrary.OneDimensionalBarcodeFilter(.float(geometry.size.width), .data(barcodeDataBuffer), .data(Data([UInt8(numberOfSegments)]))))
+                .colorEffect(ShaderLibrary.OneDimensionalBarcodeFilter(.float(geometry.size.width - CGFloat(borderWidth * 2)), .data(barcodeDataBuffer), .data(Data([UInt8(numberOfSegments)]))))
+                .padding(CGFloat(borderWidth))
+                .background(Color.white)
         }
     }
 }
 
 #Preview {
-    Code93View(value: .constant("TEST93"))
+    Code93View(value: .constant("TEST93"), border: 20)
 }
 
 import Foundation

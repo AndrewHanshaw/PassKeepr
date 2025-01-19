@@ -20,16 +20,6 @@ struct AddPass: View {
             Form {
                 List {
                     Section {
-                        LabeledContent {
-                            TextField(
-                                "Name",
-                                text: $addedPass.passName
-                            )
-                        } label: {
-                            Text("Pass Name")
-                        }
-                        .disableAutocorrection(true)
-
                         Picker("Pass Type", selection: $addedPass.passType) {
                             ForEach(PassType.allCases) { type in
                                 HStack {
@@ -38,12 +28,15 @@ struct AddPass: View {
                                 }.tag(type)
                             }
                         }
-                    } header: {
-                        Text("Add a Pass:")
-                            .font(.system(size: 25, weight: .bold, design: .rounded))
-                            .textCase(nil)
-                            .padding(.bottom, 4)
-                            .padding(.top, 8)
+                    }
+                    header: { // Slightly hacky way to get a custom view into a Form/List without having to adhere to the typical styling of the Form/List
+                        EditablePassCard(passObject: $addedPass)
+                            .textCase(nil) // Otherwise all text within the view will be all caps
+                            .listRowInsets(.init(top: 40,
+                                                 leading: 0,
+                                                 bottom: 40,
+                                                 trailing: 0))
+                            .listRowBackground(Color.clear)
                     }
 
                     PassInput(pass: $addedPass)
@@ -82,8 +75,6 @@ struct AddPass: View {
                             .animation(.easeInOut(duration: 0.2), value: hasAddPassButtonBeenPressed)
                     }
                     .listRowBackground(Color.accentColor)
-
-                    OptionalPassConfiguration(passObject: $addedPass)
                 } // List
                 .listSectionSpacing(20)
             } // Form

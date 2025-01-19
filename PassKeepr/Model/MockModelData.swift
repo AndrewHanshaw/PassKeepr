@@ -32,6 +32,7 @@ private extension PassObject {
         identificationString: "12345678",
         barcodeString: "1234",
         barcodeType: BarcodeType.code128,
+        barcodeBorder: 0,
         stripImage: Data(),
         backgroundImage: Data(),
         logoImage: Data(),
@@ -47,7 +48,22 @@ private extension PassObject {
         foregroundColor: 0xFF00FF,
         backgroundColor: 0xFFFFFF,
         labelColor: 0x000000,
-        description: "Preview pass 1"
+        description: "Preview pass 1",
+        isHeaderFieldOneOn: false,
+        headerFieldOneLabel: "",
+        headerFieldOneText: "",
+        isHeaderFieldTwoOn: false,
+        headerFieldTwoLabel: "",
+        headerFieldTwoText: "",
+        isPrimaryFieldOn: false,
+        primaryFieldLabel: "",
+        primaryFieldText: "",
+        isSecondaryFieldOneOn: false,
+        secondaryFieldOneLabel: "",
+        secondaryFieldOneText: "",
+        isSecondaryFieldTwoOn: false,
+        secondaryFieldTwoLabel: "",
+        secondaryFieldTwoText: ""
     )
 
     static let preview2 = PassObject(
@@ -58,6 +74,7 @@ private extension PassObject {
         identificationString: "",
         barcodeString: "1234",
         barcodeType: BarcodeType.code128,
+        barcodeBorder: 0,
         stripImage: Data(),
         backgroundImage: Data(),
         logoImage: Data(),
@@ -73,6 +90,21 @@ private extension PassObject {
         foregroundColor: 0xFF00FF,
         backgroundColor: 0xFFFFFF,
         labelColor: 0x000000,
-        description: "Preview pass 0"
+        description: "Preview pass 0",
+        isHeaderFieldOneOn: false,
+        headerFieldOneLabel: "",
+        headerFieldOneText: "",
+        isHeaderFieldTwoOn: false,
+        headerFieldTwoLabel: "",
+        headerFieldTwoText: "",
+        isPrimaryFieldOn: false,
+        primaryFieldLabel: "",
+        primaryFieldText: "",
+        isSecondaryFieldOneOn: false,
+        secondaryFieldOneLabel: "",
+        secondaryFieldOneText: "",
+        isSecondaryFieldTwoOn: false,
+        secondaryFieldTwoLabel: "",
+        secondaryFieldTwoText: ""
     )
 }

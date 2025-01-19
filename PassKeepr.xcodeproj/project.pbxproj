@@ -31,6 +31,9 @@
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
 		BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */ = {isa = PBXBuildFile; fileRef = BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */; };
 		BA25D8972B76E8300044E423 /* Code93View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA25D8962B76E8300044E423 /* Code93View.swift */; };
+		BA2ECC4F2D0F4E93001AD177 /* EditablePassCardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC4E2D0F4E93001AD177 /* EditablePassCardBackground.swift */; };
+		BA2ECC512D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC502D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift */; };
+		BA2ECC532D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */; };
 		BA409E422CF427160079193E /* EditablePassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA409E412CF427160079193E /* EditablePassCard.swift */; };
 		BA460E6D2B9E474300BC3D81 /* AdditionalFieldInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */; };
 		BA4918FF2CF5727500202180 /* EditablePassTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4918FE2CF5727500202180 /* EditablePassTextField.swift */; };
@@ -51,6 +54,10 @@
 		BA95576D2CD69ADE0010721A /* AddToWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA95576C2CD69ADE0010721A /* AddToWalletView.swift */; };
 		BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5E72B0C65380093CC75 /* Code128View.swift */; };
 		BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */; };
+		BAA53E142D0E2E2C004A175A /* HeaderFieldInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E132D0E2E2C004A175A /* HeaderFieldInput.swift */; };
+		BAA53E162D0E38C5004A175A /* HeaderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E152D0E38C5004A175A /* HeaderTextField.swift */; };
+		BAA53E182D0E3AF5004A175A /* CustomizePassTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E172D0E3AF5004A175A /* CustomizePassTextField.swift */; };
+		BAA53E1C2D0E5C70004A175A /* EditablePassCardTopSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E1B2D0E5C70004A175A /* EditablePassCardTopSection.swift */; };
 		BABAADD22B0A69950014C73B /* PassObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD02B0A69950014C73B /* PassObject.swift */; };
 		BABAADD32B0A69950014C73B /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD12B0A69950014C73B /* ModelData.swift */; };
 		BABAADD62B0A6BAA0014C73B /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = BABAADD52B0A6BAA0014C73B /* data.json */; };
@@ -116,6 +123,9 @@
 		BA1BACD32B463FCD00F86890 /* EditPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPass.swift; sourceTree = "<group>"; };
 		BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OneDimensionalBarcodeFilter.metal; sourceTree = "<group>"; };
 		BA25D8962B76E8300044E423 /* Code93View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code93View.swift; sourceTree = "<group>"; };
+		BA2ECC4E2D0F4E93001AD177 /* EditablePassCardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCardBackground.swift; sourceTree = "<group>"; };
+		BA2ECC502D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTextFieldStoreCard.swift; sourceTree = "<group>"; };
+		BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTextFieldGeneric.swift; sourceTree = "<group>"; };
 		BA409E412CF427160079193E /* EditablePassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCard.swift; sourceTree = "<group>"; };
 		BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalFieldInput.swift; sourceTree = "<group>"; };
 		BA4918FE2CF5727500202180 /* EditablePassTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassTextField.swift; sourceTree = "<group>"; };
@@ -136,6 +146,10 @@
 		BA95576C2CD69ADE0010721A /* AddToWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToWalletView.swift; sourceTree = "<group>"; };
 		BA9ED5E72B0C65380093CC75 /* Code128View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code128View.swift; sourceTree = "<group>"; };
 		BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
+		BAA53E132D0E2E2C004A175A /* HeaderFieldInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderFieldInput.swift; sourceTree = "<group>"; };
+		BAA53E152D0E38C5004A175A /* HeaderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTextField.swift; sourceTree = "<group>"; };
+		BAA53E172D0E3AF5004A175A /* CustomizePassTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizePassTextField.swift; sourceTree = "<group>"; };
+		BAA53E1B2D0E5C70004A175A /* EditablePassCardTopSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCardTopSection.swift; sourceTree = "<group>"; };
 		BABAADD02B0A69950014C73B /* PassObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassObject.swift; sourceTree = "<group>"; };
 		BABAADD12B0A69950014C73B /* ModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		BABAADD52B0A6BAA0014C73B /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
@@ -250,11 +264,6 @@
 				BA863A162B6621B6008746C1 /* ScannerView.swift */,
 				BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */,
 				BA6DC62D2CAB8987000B153F /* PassInput.swift */,
-				BA409E412CF427160079193E /* EditablePassCard.swift */,
-				BA4918FE2CF5727500202180 /* EditablePassTextField.swift */,
-				BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */,
-				BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */,
-				BAE7B33F2D066AD600DD0251 /* StripImageBarcode.swift */,
 			);
 			path = PassInputs;
 			sourceTree = "<group>";
@@ -281,6 +290,7 @@
 				BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */,
 				BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */,
 				BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */,
+				BAA53E132D0E2E2C004A175A /* HeaderFieldInput.swift */,
 			);
 			path = Pickers;
 			sourceTree = "<group>";
@@ -317,6 +327,24 @@
 			path = CoreImage;
 			sourceTree = "<group>";
 		};
+		BAA53E1A2D0E5443004A175A /* EditablePassCard */ = {
+			isa = PBXGroup;
+			children = (
+				BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */,
+				BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */,
+				BAA53E172D0E3AF5004A175A /* CustomizePassTextField.swift */,
+				BA409E412CF427160079193E /* EditablePassCard.swift */,
+				BA2ECC502D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift */,
+				BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */,
+				BA2ECC4E2D0F4E93001AD177 /* EditablePassCardBackground.swift */,
+				BAA53E1B2D0E5C70004A175A /* EditablePassCardTopSection.swift */,
+				BA4918FE2CF5727500202180 /* EditablePassTextField.swift */,
+				BAA53E152D0E38C5004A175A /* HeaderTextField.swift */,
+				BAE7B33F2D066AD600DD0251 /* StripImageBarcode.swift */,
+			);
+			path = EditablePassCard;
+			sourceTree = "<group>";
+		};
 		BABAADCF2B0A69950014C73B /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -340,6 +368,7 @@
 		BABAADDB2B0A6C190014C73B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BAA53E1A2D0E5443004A175A /* EditablePassCard */,
 				BA00B9AA2B4F8FAC00050C33 /* PassInputs */,
 				3A02E73B2AF6EE1000383BC2 /* ContentView.swift */,
 				BABAADD92B0A6C110014C73B /* AddPass.swift */,
@@ -517,6 +546,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA460E6D2B9E474300BC3D81 /* AdditionalFieldInput.swift in Sources */,
+				BAA53E142D0E2E2C004A175A /* HeaderFieldInput.swift in Sources */,
 				BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */,
 				BABAADD22B0A69950014C73B /* PassObject.swift in Sources */,
 				BA885AE82CF2A01C0084FC25 /* TextFieldDynamicWidth.swift in Sources */,
@@ -545,9 +575,12 @@
 				BA0F98212CE2BA4800F76501 /* ExtendUInt.swift in Sources */,
 				3A02E73A2AF6EE1000383BC2 /* PassKeeprApp.swift in Sources */,
 				BA409E422CF427160079193E /* EditablePassCard.swift in Sources */,
+				BAA53E182D0E3AF5004A175A /* CustomizePassTextField.swift in Sources */,
 				BA00B9B42B4F94F300050C33 /* BusinessCardInput.swift in Sources */,
 				BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */,
 				BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */,
+				BA2ECC532D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift in Sources */,
+				BA2ECC4F2D0F4E93001AD177 /* EditablePassCardBackground.swift in Sources */,
 				BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */,
 				BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */,
 				BAE7B3402D066AD600DD0251 /* StripImageBarcode.swift in Sources */,
@@ -559,6 +592,7 @@
 				BA00B9AE2B4F92DE00050C33 /* QRCodeInput.swift in Sources */,
 				BA95576D2CD69ADE0010721A /* AddToWalletView.swift in Sources */,
 				BA879C242B7064AB008A685E /* UPCEView.swift in Sources */,
+				BAA53E1C2D0E5C70004A175A /* EditablePassCardTopSection.swift in Sources */,
 				BA00B9B22B4F942E00050C33 /* NoteInput.swift in Sources */,
 				BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */,
 				BA8671DF2B951FD700F20608 /* PDF417View.swift in Sources */,
@@ -566,6 +600,8 @@
 				BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */,
 				BA6DC62E2CAB8987000B153F /* PassInput.swift in Sources */,
 				BAE7B33C2D06588E00DD0251 /* CustomizeBarcode.swift in Sources */,
+				BAA53E162D0E38C5004A175A /* HeaderTextField.swift in Sources */,
+				BA2ECC512D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift in Sources */,
 				BA7A4A232B65AE3A006F06DF /* ColorInput.swift in Sources */,
 				BAED92C52D04D596000822CA /* CustomizeBackgroundImage.swift in Sources */,
 				BABAADD82B0A6BF50014C73B /* ListSection.swift in Sources */,

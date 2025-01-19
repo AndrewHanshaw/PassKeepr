@@ -33,7 +33,8 @@ func generatePass(passObject: PassObject) -> URL? {
             current, _ in current
         }
         passData.merge(["labelColor": passObject.labelColor.toRGBString()]) { current, _ in current }
-        passData.merge(populatePass(passObject: passObject, passDirectory: passDirectory)) { current, _ in current }
+        passData.merge(populatePass(passObject: passObject)) { current, _ in current }
+
         let jsonData = try JSONSerialization.data(withJSONObject: passData, options: .prettyPrinted)
         try jsonData.write(to: fileURL)
         savePNGToDirectory(pngData: passObject.passIcon, destinationDirectory: passDirectory, fileName: "icon")
@@ -81,17 +82,18 @@ func zipDirectory(uuid: UUID) throws -> URL? {
     return pkpassDirectory
 }
 
-// Returns encoded JSON data with the required information for an identificationPass
-func populatePass(passObject: PassObject, passDirectory: URL) -> [String: Any] {
+func populatePass(passObject: PassObject) -> [String: Any] {
     var encodedData: [String: Any]
 
     switch passObject.passType {
     case PassType.identificationPass:
         encodedData = encodeIdentificationPass(passObject: passObject)
     case PassType.barcodePass:
-        encodedData = encodeBarcodePass(passObject: passObject, passDirectory: passDirectory)
+        encodedData = encodeBarcodePass(passObject: passObject)
     case PassType.qrCodePass:
         encodedData = encodeQrCodePass(passObject: passObject)
+    case PassType.businessCardPass:
+        encodedData = encodeBusinessCardPass(passObject: passObject)
     default:
         encodedData = [:]
     }
@@ -99,11 +101,42 @@ func populatePass(passObject: PassObject, passDirectory: URL) -> [String: Any] {
     return encodedData
 }
 
+func encodeHeaderFields(passObject: PassObject) -> [String: Any] {
+    var encodedData: [Any] = []
+    var headerFields: [String: Any] = [:]
+
+    let headerField1: [String: Any] = [
+        "key": passObject.headerFieldOneLabel,
+        "label": passObject.headerFieldOneLabel,
+        "value": passObject.headerFieldOneText,
+    ]
+
+    let headerField2: [String: Any] = [
+        "key": passObject.headerFieldTwoLabel,
+        "label": passObject.headerFieldTwoLabel,
+        "value": passObject.headerFieldTwoText,
+    ]
+
+    if passObject.isHeaderFieldOneOn == true {
+        encodedData.append(headerField1)
+    }
+
+    if passObject.isHeaderFieldTwoOn == true {
+        encodedData.append(headerField2)
+    }
+
+    headerFields = [
+        "headerFields": encodedData,
+    ]
+
+    return headerFields
+}
+
 func encodeIdentificationPass(passObject: PassObject) -> [String: Any] {
     let primaryFields: [String: Any] = [
-        "key": "name",
-        "label": "NAME",
-        "value": passObject.name,
+        "key": passObject.primaryFieldLabel,
+        "label": passObject.primaryFieldLabel,
+        "value": passObject.primaryFieldText,
     ]
 
     let secondaryFields: [String: Any] = [
@@ -124,7 +157,7 @@ func encodeIdentificationPass(passObject: PassObject) -> [String: Any] {
     return generic
 }
 
-func encodeBarcodePass(passObject: PassObject, passDirectory _: URL) -> [String: Any] {
+func encodeBarcodePass(passObject: PassObject) -> [String: Any] {
     // Nominal case where the barcode type is directly supported by PassKit
     if passObject.barcodeType == BarcodeType.code128 {
         let barcodeFields: [String: Any] = [
@@ -134,9 +167,9 @@ func encodeBarcodePass(passObject: PassObject, passDirectory _: URL) -> [String:
         ]
 
         let primaryFields: [String: Any] = [
-            "key": "name",
-            "label": "NAME",
-            "value": passObject.passName,
+            "key": passObject.primaryFieldLabel,
+            "label": passObject.primaryFieldLabel,
+            "value": passObject.primaryFieldText,
         ]
 
         let data: [String: Any] = [
@@ -188,14 +221,18 @@ func encodeQrCodePass(passObject: PassObject) -> [String: Any] {
     ]
 
     let primaryFields: [String: Any] = [
-        "key": "name",
-        "label": "NAME",
-        "value": passObject.passName,
+        "key": passObject.primaryFieldLabel,
+        "label": passObject.primaryFieldLabel,
+        "value": passObject.primaryFieldText,
     ]
 
-    let data: [String: Any] = [
+    var data: [String: Any] = [
         "primaryFields": [primaryFields],
     ]
+
+    data.merge(encodeHeaderFields(passObject: passObject)) {
+        current, _ in current
+    }
 
     let generic: [String: Any] = [
         "generic": data,
@@ -203,6 +240,76 @@ func encodeQrCodePass(passObject: PassObject) -> [String: Any] {
     ]
     return generic
     // Custom case where the QR code must be represented as an image
+}
+
+func encodeBusinessCardPass(passObject: PassObject) -> [String: Any] {
+    let primaryFields: [String: Any] = [
+        "key": passObject.primaryFieldLabel,
+        "label": passObject.primaryFieldLabel,
+        "value": passObject.primaryFieldText,
+    ]
+
+    let nameField: [String: Any] = [
+        "key": "name",
+        "label": "Name",
+        "value": passObject.name,
+    ]
+
+    let titleField: [String: Any] = [
+        "key": "title",
+        "label": "Title",
+        "value": passObject.title,
+    ]
+
+    let businessNameField: [String: Any] = [
+        "key": "business",
+        "label": "Business",
+        "value": passObject.businessName,
+    ]
+
+    let phoneNumberField: [String: Any] = [
+        "key": "phone",
+        "label": "Phone",
+        "value": passObject.phoneNumber,
+    ]
+
+    let emailField: [String: Any] = [
+        "key": "email",
+        "label": "Email",
+        "value": passObject.email,
+    ]
+
+    var secondaryFields: [Any] = []
+
+    if passObject.name != "" {
+        secondaryFields.append(nameField)
+    }
+
+    if passObject.title != "" {
+        secondaryFields.append(titleField)
+    }
+
+    if passObject.businessName != "" {
+        secondaryFields.append(businessNameField)
+    }
+
+    if passObject.phoneNumber != "" {
+        secondaryFields.append(phoneNumberField)
+    }
+
+    if passObject.email != "" {
+        secondaryFields.append(emailField)
+    }
+
+    let data: [String: Any] = [
+        "primaryFields": [primaryFields],
+        "secondaryFields": secondaryFields,
+    ]
+
+    let generic: [String: Any] = [
+        "generic": data,
+    ]
+    return generic
 }
 
 func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: String) {

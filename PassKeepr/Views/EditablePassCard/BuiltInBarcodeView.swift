@@ -35,6 +35,8 @@ struct BuiltInBarcodeView: View {
             .buttonStyle(PlainButtonStyle())
         }
         .aspectRatio(3.4, contentMode: .fit)
+        .padding([.leading, .trailing], 45)
+        .padding(.bottom, 40)
     }
 }
 

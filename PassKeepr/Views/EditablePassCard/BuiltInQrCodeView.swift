@@ -13,7 +13,11 @@ struct BuiltInQrCodeView: View {
                 QRCodeView(data: passObject.qrCodeString, correctionLevel: passObject.qrCodeCorrectionLevel)
                     .padding(7)
             } else {
-                Text("Enter QR Code Data")
+                ZStack {
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                    Text("Enter QR Code Data")
+                }
             }
 
 //          TODO: check for valid qr code data
@@ -35,6 +39,8 @@ struct BuiltInQrCodeView: View {
             .buttonStyle(PlainButtonStyle())
         }
         .aspectRatio(1, contentMode: .fit)
+        .padding([.leading, .trailing], 55)
+        .padding(.bottom, 15)
     }
 }
 
