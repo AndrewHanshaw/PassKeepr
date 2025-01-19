@@ -29,7 +29,7 @@ struct PassCard: View {
                                 .frame(height: geometry.size.height * 0.2)
                                 .padding(0)
 
-                            if getIsStripImageSupported(passObject: passObject) {
+                            if getIsStripImageSupported(passObject: passObject) && passObject.stripImage != Data() {
                                 Image(uiImage: UIImage(data: passObject.stripImage)!)
                                     .resizable()
                                     .scaledToFit()
