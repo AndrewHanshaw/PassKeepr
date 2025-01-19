@@ -8,7 +8,7 @@ struct PassInput: View {
         case PassType.identificationPass:
             IdentificationInput(passObject: $pass)
         case PassType.barcodePass:
-            BarcodeInput(passObject: $pass)
+            QRCodeInput(passObject: $pass) // fixme
         case PassType.qrCodePass:
             QRCodeInput(passObject: $pass)
         case PassType.notePass:

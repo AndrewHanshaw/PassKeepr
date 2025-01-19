@@ -7,6 +7,7 @@ struct EditablePassCard: View {
     @State private var scannedCode = ""
     @State private var isCustomizeLogoImagePresented = false
     @State private var isCustomizeBackgroundImagePresented = false
+    @State private var isCustomizeBarcodePresented = false
 
     var body: some View {
         ZStack {
@@ -43,6 +44,20 @@ struct EditablePassCard: View {
                         .frame(width: 80) // Adjust to the desired size
                         .offset(y: -65)
                     Spacer()
+                }
+            }
+
+            if passObject.passType == PassType.barcodePass && passObject.barcodeType == BarcodeType.code128 {
+                VStack {
+                    Spacer()
+                    BuiltInBarcodeView(passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
+                }
+                .padding([.leading, .trailing], 45)
+                .padding(.bottom, 40)
+                .sheet(isPresented: $isCustomizeBarcodePresented) {
+                    CustomizeBarcode(passObject: $passObject)
+                        .edgesIgnoringSafeArea(.bottom)
+                        .presentationDragIndicator(.visible)
                 }
             }
 

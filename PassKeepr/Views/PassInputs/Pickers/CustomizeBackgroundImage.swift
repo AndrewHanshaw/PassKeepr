@@ -49,6 +49,15 @@ struct CustomizeBackgroundImage: View {
             }
             .listRowBackground(Color.accentColor)
         }
+        .onChange(of: passObject.backgroundImage) {
+            Task {
+                if passObject.backgroundImage != Data() {
+                    passObject.passStyle = PassStyle.eventTicket
+                } else {
+                    passObject.passStyle = PassStyle.generic
+                }
+            }
+        }
     }
 }
 
