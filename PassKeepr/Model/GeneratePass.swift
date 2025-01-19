@@ -58,21 +58,27 @@ func generatePass(passObject: PassObject) -> URL? {
         ]
 
         if passObject.passType == PassType.barcodePass, passObject.barcodeType == BarcodeType.code128 {
-            let barcodeFields: [String: Any] = [
-                // TODO: Support AltText
+            var barcodeFields: [String: Any] = [
                 "message": passObject.barcodeString,
                 "format": "PKBarcodeFormatCode128",
                 "messageEncoding": "iso-8859-1",
             ]
 
+            if passObject.altText != "" {
+                barcodeFields.merge(["altText": passObject.altText]) { _, _ in }
+            }
+
             passStyle.merge(["barcode": barcodeFields]) { _, _ in }
         } else if passObject.passType == PassType.qrCodePass {
-            let barcodeFields: [String: Any] = [
-                // TODO: Support AltText
+            var barcodeFields: [String: Any] = [
                 "message": passObject.qrCodeString,
                 "format": "PKBarcodeFormatQR",
                 "messageEncoding": "iso-8859-1",
             ]
+
+            if passObject.altText != "" {
+                barcodeFields.merge(["altText": passObject.altText]) { _, _ in }
+            }
 
             passStyle.merge(["barcode": barcodeFields]) { _, _ in }
         }

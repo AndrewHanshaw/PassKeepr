@@ -28,8 +28,8 @@ class BarcodeTypeHelpers {
         }
     }
 
-    static func keyboardTypeForTextField(type: Binding<BarcodeType>) -> UIKeyboardType {
-        switch type.wrappedValue {
+    static func keyboardTypeForTextField(type: BarcodeType) -> UIKeyboardType {
+        switch type {
         case BarcodeType.code128, BarcodeType.code39, BarcodeType.code93:
             return .default
         default:

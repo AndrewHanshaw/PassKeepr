@@ -14,6 +14,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var logoImage: Data // PNG data for all passes that use the logo image
     var qrCodeString: String
     var qrCodeCorrectionLevel: QrCodeCorrectionLevel
+    var altText: String
     var foregroundColor: UInt
     var backgroundColor: UInt
     var labelColor: UInt
@@ -55,6 +56,7 @@ extension PassObject {
         logoImage = Data()
         qrCodeString = ""
         qrCodeCorrectionLevel = QrCodeCorrectionLevel.medium
+        altText = ""
         foregroundColor = 0x000000
         backgroundColor = 0xFFFFFF
         labelColor = 0x000000
@@ -94,6 +96,7 @@ extension PassObject {
         newObject.logoImage = logoImage
         newObject.qrCodeString = qrCodeString
         newObject.qrCodeCorrectionLevel = qrCodeCorrectionLevel
+        newObject.altText = altText
         newObject.foregroundColor = foregroundColor
         newObject.backgroundColor = backgroundColor
         newObject.labelColor = labelColor
