@@ -2,7 +2,6 @@ import PhotosUI
 import SwiftUI
 
 struct EditablePassCard: View {
-    
     @Binding var passObject: PassObject
     @State private var size: CGSize = CGSizeZero
     @State private var scannedCode = ""
