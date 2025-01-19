@@ -22,7 +22,7 @@ struct EditablePassCard: View {
                     .padding([.leading, .trailing], 12)
                     .padding(.top, 6)
 
-                if passObject.passType == PassType.barcodePass && passObject.barcodeType != BarcodeType.code128 {
+                if passObject.passType == PassType.barcodePass && passObject.barcodeType != BarcodeType.code128 && passObject.barcodeType != BarcodeType.pdf417 {
                     StripImageBarcodeView(passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                 } else {
                     if passObject.isCustomStripImageOn == true {
@@ -75,7 +75,7 @@ struct EditablePassCard: View {
                                 .edgesIgnoringSafeArea(.bottom)
                                 .presentationDragIndicator(.visible)
                         }
-                } else if passObject.passType == PassType.barcodePass && passObject.barcodeType == BarcodeType.code128 {
+                } else if passObject.passType == PassType.barcodePass && (passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417) {
                     BuiltInBarcodeView(passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                 }
             }
