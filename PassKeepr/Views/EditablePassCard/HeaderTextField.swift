@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct HeaderTextField: View {
+    var placeholderColor: Color
     @Binding var textLabel: String
     @Binding var text: String
 
@@ -48,6 +49,8 @@ struct HeaderTextField: View {
                 } else {
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                        .foregroundColor(placeholderColor)
+                        .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
                         .frame(maxWidth: .infinity)
                 }
 
@@ -75,5 +78,5 @@ struct HeaderTextField: View {
 }
 
 #Preview {
-    HeaderTextField(textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
+    HeaderTextField(placeholderColor: Color.black, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
 }
