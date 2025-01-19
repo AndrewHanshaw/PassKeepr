@@ -11,25 +11,27 @@ struct EditablePassCard: View {
     @State private var isCustomizeStripImagePresented = false
     @State private var isCustomizeBarcodePresented = false
     @State private var isCustomizeQrCodePresented = false
+    @State private var backgroundBrightness = 0.0
+    @State private var placeholderColor = Color.black
 
     var body: some View {
         ZStack {
             EditablePassCardBackground(passObject: $passObject)
 
             VStack {
-                EditablePassCardTopSection(passObject: $passObject, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented)
+                EditablePassCardTopSection(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented)
                     .frame(height: size.height * 0.09) // TODO: Determine the actual height (%) of this
                     .padding([.leading, .trailing], 12)
                     .padding(.top, 6)
 
-                if passObject.barcodeType != BarcodeType.code128 && passObject.barcodeType != BarcodeType.pdf417 {
+                if passObject.barcodeType != BarcodeType.code128 && passObject.barcodeType != BarcodeType.pdf417 && passObject.barcodeType != BarcodeType.qr && passObject.barcodeType != BarcodeType.none {
                     StripImageBarcodeView(passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                 } else {
                     if passObject.isCustomStripImageOn == true {
-                        CustomStripImage(passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
+                        CustomStripImage(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
                     } else {
                         HStack {
-                            PrimaryTextFieldGeneric(textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                            PrimaryTextFieldGeneric(placeholderColor: placeholderColor, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                                 .padding([.leading, .trailing], 10)
                                 .padding(.top, 14)
                                 .frame(maxWidth: size.width) // Must limit this width BEFORE applying .fixedSize, otherwise the parent view will expand if this child view becomes too wide
@@ -43,19 +45,19 @@ struct EditablePassCard: View {
 
                 HStack {
                     // These only apply when strip image is on?
-                    SecondaryTextField(textLabel: $passObject.secondaryFieldOneLabel, text: $passObject.secondaryFieldOneText, isStripImageOn: passObject.stripImage != Data(), textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                    SecondaryTextField(placeholderColor: placeholderColor, textLabel: $passObject.secondaryFieldOneLabel, text: $passObject.secondaryFieldOneText, isStripImageOn: passObject.stripImage != Data(), textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
 
                     Spacer()
 
                     if passObject.isSecondaryFieldTwoOn {
-                        SecondaryTextField(textLabel: $passObject.secondaryFieldTwoLabel, text: $passObject.secondaryFieldTwoText, isStripImageOn: passObject.stripImage != Data(), textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                        SecondaryTextField(placeholderColor: placeholderColor, textLabel: $passObject.secondaryFieldTwoLabel, text: $passObject.secondaryFieldTwoText, isStripImageOn: passObject.stripImage != Data(), textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                             .layoutPriority(1)
                     }
 
                     if passObject.isSecondaryFieldThreeOn {
                         Spacer()
 
-                        SecondaryTextField(textLabel: $passObject.secondaryFieldThreeLabel, text: $passObject.secondaryFieldThreeText, isStripImageOn: passObject.stripImage != Data(), textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                        SecondaryTextField(placeholderColor: placeholderColor, textLabel: $passObject.secondaryFieldThreeLabel, text: $passObject.secondaryFieldThreeText, isStripImageOn: passObject.stripImage != Data(), textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                     }
                 }
                 .padding([.leading, .trailing], 10)
@@ -66,7 +68,7 @@ struct EditablePassCard: View {
                 Spacer()
 
                 if passObject.barcodeType == BarcodeType.qr {
-                    BuiltInQrCodeView(passObject: $passObject, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
+                    BuiltInQrCodeView(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
                         .frame(height: 170)
                         .sheet(isPresented: $isCustomizeQrCodePresented) {
                             CustomizeQrCode(passObject: $passObject)
@@ -119,6 +121,30 @@ struct EditablePassCard: View {
                     }
                 }
         })
+        .onChange(of: passObject.backgroundImage) {
+            determineBackgroundColor()
+        }
+        .onChange(of: passObject.backgroundColor) {
+            determineBackgroundColor()
+        }
+        .onAppear {
+            determineBackgroundColor()
+        }
+    }
+
+    func determineBackgroundColor() {
+        backgroundBrightness = ImageRenderer(content: EditablePassCardBackground(passObject: $passObject).frame(width: size.width, height: size.height)).uiImage!.averageBrightness()!
+
+        if backgroundBrightness < 0.2 {
+            placeholderColor = Color.gray
+        } else if backgroundBrightness > 0.2 && backgroundBrightness < 0.55 {
+            placeholderColor = Color.white
+        } else {
+            placeholderColor = Color.black
+        }
+
+        print("Background brightness: \(backgroundBrightness)")
+        print("myColor: \(placeholderColor)")
     }
 }
 
