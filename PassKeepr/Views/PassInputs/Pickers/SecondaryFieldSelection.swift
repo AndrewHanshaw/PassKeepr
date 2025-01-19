@@ -28,5 +28,5 @@ struct SecondaryFieldSelection: View {
 }
 
 #Preview {
-    SecondaryFieldSelection(passObject: .constant(ModelData().passObjects[0]))
+    SecondaryFieldSelection(passObject: .constant(MockModelData().passObjects[0]))
 }

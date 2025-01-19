@@ -31,11 +31,6 @@ struct ContentView: View {
                                     ShareLink(item: destinationURL) {
                                         Label("Share", systemImage: "square.and.arrow.up")
                                     }
-//                                    Button(action: {
-//                                        print("Share")
-//                                    }) {
-//                                        Label("Share", systemImage: "square.and.arrow.up")
-//                                    }
 
                                     Button(action: {
                                         let newPass = passObject.duplicate()
@@ -74,8 +69,7 @@ struct ContentView: View {
                 }
                 .scrollDisabled(modelData.passObjects.isEmpty)
                 .reorderableForEachContainer(active: $active)
-                .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
-                .navigationBarTitleDisplayMode(.inline) // Necessary to prevent a gap between the title and the start of the list
+                .navigationBarTitleDisplayMode(.inline) // Necessary to prevent a gap between the title and the start of the grid
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         HStack {
@@ -93,10 +87,8 @@ struct ContentView: View {
                                    })
                                    .labelStyle(.iconOnly)
                                    .popover(isPresented: $shouldPresentSettings) {
-//                                   .sheet(isPresented: $shouldPresentSettings) {
                                        Settings()
                                            .presentationCompactAdaptation((.popover))
-//                                           .presentationDragIndicator(.visible)
                                    }
                         }
                     }

@@ -13,5 +13,5 @@ struct HeaderFieldSelection: View {
 }
 
 #Preview {
-    HeaderFieldSelection(passObject: .constant(ModelData().passObjects[0]))
+    HeaderFieldSelection(passObject: .constant(MockModelData().passObjects[0]))
 }

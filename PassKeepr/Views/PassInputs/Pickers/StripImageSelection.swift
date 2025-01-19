@@ -13,5 +13,5 @@ struct StripImageSelection: View {
 }
 
 #Preview {
-    StripImageSelection(passObject: .constant(ModelData().passObjects[0]))
+    StripImageSelection(passObject: .constant(MockModelData().passObjects[0]))
 }

@@ -43,16 +43,16 @@ struct Settings: View {
             Button(action: {
                 modelData.deleteAllItems()
             }) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .foregroundColor(Color.red)
-                        .padding(0)
-                    Text("Delete All Passes")
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
-                        .foregroundColor(Color.white)
-                        .padding(8)
-                        .readSize(into: $width)
-                }
+                Text("Delete All Passes")
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                    .foregroundColor(Color.white)
+                    .padding(8)
+                    .readSize(into: $width)
+                    .background {
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            .foregroundColor(Color.red)
+                            .padding(0)
+                    }
             }
             .simultaneousGesture(
                 LongPressGesture(minimumDuration: 2.0)
@@ -69,14 +69,14 @@ struct Settings: View {
             Button(action: {
                 isInfoPagePresented.toggle()
             }) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .foregroundColor(Color(.secondarySystemFill))
-                    Text("About")
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
-                        .padding(8)
-                        .frame(width: width.width)
-                }
+                Text("About")
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                    .padding(8)
+                    .frame(width: width.width)
+                    .background {
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            .foregroundColor(Color(.secondarySystemFill))
+                    }
             }
             .background(RoundedRectangle(cornerRadius: 5)
                 .foregroundColor(Color(.secondarySystemBackground))

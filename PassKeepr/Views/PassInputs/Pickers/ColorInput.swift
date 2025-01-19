@@ -33,5 +33,5 @@ struct ColorInput: View {
 }
 
 #Preview {
-    ColorInput(pass: .constant(ModelData().passObjects[0]))
+    ColorInput(pass: .constant(MockModelData().passObjects[0]))
 }
