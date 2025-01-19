@@ -60,7 +60,7 @@ struct HeaderTextField: View {
                         .frame(maxWidth: .infinity, alignment: .bottomTrailing)
                         .font(.system(size: 18))
                         .offset(x: 9, y: 13)
-                        .shadow(color: .gray, radius: 3, x: 0, y: 0)
+                        .shadow(radius: 3, x: 0, y: 0)
                 }
                 .buttonStyle(PlainButtonStyle())
             }
