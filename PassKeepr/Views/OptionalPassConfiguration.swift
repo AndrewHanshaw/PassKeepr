@@ -17,8 +17,6 @@ struct OptionalPassConfiguration: View {
         .listSectionSpacing(0)
         .listRowBackground(Color.clear)
 
-        ColorInput(pass: $passObject)
-
         LogoImagePicker(passObject: $passObject)
 
         AdditionalFieldInput(enableHeaderField: $enableHeaderField, labelInput: $headerFieldLabel, textInput: $headerFieldText)
