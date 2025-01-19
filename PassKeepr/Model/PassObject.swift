@@ -11,7 +11,6 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var stripImage: Data // PNG data for all passes that use the strip image (may be a barcode, picture, etc)
     var backgroundImage: Data // PNG data for all passes that use the background image
     var logoImage: Data // PNG data for all passes that use the logo image
-    var qrCodeString: String
     var qrCodeCorrectionLevel: QrCodeCorrectionLevel
     var altText: String
     var foregroundColor: UInt
@@ -50,7 +49,6 @@ extension PassObject {
         stripImage = Data()
         backgroundImage = Data()
         logoImage = Data()
-        qrCodeString = ""
         qrCodeCorrectionLevel = QrCodeCorrectionLevel.medium
         altText = ""
         foregroundColor = 0x000000
@@ -87,7 +85,6 @@ extension PassObject {
         newObject.stripImage = stripImage
         newObject.backgroundImage = backgroundImage
         newObject.logoImage = logoImage
-        newObject.qrCodeString = qrCodeString
         newObject.qrCodeCorrectionLevel = qrCodeCorrectionLevel
         newObject.altText = altText
         newObject.foregroundColor = foregroundColor

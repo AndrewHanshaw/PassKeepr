@@ -6,11 +6,11 @@ struct BuiltInQrCodeView: View {
 
     var body: some View {
         ZStack {
-            if passObject.qrCodeString != "" {
+            if passObject.barcodeString != "" {
                 RoundedRectangle(cornerRadius: 5)
                     .fill(Color.white)
 
-                QRCodeView(data: passObject.qrCodeString, correctionLevel: passObject.qrCodeCorrectionLevel)
+                QRCodeView(data: passObject.barcodeString, correctionLevel: passObject.qrCodeCorrectionLevel)
                     .padding(7)
             } else {
                 ZStack {
