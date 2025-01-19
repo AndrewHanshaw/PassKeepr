@@ -30,7 +30,6 @@
 		BA2ECC532D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */; };
 		BA409E422CF427160079193E /* EditablePassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA409E412CF427160079193E /* EditablePassCard.swift */; };
 		BA4918FF2CF5727500202180 /* EditablePassTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4918FE2CF5727500202180 /* EditablePassTextField.swift */; };
-		BA55A9B62B55BCEE00853687 /* PassObjectHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */; };
 		BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D4FE02B71C60400CB6ACA /* Code39View.swift */; };
 		BA6D6C682CE83628007D4C9A /* CustomizeLogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */; };
 		BA6DACEF2D38AA2600C2FD90 /* ReorderableForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6DACEE2D38AA2600C2FD90 /* ReorderableForEach.swift */; };
@@ -119,7 +118,6 @@
 		BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTextFieldGeneric.swift; sourceTree = "<group>"; };
 		BA409E412CF427160079193E /* EditablePassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCard.swift; sourceTree = "<group>"; };
 		BA4918FE2CF5727500202180 /* EditablePassTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassTextField.swift; sourceTree = "<group>"; };
-		BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassObjectHelpers.swift; sourceTree = "<group>"; };
 		BA6D4FE02B71C60400CB6ACA /* Code39View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code39View.swift; sourceTree = "<group>"; };
 		BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeLogoImage.swift; sourceTree = "<group>"; };
 		BA6DACEE2D38AA2600C2FD90 /* ReorderableForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReorderableForEach.swift; sourceTree = "<group>"; };
@@ -372,7 +370,6 @@
 				BA1515B82CE2BC6900DB1799 /* MeasureViewSize.swift */,
 				BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */,
 				BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */,
-				BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */,
 				BA6DACEE2D38AA2600C2FD90 /* ReorderableForEach.swift */,
 				BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */,
 				BA7A4A242B65B485006F06DF /* ExtendColor.swift */,
@@ -533,7 +530,6 @@
 				BABAADD22B0A69950014C73B /* PassObject.swift in Sources */,
 				BA885AE82CF2A01C0084FC25 /* TextFieldDynamicWidth.swift in Sources */,
 				BAE2D4552B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift in Sources */,
-				BA55A9B62B55BCEE00853687 /* PassObjectHelpers.swift in Sources */,
 				BAF5EF932D094FCE00259BEA /* BuiltInQrCodeView.swift in Sources */,
 				BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */,
 				BABAADD32B0A69950014C73B /* ModelData.swift in Sources */,

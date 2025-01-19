@@ -44,11 +44,17 @@ struct EditPass: View {
         VStack {
             Form {
                 Section {
-                    Picker("Pass Type", selection: $tempObject.passType) {
-                        ForEach(PassType.allCases) { type in
+                    Picker("Barcode Type", selection: $tempObject.barcodeType) {
+                        ForEach(BarcodeType.allCases) { type in
                             HStack {
-                                Text(PassObjectHelpers.GetStringSingular(type))
-                                Image(systemName: PassObjectHelpers.GetSystemIcon(type))
+                                Text(type.description)
+                                if type == BarcodeType.none {
+                                    Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled")
+                                } else if type == BarcodeType.qr {
+                                    Image(systemName: "qrcode")
+                                } else {
+                                    Image(systemName: "barcode")
+                                }
                             }.tag(type)
                         }
                     }
@@ -67,7 +73,7 @@ struct EditPass: View {
 
                 SecondaryFieldSelection(passObject: $tempObject)
                 HeaderFieldSelection(passObject: $tempObject)
-                if !(tempObject.passType == PassType.barcodePass && tempObject.barcodeType == BarcodeType.code128) {
+                if tempObject.barcodeType != BarcodeType.code128 {
                     StripImageSelection(passObject: $tempObject)
                 }
 

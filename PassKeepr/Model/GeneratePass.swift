@@ -57,7 +57,6 @@ func generatePass(passObject: PassObject) -> URL? {
             passObject.passStyle.description: data,
         ]
 
-        if passObject.passType == PassType.barcodePass {
             var barcodeFields: [String: Any] = [:]
 
             if passObject.barcodeType == BarcodeType.code128 {
@@ -72,6 +71,12 @@ func generatePass(passObject: PassObject) -> URL? {
                     "format": "PKBarcodeFormatPDF417",
                     "messageEncoding": "iso-8859-1",
                 ]
+            } else if passObject.barcodeType == BarcodeType.qr {
+                barcodeFields = [
+                    "message": passObject.barcodeString,
+                    "format": "PKBarcodeFormatQR",
+                    "messageEncoding": "iso-8859-1",
+                ]
             }
 
             if passObject.altText != "" {
@@ -79,19 +84,6 @@ func generatePass(passObject: PassObject) -> URL? {
             }
 
             passStyle.merge(["barcode": barcodeFields]) { _, _ in }
-        } else if passObject.passType == PassType.qrCodePass {
-            var barcodeFields: [String: Any] = [
-                "message": passObject.qrCodeString,
-                "format": "PKBarcodeFormatQR",
-                "messageEncoding": "iso-8859-1",
-            ]
-
-            if passObject.altText != "" {
-                barcodeFields.merge(["altText": passObject.altText]) { _, _ in }
-            }
-
-            passStyle.merge(["barcode": barcodeFields]) { _, _ in }
-        }
 
         passData.merge(passStyle) { _, _ in }
 
@@ -237,7 +229,7 @@ func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: Stri
 }
 
 func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
-    if /* (passObject.stripImage == Data()) && */ (passObject.barcodeType == BarcodeType.code128) || (passObject.barcodeType == BarcodeType.pdf417) || (passObject.passType == PassType.qrCodePass) {
+    if /* (passObject.stripImage == Data()) && */ (passObject.barcodeType == BarcodeType.code128) || (passObject.barcodeType == BarcodeType.pdf417) || (passObject.barcodeType == BarcodeType.qr) {
         return true
     } else {
         return false
@@ -253,7 +245,7 @@ func shouldBackgroundImageBeAddedToPass(passObject: PassObject) -> Bool {
 }
 
 func getIsStripImageSupported(passObject: PassObject) -> Bool {
-    if passObject.passType != PassType.qrCodePass {
+    if passObject.barcodeType != BarcodeType.qr {
         return true
     } else {
         return false

@@ -16,6 +16,8 @@ class BarcodeTypeHelpers {
 
     static func GetIsEnteredBarcodeValueValid(string: String, type: BarcodeType) -> Bool {
         switch type {
+        case BarcodeType.none:
+            return false
         case BarcodeType.code128:
             let regex = /^[ -~]+$/
             return string.firstMatch(of: regex) != nil
@@ -26,6 +28,8 @@ class BarcodeTypeHelpers {
             let regex = /^\d{6}$/
             return string.firstMatch(of: regex) != nil
         case BarcodeType.pdf417:
+            return true
+        case BarcodeType.qr:
             return true
         }
     }

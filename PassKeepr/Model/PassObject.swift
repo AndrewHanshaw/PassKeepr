@@ -3,7 +3,6 @@ import Foundation
 struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var id: UUID
     var passName: String
-    var passType: PassType
     var passStyle: PassStyle
     var passIcon: Data
     var barcodeString: String
@@ -43,11 +42,10 @@ extension PassObject {
     init() {
         id = UUID()
         passName = ""
-        passType = PassType.barcodePass
         passStyle = PassStyle.generic
         passIcon = (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
         barcodeString = ""
-        barcodeType = BarcodeType.code128
+        barcodeType = BarcodeType.none
         barcodeBorder = 0
         stripImage = Data()
         backgroundImage = Data()
@@ -81,7 +79,6 @@ extension PassObject {
     func duplicate() -> PassObject {
         var newObject = PassObject()
         newObject.passName = passName
-        newObject.passType = passType
         newObject.passStyle = passStyle
         newObject.passIcon = passIcon
         newObject.barcodeString = barcodeString
@@ -118,11 +115,6 @@ extension PassObject {
     }
 }
 
-enum PassType: Int, Codable, Identifiable, CaseIterable {
-    case identificationPass, barcodePass, qrCodePass, notePass, businessCardPass, picturePass
-    var id: Self { self }
-}
-
 enum QrCodeCorrectionLevel: Codable, CustomStringConvertible, CaseIterable {
     case low
     case medium
@@ -139,22 +131,28 @@ enum QrCodeCorrectionLevel: Codable, CustomStringConvertible, CaseIterable {
     }
 }
 
-enum BarcodeType: Codable, CustomStringConvertible, CaseIterable {
+enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {
+    case none
     case code128 // natively supported by PassKit
     case code93
     case code39
     case upce
     case pdf417 // natively supported by PassKit
+    case qr
 
     var description: String {
         switch self {
+        case .none: return "None"
         case .code128: return "Code 128"
         case .code93: return "Code 93"
         case .code39: return "Code 39"
         case .upce: return "UPC-E"
         case .pdf417: return "PDF417"
+        case .qr: return "QR Code"
         }
     }
+
+    var id: Self { self }
 }
 
 enum PassStyle: Codable, CustomStringConvertible, CaseIterable {

@@ -20,11 +20,17 @@ struct AddPass: View {
             Form {
                 List {
                     Section {
-                        Picker("Pass Type", selection: $addedPass.passType) {
-                            ForEach(PassType.allCases) { type in
+                        Picker("Barcode Type", selection: $addedPass.barcodeType) {
+                            ForEach(BarcodeType.allCases) { type in
                                 HStack {
-                                    Text(PassObjectHelpers.GetStringSingular(type))
-                                    Image(systemName: PassObjectHelpers.GetSystemIcon(type))
+                                    Text(type.description)
+                                    if type == BarcodeType.none {
+                                        Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled")
+                                    } else if type == BarcodeType.none {
+                                        Image(systemName: "qrcode")
+                                    } else {
+                                        Image(systemName: "barcode")
+                                    }
                                 }.tag(type)
                             }
                         }
@@ -45,7 +51,7 @@ struct AddPass: View {
                                 hasAddPassButtonBeenPressed = true // Set flag so we can disable the button once pressed
                                 addedPass.passName == "" ? addedPass.passName = "Default Name" : ()
                                 modelData.passObjects.append(addedPass)
-                                modelData.encodePassObjects() // need to modify to only encode variables that are relevant based on PassType
+                                modelData.encodePassObjects()
 
                                 // TODO: Indicate why generation was unsuccessful if it fails
                                 if let pkpassDir = generatePass(passObject: addedPass) {

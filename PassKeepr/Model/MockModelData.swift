@@ -27,7 +27,6 @@ private extension PassObject {
     static let preview1 = PassObject(
         id: UUID(),
         passName: "Barcode Pass 1",
-        passType: PassType.barcodePass,
         passStyle: PassStyle.generic,
         passIcon: (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data(),
         barcodeString: "1234",
@@ -65,7 +64,6 @@ private extension PassObject {
     static let preview2 = PassObject(
         id: UUID(),
         passName: "Barcode Pass 1",
-        passType: PassType.barcodePass,
         passStyle: PassStyle.coupon,
         passIcon: (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data(),
         barcodeString: "1234",
