@@ -34,6 +34,7 @@
 		BA25D8972B76E8300044E423 /* Code93View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA25D8962B76E8300044E423 /* Code93View.swift */; };
 		BA409E422CF427160079193E /* EditablePassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA409E412CF427160079193E /* EditablePassCard.swift */; };
 		BA460E6D2B9E474300BC3D81 /* AdditionalFieldInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */; };
+		BA4918FF2CF5727500202180 /* EditablePassTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4918FE2CF5727500202180 /* EditablePassTextField.swift */; };
 		BA55A9B62B55BCEE00853687 /* PassObjectHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */; };
 		BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D4FE02B71C60400CB6ACA /* Code39View.swift */; };
 		BA6D6C682CE83628007D4C9A /* CustomizeLogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */; };
@@ -113,6 +114,7 @@
 		BA25D8962B76E8300044E423 /* Code93View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code93View.swift; sourceTree = "<group>"; };
 		BA409E412CF427160079193E /* EditablePassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCard.swift; sourceTree = "<group>"; };
 		BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalFieldInput.swift; sourceTree = "<group>"; };
+		BA4918FE2CF5727500202180 /* EditablePassTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassTextField.swift; sourceTree = "<group>"; };
 		BA55A9B52B55BCEE00853687 /* PassObjectHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassObjectHelpers.swift; sourceTree = "<group>"; };
 		BA6D4FE02B71C60400CB6ACA /* Code39View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code39View.swift; sourceTree = "<group>"; };
 		BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeLogoImage.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 				BA460E6C2B9E474300BC3D81 /* AdditionalFieldInput.swift */,
 				BA6DC62D2CAB8987000B153F /* PassInput.swift */,
 				BA409E412CF427160079193E /* EditablePassCard.swift */,
+				BA4918FE2CF5727500202180 /* EditablePassTextField.swift */,
 			);
 			path = PassInputs;
 			sourceTree = "<group>";
@@ -534,6 +537,7 @@
 				BA885AE62CF252A50084FC25 /* PassCard.swift in Sources */,
 				BA0F32E92B9AC84D007120B8 /* LogoImagePicker.swift in Sources */,
 				BA1515B92CE2BC6900DB1799 /* MeasureViewWidth.swift in Sources */,
+				BA4918FF2CF5727500202180 /* EditablePassTextField.swift in Sources */,
 				BA00B9AE2B4F92DE00050C33 /* QRCodeInput.swift in Sources */,
 				BA95576D2CD69ADE0010721A /* AddToWalletView.swift in Sources */,
 				BA879C242B7064AB008A685E /* UPCEView.swift in Sources */,
