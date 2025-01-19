@@ -1,12 +1,16 @@
 import SwiftUI
 
 struct PrimaryTextFieldGeneric: View {
+    @EnvironmentObject var modelData: ModelData
+
     var placeholderColor: Color
     @Binding var textLabel: String
     @Binding var text: String
 
     var textColor: Color
     var labelColor: Color
+
+    @State private var showHelpPopover = false
 
     @State private var isCustomizeTextPresented = false
 
@@ -37,11 +41,15 @@ struct PrimaryTextFieldGeneric: View {
                 }
             } else {
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                     .foregroundColor(placeholderColor)
                     .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
                     .frame(maxHeight: .infinity)
                     .aspectRatio(2, contentMode: .fit)
+                Text("Primary\nField")
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(placeholderColor)
+                    .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
             }
 
             Button(action: {
@@ -56,10 +64,43 @@ struct PrimaryTextFieldGeneric: View {
             }
             .offset(x: 9, y: 9)
             .buttonStyle(PlainButtonStyle())
+
+            HStack {
+                Spacer()
+                VStack {
+                    Spacer()
+                    Image(systemName: "pencil.circle.fill")
+                        .opacity(0)
+                        .font(.system(size: 18))
+                        .popover(isPresented: $showHelpPopover, arrowEdge: .top) {
+                            Group {
+                                Text("Tap on icons\nto edit each field")
+                                    .multilineTextAlignment(.center)
+                                    .presentationCompactAdaptation((.popover))
+                                Button(action: { showHelpPopover = false; print("popover 0 dismissed") }) {
+                                    Text("Ok")
+                                        .foregroundColor(.white)
+                                        .padding(5)
+                                        .background(Color.accentColor)
+                                        .cornerRadius(5)
+                                }
+                            }
+                            .padding(5)
+                        }
+                        .onChange(of: showHelpPopover) {
+                            print("Popover was dismissed")
+                            modelData.tutorialStage += 1
+                        }
+                }
+            }
+            .offset(x: 9, y: 9)
         }
         .popover(isPresented: $isCustomizeTextPresented, arrowEdge: .leading) {
             CustomizePassTextField(textLabel: $textLabel, text: $text)
                 .presentationCompactAdaptation((.popover))
+        }
+        .onAppear {
+            showHelpPopover = modelData.tutorialStage == 0
         }
     }
 }

@@ -2,6 +2,7 @@ import PassKit
 import SwiftUI
 
 struct AddPass: View {
+    @EnvironmentObject var modelData: ModelData
     @State private var addedPass = PassObject()
 
     var body: some View {

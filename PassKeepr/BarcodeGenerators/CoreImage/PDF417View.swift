@@ -2,7 +2,7 @@ import CoreImage.CIFilterBuiltins
 import SwiftUI
 
 struct PDF417View: View {
-    @Binding var data: String
+    var data: String
 
     var body: some View {
         if let PDF417Image = GeneratePDF417Barcode(string: data, viewWidth: UIScreen.main.bounds.width, viewHeight: UIScreen.main.bounds.height) {
@@ -16,7 +16,7 @@ struct PDF417View: View {
 }
 
 #Preview {
-    PDF417View(data: .constant("Hello, Swift PDF417 Barcode!"))
+    PDF417View(data: "Hello, Swift PDF417 Barcode!")
 }
 
 func GeneratePDF417Barcode(string: String, viewWidth: CGFloat, viewHeight: CGFloat) -> UIImage? {

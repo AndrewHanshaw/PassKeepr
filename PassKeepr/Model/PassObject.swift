@@ -2,7 +2,6 @@ import Foundation
 
 struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var id: UUID
-    var passStyle: PassStyle
     var passIcon: Data
     var barcodeString: String
     var barcodeType: BarcodeType
@@ -10,7 +9,9 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var stripImage: Data // PNG data for all passes that use the strip image (may be a barcode, picture, etc)
     var backgroundImage: Data // PNG data for all passes that use the background image
     var logoImage: Data // PNG data for all passes that use the logo image
+    var logoImageType: LogoImageType
     var qrCodeCorrectionLevel: QrCodeCorrectionLevel
+    var qrCodeEncoding: QrCodeEncoding
     var altText: String
     var foregroundColor: UInt
     var backgroundColor: UInt
@@ -22,7 +23,6 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var headerFieldTwoLabel: String
     var headerFieldTwoText: String
     /* Technically, PassKit supports a third header field, but the space available is so tight that a third one is effectively useless. Maybe this will change later */
-    var isPrimaryFieldOn: Bool
     var primaryFieldLabel: String
     var primaryFieldText: String
     var secondaryFieldOneLabel: String
@@ -34,12 +34,12 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var secondaryFieldThreeLabel: String
     var secondaryFieldThreeText: String
     var isCustomStripImageOn: Bool
+    var frame: CGRect
 }
 
 extension PassObject {
     init() {
         id = UUID()
-        passStyle = PassStyle.generic
         passIcon = (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
         barcodeString = ""
         barcodeType = BarcodeType.none
@@ -47,7 +47,9 @@ extension PassObject {
         stripImage = Data()
         backgroundImage = Data()
         logoImage = Data()
+        logoImageType = LogoImageType.none
         qrCodeCorrectionLevel = QrCodeCorrectionLevel.medium
+        qrCodeEncoding = QrCodeEncoding.ascii
         altText = ""
         foregroundColor = 0x000000
         backgroundColor = 0xFFFFFF
@@ -58,7 +60,6 @@ extension PassObject {
         headerFieldOneText = ""
         headerFieldTwoLabel = ""
         headerFieldTwoText = ""
-        isPrimaryFieldOn = false
         primaryFieldLabel = ""
         primaryFieldText = ""
         secondaryFieldOneLabel = ""
@@ -70,11 +71,11 @@ extension PassObject {
         secondaryFieldThreeLabel = ""
         secondaryFieldThreeText = ""
         isCustomStripImageOn = false
+        frame = .zero
     }
 
     func duplicate() -> PassObject {
         var newObject = PassObject()
-        newObject.passStyle = passStyle
         newObject.passIcon = passIcon
         newObject.barcodeString = barcodeString
         newObject.barcodeType = barcodeType
@@ -82,7 +83,9 @@ extension PassObject {
         newObject.stripImage = stripImage
         newObject.backgroundImage = backgroundImage
         newObject.logoImage = logoImage
+        newObject.logoImageType = logoImageType
         newObject.qrCodeCorrectionLevel = qrCodeCorrectionLevel
+        newObject.qrCodeEncoding = qrCodeEncoding
         newObject.altText = altText
         newObject.foregroundColor = foregroundColor
         newObject.backgroundColor = backgroundColor
@@ -93,7 +96,6 @@ extension PassObject {
         newObject.isHeaderFieldTwoOn = isHeaderFieldTwoOn
         newObject.headerFieldTwoLabel = headerFieldTwoLabel
         newObject.headerFieldTwoText = headerFieldTwoText
-        newObject.isPrimaryFieldOn = isPrimaryFieldOn
         newObject.primaryFieldLabel = primaryFieldLabel
         newObject.primaryFieldText = primaryFieldText
         newObject.secondaryFieldOneLabel = secondaryFieldOneLabel
@@ -125,6 +127,28 @@ enum QrCodeCorrectionLevel: Codable, CustomStringConvertible, CaseIterable {
     }
 }
 
+enum QrCodeEncoding: Codable, CustomStringConvertible, CaseIterable {
+    case ascii
+    case utf8
+    case unicode
+
+    func toStringEncoding() -> String.Encoding {
+        switch self {
+        case .ascii: return .ascii
+        case .utf8: return .utf8
+        case .unicode: return .unicode
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .ascii: return "ASCII"
+        case .utf8: return "UTF-8"
+        case .unicode: return "Unicode"
+        }
+    }
+}
+
 enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {
     case none
     case code128 // natively supported by PassKit
@@ -133,6 +157,18 @@ enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {
     case upce
     case pdf417 // natively supported by PassKit
     case qr
+
+    func toBarcodeCategory() -> BarcodeCategory {
+        switch self {
+        case .none: return BarcodeCategory.none
+        case .code128: return BarcodeCategory.oneDimensional
+        case .code93: return BarcodeCategory.oneDimensional
+        case .code39: return BarcodeCategory.oneDimensional
+        case .upce: return BarcodeCategory.oneDimensional
+        case .pdf417: return BarcodeCategory.oneDimensional
+        case .qr: return BarcodeCategory.twoDimensional
+        }
+    }
 
     var description: String {
         switch self {
@@ -149,20 +185,32 @@ enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {
     var id: Self { self }
 }
 
-enum PassStyle: Codable, CustomStringConvertible, CaseIterable {
-    case boardingPass
-    case coupon
-    case eventTicket
-    case storeCard
-    case generic
+enum LogoImageType: Codable, CustomStringConvertible, CaseIterable {
+    case photo
+    case emoji
+    case symbol
+    case none
 
     var description: String {
         switch self {
-        case .boardingPass: return "boardingPass"
-        case .coupon: return "coupon"
-        case .eventTicket: return "eventTicket"
-        case .storeCard: return "storeCard"
-        case .generic: return "generic"
+        case .photo: return "Photo"
+        case .emoji: return "Emoji"
+        case .symbol: return "Symbol"
+        case .none: return "None"
+        }
+    }
+}
+
+enum BarcodeCategory: CaseIterable, CustomStringConvertible {
+    case none
+    case oneDimensional
+    case twoDimensional
+
+    var description: String {
+        switch self {
+        case .none: return "None"
+        case .oneDimensional: return "1D Barcode"
+        case .twoDimensional: return "2D Barcode"
         }
     }
 }

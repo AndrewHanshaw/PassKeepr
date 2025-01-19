@@ -37,10 +37,15 @@ struct PrimaryTextFieldStoreCard: View {
                 }
             } else {
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                     .foregroundColor(placeholderColor)
                     .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
                     .frame(maxHeight: .infinity)
+                Text("Primary\nField")
+                    .multilineTextAlignment(.center)
+                    .minimumScaleFactor(0.34)
+                    .foregroundColor(placeholderColor)
+                    .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
             }
 
             Button(action: {

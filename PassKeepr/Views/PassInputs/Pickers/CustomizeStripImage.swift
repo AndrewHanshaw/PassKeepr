@@ -3,6 +3,7 @@ import CoreImage
 import SwiftUI
 
 struct CustomizeStripImage: View {
+    var placeholderColor: Color
     @Binding var passObject: PassObject
     @State private var cropOffset: CGFloat = 0.0
     @State private var size: CGSize = CGSizeZero
@@ -16,7 +17,8 @@ struct CustomizeStripImage: View {
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    init(passObject: Binding<PassObject>) {
+    init(passObject: Binding<PassObject>, placeholderColor: Color) {
+        self.placeholderColor = placeholderColor
         _passObject = passObject
         _tempStrip = State(initialValue: UIImage(data: passObject.wrappedValue.stripImage))
     }
@@ -25,8 +27,9 @@ struct CustomizeStripImage: View {
         List {
             Section {
                 ZStack {
-                    PhotosPicker("Choose Strip Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                    PhotosPicker(tempStrip == nil ? "Add Strip Image" : "Change strip Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
                         .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundColor(Color(.label))
                         .onChange(of: photoItem) {
                             Task {
                                 if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
@@ -54,6 +57,22 @@ struct CustomizeStripImage: View {
                                 print("cropOffset \(cropOffset)")
                             }
                         }
+                } else {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
+//                            .foregroundColor(placeholderColor)
+//                            .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
+//                            .frame(maxHeight: 80)
+                            .aspectRatio(1125 / 432, contentMode: .fit)
+                        Text("Add a Strip Image")
+//                            .foregroundColor(placeholderColor)
+//                            .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
+                            .scaledToFit()
+                            .textCase(nil)
+                    }
+                    .padding([.top, .bottom], 20)
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
             }
 
@@ -61,20 +80,23 @@ struct CustomizeStripImage: View {
                 Section {
                     HStack {
                         Text("Vertical Offset")
+                            .foregroundColor(Color(.label))
                         Slider(value: $cropOffset, in: -offsetBound ... offsetBound, step: 1)
                             .padding()
                     }
                 }
             }
 
-            Section {
-                Button(role: .destructive) {
-                    passObject.stripImage = Data()
-                    presentationMode.wrappedValue.dismiss()
-                }
-                label: {
-                    Text("Remove Strip Image")
-                        .frame(maxWidth: .infinity, alignment: .center)
+            if tempStrip != nil {
+                Section {
+                    Button(role: .destructive) {
+                        passObject.stripImage = Data()
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    label: {
+                        Text("Remove Strip Image")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
                 }
             }
 
@@ -88,6 +110,7 @@ struct CustomizeStripImage: View {
                             passObject.stripImage = ImageRenderer(content:
                                 OffsetCroppedStripImage(cropOffset: cropOffset * imageHeight / size.height /* must scale cropOffset by the ratio between this rendered larger view and the original view */, strip: strip).frame(width: imageWidth, height: imageHeight)
                             ).uiImage?.pngData() ?? Data()
+                            passObject.backgroundImage = Data()
                         }
                         presentationMode.wrappedValue.dismiss()
                     }) {
@@ -103,5 +126,5 @@ struct CustomizeStripImage: View {
 }
 
 #Preview {
-    CustomizeStripImage(passObject: .constant(MockModelData().passObjects[0]))
+    CustomizeStripImage(passObject: .constant(MockModelData().passObjects[0]), placeholderColor: Color.black)
 }

@@ -7,22 +7,22 @@ struct BuiltInQrCodeView: View {
 
     var body: some View {
         ZStack {
+            RoundedRectangle(cornerRadius: 5)
+                .fill(Color.white)
+                .shadow(radius: 0.2)
             if passObject.barcodeString != "" {
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color.white)
-
-                QRCodeView(data: passObject.barcodeString, correctionLevel: passObject.qrCodeCorrectionLevel)
+                QRCodeView(data: passObject.barcodeString, correctionLevel: passObject.qrCodeCorrectionLevel, encoding: passObject.qrCodeEncoding)
                     .padding(7)
             } else {
                 ZStack {
                     RoundedRectangle(cornerRadius: 5)
-                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                         .foregroundColor(placeholderColor)
                         .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
-                    RoundedRectangle(cornerRadius: 5)
-                        .fill(Color.white)
-                        .opacity(0.2)
+                        .padding(7)
                     Text("Enter QR Code Data")
+                        .foregroundColor(placeholderColor)
+                        .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
                 }
             }
 

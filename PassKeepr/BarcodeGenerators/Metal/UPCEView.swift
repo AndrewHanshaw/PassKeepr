@@ -12,9 +12,10 @@ struct UPCEView: View {
 
     var body: some View {
         GeometryReader { geometry in
+            let borderWidth = geometry.size.width * border
             Rectangle()
-                .colorEffect(ShaderLibrary.OneDimensionalBarcodeFilter(.float(geometry.size.width - CGFloat(border * 2)), .data(barcodeDataBuffer), .data(Data([numberOfSegments]))))
-                .padding(CGFloat(border))
+                .colorEffect(ShaderLibrary.OneDimensionalBarcodeFilter(.float(geometry.size.width - CGFloat(borderWidth * 2)), .data(barcodeDataBuffer), .data(Data([numberOfSegments]))))
+                .padding(CGFloat(borderWidth))
                 .background(Color.white)
         }
     }

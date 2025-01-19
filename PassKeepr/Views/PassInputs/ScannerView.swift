@@ -35,7 +35,16 @@ struct ScannerView: View {
                 .background(Color(UIColor.secondarySystemBackground))
             }
             HStack {
-                Text("Scan: \(tempScanData), Symbology: \(tempScanSymbology?.rawValue ?? "-")")
+                var displayedString: String {
+                    if tempScanData.isEmpty || (tempScanSymbology?.rawValue.isEmpty ?? true) {
+                        return "Tap a highlighted barcode to select it"
+                    } else {
+                        let symbologyDescription = tempScanSymbology?.toBarcodeType()?.description ?? "-"
+                        return "Scanned Data: \(tempScanData), Type: \(symbologyDescription)"
+                    }
+                }
+
+                Text(displayedString)
                     .padding()
                     .background(Color(UIColor.systemBackground).opacity(0.8))
                     .cornerRadius(8)

@@ -35,7 +35,8 @@ func generatePass(passObject: PassObject) -> URL? {
         // Add customizable data to the pass
         var data: [String: Any] = [:]
 
-        if !shouldStripImageBeAddedToPass(passObject: passObject) {
+        // A primary field with a strip image *is* strictly allowed by PassKit, however it looks horrible, so I'm just disabling it for now to avoid having to even think about it
+        if !shouldStripImageBeAddedToPass(passObject: passObject) && !passObject.isCustomStripImageOn {
             let primaryFields: [String: Any] = [
                 "key": passObject.primaryFieldLabel,
                 "label": passObject.primaryFieldLabel,
@@ -53,13 +54,24 @@ func generatePass(passObject: PassObject) -> URL? {
             data.merge(encodeSecondaryFields(passObject: passObject)) { _, _ in }
         }
 
-        var passStyle: [String: Any] = [
-            passObject.passStyle.description: data,
-        ]
+        var passStyleString: String
+
+        // Strip image takes priority for pass style
+        if passObject.stripImage != Data() {
+            passStyleString = "storeCard"
+        } else if passObject.backgroundImage != Data() {
+            // If there is a background image
+            passStyleString = "eventTicket"
+        } else {
+            // Default to generic
+            passStyleString = "generic"
+        }
+
+        var passStyle: [String: Any] = [passStyleString: data]
 
         var barcodeFields: [String: Any] = [:]
 
-        if passObject.barcodeType != BarcodeType.none {
+        if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 || passObject.barcodeType == BarcodeType.qr {
             if passObject.barcodeType == BarcodeType.code128 {
                 barcodeFields = [
                     "message": passObject.barcodeString,
@@ -95,7 +107,7 @@ func generatePass(passObject: PassObject) -> URL? {
         savePNGToDirectory(pngData: passObject.passIcon, destinationDirectory: passDirectory, fileName: "icon")
 
         if shouldStripImageBeAddedToPass(passObject: passObject) {
-            if passObject.passStyle != PassStyle.storeCard {
+            if passStyleString != "storeCard" {
                 print("PassObject has stripImage but is not of style 'storeCard'")
             }
 
@@ -109,7 +121,7 @@ func generatePass(passObject: PassObject) -> URL? {
         }
 
         if shouldBackgroundImageBeAddedToPass(passObject: passObject) {
-            if passObject.passStyle != PassStyle.eventTicket {
+            if passStyleString != "eventTicket" {
                 print("PassObject should have background image but is not of style 'eventTicket'")
             }
             savePNGToDirectory(pngData: UIImage(data: passObject.backgroundImage)!.resize(targetSize: CGSize(width: 112, height: 142))!.pngData()!, destinationDirectory: passDirectory, fileName: "background")
@@ -231,7 +243,7 @@ func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: Stri
 }
 
 func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
-    if /* (passObject.stripImage == Data()) && */ (passObject.barcodeType == BarcodeType.code128) || (passObject.barcodeType == BarcodeType.pdf417) || (passObject.barcodeType == BarcodeType.qr) {
+    if /* (passObject.stripImage == Data()) && */ (passObject.barcodeType == BarcodeType.code128) || (passObject.barcodeType == BarcodeType.pdf417) || (passObject.barcodeType == BarcodeType.qr) || (passObject.barcodeType == BarcodeType.none) {
         return true
     } else {
         return false

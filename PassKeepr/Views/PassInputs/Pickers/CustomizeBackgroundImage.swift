@@ -24,7 +24,8 @@ struct CustomizeBackgroundImage: View {
         List {
             Section {
                 ZStack {
-                    PhotosPicker("Choose Background Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                    PhotosPicker(tempBackground == nil ? "Add Background Image" : "Change Background Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                        .foregroundColor(Color(.label))
                         .frame(maxWidth: .infinity, alignment: .center)
                         .onChange(of: photoItem) {
                             Task {
@@ -44,7 +45,7 @@ struct CustomizeBackgroundImage: View {
                             },
                             label: {
                                 Image(systemName: "info.circle")
-                                    .foregroundColor(Color(.secondaryLabel))
+                                    .foregroundColor(Color(.label))
                             }
                         )
                         .buttonStyle(PlainButtonStyle())
@@ -57,22 +58,40 @@ struct CustomizeBackgroundImage: View {
                 }
             }
             header: {
-                if let background = tempBackground {
-                    Image(uiImage: background)
-                        .resizable()
-                        .scaledToFit()
-                        .padding(20)
+                if let tempBackground {
+                    HStack {
+                        Spacer()
+                        Image(uiImage: tempBackground)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxHeight: 300)
+                            .padding(20)
+                        Spacer()
+                    }
+                } else {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
+                            .aspectRatio(1 / 1.45, contentMode: .fit)
+                            .frame(maxHeight: 300)
+                        Text("Add a Background Image")
+                            .textCase(nil)
+                    }
+                    .padding([.top, .bottom], 20)
+                    .frame(maxWidth: .infinity, alignment: .center)
                 }
             }
 
-            Section {
-                Button(role: .destructive) {
-                    passObject.backgroundImage = Data()
-                    presentationMode.wrappedValue.dismiss()
-                }
-                label: {
-                    Text("Remove Background Image")
-                        .frame(maxWidth: .infinity, alignment: .center)
+            if tempBackground != nil {
+                Section {
+                    Button(role: .destructive) {
+                        passObject.backgroundImage = Data()
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    label: {
+                        Text("Remove Background Image")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
                 }
             }
 
@@ -80,7 +99,7 @@ struct CustomizeBackgroundImage: View {
                 Button(
                     action: {
                         if let background = tempBackground {
-                            passObject.backgroundImage = background.pngData()!
+                            passObject.backgroundImage = background.resize(targetSize: CGSize(width: 112, height: 142))!.pngData()!
                         }
                         presentationMode.wrappedValue.dismiss()
                     }) {
@@ -93,17 +112,32 @@ struct CustomizeBackgroundImage: View {
             .listRowBackground(Color.accentColor)
         }
         .onChange(of: passObject.backgroundImage) {
-            Task {
-                if passObject.backgroundImage != Data() {
-                    passObject.passStyle = PassStyle.eventTicket
-                } else {
-                    passObject.passStyle = PassStyle.generic
-                }
+            if passObject.backgroundImage != Data() {
+                // Force white text when a background color is set
+                passObject.foregroundColor = Color.white.toHex()
             }
         }
+    }
+
+    func scaleImage(image: UIImage, scalePercent: CGFloat) -> UIImage? {
+        // Calculate the target size based on the scale percentage
+        let targetSize = CGSize(
+            width: image.size.width * scalePercent,
+            height: image.size.height * scalePercent
+        )
+
+        // Ensure we have a valid renderer
+        let renderer = ImageRenderer(content: Image(uiImage: image)
+            .resizable()
+            .scaledToFit()
+            .frame(width: targetSize.width, height: targetSize.height))
+
+        // Render the scaled-down image
+        renderer.scale = UIScreen.main.scale // Maintain screen scale for quality
+        return renderer.uiImage
     }
 }
 
 #Preview {
-    CustomizeLogoImage(passObject: .constant(MockModelData().passObjects[0]), placeholderColor: Color.black)
+    CustomizeBackgroundImage(passObject: .constant(MockModelData().passObjects[0]))
 }

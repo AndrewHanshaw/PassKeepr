@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct HeaderTextField: View {
+struct EditableHeaderTextField: View {
     var placeholderColor: Color
     @Binding var textLabel: String
     @Binding var text: String
@@ -29,6 +29,7 @@ struct HeaderTextField: View {
                                     .fontWeight(.semibold)
                                     .padding(0)
                                     .padding(.leading, -20)
+//                                    .minimumScaleFactor(0.34) // TODO: Is this needed?
                             }
 
                             HStack {
@@ -48,10 +49,14 @@ struct HeaderTextField: View {
                     }
                 } else {
                     RoundedRectangle(cornerRadius: 5)
-                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                         .foregroundColor(placeholderColor)
                         .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
                         .frame(maxWidth: .infinity)
+                    Text("Header Field")
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(placeholderColor)
+                        .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
                 }
 
                 Button(action: {
@@ -62,7 +67,7 @@ struct HeaderTextField: View {
                         .foregroundStyle(.green, .white)
                         .frame(maxWidth: .infinity, alignment: .bottomTrailing)
                         .font(.system(size: 18))
-                        .offset(x: 9, y: 13)
+                        .offset(x: 9, y: 18)
                         .shadow(radius: 3, x: 0, y: 0)
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -78,5 +83,5 @@ struct HeaderTextField: View {
 }
 
 #Preview {
-    HeaderTextField(placeholderColor: Color.black, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
+    EditableHeaderTextField(placeholderColor: Color.black, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
 }

@@ -1,22 +1,26 @@
 import Foundation
 
-class ModelData: Sequence, ObservableObject {
+class ModelData: ObservableObject {
+    struct PassKeeprData: Codable {
+        var passObjects: [PassObject]
+        var tutorialStage: Int
+    }
+
     let filename: String = "PassKeeprData.json"
 
     @Published var passObjects: [PassObject] = [] // Holds all PassObjects in a single array
+    @Published var tutorialStage: Int = 0
 
     init() {
-        if let loadedData: [PassObject] = load(filename) {
-            passObjects = loadedData
+        if let loadedData: PassKeeprData = load(filename) {
+            passObjects = loadedData.passObjects
+            tutorialStage = loadedData.tutorialStage
         }
     }
 
-    func makeIterator() -> some IteratorProtocol {
-        passObjects.makeIterator()
-    }
-
     func encodePassObjects() {
-        encode(filename, passObjects)
+        let data = PassKeeprData(passObjects: passObjects, tutorialStage: tutorialStage)
+        encode(filename, data)
     }
 
     func load<T: Decodable>(_ filename: String) -> T? {
@@ -45,10 +49,10 @@ class ModelData: Sequence, ObservableObject {
         do {
             let encoder = JSONEncoder()
             encoder.outputFormatting = .prettyPrinted
-            return try encoder.encode(data).write(to: file, options: .atomic)
+            let encodedData = try encoder.encode(data)
+            try encodedData.write(to: file, options: .atomic)
         } catch {
-            return
-                //        fatalError("Couldn't parse \(filename) as \(T.self):\n\(error)")
+            print("Error encoding data: \(error)")
         }
     }
 

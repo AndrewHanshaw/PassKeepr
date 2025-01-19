@@ -1,37 +1,74 @@
 import _PhotosUI_SwiftUI
 import CoreImage
 import CoreImage.CIFilterBuiltins
+import MCEmojiPicker
 import SwiftUI
+import SymbolPicker
 import Vision
 
 struct CustomizeLogoImage: View {
     var placeholderColor: Color
+    @State private var tempLogoImageType: LogoImageType
     @Binding var passObject: PassObject
     @State private var isTransparencyOn: Bool = false
+    @State private var isPhotosPickerOn: Bool = false
+    @State private var isEmojiPickerOn: Bool = false
+    @State private var emoji: String = ""
+
+    @State private var icon: String = ""
+    @State private var isSymbolPickerOn = false
 
     @State private var tempLogo: UIImage?
     @State private var tempLogoNoBackground: UIImage?
     @State private var isTransparencyAvailable: Bool = true
+
+    @State private var symbolSize: CGSize = .init(width: 1, height: 1)
 
     @State private var photoItem: PhotosPickerItem?
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     init(passObject: Binding<PassObject>, placeholderColor: Color) {
+        _tempLogoImageType = State(initialValue: passObject.wrappedValue.logoImageType)
         self.placeholderColor = placeholderColor
         _passObject = passObject
         _tempLogo = State(initialValue: UIImage(data: passObject.wrappedValue.logoImage))
-        _tempLogoNoBackground = State(initialValue: removeBackground(image: tempLogo))
         _isTransparencyAvailable = State(initialValue: tempLogoNoBackground != nil)
     }
 
     var body: some View {
         List {
             Section {
-                PhotosPicker("Change Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
-                    .frame(maxWidth: .infinity, alignment: .center)
+                HStack {
+                    Button(action: {
+                        withAnimation {
+                            tempLogoImageType = LogoImageType.none
+                            tempLogo = nil
+                        }
+                    }) {
+                        Text("None")
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(tempLogoImageType == LogoImageType.none ? Color.blue : Color(.secondarySystemFill))
+                    .foregroundColor(Color(.label))
+                    .cornerRadius(8)
+                    .animation(.spring, value: tempLogoImageType)
+                    .buttonStyle(.plain)
+                    .padding(0)
+
+                    Spacer(minLength: 20)
+
+                    Button(action: {
+                        withAnimation {
+                            isPhotosPickerOn = true
+                        }
+                    }) {
+                        Text("Photo")
+                    }
+                    .photosPicker(isPresented: $isPhotosPickerOn, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
                     .onChange(of: photoItem) {
                         Task {
+                            tempLogoImageType = LogoImageType.photo
                             if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
                                 tempLogo = UIImage(data: loaded)
                             } else {
@@ -39,6 +76,79 @@ struct CustomizeLogoImage: View {
                             }
                         }
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background((tempLogoImageType == LogoImageType.photo) ? Color.blue : Color(.secondarySystemFill))
+                    .foregroundColor(Color(.label))
+                    .cornerRadius(8)
+                    .animation(.spring, value: tempLogoImageType)
+                    .buttonStyle(.plain)
+                    .padding(0)
+//                    .onTapGesture {withAnimation {selectedButton = 0}}
+
+                    Spacer(minLength: 20)
+
+                    Button(action: {
+                        withAnimation {
+                            isEmojiPickerOn = true
+                        }
+                    }) {
+                        Text("Emoji")
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background((tempLogoImageType == LogoImageType.emoji) ? Color.blue : Color(.secondarySystemFill))
+                    .foregroundColor(Color(.label))
+                    .cornerRadius(8)
+                    .animation(.spring, value: tempLogoImageType)
+                    .buttonStyle(.plain)
+                    .padding(0)
+                    .emojiPicker(
+                        isPresented: $isEmojiPickerOn,
+                        selectedEmoji: $emoji
+                    )
+                    .onChange(of: emoji) {
+                        print(emoji)
+                        tempLogoImageType = LogoImageType.emoji
+                        tempLogo = ImageRenderer(content:
+                            Text(emoji)
+                                .padding(-30)
+                                .scaledToFill()
+                                .font(.system(size: 1000))
+                                .minimumScaleFactor(0.1)
+                                .frame(width: 500, height: 500)
+                        ).uiImage
+                    }
+
+                    Spacer(minLength: 20)
+
+                    Button(action: {
+                        withAnimation {
+                            isSymbolPickerOn = true
+                        }
+                    }) {
+                        Text("Symbol")
+                    }
+                    .onChange(of: icon) {
+                        tempLogoImageType = LogoImageType.symbol
+                        print(icon)
+                        tempLogo = ImageRenderer(content:
+                            Image(systemName: icon)
+                                .resizable()
+                                .font(.system(size: 1000))
+                                .scaledToFit()
+                                .frame(maxWidth: 1000, maxHeight: 1000) // Adjust size as needed
+                                .foregroundStyle(Color(hex: passObject.foregroundColor))).uiImage
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background((tempLogoImageType == LogoImageType.symbol) ? Color.blue : Color(.secondarySystemFill))
+                    .foregroundColor(Color(.label))
+                    .cornerRadius(8)
+                    .animation(.spring, value: tempLogoImageType)
+                    .buttonStyle(.plain)
+                    .padding(0)
+                    .sheet(isPresented: $isSymbolPickerOn) {
+                        SymbolPicker(symbol: $icon)
+                    }
+                }
             } header: {
                 if let logo = tempLogo, !isTransparencyOn {
                     HStack {
@@ -63,12 +173,10 @@ struct CustomizeLogoImage: View {
                 } else {
                     ZStack {
                         RoundedRectangle(cornerRadius: 5)
-                            .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
-                            .foregroundColor(placeholderColor)
-                            .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
+                            .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                             .frame(maxHeight: 80)
                             .aspectRatio(3.2, contentMode: .fit)
-                        Text("Add your logo")
+                        Text("Logo Image")
                             .scaledToFit()
                             .textCase(nil)
                     }
@@ -77,35 +185,31 @@ struct CustomizeLogoImage: View {
                 }
             }
 
-            Section {
-                Button(role: .destructive) {
-                    passObject.logoImage = Data()
-                    presentationMode.wrappedValue.dismiss()
+            if tempLogoImageType == LogoImageType.photo {
+                Toggle(isOn: $isTransparencyOn) {
+                    Text("Transparent background")
+                        .opacity(isTransparencyAvailable ? 1 : 0.2)
                 }
-                label: {
-                    Text("Remove Logo Image")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                }
+                .disabled(!isTransparencyAvailable)
             }
-
-            Toggle(isOn: $isTransparencyOn) {
-                Text("Transparent background")
-                    .opacity(isTransparencyAvailable ? 1 : 0.2)
-            }
-            .disabled(!isTransparencyAvailable)
 
             Section {
                 Button(
                     action: {
-                        if isTransparencyOn {
-                            if let logoNoBg = tempLogoNoBackground {
-                                passObject.logoImage = logoNoBg.pngData()!
-                            }
+                        if tempLogoImageType == LogoImageType.none {
+                            passObject.logoImage = Data()
                         } else {
-                            if let logo = tempLogo {
-                                passObject.logoImage = logo.pngData()!
+                            if isTransparencyOn {
+                                if let logoNoBg = tempLogoNoBackground {
+                                    passObject.logoImage = logoNoBg.pngData()!
+                                }
+                            } else {
+                                if let logo = tempLogo {
+                                    passObject.logoImage = logo.pngData()!
+                                }
                             }
                         }
+                        passObject.logoImageType = tempLogoImageType
                         presentationMode.wrappedValue.dismiss()
                     }) {
                         Text("Save")
@@ -116,17 +220,6 @@ struct CustomizeLogoImage: View {
             }
             .listRowBackground(Color.accentColor)
         }
-//        .onChange(of: isTransparencyOn) {
-//            Task {
-//                if isTransparencyOn {
-//                    if let nobackground = removeBackground(image: tempLogo) {
-//                        tempLogoNoBackground = nobackground
-//                    }
-//                } /*else {
-//                    tempLogo = UIImage(data: passObject.logoImage) ?? nil
-//                }*/
-//            }
-//        }
         .onChange(of: tempLogo) {
             Task {
                 if let tempNoBg = removeBackground(image: tempLogo) {

@@ -24,7 +24,6 @@ class MockModelData: ModelData {
 private extension PassObject {
     static let preview1 = PassObject(
         id: UUID(),
-        passStyle: PassStyle.generic,
         passIcon: (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data(),
         barcodeString: "1234",
         barcodeType: BarcodeType.code128,
@@ -32,7 +31,9 @@ private extension PassObject {
         stripImage: Data(),
         backgroundImage: Data(),
         logoImage: Data(),
+        logoImageType: LogoImageType.none,
         qrCodeCorrectionLevel: QrCodeCorrectionLevel.medium,
+        qrCodeEncoding: QrCodeEncoding.ascii,
         altText: "",
         foregroundColor: 0xFF00FF,
         backgroundColor: 0xFFFFFF,
@@ -43,7 +44,6 @@ private extension PassObject {
         isHeaderFieldTwoOn: false,
         headerFieldTwoLabel: "",
         headerFieldTwoText: "",
-        isPrimaryFieldOn: false,
         primaryFieldLabel: "",
         primaryFieldText: "",
         secondaryFieldOneLabel: "",
@@ -54,12 +54,12 @@ private extension PassObject {
         isSecondaryFieldThreeOn: false,
         secondaryFieldThreeLabel: "",
         secondaryFieldThreeText: "",
-        isCustomStripImageOn: false
+        isCustomStripImageOn: false,
+        frame: .zero
     )
 
     static let preview2 = PassObject(
         id: UUID(),
-        passStyle: PassStyle.coupon,
         passIcon: (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data(),
         barcodeString: "1234",
         barcodeType: BarcodeType.code128,
@@ -67,7 +67,9 @@ private extension PassObject {
         stripImage: Data(),
         backgroundImage: Data(),
         logoImage: Data(),
+        logoImageType: LogoImageType.none,
         qrCodeCorrectionLevel: QrCodeCorrectionLevel.medium,
+        qrCodeEncoding: QrCodeEncoding.ascii,
         altText: "",
         foregroundColor: 0xFF00FF,
         backgroundColor: 0xFFFFFF,
@@ -78,7 +80,6 @@ private extension PassObject {
         isHeaderFieldTwoOn: false,
         headerFieldTwoLabel: "",
         headerFieldTwoText: "",
-        isPrimaryFieldOn: false,
         primaryFieldLabel: "",
         primaryFieldText: "",
         secondaryFieldOneLabel: "",
@@ -89,6 +90,7 @@ private extension PassObject {
         isSecondaryFieldThreeOn: false,
         secondaryFieldThreeLabel: "",
         secondaryFieldThreeText: "",
-        isCustomStripImageOn: false
+        isCustomStripImageOn: false,
+        frame: .zero
     )
 }

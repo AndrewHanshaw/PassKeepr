@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct BuiltInBarcodeView: View {
+    var placeholderColor: Color
     @Binding var passObject: PassObject
     @Binding var isCustomizeBarcodePresented: Bool
 
@@ -8,24 +9,36 @@ struct BuiltInBarcodeView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 5)
                 .fill(Color.white)
+                .shadow(radius: 0.2)
 
             VStack {
                 if BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: passObject.barcodeString, type: passObject.barcodeType) == true {
                     if passObject.barcodeType == BarcodeType.code128 {
-                        Code128View(data: $passObject.barcodeString)
+                        Code128View(data: passObject.barcodeString)
                             .padding(.top, 15)
                             .padding(.bottom, passObject.altText == "" ? 15 : 0)
                             .padding([.leading, .trailing], 20)
                     } else if passObject.barcodeType == BarcodeType.pdf417 {
-                        PDF417View(data: $passObject.barcodeString)
-                            .padding(.bottom, 0)
+                        PDF417View(data: passObject.barcodeString)
+                            .padding(.bottom, passObject.altText == "" ? 8 : 0)
                             .padding([.top, .leading, .trailing], 8)
                     }
                 } else {
-                    if passObject.barcodeString == "" {
-                        Text("Enter Barcode Data")
-                    } else {
-                        Text("Invalid Barcode Data")
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
+                            .foregroundColor(placeholderColor)
+                            .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
+                            .padding(7)
+                        if passObject.barcodeString == "" {
+                            Text("Enter Barcode Data")
+                                .foregroundColor(placeholderColor)
+                                .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
+                        } else {
+                            Text("Invalid Barcode Data")
+                                .foregroundColor(placeholderColor)
+                                .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
+                        }
                     }
                 }
 
@@ -57,5 +70,5 @@ struct BuiltInBarcodeView: View {
 }
 
 #Preview {
-    BuiltInBarcodeView(passObject: .constant(MockModelData().passObjects[0]), isCustomizeBarcodePresented: .constant(true))
+    BuiltInBarcodeView(placeholderColor: Color.black, passObject: .constant(MockModelData().passObjects[0]), isCustomizeBarcodePresented: .constant(true))
 }

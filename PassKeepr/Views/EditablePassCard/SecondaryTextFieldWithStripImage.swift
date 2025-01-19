@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SecondaryTextField: View {
+struct SecondaryTextFieldWithStripImage: View {
     var placeholderColor: Color
     @Binding var textLabel: String
     @Binding var text: String
@@ -37,7 +37,7 @@ struct SecondaryTextField: View {
                     .font(.system(size: isStripImageOn ? 28 : 20))
                     .fontWeight(.thin)
                     .padding(0)
-                    .padding(.top, 8)
+                    .padding(.top, 7)
                     .minimumScaleFactor(0.34)
                     .readSize(into: $textSize)
             } else {
@@ -78,5 +78,5 @@ struct SecondaryTextField: View {
 }
 
 #Preview {
-    SecondaryTextField(placeholderColor: Color.black, textLabel: .constant("HEADER"), text: .constant("TEST"), isStripImageOn: true, textColor: .black, labelColor: .black)
+    SecondaryTextFieldWithStripImage(placeholderColor: Color.black, textLabel: .constant("HEADER"), text: .constant("TEST"), isStripImageOn: true, textColor: .black, labelColor: .black)
 }

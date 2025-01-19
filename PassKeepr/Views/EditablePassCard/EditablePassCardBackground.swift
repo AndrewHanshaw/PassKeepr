@@ -36,7 +36,7 @@ struct EditablePassCardBackground: View {
                     }
                 }
             )
-            .shadow(radius: 5, x: 0, y: 5) // TODO: This looks bad on dark mode
+            .shadow(radius: 5, x: 0, y: 5)
 
         if passObject.backgroundImage != Data() {
             VStack {

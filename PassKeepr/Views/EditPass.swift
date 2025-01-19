@@ -15,6 +15,9 @@ struct EditPass: View {
     // This is done so the user can made edits, which won't be saved until
     // the Save button is pressed
     @State private var tempObject: PassObject = .init()
+    @State private var shouldShowSheet: Bool = false
+
+    @State private var category: BarcodeCategory
 
     @State private var hasEditPassButtonBeenPressed = false
     @State private var textSize: CGSize = CGSizeZero
@@ -22,11 +25,14 @@ struct EditPass: View {
     @State private var isEditing: Bool = false
     @FocusState private var isTextFieldFocused: Bool
 
+    @State private var showHelpPopover = false
+
     // On init, set the temp object owned by this view equal to the
     // one passed in via @Binding
     init(objectToEdit: Binding<PassObject>) {
         _objectToEdit = objectToEdit
         _tempObject = State(initialValue: objectToEdit.wrappedValue)
+        _category = State(initialValue: objectToEdit.wrappedValue.barcodeType.toBarcodeCategory())
         initializeTempObject()
     }
 
@@ -39,40 +45,6 @@ struct EditPass: View {
     var body: some View {
         VStack {
             Form {
-                Section {
-                    Picker("Barcode Type", selection: $tempObject.barcodeType) {
-                        ForEach(BarcodeType.allCases) { type in
-                            HStack {
-                                Text(type.description)
-                                if type == BarcodeType.none {
-                                    Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled")
-                                } else if type == BarcodeType.qr {
-                                    Image(systemName: "qrcode")
-                                } else {
-                                    Image(systemName: "barcode")
-                                }
-                            }.tag(type)
-                        }
-                    }
-                }
-                header: { // Slightly hacky way to get a custom view into a Form/List without having to adhere to the typical styling of the Form/List
-                    EditablePassCard(passObject: $tempObject)
-                        .textCase(nil) // Otherwise all text within the view will be all caps
-                        .listRowInsets(.init(top: 40,
-                                             leading: 0,
-                                             bottom: 40,
-                                             trailing: 0))
-                        .listRowBackground(Color.clear)
-                }
-
-                ColorInput(pass: $tempObject)
-
-                SecondaryFieldSelection(passObject: $tempObject)
-                HeaderFieldSelection(passObject: $tempObject)
-                if tempObject.barcodeType != BarcodeType.code128 {
-                    StripImageSelection(passObject: $tempObject)
-                }
-
                 Section {
                     Button(
                         action: {
@@ -118,10 +90,61 @@ struct EditPass: View {
                         .opacity(hasEditPassButtonBeenPressed ? 0.4 : 1.0)
                         .animation(.easeInOut(duration: 0.2), value: hasEditPassButtonBeenPressed)
                 }
+                header: { // Slightly hacky way to get a custom view into a Form/List without having to adhere to the typical styling of the Form/List
+                    EditablePassCard(passObject: $tempObject)
+                        .textCase(nil) // Otherwise all text within the view will be all caps
+                        .listRowInsets(.init(top: 40,
+                                             leading: 0,
+                                             bottom: 40,
+                                             trailing: 0))
+                        .listRowBackground(Color.clear)
+                }
                 .listRowBackground(Color.accentColor)
+
+                Section {
+                    Picker("Barcode Type", selection: $category) {
+                        ForEach(BarcodeCategory.allCases, id: \.self) { type in
+                            HStack {
+                                Text(type.description)
+                                if type == BarcodeCategory.none {
+                                    Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled")
+                                } else if type == BarcodeCategory.twoDimensional {
+                                    Image(systemName: "qrcode")
+                                } else {
+                                    Image(systemName: "barcode")
+                                }
+                            }.tag(type)
+                        }
+                    }
+                    .onChange(of: category) {
+                        switch category {
+                        case BarcodeCategory.none:
+                            tempObject.barcodeType = BarcodeType.none
+                        case BarcodeCategory.oneDimensional:
+                            tempObject.barcodeType = BarcodeType.code128
+                        case BarcodeCategory.twoDimensional:
+                            tempObject.barcodeType = BarcodeType.qr
+                        }
+                    }
+                    .onChange(of: tempObject.barcodeType) { oldType, newType in
+                        // Clear barcode string and strip image when a barcode that uses the strip image is selected
+                        if BarcodeTypeHelpers.getDoesBarcodeUseStripImage(type: oldType) && !BarcodeTypeHelpers.getDoesBarcodeUseStripImage(type: newType) {
+//                            tempObject.barcodeString = ""
+                            tempObject.stripImage = Data()
+                        }
+                    }
+                }
+
+                ColorInput(pass: $tempObject)
+
+                SecondaryFieldSelection(passObject: $tempObject)
+                HeaderFieldSelection(passObject: $tempObject)
+                if (tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr) && tempObject.backgroundImage == Data() {
+                    StripImageSelection(passObject: $tempObject)
+                }
             }
         }
-        .sheet(isPresented: $passSigner.isDataLoaded) {
+        .sheet(isPresented: $shouldShowSheet) {
             AddToWalletView(pass: getPkPass(fileURL: passSigner.fileURL!)) { wasAdded in
                 if wasAdded {
                     print("Pass was successfully added to wallet")
@@ -134,6 +157,13 @@ struct EditPass: View {
             }
         }
         .scrollDismissesKeyboard(.immediately)
+        .onAppear {
+            showHelpPopover = modelData.tutorialStage == 1
+            passSigner.isDataLoaded = false
+        }
+        .onChange(of: passSigner.isDataLoaded) {
+            shouldShowSheet = passSigner.isDataLoaded
+        }
     }
 }
 

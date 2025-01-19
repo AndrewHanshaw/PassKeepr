@@ -11,6 +11,8 @@ struct InvalidBarcodeView: View {
                 .fill(colorScheme == .light ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground))
                 .overlay(
                     Text(returnString(isEmpty))
+                        .font(Font.system(size: 18))
+                        .textCase(nil) // Otherwise all text within the view will be all caps if this view is part of a section header
                 )
         }
         .aspectRatio(ratio, contentMode: .fit)
@@ -23,8 +25,8 @@ struct InvalidBarcodeView: View {
 
 func returnString(_ isEmpty: Bool) -> String {
     if isEmpty == true {
-        return "Enter barcode data"
+        return "Enter Barcode Data"
     } else {
-        return "Invalid barcode data"
+        return "Invalid Barcode Data"
     }
 }

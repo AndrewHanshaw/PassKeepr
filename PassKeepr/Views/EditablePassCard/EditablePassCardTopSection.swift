@@ -17,13 +17,13 @@ struct EditablePassCardTopSection: View {
                             .fixedSize(horizontal: true, vertical: false)
                     } else {
                         RoundedRectangle(cornerRadius: 5)
-                            .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
-                            .aspectRatio(3.2, contentMode: .fit)
+                            .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
+                            .aspectRatio(3, contentMode: .fit)
                             .foregroundColor(placeholderColor)
                             .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
-                        Text("Choose a Logo Image")
+                        Text("Logo Image")
                             .foregroundColor(placeholderColor)
-                            .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
+                            .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
                     }
 
                     Button(action: {
@@ -49,11 +49,11 @@ struct EditablePassCardTopSection: View {
                 Spacer()
                 HStack {
                     if passObject.isHeaderFieldTwoOn {
-                        HeaderTextField(placeholderColor: placeholderColor, textLabel: $passObject.headerFieldTwoLabel, text: $passObject.headerFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                        EditableHeaderTextField(placeholderColor: placeholderColor, textLabel: $passObject.headerFieldTwoLabel, text: $passObject.headerFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                             .padding(.trailing, 10)
                     }
 
-                    HeaderTextField(placeholderColor: placeholderColor, textLabel: $passObject.headerFieldOneLabel, text: $passObject.headerFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                    EditableHeaderTextField(placeholderColor: placeholderColor, textLabel: $passObject.headerFieldOneLabel, text: $passObject.headerFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                         .padding(.trailing, 5)
                 }
                 .padding(.top, 4)

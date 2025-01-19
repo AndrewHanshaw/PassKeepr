@@ -28,9 +28,11 @@ class BarcodeTypeHelpers {
             let regex = /^\d{6}$/
             return string.firstMatch(of: regex) != nil
         case BarcodeType.pdf417:
-            return true
+            let regex = /^.+$/
+            return string.firstMatch(of: regex) != nil
         case BarcodeType.qr:
-            return true
+            let regex = /^.+$/
+            return string.firstMatch(of: regex) != nil
         }
     }
 
@@ -40,6 +42,15 @@ class BarcodeTypeHelpers {
             return .default
         default:
             return .numberPad
+        }
+    }
+
+    static func getDoesBarcodeUseStripImage(type: BarcodeType) -> Bool {
+        switch type {
+        case BarcodeType.code128, BarcodeType.qr, BarcodeType.pdf417, BarcodeType.none:
+            return false
+        default:
+            return true
         }
     }
 }
