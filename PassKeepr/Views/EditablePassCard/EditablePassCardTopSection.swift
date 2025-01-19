@@ -34,7 +34,7 @@ struct EditablePassCardTopSection: View {
                             .foregroundStyle(.green, .white)
                             .font(.system(size: 24))
                             .offset(x: 12, y: 12)
-                            .shadow(color: .gray, radius: 2, x: 0, y: 0)
+                            .shadow(radius: 2, x: 0, y: 0)
                     }
                 }
                 .frame(maxWidth: geometry.size.width * 0.64)

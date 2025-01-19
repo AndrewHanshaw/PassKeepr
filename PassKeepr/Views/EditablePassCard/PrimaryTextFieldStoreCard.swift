@@ -48,7 +48,7 @@ struct PrimaryTextFieldStoreCard: View {
                     .foregroundStyle(.green, .white)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                     .font(.system(size: 18))
-                    .shadow(color: .gray, radius: 3, x: 0, y: 0)
+                    .shadow(radius: 3, x: 0, y: 0)
             }
             .offset(x: 9, y: 9)
             .buttonStyle(PlainButtonStyle())

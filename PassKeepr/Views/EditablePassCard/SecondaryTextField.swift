@@ -54,7 +54,7 @@ struct SecondaryTextField: View {
                     .foregroundStyle(.green, .white)
                     .frame(maxWidth: (textSize.width < labelSize.width) ? labelSize.width : textSize.width /* for whatver reason, I can't seem to read the size of the ZStack that this view is contained in. This logic allows for the button to expand and shrink based on the text and label without using an infinity frame maxwidth (which breaks  */, maxHeight: textSize.height /* height is the same for both*/, alignment: .bottomTrailing)
                     .font(.system(size: 18))
-                    .shadow(color: .gray, radius: 3, x: 0, y: 0)
+                    .shadow(radius: 3, x: 0, y: 0)
             }
             .offset(x: 9, y: 9)
             .buttonStyle(PlainButtonStyle())
