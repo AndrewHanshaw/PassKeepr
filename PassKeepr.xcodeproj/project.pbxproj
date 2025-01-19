@@ -59,6 +59,7 @@
 		BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD64672CA5021D00E8F0A0 /* MockModelData.swift */; };
 		BADD7E432CCEF8340077F4AB /* BackgroundImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD7E422CCEF8340077F4AB /* BackgroundImagePicker.swift */; };
 		BAE2D4552B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE2D4542B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift */; };
+		BAE7B33C2D06588E00DD0251 /* CustomizeBarcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */; };
 		BAE7B33E2D065DFF00DD0251 /* BuiltInBarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */; };
 		BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE838F82B49BFCE0081A1DE /* Settings.swift */; };
 		BAED92C52D04D596000822CA /* CustomizeBackgroundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */; };
@@ -140,6 +141,7 @@
 		BADD64672CA5021D00E8F0A0 /* MockModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockModelData.swift; sourceTree = "<group>"; };
 		BADD7E422CCEF8340077F4AB /* BackgroundImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundImagePicker.swift; sourceTree = "<group>"; };
 		BAE2D4542B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeTypeHelpers.swift; sourceTree = "<group>"; };
+		BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeBarcode.swift; sourceTree = "<group>"; };
 		BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInBarcodeView.swift; sourceTree = "<group>"; };
 		BAE838F82B49BFCE0081A1DE /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeBackgroundImage.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				BADD7E422CCEF8340077F4AB /* BackgroundImagePicker.swift */,
 				BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */,
 				BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */,
+				BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */,
 			);
 			path = Pickers;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 				BA00B9B02B4F93A000050C33 /* IdentificationInput.swift in Sources */,
 				BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */,
 				BA6DC62E2CAB8987000B153F /* PassInput.swift in Sources */,
+				BAE7B33C2D06588E00DD0251 /* CustomizeBarcode.swift in Sources */,
 				BA7A4A232B65AE3A006F06DF /* ColorInput.swift in Sources */,
 				BAED92C52D04D596000822CA /* CustomizeBackgroundImage.swift in Sources */,
 				BABAADD82B0A6BF50014C73B /* ListSection.swift in Sources */,
