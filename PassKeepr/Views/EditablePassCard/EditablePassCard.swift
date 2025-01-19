@@ -2,7 +2,6 @@ import PhotosUI
 import SwiftUI
 
 struct EditablePassCard: View {
-    @State private var photoItem: PhotosPickerItem?
     @Binding var passObject: PassObject
     @State private var size: CGSize = CGSizeZero
     @State private var scannedCode = ""
@@ -11,7 +10,6 @@ struct EditablePassCard: View {
     @State private var isCustomizeStripImagePresented = false
     @State private var isCustomizeBarcodePresented = false
     @State private var isCustomizeQrCodePresented = false
-    @State private var backgroundBrightness = 0.0
     @State private var placeholderColor = Color.black
 
     var body: some View {
@@ -25,7 +23,7 @@ struct EditablePassCard: View {
                     .padding(.top, 6)
 
                 if passObject.barcodeType != BarcodeType.code128 && passObject.barcodeType != BarcodeType.pdf417 && passObject.barcodeType != BarcodeType.qr && passObject.barcodeType != BarcodeType.none {
-                    StripImageBarcodeView(passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
+                    StripImageBarcodeView(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                 } else {
                     if passObject.isCustomStripImageOn == true {
                         CustomStripImage(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
@@ -40,24 +38,26 @@ struct EditablePassCard: View {
                         }
                         .frame(width: size.width)
                         .frame(maxHeight: size.height * 0.1)
+                        .padding(.bottom, 50)
                     }
                 }
 
                 HStack {
-                    // These only apply when strip image is on?
-                    SecondaryTextField(placeholderColor: placeholderColor, textLabel: $passObject.secondaryFieldOneLabel, text: $passObject.secondaryFieldOneText, isStripImageOn: passObject.stripImage != Data(), textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                    // These only apply when strip image is off?
+                    // When strip image is on, the text is a little larger for some reason
+                    SecondaryTextField(placeholderColor: placeholderColor, textLabel: $passObject.secondaryFieldOneLabel, text: $passObject.secondaryFieldOneText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
 
                     Spacer()
 
                     if passObject.isSecondaryFieldTwoOn {
-                        SecondaryTextField(placeholderColor: placeholderColor, textLabel: $passObject.secondaryFieldTwoLabel, text: $passObject.secondaryFieldTwoText, isStripImageOn: passObject.stripImage != Data(), textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                        SecondaryTextField(placeholderColor: placeholderColor, textLabel: $passObject.secondaryFieldTwoLabel, text: $passObject.secondaryFieldTwoText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                             .layoutPriority(1)
                     }
 
                     if passObject.isSecondaryFieldThreeOn {
                         Spacer()
 
-                        SecondaryTextField(placeholderColor: placeholderColor, textLabel: $passObject.secondaryFieldThreeLabel, text: $passObject.secondaryFieldThreeText, isStripImageOn: passObject.stripImage != Data(), textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                        SecondaryTextField(placeholderColor: placeholderColor, textLabel: $passObject.secondaryFieldThreeLabel, text: $passObject.secondaryFieldThreeText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                     }
                 }
                 .padding([.leading, .trailing], 10)
@@ -76,7 +76,7 @@ struct EditablePassCard: View {
                                 .presentationDragIndicator(.visible)
                         }
                 } else if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 {
-                    BuiltInBarcodeView(passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
+                    BuiltInBarcodeView(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                 }
             }
             .sheet(isPresented: $isCustomizeBackgroundImagePresented) {
@@ -85,18 +85,20 @@ struct EditablePassCard: View {
                     .presentationDragIndicator(.visible)
             }
 
-            Button(action: {
-                isCustomizeBackgroundImagePresented.toggle()
-            }) {
-                Image("custom.photo.circle.fill")
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(.green, .white)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                    .font(.system(size: 24))
-                    .offset(x: 12, y: 12)
-                    .shadow(radius: 5, x: 0, y: 0)
+            if passObject.stripImage == Data() && !passObject.isCustomStripImageOn {
+                Button(action: {
+                    isCustomizeBackgroundImagePresented.toggle()
+                }) {
+                    Image("custom.photo.circle.fill")
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.green, .white)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                        .font(.system(size: 28))
+                        .offset(x: 12, y: 12)
+                        .shadow(radius: 5, x: 0, y: 0)
+                }
+                .buttonStyle(PlainButtonStyle())
             }
-            .buttonStyle(PlainButtonStyle())
         }
         .sheet(isPresented: $isCustomizeBarcodePresented) {
             CustomizeBarcode(passObject: $passObject)
@@ -104,7 +106,7 @@ struct EditablePassCard: View {
                 .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $isCustomizeStripImagePresented) {
-            CustomizeStripImage(passObject: $passObject)
+            CustomizeStripImage(passObject: $passObject, placeholderColor: placeholderColor)
                 .edgesIgnoringSafeArea(.bottom)
                 .presentationDragIndicator(.visible)
         }
@@ -133,7 +135,7 @@ struct EditablePassCard: View {
     }
 
     func determineBackgroundColor() {
-        backgroundBrightness = ImageRenderer(content: EditablePassCardBackground(passObject: $passObject).frame(width: size.width, height: size.height)).uiImage!.averageBrightness()!
+        let backgroundBrightness: CGFloat = ImageRenderer(content: EditablePassCardBackground(passObject: $passObject).frame(width: size.width, height: size.height)).uiImage!.averageBrightness()!
 
         if backgroundBrightness < 0.2 {
             placeholderColor = Color.gray
@@ -143,8 +145,8 @@ struct EditablePassCard: View {
             placeholderColor = Color.black
         }
 
-        print("Background brightness: \(backgroundBrightness)")
-        print("myColor: \(placeholderColor)")
+//        print("Background brightness: \(backgroundBrightness)")
+//        print("myColor: \(placeholderColor)")
     }
 }
 
