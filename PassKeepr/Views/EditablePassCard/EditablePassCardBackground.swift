@@ -1,10 +1,3 @@
-//
-//  EditablePassCardBackground.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 12/15/24.
-//
-
 import SwiftUI
 
 struct EditablePassCardBackground: View {
