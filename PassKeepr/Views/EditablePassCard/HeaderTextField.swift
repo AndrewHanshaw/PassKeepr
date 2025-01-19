@@ -25,6 +25,7 @@ struct HeaderTextField: View {
                                     .disableAutocorrection(true)
                                     .textCase(.uppercase)
                                     .font(.system(size: 11))
+                                    .fontWeight(.semibold)
                                     .padding(0)
                                     .padding(.leading, -20)
                             }
@@ -36,9 +37,10 @@ struct HeaderTextField: View {
                                     .frame(alignment: .top)
                                     .foregroundColor(textColor)
                                     .disableAutocorrection(true)
-                                    .font(.system(size: 10))
+                                    .font(.system(size: 20))
                                     .padding(0)
                                     .padding(.leading, -20)
+                                    .minimumScaleFactor(0.34)
                             }
                             Spacer()
                         }
