@@ -42,10 +42,6 @@ struct EditPass: View {
     var body: some View {
         VStack {
             Form {
-                EditablePassCard(passObject: $tempObject)
-                    .padding(0)
-                    .listRowInsets(EdgeInsets()) // Disables the built-in form padding (we want the passCard to take up as much width as possible w/o any other padding)
-
                 Section {
                     Picker("Pass Type", selection: $tempObject.passType) {
                         ForEach(PassType.allCases) { type in
@@ -56,8 +52,20 @@ struct EditPass: View {
                         }
                     }
                 }
+                header: { // Slightly hacky way to get a custom view into a Form/List without having to adhere to the typical styling of the Form/List
+                    EditablePassCard(passObject: $tempObject)
+                    .textCase(nil) // Otherwise all text within the view will be all caps
+                    .listRowInsets(.init(top: 40,
+                                         leading: 0,
+                                         bottom: 40,
+                                         trailing: 0))
+                    .listRowBackground(Color.clear)
+                }
 
                 PassInput(pass: $tempObject)
+
+                ColorInput(pass: $tempObject)
+
                 Section {
                     Button(
                         action: {
@@ -86,7 +94,7 @@ struct EditPass: View {
                                     .opacity(hasEditPassButtonBeenPressed && !passSigner.isDataLoaded ? 1 : 0) // Fade-in effect
                                     .animation(.easeInOut(duration: 0.2), value: hasEditPassButtonBeenPressed && !passSigner.isDataLoaded)
                                     .offset(x: textWidth / 2 + 20)
-                                Text("Save")
+                                Text("Save and Add to Wallet")
                                     .frame(maxWidth: .infinity, alignment: .center)
                                     .fontWeight(.bold)
                                     .foregroundColor(Color.white)
@@ -98,8 +106,6 @@ struct EditPass: View {
                         .animation(.easeInOut(duration: 0.2), value: hasEditPassButtonBeenPressed)
                 }
                 .listRowBackground(Color.accentColor)
-
-                OptionalPassConfiguration(passObject: $tempObject)
             }
         }
         .onChange(of: tempObject) {
