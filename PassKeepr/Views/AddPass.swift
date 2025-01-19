@@ -63,11 +63,14 @@ struct AddPass: View {
                                         .opacity(hasAddPassButtonBeenPressed && !passSigner.isDataLoaded ? 1 : 0)
                                         .animation(.easeInOut(duration: 0.2), value: hasAddPassButtonBeenPressed && !passSigner.isDataLoaded)
                                         .offset(x: textWidth / 2 + 20)
-                                    Text("Add Pass")
-                                        .frame(maxWidth: .infinity, alignment: .center)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(Color.white)
-                                        .readWidth(into: $textWidth)
+                                    HStack {
+                                        Spacer()
+                                        Text("Add Pass")
+                                            .fontWeight(.bold)
+                                            .foregroundColor(Color.white)
+                                            .readWidth(into: $textWidth)
+                                        Spacer()
+                                    }
                                 }
                             }
                             .disabled(hasAddPassButtonBeenPressed)
