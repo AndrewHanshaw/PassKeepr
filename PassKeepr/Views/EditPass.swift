@@ -143,6 +143,7 @@ struct EditPass: View {
                     StripImageSelection(passObject: $tempObject)
                 }
             }
+            .listSectionSpacing(20)
         }
         .sheet(isPresented: $shouldShowSheet) {
             AddToWalletView(pass: getPkPass(fileURL: passSigner.fileURL!)) { wasAdded in
