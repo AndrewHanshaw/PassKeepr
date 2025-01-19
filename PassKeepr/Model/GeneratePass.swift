@@ -196,7 +196,7 @@ func encodeBarcodePass(passObject: PassObject) -> [String: Any] {
         let secondaryFields: [String: Any] = [
             "key": "name",
             "label": "NAME",
-            "value": passObject.passName,
+            "value": passObject.secondaryFieldOneText,
         ]
 
         let data: [String: Any] = [
@@ -239,7 +239,6 @@ func encodeQrCodePass(passObject: PassObject) -> [String: Any] {
         "barcode": barcodeFields,
     ]
     return generic
-    // Custom case where the QR code must be represented as an image
 }
 
 func encodeBusinessCardPass(passObject: PassObject) -> [String: Any] {
