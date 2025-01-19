@@ -42,50 +42,22 @@ struct EditPass: View {
     var body: some View {
         VStack {
             Form {
+                EditablePassCard(passObject: $tempObject)
+                    .padding(0)
+                    .listRowInsets(EdgeInsets()) // Disables the built-in form padding (we want the passCard to take up as much width as possible w/o any other padding)
+
                 Section {
-                    HStack {
-                        Text("Editing")
-                        TextFieldDynamicWidth(title: "Pass Name", text: $tempObject.passName, onEditingChanged: { isFocused in
-                            if isFocused {
-                                isEditing = true
-                            } else {
-                                isEditing = false
-                            }
-                        }, onCommit: {
-                            isEditing = false
-                        })
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .focused($isTextFieldFocused)
-                        .disableAutocorrection(true)
-
-                        if isEditing == false {
-                            Button(action: {
-                                isTextFieldFocused = true // Programmatically focus TextField
-                            }) {
-                                Image(systemName: "pencil")
-                                    .font(.system(size: 15, weight: .bold, design: .rounded))
-                                    .padding(.leading, -4)
-                            }
+                    Picker("Pass Type", selection: $tempObject.passType) {
+                        ForEach(PassType.allCases) { type in
+                            HStack {
+                                Text(PassObjectHelpers.GetStringSingular(type))
+                                Image(systemName: PassObjectHelpers.GetSystemIcon(type))
+                            }.tag(type)
                         }
-                        Spacer()
-                    }
-                    .listRowBackground(Color.clear)
-                    .font(.system(size: 25, weight: .bold, design: .rounded))
-                    .frame(height: UIFont.systemFont(ofSize: 25, weight: .bold).lineHeight) // For some reason, if the TextField's text is too long for the view to the point of showing an ellipse, it makes it much taller. This restriction keeps it the normal height.
-                }
-                .listSectionSpacing(0)
-
-                Picker("Pass Type", selection: $tempObject.passType) {
-                    ForEach(PassType.allCases) { type in
-                        HStack {
-                            Text(PassObjectHelpers.GetStringSingular(type))
-                            Image(systemName: PassObjectHelpers.GetSystemIcon(type))
-                        }.tag(type)
                     }
                 }
 
                 PassInput(pass: $tempObject)
-
                 Section {
                     Button(
                         action: {
@@ -130,7 +102,6 @@ struct EditPass: View {
                 OptionalPassConfiguration(passObject: $tempObject)
             }
         }
-        .navigationTitle($tempObject.passName)
         .onChange(of: tempObject) {
             if tempObject != objectToEdit {
                 isObjectEdited = true
