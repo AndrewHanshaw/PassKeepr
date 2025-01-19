@@ -5,7 +5,7 @@ struct Code93View: View {
     var border: Double
 
     var numberOfSegments: Int {
-        (value.count * 9) + 1 + 18 + 18
+        min((value.count * 9) + 1 + 18 + 18, 255) // cap at max value of UInt8
     }
 
     var barcodeDataBuffer: Data {

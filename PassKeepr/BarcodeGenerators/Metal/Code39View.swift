@@ -5,7 +5,7 @@ struct Code39View: View {
     var border: Double
 
     var numberOfSegments: Int {
-        (value.count * 13) + 27
+        min((value.count * 13) + 27, 255)
     }
 
     var barcodeDataBuffer: Data {
