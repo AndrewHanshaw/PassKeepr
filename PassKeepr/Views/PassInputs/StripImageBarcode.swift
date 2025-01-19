@@ -7,7 +7,7 @@ struct StripImageBarcodeView: View {
     // TODO: Handle when passObject.stripImage == Data() ?
     var body: some View {
         ZStack {
-            if BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: passObject.barcodeString, type: passObject.barcodeType) == true {
+            if BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: passObject.barcodeString, type: passObject.barcodeType) == true && passObject.stripImage != Data() {
                 Image(uiImage: UIImage(data: passObject.stripImage)!)
                     .resizable()
             } else {

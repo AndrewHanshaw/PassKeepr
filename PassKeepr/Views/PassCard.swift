@@ -1,16 +1,9 @@
-//
-//  PassCard.swift
-//  PassKeepr
-//
-//  Created by Andrew Hanshaw on 11/19/24.
-//
-
 import SwiftUI
 
 struct PassCard: View {
     @EnvironmentObject var modelData: ModelData
 
-    @State var passObject: PassObject
+    @Binding var passObject: PassObject
     @State var shouldPresentEditPass = false
     @State private var isObjectEdited = false
     @State private var isDragging = false
@@ -115,5 +108,5 @@ struct PassCard: View {
 }
 
 #Preview {
-    PassCard(passObject: MockModelData().passObjects[0])
+    PassCard(passObject: .constant(MockModelData().passObjects[0]))
 }

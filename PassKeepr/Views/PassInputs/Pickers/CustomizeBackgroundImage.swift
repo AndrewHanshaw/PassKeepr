@@ -9,6 +9,10 @@ struct CustomizeBackgroundImage: View {
 
     @State private var photoItem: PhotosPickerItem?
 
+    @State private var showAlert: Bool = false
+    private let alertTitleText = "Background Image"
+    private let alertDescriptionText = "The background image is displayed behind the pass. The image will be blurred. (Only available for code 128 barcode and qr code passes)"
+
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     init(passObject: Binding<PassObject>) {
@@ -17,23 +21,58 @@ struct CustomizeBackgroundImage: View {
     }
 
     var body: some View {
-        Image(uiImage: tempBackground)
-            .resizable()
-            .scaledToFit()
-            .padding(20)
-
         List {
-            PhotosPicker("Change image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
-                .frame(maxWidth: .infinity, alignment: .center)
-                .onChange(of: photoItem) {
-                    Task {
-                        if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                            tempBackground = UIImage(data: loaded)!
-                        } else {
-                            print("Failed")
+            Section {
+                ZStack {
+                    PhotosPicker("Choose Background Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .onChange(of: photoItem) {
+                            Task {
+                                if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
+                                    tempBackground = UIImage(data: loaded)!
+                                } else {
+                                    print("Failed")
+                                }
+                            }
+                        }
+                    
+                    HStack {
+                        Spacer()
+                        Button(
+                            action: {
+                                showAlert.toggle()
+                            },
+                            label: {
+                                Image(systemName: "info.circle")
+                                    .foregroundColor(Color(.secondaryLabel))
+                            }
+                        )
+                        .buttonStyle(PlainButtonStyle())
+                        .alert(isPresented: $showAlert) {
+                            Alert(title: Text(alertTitleText),
+                                  message: Text(alertDescriptionText),
+                                  dismissButton: .default(Text("OK")))
                         }
                     }
                 }
+            }
+            header: {
+                Image(uiImage: tempBackground)
+                    .resizable()
+                    .scaledToFit()
+                    .padding(20)
+            }
+
+            Section {
+                Button(role: .destructive) {
+                    passObject.backgroundImage = Data()
+                    presentationMode.wrappedValue.dismiss()
+                }
+                label: {
+                    Text("Remove Background image")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+            }
 
             Section {
                 Button(
