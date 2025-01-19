@@ -44,6 +44,7 @@ struct SecondaryTextField: View {
                     .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
                     .frame(maxHeight: .infinity)
                     .aspectRatio(2, contentMode: .fit)
+                    .readSize(into: $textSize)
             }
 
             Button(action: {

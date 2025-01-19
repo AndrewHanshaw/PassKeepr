@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct EditablePassCardBackground: View {
+    @Environment(\.colorScheme) var colorScheme
     @Binding var passObject: PassObject
 
     var body: some View {
@@ -40,7 +41,7 @@ struct EditablePassCardBackground: View {
         if passObject.backgroundImage != Data() {
             VStack {
                 Circle()
-                    .foregroundColor(Color(UIColor.secondarySystemBackground))
+                    .foregroundColor(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
                     .frame(width: 80)
                     .offset(y: -65)
                 Spacer()

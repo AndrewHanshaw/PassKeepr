@@ -65,9 +65,11 @@ struct EditPass: View {
 
                 ColorInput(pass: $tempObject)
 
-                HeaderFieldSelection(passObject: $tempObject)
                 SecondaryFieldSelection(passObject: $tempObject)
-                StripImageSelection(passObject: $tempObject)
+                HeaderFieldSelection(passObject: $tempObject)
+                if !(tempObject.passType == PassType.barcodePass && tempObject.barcodeType == BarcodeType.code128) {
+                    StripImageSelection(passObject: $tempObject)
+                }
 
                 Section {
                     Button(
