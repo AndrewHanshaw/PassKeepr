@@ -9,6 +9,7 @@ struct CustomizeLogoImage: View {
     @State private var isTransparencyOn: Bool = false
 
     @State private var tempLogo: UIImage?
+    @State private var tempLogoNoBackground: UIImage?
     @State private var isTransparencyAvailable: Bool = true
 
     @State private var photoItem: PhotosPickerItem?
@@ -18,7 +19,8 @@ struct CustomizeLogoImage: View {
     init(passObject: Binding<PassObject>) {
         _passObject = passObject
         _tempLogo = State(initialValue: UIImage(data: passObject.wrappedValue.logoImage))
-        _isTransparencyAvailable = State(initialValue: removeBackground(image: tempLogo) != nil)
+        _tempLogoNoBackground = State(initialValue: removeBackground(image: tempLogo))
+        _isTransparencyAvailable = State(initialValue: tempLogoNoBackground != nil)
     }
 
     var body: some View {
@@ -36,10 +38,20 @@ struct CustomizeLogoImage: View {
                         }
                     }
             } header: {
-                if let logo = tempLogo {
+                if let logo = tempLogo, !isTransparencyOn {
                     HStack {
                         Spacer()
                         Image(uiImage: logo)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxHeight: 80)
+                            .padding(20)
+                        Spacer()
+                    }
+                } else if let logoNoBg = tempLogoNoBackground, isTransparencyOn {
+                    HStack {
+                        Spacer()
+                        Image(uiImage: logoNoBg)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(maxHeight: 80)
@@ -81,8 +93,14 @@ struct CustomizeLogoImage: View {
             Section {
                 Button(
                     action: {
-                        if let logo = tempLogo {
-                            passObject.logoImage = logo.pngData()!
+                        if isTransparencyOn {
+                            if let logoNoBg = tempLogoNoBackground {
+                                passObject.logoImage = logoNoBg.pngData()!
+                            }
+                        } else {
+                            if let logo = tempLogo {
+                                passObject.logoImage = logo.pngData()!
+                            }
                         }
                         presentationMode.wrappedValue.dismiss()
                     }) {
@@ -94,15 +112,24 @@ struct CustomizeLogoImage: View {
             }
             .listRowBackground(Color.accentColor)
         }
-        .onChange(of: isTransparencyOn) {
+//        .onChange(of: isTransparencyOn) {
+//            Task {
+//                if isTransparencyOn {
+//                    if let nobackground = removeBackground(image: tempLogo) {
+//                        tempLogoNoBackground = nobackground
+//                    }
+//                } /*else {
+//                    tempLogo = UIImage(data: passObject.logoImage) ?? nil
+//                }*/
+//            }
+//        }
+        .onChange(of: tempLogo) {
             Task {
-                if isTransparencyOn {
-                    if let nobackground = removeBackground(image: tempLogo) {
-                        tempLogo = nobackground
-                    }
-                } else {
-                    tempLogo = UIImage(data: passObject.logoImage)!
+                if let tempNoBg = removeBackground(image: tempLogo) {
+                    tempLogoNoBackground = tempNoBg
+                    isTransparencyAvailable = true
                 }
+                isTransparencyOn = false
             }
         }
     }
