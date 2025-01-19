@@ -33,26 +33,25 @@ func generatePass(passObject: PassObject) -> URL? {
         passData.merge(["labelColor": passObject.labelColor.toRGBString()]) { _, _ in }
 
         // Add customizable data to the pass
-        let primaryFields: [String: Any] = [
-            "key": passObject.primaryFieldLabel,
-            "label": passObject.primaryFieldLabel,
-            "value": passObject.primaryFieldText,
-        ]
-
-        let secondaryFields: [String: Any] = [
-            "key": passObject.secondaryFieldOneLabel,
-            "label": passObject.secondaryFieldOneLabel,
-            "value": passObject.secondaryFieldOneText,
-        ]
-
         var data: [String: Any] = [:]
-        if passObject.stripImage == Data() {
-            passData.merge(["primaryFields": [primaryFields]]) { _, _ in }
+
+        if !shouldStripImageBeAddedToPass(passObject: passObject) {
+            let primaryFields: [String: Any] = [
+                "key": passObject.primaryFieldLabel,
+                "label": passObject.primaryFieldLabel,
+                "value": passObject.primaryFieldText,
+            ]
+
+            data.merge(["primaryFields": [primaryFields]]) { _, _ in }
         }
 
-        data.merge(encodeHeaderFields(passObject: passObject)) { _, _ in }
+        if passObject.isHeaderFieldOneOn || passObject.isHeaderFieldTwoOn {
+            data.merge(encodeHeaderFields(passObject: passObject)) { _, _ in }
+        }
 
-        data.merge(["secondaryFields": [secondaryFields]]) { _, _ in }
+        if passObject.isSecondaryFieldOneOn || passObject.isSecondaryFieldTwoOn {
+            data.merge(encodeSecondaryFields(passObject: passObject)) { _, _ in }
+        }
 
         var passStyle: [String: Any] = [
             passObject.passStyle.description: data,
@@ -65,6 +64,7 @@ func generatePass(passObject: PassObject) -> URL? {
                 "format": "PKBarcodeFormatCode128",
                 "messageEncoding": "iso-8859-1",
             ]
+
             passStyle.merge(["barcode": barcodeFields]) { _, _ in }
         } else if passObject.passType == PassType.qrCodePass {
             let barcodeFields: [String: Any] = [
@@ -73,6 +73,7 @@ func generatePass(passObject: PassObject) -> URL? {
                 "format": "PKBarcodeFormatQR",
                 "messageEncoding": "iso-8859-1",
             ]
+
             passStyle.merge(["barcode": barcodeFields]) { _, _ in }
         }
 
@@ -83,7 +84,7 @@ func generatePass(passObject: PassObject) -> URL? {
 
         savePNGToDirectory(pngData: passObject.passIcon, destinationDirectory: passDirectory, fileName: "icon")
 
-        if passObject.stripImage != Data() {
+        if shouldStripImageBeAddedToPass(passObject: passObject) {
             if passObject.passStyle != PassStyle.storeCard {
                 print("PassObject has stripImage but is not of style 'storeCard'")
             }
@@ -91,6 +92,7 @@ func generatePass(passObject: PassObject) -> URL? {
             if passObject.backgroundImage != Data() {
                 print("PassObject has background image and strip image. Not saving strip image")
             } else {
+//                savePNGToDirectory(pngData: (UIImage(data: passObject.stripImage)?.resizeToFit2(maxWidth: 1125, maxHeight: 432).pngData()!)!, destinationDirectory: passDirectory, fileName: "strip")
                 savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
                 savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip@2x")
             }
@@ -168,6 +170,47 @@ func encodeHeaderFields(passObject: PassObject) -> [String: Any] {
     return headerFields
 }
 
+func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
+    var encodedData: [Any] = []
+    var secondaryFields: [String: Any] = [:]
+
+    let secondaryField1: [String: Any] = [
+        "key": passObject.secondaryFieldOneLabel,
+        "label": passObject.secondaryFieldOneLabel,
+        "value": passObject.secondaryFieldOneText,
+    ]
+
+    let secondaryField2: [String: Any] = [
+        "key": passObject.secondaryFieldTwoLabel,
+        "label": passObject.secondaryFieldTwoLabel,
+        "value": passObject.secondaryFieldTwoText,
+    ]
+
+    let secondaryField3: [String: Any] = [
+        "key": passObject.secondaryFieldThreeLabel,
+        "label": passObject.secondaryFieldThreeLabel,
+        "value": passObject.secondaryFieldThreeText,
+    ]
+
+    if passObject.isSecondaryFieldOneOn == true {
+        encodedData.append(secondaryField1)
+    }
+
+    if passObject.isSecondaryFieldTwoOn == true {
+        encodedData.append(secondaryField2)
+    }
+
+    if passObject.isSecondaryFieldThreeOn == true {
+        encodedData.append(secondaryField3)
+    }
+
+    secondaryFields = [
+        "secondaryFields": encodedData,
+    ]
+
+    return secondaryFields
+}
+
 func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: String) {
     let destinationURL = destinationDirectory.appendingPathComponent("\(fileName).png")
 
@@ -189,6 +232,22 @@ func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
 
 func shouldBackgroundImageBeAddedToPass(passObject: PassObject) -> Bool {
     if (passObject.backgroundImage != Data()) && getIsBackgroundImageSupported(passObject: passObject) {
+        return true
+    } else {
+        return false
+    }
+}
+
+func getIsStripImageSupported(passObject: PassObject) -> Bool {
+    if passObject.passType != PassType.qrCodePass {
+        return true
+    } else {
+        return false
+    }
+}
+
+func shouldStripImageBeAddedToPass(passObject: PassObject) -> Bool {
+    if (passObject.stripImage != Data()) && getIsStripImageSupported(passObject: passObject) {
         return true
     } else {
         return false

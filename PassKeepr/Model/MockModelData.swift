@@ -64,7 +64,11 @@ private extension PassObject {
         secondaryFieldOneText: "",
         isSecondaryFieldTwoOn: false,
         secondaryFieldTwoLabel: "",
-        secondaryFieldTwoText: ""
+        secondaryFieldTwoText: "",
+        isSecondaryFieldThreeOn: false,
+        secondaryFieldThreeLabel: "",
+        secondaryFieldThreeText: "",
+        isCustomStripImageOn: false
     )
 
     static let preview2 = PassObject(
@@ -107,6 +111,10 @@ private extension PassObject {
         secondaryFieldOneText: "",
         isSecondaryFieldTwoOn: false,
         secondaryFieldTwoLabel: "",
-        secondaryFieldTwoText: ""
+        secondaryFieldTwoText: "",
+        isSecondaryFieldThreeOn: false,
+        secondaryFieldThreeLabel: "",
+        secondaryFieldThreeText: "",
+        isCustomStripImageOn: false
     )
 }

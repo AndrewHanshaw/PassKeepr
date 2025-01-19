@@ -6,16 +6,19 @@ struct BuiltInQrCodeView: View {
 
     var body: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 5)
-                .fill(Color.white)
-
             if passObject.qrCodeString != "" {
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(Color.white)
+
                 QRCodeView(data: passObject.qrCodeString, correctionLevel: passObject.qrCodeCorrectionLevel)
                     .padding(7)
             } else {
                 ZStack {
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                    RoundedRectangle(cornerRadius: 5)
+                        .fill(Color.white)
+                        .opacity(0.2)
                     Text("Enter QR Code Data")
                 }
             }

@@ -11,7 +11,7 @@ struct BuiltInBarcodeView: View {
 
             if BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: passObject.barcodeString, type: passObject.barcodeType) == true {
                 Code128View(data: $passObject.barcodeString)
-                    .padding([.top, .bottom], 10)
+                    .padding([.top, .bottom], 15)
                     .padding([.leading, .trailing], 20)
             } else {
                 if passObject.barcodeString == "" {

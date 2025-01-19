@@ -42,6 +42,10 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var isSecondaryFieldTwoOn: Bool
     var secondaryFieldTwoLabel: String
     var secondaryFieldTwoText: String
+    var isSecondaryFieldThreeOn: Bool
+    var secondaryFieldThreeLabel: String
+    var secondaryFieldThreeText: String
+    var isCustomStripImageOn: Bool
 }
 
 extension PassObject {
@@ -86,6 +90,10 @@ extension PassObject {
         isSecondaryFieldTwoOn = false
         secondaryFieldTwoLabel = ""
         secondaryFieldTwoText = ""
+        isSecondaryFieldThreeOn = false
+        secondaryFieldThreeLabel = ""
+        secondaryFieldThreeText = ""
+        isCustomStripImageOn = false
     }
 
     func duplicate() -> PassObject {
@@ -129,6 +137,10 @@ extension PassObject {
         newObject.isSecondaryFieldTwoOn = isSecondaryFieldTwoOn
         newObject.secondaryFieldTwoLabel = secondaryFieldTwoLabel
         newObject.secondaryFieldTwoText = secondaryFieldTwoText
+        newObject.isSecondaryFieldThreeOn = isSecondaryFieldThreeOn
+        newObject.secondaryFieldThreeLabel = secondaryFieldThreeLabel
+        newObject.secondaryFieldThreeText = secondaryFieldThreeText
+        newObject.isCustomStripImageOn = isCustomStripImageOn
         return newObject
     }
 }

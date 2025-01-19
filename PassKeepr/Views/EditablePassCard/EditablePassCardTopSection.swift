@@ -18,6 +18,11 @@ struct EditablePassCardTopSection: View {
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
                             .aspectRatio(3.2, contentMode: .fit)
+                        RoundedRectangle(cornerRadius: 5)
+                            .fill(Color.white)
+                            .aspectRatio(3.2, contentMode: .fit)
+                            .opacity(0.2)
+                        Text("Choose a Logo Image")
                     }
 
                     Button(action: {
