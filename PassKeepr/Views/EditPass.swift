@@ -20,7 +20,7 @@ struct EditPass: View {
     @State private var tempObject: PassObject = .init()
 
     @State private var hasEditPassButtonBeenPressed = false
-    @State private var textWidth: CGFloat = 0
+    @State private var textSize: CGSize = CGSizeZero
 
     @State private var isEditing: Bool = false
     @FocusState private var isTextFieldFocused: Bool
@@ -67,6 +67,10 @@ struct EditPass: View {
 
                 ColorInput(pass: $tempObject)
 
+                HeaderFieldSelection(passObject: $tempObject)
+                SecondaryFieldSelection(passObject: $tempObject)
+                StripImageSelection(passObject: $tempObject)
+
                 Section {
                     Button(
                         action: {
@@ -96,12 +100,15 @@ struct EditPass: View {
                                     .tint(.white)
                                     .opacity(hasEditPassButtonBeenPressed && !passSigner.isDataLoaded ? 1 : 0) // Fade-in effect
                                     .animation(.easeInOut(duration: 0.2), value: hasEditPassButtonBeenPressed && !passSigner.isDataLoaded)
-                                    .offset(x: textWidth / 2 + 20)
-                                Text("Save and Add to Wallet")
-                                    .frame(maxWidth: .infinity, alignment: .center)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color.white)
-                                    .readWidth(into: $textWidth)
+                                    .offset(x: textSize.width / 2 + 20)
+                                HStack {
+                                    Spacer()
+                                    Text("Save and Add to Wallet")
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color.white)
+                                        .readSize(into: $textSize)
+                                    Spacer()
+                                }
                             }
                         }
                         .disabled(hasEditPassButtonBeenPressed)
