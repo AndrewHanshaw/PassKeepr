@@ -72,6 +72,7 @@
 		BAED92C52D04D596000822CA /* CustomizeBackgroundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */; };
 		BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */; };
 		BAF0FB732D28D0AB00948089 /* PassCardTopSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF0FB722D28D0AB00948089 /* PassCardTopSection.swift */; };
+		BAF0FB752D28D5E200948089 /* HeaderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF0FB742D28D5E200948089 /* HeaderTextField.swift */; };
 		BAF0FB772D29CCED00948089 /* PassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF0FB762D29CCED00948089 /* PassCard.swift */; };
 		BAF5EF932D094FCE00259BEA /* BuiltInQrCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */; };
 		BAF5EF952D09542200259BEA /* CustomizeQrCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */; };
@@ -161,6 +162,7 @@
 		BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeBackgroundImage.swift; sourceTree = "<group>"; };
 		BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignPass.swift; sourceTree = "<group>"; };
 		BAF0FB722D28D0AB00948089 /* PassCardTopSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassCardTopSection.swift; sourceTree = "<group>"; };
+		BAF0FB742D28D5E200948089 /* HeaderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTextField.swift; sourceTree = "<group>"; };
 		BAF0FB762D29CCED00948089 /* PassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassCard.swift; sourceTree = "<group>"; };
 		BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInQrCodeView.swift; sourceTree = "<group>"; };
 		BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeQrCode.swift; sourceTree = "<group>"; };
