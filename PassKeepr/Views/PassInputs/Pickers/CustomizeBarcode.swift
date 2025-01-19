@@ -105,8 +105,15 @@ struct CustomizeBarcode: View {
                 render()
             }
             .onChange(of: scannedCode) {
+                guard !scannedCode.isEmpty else { return }
                 tempBarcodeData = scannedCode
-                tempBarcodeType = scannedSymbology?.toBarcodeType() ?? BarcodeType.code128
+
+                // Do not support converting a barcode pass to a qr code pass
+                if scannedSymbology?.toBarcodeType() != BarcodeType.qr {
+                    tempBarcodeType = scannedSymbology?.toBarcodeType() ?? BarcodeType.code128
+                }
+
+                scannedCode = "" // allows for repeated scanning of the same code
             }
             .onChange(of: tempBarcodeData) {
                 render()
