@@ -2,7 +2,6 @@ import CoreImage.CIFilterBuiltins
 import SwiftUI
 
 struct PDF417View: View {
-    @State var ratio: CGFloat
     @Binding var data: String
 
     var body: some View {
@@ -12,20 +11,18 @@ struct PDF417View: View {
                     .resizable()
                     .frame(width: geometry.size.width)
             }
-            .aspectRatio(ratio, contentMode: .fit)
         }
     }
 }
 
 #Preview {
-    PDF417View(ratio: 2.5, data: .constant("Hello, Swift PDF417 Barcode!"))
+    PDF417View(data: .constant("Hello, Swift PDF417 Barcode!"))
 }
 
 func GeneratePDF417Barcode(string: String, viewWidth: CGFloat, viewHeight: CGFloat) -> UIImage? {
     let filter = CIFilter.pdf417BarcodeGenerator()
 
     filter.message = string.data(using: String.Encoding.ascii)!
-//    filter.preferredAspectRatio = Float(viewWidth/viewHeight)
 
     guard let outputImage = filter.outputImage else { return nil }
 

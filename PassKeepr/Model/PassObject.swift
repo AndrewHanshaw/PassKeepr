@@ -150,6 +150,7 @@ enum BarcodeType: Codable, CustomStringConvertible, CaseIterable {
     case code93
     case code39
     case upce
+    case pdf417
 
     var description: String {
         switch self {
@@ -157,6 +158,7 @@ enum BarcodeType: Codable, CustomStringConvertible, CaseIterable {
         case .code93: return "Code 93"
         case .code39: return "Code 39"
         case .upce: return "UPC-E"
+        case .pdf417: return "PDF417"
         }
     }
 }

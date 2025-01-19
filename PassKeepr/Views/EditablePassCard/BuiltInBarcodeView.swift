@@ -11,10 +11,16 @@ struct BuiltInBarcodeView: View {
 
             VStack {
                 if BarcodeTypeHelpers.GetIsEnteredBarcodeValueValid(string: passObject.barcodeString, type: passObject.barcodeType) == true {
-                    Code128View(data: $passObject.barcodeString)
-                        .padding(.top, 15)
-                        .padding(.bottom, passObject.altText == "" ? 15 : 0)
-                        .padding([.leading, .trailing], 20)
+                    if passObject.barcodeType == BarcodeType.code128 {
+                        Code128View(data: $passObject.barcodeString)
+                            .padding(.top, 15)
+                            .padding(.bottom, passObject.altText == "" ? 15 : 0)
+                            .padding([.leading, .trailing], 20)
+                    } else if passObject.barcodeType == BarcodeType.pdf417 {
+                        PDF417View(data: $passObject.barcodeString)
+                            .padding(.bottom, 0)
+                            .padding([.top, .leading, .trailing], 8)
+                    }
                 } else {
                     if passObject.barcodeString == "" {
                         Text("Enter Barcode Data")
@@ -27,7 +33,7 @@ struct BuiltInBarcodeView: View {
                     Text(passObject.altText)
                         .font(.system(size: 16))
                         .foregroundColor(Color.black)
-                        .padding(.bottom, 8)
+                        .padding(.bottom, passObject.barcodeType == BarcodeType.code128 ? 8 : 0)
                 }
             }
 

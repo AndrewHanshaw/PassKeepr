@@ -25,6 +25,8 @@ class BarcodeTypeHelpers {
         case BarcodeType.upce:
             let regex = /^\d{6}$/
             return string.firstMatch(of: regex) != nil
+        case BarcodeType.pdf417:
+            return true
         }
     }
 
