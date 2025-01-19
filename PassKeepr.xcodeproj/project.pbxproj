@@ -359,6 +359,7 @@
 		BABAADDB2B0A6C190014C73B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BAF0FB712D28D09200948089 /* PassCard */,
 				BAA53E1A2D0E5443004A175A /* EditablePassCard */,
 				BA00B9AA2B4F8FAC00050C33 /* PassInputs */,
 				3A02E73B2AF6EE1000383BC2 /* ContentView.swift */,
@@ -394,6 +395,14 @@
 				BA15EC172B3CE75400078A17 /* AppIcon.swift */,
 			);
 			path = Icon;
+			sourceTree = "<group>";
+		};
+		BAF0FB712D28D09200948089 /* PassCard */ = {
+			isa = PBXGroup;
+			children = (
+				BAF0FB742D28D5E200948089 /* HeaderTextField.swift */,
+			);
+			path = PassCard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -581,6 +590,7 @@
 				BACDA8AF2D167704009C249C /* CustomizeStripImage.swift in Sources */,
 				BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */,
 				BAE7B3402D066AD600DD0251 /* StripImageBarcode.swift in Sources */,
+				BAF0FB752D28D5E200948089 /* HeaderTextField.swift in Sources */,
 				BAD0D7122D1528350058054E /* SecondaryFieldSelection.swift in Sources */,
 				BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */,
 				BA1515B92CE2BC6900DB1799 /* MeasureViewSize.swift in Sources */,
