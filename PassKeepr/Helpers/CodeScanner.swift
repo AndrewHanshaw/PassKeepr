@@ -22,6 +22,7 @@ struct CodeScanner: UIViewControllerRepresentable {
                 parent.scannedText = text.transcript
             case let .barcode(barcode):
                 parent.scannedText = barcode.payloadStringValue ?? "Unable to decode the scanned code"
+                parent.scannedSymbology = barcode.observation.symbology
             default:
                 print("unexpected item")
             }

@@ -11,6 +11,8 @@ extension VNBarcodeSymbology {
             return BarcodeType.code93
         case VNBarcodeSymbology.upce:
             return BarcodeType.upce
+        case VNBarcodeSymbology.qr:
+            return BarcodeType.qr
         default:
             return nil
         }
