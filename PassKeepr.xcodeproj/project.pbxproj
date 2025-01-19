@@ -401,6 +401,8 @@
 			isa = PBXGroup;
 			children = (
 				BAF0FB742D28D5E200948089 /* HeaderTextField.swift */,
+				BAF0FB762D29CCED00948089 /* PassCard.swift */,
+				BAF0FB722D28D0AB00948089 /* PassCardTopSection.swift */,
 			);
 			path = PassCard;
 			sourceTree = "<group>";
