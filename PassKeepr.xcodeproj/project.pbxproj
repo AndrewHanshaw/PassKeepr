@@ -61,6 +61,7 @@
 		BADD7E432CCEF8340077F4AB /* BackgroundImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD7E422CCEF8340077F4AB /* BackgroundImagePicker.swift */; };
 		BAE2D4552B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE2D4542B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift */; };
 		BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE838F82B49BFCE0081A1DE /* Settings.swift */; };
+		BAED92C52D04D596000822CA /* CustomizeBackgroundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */; };
 		BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */; };
 		BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = BAF9428A2CB35689009CF225 /* ZIPFoundation */; };
 /* End PBXBuildFile section */
@@ -141,6 +142,7 @@
 		BADD7E422CCEF8340077F4AB /* BackgroundImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundImagePicker.swift; sourceTree = "<group>"; };
 		BAE2D4542B80F2B600CC7BE2 /* BarcodeTypeHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeTypeHelpers.swift; sourceTree = "<group>"; };
 		BAE838F82B49BFCE0081A1DE /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeBackgroundImage.swift; sourceTree = "<group>"; };
 		BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignPass.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -266,6 +268,7 @@
 				BA0F32E82B9AC84D007120B8 /* LogoImagePicker.swift */,
 				BADD7E422CCEF8340077F4AB /* BackgroundImagePicker.swift */,
 				BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */,
+				BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */,
 			);
 			path = Pickers;
 			sourceTree = "<group>";
@@ -548,6 +551,7 @@
 				BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */,
 				BA6DC62E2CAB8987000B153F /* PassInput.swift in Sources */,
 				BA7A4A232B65AE3A006F06DF /* ColorInput.swift in Sources */,
+				BAED92C52D04D596000822CA /* CustomizeBackgroundImage.swift in Sources */,
 				BABAADD82B0A6BF50014C73B /* ListSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
