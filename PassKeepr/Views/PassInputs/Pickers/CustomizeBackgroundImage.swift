@@ -105,5 +105,5 @@ struct CustomizeBackgroundImage: View {
 }
 
 #Preview {
-    CustomizeLogoImage(passObject: .constant(MockModelData().passObjects[0]))
+    CustomizeLogoImage(passObject: .constant(MockModelData().passObjects[0]), placeholderColor: Color.black)
 }

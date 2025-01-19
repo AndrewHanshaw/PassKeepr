@@ -5,6 +5,7 @@ import SwiftUI
 import Vision
 
 struct CustomizeLogoImage: View {
+    var placeholderColor: Color
     @Binding var passObject: PassObject
     @State private var isTransparencyOn: Bool = false
 
@@ -16,7 +17,8 @@ struct CustomizeLogoImage: View {
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    init(passObject: Binding<PassObject>) {
+    init(passObject: Binding<PassObject>, placeholderColor: Color) {
+        self.placeholderColor = placeholderColor
         _passObject = passObject
         _tempLogo = State(initialValue: UIImage(data: passObject.wrappedValue.logoImage))
         _tempLogoNoBackground = State(initialValue: removeBackground(image: tempLogo))
@@ -62,6 +64,8 @@ struct CustomizeLogoImage: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                            .foregroundColor(placeholderColor)
+                            .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
                             .frame(maxHeight: 80)
                             .aspectRatio(3.2, contentMode: .fit)
                         Text("Add your logo")
@@ -278,5 +282,5 @@ private func cropToVisibleContent(image: UIImage) -> UIImage? {
 }
 
 #Preview {
-    CustomizeLogoImage(passObject: .constant(MockModelData().passObjects[0]))
+    CustomizeLogoImage(passObject: .constant(MockModelData().passObjects[0]), placeholderColor: Color.black)
 }

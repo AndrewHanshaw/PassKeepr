@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct BuiltInQrCodeView: View {
+    var placeholderColor: Color
     @Binding var passObject: PassObject
     @Binding var isCustomizeQrCodePresented: Bool
 
@@ -16,6 +17,8 @@ struct BuiltInQrCodeView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                        .foregroundColor(placeholderColor)
+                        .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
                     RoundedRectangle(cornerRadius: 5)
                         .fill(Color.white)
                         .opacity(0.2)
@@ -48,5 +51,5 @@ struct BuiltInQrCodeView: View {
 }
 
 #Preview {
-    BuiltInQrCodeView(passObject: .constant(MockModelData().passObjects[0]), isCustomizeQrCodePresented: .constant(true))
+    BuiltInQrCodeView(placeholderColor: Color.black, passObject: .constant(MockModelData().passObjects[0]), isCustomizeQrCodePresented: .constant(true))
 }

@@ -3,6 +3,7 @@ import PhotosUI
 import SwiftUI
 
 struct LogoImagePicker: View {
+    var placeholderColor: Color
     @State private var photoItem: PhotosPickerItem?
     @Binding var passObject: PassObject
     @State private var showAlert: Bool = false
@@ -63,7 +64,7 @@ struct LogoImagePicker: View {
                 Button(action: { isSheetPresented.toggle() }, label: { Text("Customize") })
                     .frame(maxWidth: .infinity, alignment: .center)
                     .sheet(isPresented: $isSheetPresented) {
-                        CustomizeLogoImage(passObject: $passObject)
+                        CustomizeLogoImage(passObject: $passObject, placeholderColor: placeholderColor)
                     }
             }
         }
@@ -71,5 +72,5 @@ struct LogoImagePicker: View {
 }
 
 #Preview {
-    LogoImagePicker(passObject: .constant(MockModelData().passObjects[0]))
+    LogoImagePicker(placeholderColor: Color.black, passObject: .constant(MockModelData().passObjects[0]))
 }

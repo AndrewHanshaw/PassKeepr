@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct CustomStripImage: View {
+    var placeholderColor: Color
     @Binding var passObject: PassObject
     @Binding var isCustomizeStripImagePresented: Bool
 
@@ -14,6 +15,8 @@ struct CustomStripImage: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                        .foregroundColor(placeholderColor)
+                        .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
                     RoundedRectangle(cornerRadius: 5)
                         .fill(Color.white)
                         .opacity(0.2)
@@ -42,5 +45,5 @@ struct CustomStripImage: View {
 }
 
 #Preview {
-    CustomStripImage(passObject: .constant(MockModelData().passObjects[0]), isCustomizeStripImagePresented: .constant(true))
+    CustomStripImage(placeholderColor: Color.black, passObject: .constant(MockModelData().passObjects[0]), isCustomizeStripImagePresented: .constant(true))
 }

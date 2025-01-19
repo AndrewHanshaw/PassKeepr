@@ -3,6 +3,7 @@
 import SwiftUI
 
 struct PrimaryTextFieldStoreCard: View {
+    var placeholderColor: Color
     @Binding var textLabel: String
     @Binding var text: String
 
@@ -37,6 +38,8 @@ struct PrimaryTextFieldStoreCard: View {
             } else {
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                    .foregroundColor(placeholderColor)
+                    .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
                     .frame(maxHeight: .infinity)
             }
 
@@ -61,5 +64,5 @@ struct PrimaryTextFieldStoreCard: View {
 }
 
 #Preview {
-    PrimaryTextFieldStoreCard(textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
+    PrimaryTextFieldStoreCard(placeholderColor: Color.black, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
 }

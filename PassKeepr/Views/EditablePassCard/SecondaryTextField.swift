@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SecondaryTextField: View {
+    var placeholderColor: Color
     @Binding var textLabel: String
     @Binding var text: String
     var isStripImageOn: Bool
@@ -42,6 +43,8 @@ struct SecondaryTextField: View {
             } else {
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(style: StrokeStyle(lineWidth: 2, dash: [10, 5]))
+                    .foregroundColor(placeholderColor)
+                    .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
                     .frame(maxHeight: .infinity)
                     .aspectRatio(2, contentMode: .fit)
                     .readSize(into: $textSize)
@@ -69,5 +72,5 @@ struct SecondaryTextField: View {
 }
 
 #Preview {
-    SecondaryTextField(textLabel: .constant("HEADER"), text: .constant("TEST"), isStripImageOn: true, textColor: .black, labelColor: .black)
+    SecondaryTextField(placeholderColor: Color.black, textLabel: .constant("HEADER"), text: .constant("TEST"), isStripImageOn: true, textColor: .black, labelColor: .black)
 }
