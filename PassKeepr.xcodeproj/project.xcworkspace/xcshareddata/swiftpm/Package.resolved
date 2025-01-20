@@ -1,6 +1,42 @@
 {
-  "originHash" : "b26c070fd1f0b029780331f3cefa3909a6d58ea6b3ae242bffe49d6011fe06fe",
+  "originHash" : "9f49542943305c88e6ac559a4026de10a1a717393c716be82cd5915dbfcbb323",
   "pins" : [
+    {
+      "identity" : "keyboardawareswiftui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ralfebert/KeyboardAwareSwiftUI",
+      "state" : {
+        "revision" : "c76a2e1ee69b413885c604e62f39b796de97dcda",
+        "version" : "0.5.0"
+      }
+    },
+    {
+      "identity" : "mcemojipicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/izyumkin/MCEmojiPicker",
+      "state" : {
+        "revision" : "e0b4903b75ae1cc418d276d84d1cb946b8a1d73c",
+        "version" : "1.2.3"
+      }
+    },
+    {
+      "identity" : "sfsymbolspicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/alessiorubicini/SFSymbolsPicker",
+      "state" : {
+        "revision" : "73c909b8a7fc77a30dd04208e33f759f8b52c4c8",
+        "version" : "1.0.6"
+      }
+    },
+    {
+      "identity" : "symbolpicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/xnth97/SymbolPicker",
+      "state" : {
+        "revision" : "da4136a37736de04df11f47ef096efe5557d066a",
+        "version" : "1.6.0"
+      }
+    },
     {
       "identity" : "zipfoundation",
       "kind" : "remoteSourceControl",

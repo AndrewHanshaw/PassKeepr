@@ -18,12 +18,23 @@
 		BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */; };
 		BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869B2B95756500AC82E4 /* AztecView.swift */; };
 		BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869D2B957BD700AC82E4 /* GeneratePass.swift */; };
+		BA1515B92CE2BC6900DB1799 /* MeasureViewSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1515B82CE2BC6900DB1799 /* MeasureViewSize.swift */; };
 		BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA15EC172B3CE75400078A17 /* AppIcon.swift */; };
+		BA17A9112D36155E00A8C992 /* KeyboardAware in Frameworks */ = {isa = PBXBuildFile; productRef = BA17A9102D36155E00A8C992 /* KeyboardAware */; };
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
 		BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */ = {isa = PBXBuildFile; fileRef = BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */; };
 		BA25D8972B76E8300044E423 /* Code93View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA25D8962B76E8300044E423 /* Code93View.swift */; };
+		BA2ECC4F2D0F4E93001AD177 /* EditablePassCardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC4E2D0F4E93001AD177 /* EditablePassCardBackground.swift */; };
+		BA2ECC512D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC502D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift */; };
+		BA2ECC532D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */; };
+		BA409E422CF427160079193E /* EditablePassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA409E412CF427160079193E /* EditablePassCard.swift */; };
+		BA4918FF2CF5727500202180 /* EditablePassTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4918FE2CF5727500202180 /* EditablePassTextField.swift */; };
+		BA598E8E2D3609C900B06BAA /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA598E8D2D3609C900B06BAA /* About.swift */; };
 		BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D4FE02B71C60400CB6ACA /* Code39View.swift */; };
 		BA6D6C682CE83628007D4C9A /* CustomizeLogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */; };
+		BA6DACEF2D38AA2600C2FD90 /* ReorderableForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6DACEE2D38AA2600C2FD90 /* ReorderableForEach.swift */; };
+		BA6DACF72D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6DACF62D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift */; };
+		BA6DACF92D3961D800C2FD90 /* DefaultPassIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BA6DACF82D3961D800C2FD90 /* DefaultPassIcon.png */; };
 		BA7A4A212B65ABE9006F06DF /* CodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */; };
 		BA7A4A232B65AE3A006F06DF /* ColorInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A222B65AE3A006F06DF /* ColorInput.swift */; };
 		BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A242B65B485006F06DF /* ExtendColor.swift */; };
@@ -31,16 +42,41 @@
 		BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA863A162B6621B6008746C1 /* ScannerView.swift */; };
 		BA8671DF2B951FD700F20608 /* PDF417View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8671DE2B951FD700F20608 /* PDF417View.swift */; };
 		BA879C242B7064AB008A685E /* UPCEView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA879C232B7064AB008A685E /* UPCEView.swift */; };
+		BA885AE82CF2A01C0084FC25 /* TextFieldDynamicWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA885AE72CF2A01C0084FC25 /* TextFieldDynamicWidth.swift */; };
+		BA8D50BE2D30C6CA009617C1 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = BA8D50BD2D30C6CA009617C1 /* MCEmojiPicker */; };
+		BA8D50C12D30C756009617C1 /* SFSymbolsPicker in Frameworks */ = {isa = PBXBuildFile; productRef = BA8D50C02D30C756009617C1 /* SFSymbolsPicker */; };
+		BA8D50C42D30C8F5009617C1 /* SymbolPicker in Frameworks */ = {isa = PBXBuildFile; productRef = BA8D50C32D30C8F5009617C1 /* SymbolPicker */; };
 		BA95576D2CD69ADE0010721A /* AddToWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA95576C2CD69ADE0010721A /* AddToWalletView.swift */; };
 		BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5E72B0C65380093CC75 /* Code128View.swift */; };
 		BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */; };
+		BAA53E142D0E2E2C004A175A /* HeaderFieldSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E132D0E2E2C004A175A /* HeaderFieldSelection.swift */; };
+		BAA53E162D0E38C5004A175A /* EditableHeaderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E152D0E38C5004A175A /* EditableHeaderTextField.swift */; };
+		BAA53E182D0E3AF5004A175A /* CustomizePassTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E172D0E3AF5004A175A /* CustomizePassTextField.swift */; };
+		BAA53E1C2D0E5C70004A175A /* EditablePassCardTopSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E1B2D0E5C70004A175A /* EditablePassCardTopSection.swift */; };
 		BABAADD22B0A69950014C73B /* PassObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD02B0A69950014C73B /* PassObject.swift */; };
 		BABAADD32B0A69950014C73B /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD12B0A69950014C73B /* ModelData.swift */; };
 		BABAADD62B0A6BAA0014C73B /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = BABAADD52B0A6BAA0014C73B /* data.json */; };
 		BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD92B0A6C110014C73B /* AddPass.swift */; };
+		BACDA8AB2D166477009C249C /* CustomStripImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AA2D166477009C249C /* CustomStripImage.swift */; };
+		BACDA8AD2D167646009C249C /* StripImageSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AC2D167646009C249C /* StripImageSelection.swift */; };
+		BACDA8AF2D167704009C249C /* CustomizeStripImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AE2D167704009C249C /* CustomizeStripImage.swift */; };
+		BACDA8B12D1692C2009C249C /* OffsetCroppedStripImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8B02D1692C2009C249C /* OffsetCroppedStripImage.swift */; };
+		BAD0D7102D15130C0058054E /* SecondaryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD0D70F2D15130C0058054E /* SecondaryTextField.swift */; };
+		BAD0D7122D1528350058054E /* SecondaryFieldSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD0D7112D1528350058054E /* SecondaryFieldSelection.swift */; };
 		BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD64672CA5021D00E8F0A0 /* MockModelData.swift */; };
+		BAE2D4552B80F2B600CC7BE2 /* ExtendBarcodeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE2D4542B80F2B600CC7BE2 /* ExtendBarcodeType.swift */; };
+		BAE7B33C2D06588E00DD0251 /* CustomizeBarcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */; };
+		BAE7B33E2D065DFF00DD0251 /* BuiltInBarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */; };
+		BAE7B3402D066AD600DD0251 /* StripImageBarcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE7B33F2D066AD600DD0251 /* StripImageBarcode.swift */; };
 		BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE838F82B49BFCE0081A1DE /* Settings.swift */; };
+		BAED06682D32158C00D6789E /* GetBarcodeFromImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED06672D32158C00D6789E /* GetBarcodeFromImage.swift */; };
+		BAED92C52D04D596000822CA /* CustomizeBackgroundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */; };
 		BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */; };
+		BAF0FB732D28D0AB00948089 /* PassCardTopSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF0FB722D28D0AB00948089 /* PassCardTopSection.swift */; };
+		BAF0FB752D28D5E200948089 /* HeaderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF0FB742D28D5E200948089 /* HeaderTextField.swift */; };
+		BAF0FB772D29CCED00948089 /* PassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF0FB762D29CCED00948089 /* PassCard.swift */; };
+		BAF5EF932D094FCE00259BEA /* BuiltInQrCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */; };
+		BAF5EF952D09542200259BEA /* CustomizeQrCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */; };
 		BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = BAF9428A2CB35689009CF225 /* ZIPFoundation */; };
 /* End PBXBuildFile section */
 
@@ -76,13 +112,23 @@
 		BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendUIImage.swift; sourceTree = "<group>"; };
 		BA12869B2B95756500AC82E4 /* AztecView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AztecView.swift; sourceTree = "<group>"; };
 		BA12869D2B957BD700AC82E4 /* GeneratePass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePass.swift; sourceTree = "<group>"; };
+		BA1515B82CE2BC6900DB1799 /* MeasureViewSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureViewSize.swift; sourceTree = "<group>"; };
 		BA15A2C92CE0002800ECD183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BA15EC172B3CE75400078A17 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 		BA1BACD32B463FCD00F86890 /* EditPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPass.swift; sourceTree = "<group>"; };
 		BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OneDimensionalBarcodeFilter.metal; sourceTree = "<group>"; };
 		BA25D8962B76E8300044E423 /* Code93View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code93View.swift; sourceTree = "<group>"; };
+		BA2ECC4E2D0F4E93001AD177 /* EditablePassCardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCardBackground.swift; sourceTree = "<group>"; };
+		BA2ECC502D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTextFieldStoreCard.swift; sourceTree = "<group>"; };
+		BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTextFieldGeneric.swift; sourceTree = "<group>"; };
+		BA409E412CF427160079193E /* EditablePassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCard.swift; sourceTree = "<group>"; };
+		BA4918FE2CF5727500202180 /* EditablePassTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassTextField.swift; sourceTree = "<group>"; };
+		BA598E8D2D3609C900B06BAA /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		BA6D4FE02B71C60400CB6ACA /* Code39View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code39View.swift; sourceTree = "<group>"; };
 		BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeLogoImage.swift; sourceTree = "<group>"; };
+		BA6DACEE2D38AA2600C2FD90 /* ReorderableForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReorderableForEach.swift; sourceTree = "<group>"; };
+		BA6DACF62D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendVNBarcodeSymbology.swift; sourceTree = "<group>"; };
+		BA6DACF82D3961D800C2FD90 /* DefaultPassIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPassIcon.png; sourceTree = "<group>"; };
 		BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScanner.swift; sourceTree = "<group>"; };
 		BA7A4A222B65AE3A006F06DF /* ColorInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorInput.swift; sourceTree = "<group>"; };
 		BA7A4A242B65B485006F06DF /* ExtendColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendColor.swift; sourceTree = "<group>"; };
@@ -90,16 +136,38 @@
 		BA863A162B6621B6008746C1 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		BA8671DE2B951FD700F20608 /* PDF417View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDF417View.swift; sourceTree = "<group>"; };
 		BA879C232B7064AB008A685E /* UPCEView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPCEView.swift; sourceTree = "<group>"; };
+		BA885AE72CF2A01C0084FC25 /* TextFieldDynamicWidth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldDynamicWidth.swift; sourceTree = "<group>"; };
 		BA95576C2CD69ADE0010721A /* AddToWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToWalletView.swift; sourceTree = "<group>"; };
 		BA9ED5E72B0C65380093CC75 /* Code128View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code128View.swift; sourceTree = "<group>"; };
 		BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
+		BAA53E132D0E2E2C004A175A /* HeaderFieldSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderFieldSelection.swift; sourceTree = "<group>"; };
+		BAA53E152D0E38C5004A175A /* EditableHeaderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableHeaderTextField.swift; sourceTree = "<group>"; };
+		BAA53E172D0E3AF5004A175A /* CustomizePassTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizePassTextField.swift; sourceTree = "<group>"; };
+		BAA53E1B2D0E5C70004A175A /* EditablePassCardTopSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCardTopSection.swift; sourceTree = "<group>"; };
 		BABAADD02B0A69950014C73B /* PassObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassObject.swift; sourceTree = "<group>"; };
 		BABAADD12B0A69950014C73B /* ModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		BABAADD52B0A6BAA0014C73B /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		BABAADD92B0A6C110014C73B /* AddPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPass.swift; sourceTree = "<group>"; };
+		BACDA8AA2D166477009C249C /* CustomStripImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStripImage.swift; sourceTree = "<group>"; };
+		BACDA8AC2D167646009C249C /* StripImageSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripImageSelection.swift; sourceTree = "<group>"; };
+		BACDA8AE2D167704009C249C /* CustomizeStripImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeStripImage.swift; sourceTree = "<group>"; };
+		BACDA8B02D1692C2009C249C /* OffsetCroppedStripImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetCroppedStripImage.swift; sourceTree = "<group>"; };
+		BAD0D70F2D15130C0058054E /* SecondaryTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryTextField.swift; sourceTree = "<group>"; };
+		BAD0D7112D1528350058054E /* SecondaryFieldSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryFieldSelection.swift; sourceTree = "<group>"; };
 		BADD64672CA5021D00E8F0A0 /* MockModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockModelData.swift; sourceTree = "<group>"; };
+		BAE2D4542B80F2B600CC7BE2 /* ExtendBarcodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendBarcodeType.swift; sourceTree = "<group>"; };
+		BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeBarcode.swift; sourceTree = "<group>"; };
+		BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInBarcodeView.swift; sourceTree = "<group>"; };
+		BAE7B33F2D066AD600DD0251 /* StripImageBarcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripImageBarcode.swift; sourceTree = "<group>"; };
 		BAE838F82B49BFCE0081A1DE /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		BAED06672D32158C00D6789E /* GetBarcodeFromImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBarcodeFromImage.swift; sourceTree = "<group>"; };
+		BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeBackgroundImage.swift; sourceTree = "<group>"; };
 		BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignPass.swift; sourceTree = "<group>"; };
+		BAF0FB722D28D0AB00948089 /* PassCardTopSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassCardTopSection.swift; sourceTree = "<group>"; };
+		BAF0FB742D28D5E200948089 /* HeaderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTextField.swift; sourceTree = "<group>"; };
+		BAF0FB762D29CCED00948089 /* PassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassCard.swift; sourceTree = "<group>"; };
+		BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInQrCodeView.swift; sourceTree = "<group>"; };
+		BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeQrCode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +175,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA8D50C42D30C8F5009617C1 /* SymbolPicker in Frameworks */,
 				BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */,
+				BA8D50C12D30C756009617C1 /* SFSymbolsPicker in Frameworks */,
+				BA8D50BE2D30C6CA009617C1 /* MCEmojiPicker in Frameworks */,
+				BA17A9112D36155E00A8C992 /* KeyboardAware in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,6 +276,14 @@
 			children = (
 				BA7A4A222B65AE3A006F06DF /* ColorInput.swift */,
 				BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */,
+				BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */,
+				BACDA8AE2D167704009C249C /* CustomizeStripImage.swift */,
+				BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */,
+				BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */,
+				BAA53E132D0E2E2C004A175A /* HeaderFieldSelection.swift */,
+				BAD0D7112D1528350058054E /* SecondaryFieldSelection.swift */,
+				BACDA8AC2D167646009C249C /* StripImageSelection.swift */,
+				BACDA8B02D1692C2009C249C /* OffsetCroppedStripImage.swift */,
 			);
 			path = Pickers;
 			sourceTree = "<group>";
@@ -240,6 +320,26 @@
 			path = CoreImage;
 			sourceTree = "<group>";
 		};
+		BAA53E1A2D0E5443004A175A /* EditablePassCard */ = {
+			isa = PBXGroup;
+			children = (
+				BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */,
+				BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */,
+				BAA53E172D0E3AF5004A175A /* CustomizePassTextField.swift */,
+				BA409E412CF427160079193E /* EditablePassCard.swift */,
+				BA2ECC502D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift */,
+				BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */,
+				BAD0D70F2D15130C0058054E /* SecondaryTextField.swift */,
+				BA2ECC4E2D0F4E93001AD177 /* EditablePassCardBackground.swift */,
+				BAA53E1B2D0E5C70004A175A /* EditablePassCardTopSection.swift */,
+				BA4918FE2CF5727500202180 /* EditablePassTextField.swift */,
+				BAA53E152D0E38C5004A175A /* EditableHeaderTextField.swift */,
+				BAE7B33F2D066AD600DD0251 /* StripImageBarcode.swift */,
+				BACDA8AA2D166477009C249C /* CustomStripImage.swift */,
+			);
+			path = EditablePassCard;
+			sourceTree = "<group>";
+		};
 		BABAADCF2B0A69950014C73B /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -254,6 +354,7 @@
 		BABAADD42B0A6BAA0014C73B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BA6DACF82D3961D800C2FD90 /* DefaultPassIcon.png */,
 				BABAADD52B0A6BAA0014C73B /* data.json */,
 			);
 			path = Resources;
@@ -262,11 +363,14 @@
 		BABAADDB2B0A6C190014C73B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BAF0FB712D28D09200948089 /* PassCard */,
+				BAA53E1A2D0E5443004A175A /* EditablePassCard */,
 				BA00B9AA2B4F8FAC00050C33 /* PassInputs */,
 				3A02E73B2AF6EE1000383BC2 /* ContentView.swift */,
 				BABAADD92B0A6C110014C73B /* AddPass.swift */,
 				BA1BACD32B463FCD00F86890 /* EditPass.swift */,
 				BAE838F82B49BFCE0081A1DE /* Settings.swift */,
+				BA598E8D2D3609C900B06BAA /* About.swift */,
 				BA95576C2CD69ADE0010721A /* AddToWalletView.swift */,
 			);
 			path = Views;
@@ -275,10 +379,16 @@
 		BABAADDC2B0AB8150014C73B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BA885AE72CF2A01C0084FC25 /* TextFieldDynamicWidth.swift */,
+				BA1515B82CE2BC6900DB1799 /* MeasureViewSize.swift */,
+				BAED06672D32158C00D6789E /* GetBarcodeFromImage.swift */,
 				BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */,
 				BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */,
+				BA6DACEE2D38AA2600C2FD90 /* ReorderableForEach.swift */,
 				BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */,
 				BA7A4A242B65B485006F06DF /* ExtendColor.swift */,
+				BAE2D4542B80F2B600CC7BE2 /* ExtendBarcodeType.swift */,
+				BA6DACF62D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift */,
 				BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */,
 			);
 			path = Helpers;
@@ -290,6 +400,16 @@
 				BA15EC172B3CE75400078A17 /* AppIcon.swift */,
 			);
 			path = Icon;
+			sourceTree = "<group>";
+		};
+		BAF0FB712D28D09200948089 /* PassCard */ = {
+			isa = PBXGroup;
+			children = (
+				BAF0FB742D28D5E200948089 /* HeaderTextField.swift */,
+				BAF0FB762D29CCED00948089 /* PassCard.swift */,
+				BAF0FB722D28D0AB00948089 /* PassCardTopSection.swift */,
+			);
+			path = PassCard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,6 +430,10 @@
 			name = PassKeepr;
 			packageProductDependencies = (
 				BAF9428A2CB35689009CF225 /* ZIPFoundation */,
+				BA8D50BD2D30C6CA009617C1 /* MCEmojiPicker */,
+				BA8D50C02D30C756009617C1 /* SFSymbolsPicker */,
+				BA8D50C32D30C8F5009617C1 /* SymbolPicker */,
+				BA17A9102D36155E00A8C992 /* KeyboardAware */,
 			);
 			productName = PassKeepr;
 			productReference = 3A02E7362AF6EE1000383BC2 /* PassKeepr.app */;
@@ -385,6 +509,10 @@
 			mainGroup = 3A02E72D2AF6EE1000383BC2;
 			packageReferences = (
 				BAF942892CB35689009CF225 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
+				BA8D50BC2D30C555009617C1 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
+				BA8D50BF2D30C756009617C1 /* XCRemoteSwiftPackageReference "SFSymbolsPicker" */,
+				BA8D50C22D30C8F5009617C1 /* XCRemoteSwiftPackageReference "SymbolPicker" */,
+				BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */,
 			);
 			productRefGroup = 3A02E7372AF6EE1000383BC2 /* Products */;
 			projectDirPath = "";
@@ -403,6 +531,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A02E7412AF6EE1A00383BC2 /* Preview Assets.xcassets in Resources */,
+				BA6DACF92D3961D800C2FD90 /* DefaultPassIcon.png in Resources */,
 				BABAADD62B0A6BAA0014C73B /* data.json in Resources */,
 				3A02E73E2AF6EE1A00383BC2 /* Assets.xcassets in Resources */,
 			);
@@ -429,34 +558,65 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAA53E142D0E2E2C004A175A /* HeaderFieldSelection.swift in Sources */,
 				BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */,
 				BABAADD22B0A69950014C73B /* PassObject.swift in Sources */,
+				BA885AE82CF2A01C0084FC25 /* TextFieldDynamicWidth.swift in Sources */,
+				BAE2D4552B80F2B600CC7BE2 /* ExtendBarcodeType.swift in Sources */,
+				BAF5EF932D094FCE00259BEA /* BuiltInQrCodeView.swift in Sources */,
 				BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */,
 				BABAADD32B0A69950014C73B /* ModelData.swift in Sources */,
 				BA7A4A212B65ABE9006F06DF /* CodeScanner.swift in Sources */,
+				BAF5EF952D09542200259BEA /* CustomizeQrCode.swift in Sources */,
 				BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */,
 				BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */,
 				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
 				BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */,
+				BA6DACEF2D38AA2600C2FD90 /* ReorderableForEach.swift in Sources */,
 				BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */,
+				BACDA8B12D1692C2009C249C /* OffsetCroppedStripImage.swift in Sources */,
 				BA25D8972B76E8300044E423 /* Code93View.swift in Sources */,
+				BAF0FB772D29CCED00948089 /* PassCard.swift in Sources */,
 				BA6D6C682CE83628007D4C9A /* CustomizeLogoImage.swift in Sources */,
 				3A02E73C2AF6EE1000383BC2 /* ContentView.swift in Sources */,
+				BAED06682D32158C00D6789E /* GetBarcodeFromImage.swift in Sources */,
+				BA6DACF72D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift in Sources */,
 				BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */,
 				BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */,
+				BAE7B33E2D065DFF00DD0251 /* BuiltInBarcodeView.swift in Sources */,
 				BA0F98212CE2BA4800F76501 /* ExtendUInt.swift in Sources */,
+				BACDA8AB2D166477009C249C /* CustomStripImage.swift in Sources */,
+				BACDA8AD2D167646009C249C /* StripImageSelection.swift in Sources */,
 				3A02E73A2AF6EE1000383BC2 /* PassKeeprApp.swift in Sources */,
+				BA409E422CF427160079193E /* EditablePassCard.swift in Sources */,
+				BAA53E182D0E3AF5004A175A /* CustomizePassTextField.swift in Sources */,
 				BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */,
 				BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */,
+				BA2ECC532D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift in Sources */,
+				BA2ECC4F2D0F4E93001AD177 /* EditablePassCardBackground.swift in Sources */,
 				BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */,
+				BACDA8AF2D167704009C249C /* CustomizeStripImage.swift in Sources */,
 				BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */,
+				BAE7B3402D066AD600DD0251 /* StripImageBarcode.swift in Sources */,
+				BAF0FB752D28D5E200948089 /* HeaderTextField.swift in Sources */,
+				BAD0D7122D1528350058054E /* SecondaryFieldSelection.swift in Sources */,
 				BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */,
+				BA1515B92CE2BC6900DB1799 /* MeasureViewSize.swift in Sources */,
+				BAD0D7102D15130C0058054E /* SecondaryTextField.swift in Sources */,
+				BA4918FF2CF5727500202180 /* EditablePassTextField.swift in Sources */,
 				BA95576D2CD69ADE0010721A /* AddToWalletView.swift in Sources */,
 				BA879C242B7064AB008A685E /* UPCEView.swift in Sources */,
+				BAA53E1C2D0E5C70004A175A /* EditablePassCardTopSection.swift in Sources */,
 				BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */,
 				BA8671DF2B951FD700F20608 /* PDF417View.swift in Sources */,
 				BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */,
+				BAE7B33C2D06588E00DD0251 /* CustomizeBarcode.swift in Sources */,
+				BAA53E162D0E38C5004A175A /* EditableHeaderTextField.swift in Sources */,
+				BA2ECC512D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift in Sources */,
 				BA7A4A232B65AE3A006F06DF /* ColorInput.swift in Sources */,
+				BA598E8E2D3609C900B06BAA /* About.swift in Sources */,
+				BAF0FB732D28D0AB00948089 /* PassCardTopSection.swift in Sources */,
+				BAED92C52D04D596000822CA /* CustomizeBackgroundImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,24 +784,30 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PassKeepr/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Scanning existing codes to add into passes";
+				INFOPLIST_KEY_CFBundleDisplayName = PassKeepr;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is required to scan codes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCAL_SERVER = false;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeepr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -657,24 +823,30 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PassKeepr/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Scanning existing codes to add into passes";
+				INFOPLIST_KEY_CFBundleDisplayName = PassKeepr;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access is required to scan codes";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UISupportsDocumentBrowser = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LOCAL_SERVER = false;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeepr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -792,6 +964,38 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ralfebert/KeyboardAwareSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.0;
+			};
+		};
+		BA8D50BC2D30C555009617C1 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/izyumkin/MCEmojiPicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.3;
+			};
+		};
+		BA8D50BF2D30C756009617C1 /* XCRemoteSwiftPackageReference "SFSymbolsPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alessiorubicini/SFSymbolsPicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.6;
+			};
+		};
+		BA8D50C22D30C8F5009617C1 /* XCRemoteSwiftPackageReference "SymbolPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/xnth97/SymbolPicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.0;
+			};
+		};
 		BAF942892CB35689009CF225 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/weichsel/ZIPFoundation.git";
@@ -803,6 +1007,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BA17A9102D36155E00A8C992 /* KeyboardAware */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */;
+			productName = KeyboardAware;
+		};
+		BA8D50BD2D30C6CA009617C1 /* MCEmojiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA8D50BC2D30C555009617C1 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */;
+			productName = MCEmojiPicker;
+		};
+		BA8D50C02D30C756009617C1 /* SFSymbolsPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA8D50BF2D30C756009617C1 /* XCRemoteSwiftPackageReference "SFSymbolsPicker" */;
+			productName = SFSymbolsPicker;
+		};
+		BA8D50C32D30C8F5009617C1 /* SymbolPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA8D50C22D30C8F5009617C1 /* XCRemoteSwiftPackageReference "SymbolPicker" */;
+			productName = SymbolPicker;
+		};
 		BAF9428A2CB35689009CF225 /* ZIPFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BAF942892CB35689009CF225 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;

@@ -10,22 +10,16 @@ extension Color {
             opacity: alpha
         )
     }
-}
 
-extension Color {
     func toHex() -> UInt {
-        @Environment(\.self) var environment
-        let resolvedColor = resolve(in: environment)
-
-        let red = UInt(resolvedColor.red * 255)
-        let green = UInt(resolvedColor.green * 255)
-        let blue = UInt(resolvedColor.blue * 255)
+        let components = cgColor?.components ?? [0, 0, 0, 0] // Default to black if nil
+        let red = UInt(components[0] * 255)
+        let green = UInt(components[1] * 255)
+        let blue = UInt(components[2] * 255)
 
         return (red << 16) + (green << 8) + blue
     }
-}
 
-extension Color {
     static func binding(from hexBinding: Binding<UInt>) -> Binding<Color> {
         Binding<Color>(
             get: {

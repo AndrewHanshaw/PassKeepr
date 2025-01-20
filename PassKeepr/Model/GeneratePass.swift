@@ -26,27 +26,109 @@ func generatePass(passObject: PassObject) -> URL? {
 
         // Add the required data to the pass
         var passData: [String: Any] = requiredFields
-        passData.merge(["description": passObject.description]) { current, _ in current }
-        passData.merge(["serialNumber": passObject.id.uuidString]) { current, _ in current }
-        passData.merge(["foregroundColor": passObject.foregroundColor.toRGBString()]) { current, _ in current }
-        passData.merge(["backgroundColor": passObject.backgroundColor.toRGBString()]) { current, _ in current }
-        passData.merge(populatePass(passObject: passObject, passDirectory: passDirectory)) { current, _ in current }
+        passData.merge(["description": passObject.description]) { _, _ in }
+        passData.merge(["serialNumber": passObject.id.uuidString]) { _, _ in }
+        passData.merge(["foregroundColor": passObject.foregroundColor.toRGBString()]) { _, _ in }
+        passData.merge(["backgroundColor": passObject.backgroundColor.toRGBString()]) { _, _ in }
+        passData.merge(["labelColor": passObject.labelColor.toRGBString()]) { _, _ in }
+
+        // Add customizable data to the pass
+        var data: [String: Any] = [:]
+
+        // A primary field with a strip image *is* strictly allowed by PassKit, however it looks horrible, so I'm just disabling it for now to avoid having to even think about it
+        if !shouldStripImageBeAddedToPass(passObject: passObject) && !passObject.isCustomStripImageOn {
+            let primaryFields: [String: Any] = [
+                "key": passObject.primaryFieldLabel,
+                "label": passObject.primaryFieldLabel,
+                "value": passObject.primaryFieldText,
+            ]
+
+            data.merge(["primaryFields": [primaryFields]]) { _, _ in }
+        }
+
+        if passObject.headerFieldOneLabel != "" || passObject.headerFieldOneText != "" || passObject.isHeaderFieldTwoOn {
+            data.merge(encodeHeaderFields(passObject: passObject)) { _, _ in }
+        }
+
+        if passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" || passObject.isSecondaryFieldTwoOn || passObject.isSecondaryFieldThreeOn {
+            data.merge(encodeSecondaryFields(passObject: passObject)) { _, _ in }
+        }
+
+        var passStyleString: String
+
+        // Strip image takes priority for pass style
+        if passObject.stripImage != Data() {
+            passStyleString = "storeCard"
+        } else if passObject.backgroundImage != Data() {
+            // If there is a background image
+            passStyleString = "eventTicket"
+        } else {
+            // Default to generic
+            passStyleString = "generic"
+        }
+
+        var passStyle: [String: Any] = [passStyleString: data]
+
+        var barcodeFields: [String: Any] = [:]
+
+        if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 || passObject.barcodeType == BarcodeType.qr {
+            if passObject.barcodeType == BarcodeType.code128 {
+                barcodeFields = [
+                    "message": passObject.barcodeString,
+                    "format": "PKBarcodeFormatCode128",
+                    "messageEncoding": "iso-8859-1",
+                ]
+            } else if passObject.barcodeType == BarcodeType.pdf417 {
+                barcodeFields = [
+                    "message": passObject.barcodeString,
+                    "format": "PKBarcodeFormatPDF417",
+                    "messageEncoding": "iso-8859-1",
+                ]
+            } else if passObject.barcodeType == BarcodeType.qr {
+                barcodeFields = [
+                    "message": passObject.barcodeString,
+                    "format": "PKBarcodeFormatQR",
+                    "messageEncoding": "iso-8859-1",
+                ]
+            }
+
+            if passObject.altText != "" {
+                barcodeFields.merge(["altText": passObject.altText]) { _, _ in }
+            }
+
+            passStyle.merge(["barcode": barcodeFields]) { _, _ in }
+        }
+
+        passData.merge(passStyle) { _, _ in }
+
         let jsonData = try JSONSerialization.data(withJSONObject: passData, options: .prettyPrinted)
         try jsonData.write(to: fileURL)
+
         savePNGToDirectory(pngData: passObject.passIcon, destinationDirectory: passDirectory, fileName: "icon")
 
-        if passObject.stripImage != Data() {
-            savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
-            savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip@2x")
+        if shouldStripImageBeAddedToPass(passObject: passObject) {
+            if passStyleString != "storeCard" {
+                print("PassObject has stripImage but is not of style 'storeCard'")
+            }
+
+            if passObject.backgroundImage != Data() {
+                print("PassObject has background image and strip image. Not saving strip image")
+            } else {
+//                savePNGToDirectory(pngData: (UIImage(data: passObject.stripImage)?.resizeToFit2(maxWidth: 1125, maxHeight: 432).pngData()!)!, destinationDirectory: passDirectory, fileName: "strip")
+                savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
+//                savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip@2x")
+            }
         }
 
         if shouldBackgroundImageBeAddedToPass(passObject: passObject) {
-            savePNGToDirectory(pngData: passObject.backgroundImage, destinationDirectory: passDirectory, fileName: "background@2x")
+            if passStyleString != "eventTicket" {
+                print("PassObject should have background image but is not of style 'eventTicket'")
+            }
             savePNGToDirectory(pngData: UIImage(data: passObject.backgroundImage)!.resize(targetSize: CGSize(width: 112, height: 142))!.pngData()!, destinationDirectory: passDirectory, fileName: "background")
         }
 
         if passObject.logoImage != Data() {
-            savePNGToDirectory(pngData: passObject.logoImage, destinationDirectory: passDirectory, fileName: "logo")
+            savePNGToDirectory(pngData: (UIImage(data: passObject.logoImage)?.resizeToFit().pngData()!)!, destinationDirectory: passDirectory, fileName: "logo")
         }
 
         if let pkpassDir = try zipDirectory(uuid: passObject.id) {
@@ -79,128 +161,74 @@ func zipDirectory(uuid: UUID) throws -> URL? {
     return pkpassDirectory
 }
 
-// Returns encoded JSON data with the required information for an identificationPass
-func populatePass(passObject: PassObject, passDirectory: URL) -> [String: Any] {
-    var encodedData: [String: Any]
+func encodeHeaderFields(passObject: PassObject) -> [String: Any] {
+    var encodedData: [Any] = []
 
-    switch passObject.passType {
-    case PassType.identificationPass:
-        encodedData = encodeIdentificationPass(passObject: passObject)
-    case PassType.barcodePass:
-        encodedData = encodeBarcodePass(passObject: passObject, passDirectory: passDirectory)
-    case PassType.qrCodePass:
-        encodedData = encodeQrCodePass(passObject: passObject)
-    default:
-        encodedData = [:]
+    if passObject.headerFieldOneLabel != "" || passObject.headerFieldOneText != "" {
+        let headerField1: [String: Any] = [
+            "key": passObject.headerFieldOneLabel,
+            "label": passObject.headerFieldOneLabel,
+            "value": passObject.headerFieldOneText,
+        ]
+
+        encodedData.append(headerField1)
     }
 
-    return encodedData
+    if passObject.isHeaderFieldTwoOn == true {
+        let headerField2: [String: Any] = [
+            "key": passObject.headerFieldTwoLabel,
+            "label": passObject.headerFieldTwoLabel,
+            "value": passObject.headerFieldTwoText,
+        ]
+
+        encodedData.append(headerField2)
+    }
+
+    let headerFields: [String: Any] = [
+        "headerFields": encodedData,
+    ]
+
+    return headerFields
 }
 
-func encodeIdentificationPass(passObject: PassObject) -> [String: Any] {
-    let primaryFields: [String: Any] = [
-        "key": "name",
-        "label": "NAME",
-        "value": passObject.name,
-    ]
+func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
+    var encodedData: [Any] = []
+
+    if passObject.secondaryFieldOneLabel != "", passObject.secondaryFieldOneText != "" {
+        let secondaryField1: [String: Any] = [
+            "key": passObject.secondaryFieldOneLabel,
+            "label": passObject.secondaryFieldOneLabel,
+            "value": passObject.secondaryFieldOneText,
+        ]
+
+        encodedData.append(secondaryField1)
+    }
+
+    if passObject.isSecondaryFieldTwoOn == true {
+        let secondaryField2: [String: Any] = [
+            "key": passObject.secondaryFieldTwoLabel,
+            "label": passObject.secondaryFieldTwoLabel,
+            "value": passObject.secondaryFieldTwoText,
+        ]
+
+        encodedData.append(secondaryField2)
+    }
+
+    if passObject.isSecondaryFieldThreeOn == true {
+        let secondaryField3: [String: Any] = [
+            "key": passObject.secondaryFieldThreeLabel,
+            "label": passObject.secondaryFieldThreeLabel,
+            "value": passObject.secondaryFieldThreeText,
+        ]
+
+        encodedData.append(secondaryField3)
+    }
 
     let secondaryFields: [String: Any] = [
-        "key": "id",
-        "label": "ID",
-        "value": passObject.identificationString,
+        "secondaryFields": encodedData,
     ]
 
-    let data: [String: Any] = [
-        "primaryFields": [primaryFields],
-        "secondaryFields": [secondaryFields],
-    ]
-
-    let generic: [String: Any] = [
-        "generic": data,
-    ]
-
-    return generic
-}
-
-func encodeBarcodePass(passObject: PassObject, passDirectory _: URL) -> [String: Any] {
-    // Nominal case where the barcode type is directly supported by PassKit
-    if passObject.barcodeType == BarcodeType.code128 {
-        let barcodeFields: [String: Any] = [
-            "message": passObject.barcodeString,
-            "format": "PKBarcodeFormatCode128",
-            "messageEncoding": "iso-8859-1",
-        ]
-
-        let primaryFields: [String: Any] = [
-            "key": "name",
-            "label": "NAME",
-            "value": passObject.passName,
-        ]
-
-        let data: [String: Any] = [
-            "primaryFields": [primaryFields],
-        ]
-
-        if shouldBackgroundImageBeAddedToPass(passObject: passObject) {
-            let eventTicket: [String: Any] = [
-                "eventTicket": data,
-                "barcode": barcodeFields,
-            ]
-            return eventTicket
-        } else {
-            let generic: [String: Any] = [
-                "generic": data,
-                "barcode": barcodeFields,
-            ]
-            return generic
-        }
-    }
-
-    // Custom case where the barcode must be represented as an image
-    else {
-        let secondaryFields: [String: Any] = [
-            "key": "name",
-            "label": "NAME",
-            "value": passObject.passName,
-        ]
-
-        let data: [String: Any] = [
-            "secondaryFields": [secondaryFields],
-        ]
-
-        let storeCard: [String: Any] = [
-            "storeCard": data,
-        ]
-
-        return storeCard
-    }
-}
-
-func encodeQrCodePass(passObject: PassObject) -> [String: Any] {
-    // Nominal case where the QR code is directly supported by PassKit
-    // TODO: altText support?
-    let barcodeFields: [String: Any] = [
-        "message": passObject.qrCodeString,
-        "format": "PKBarcodeFormatQR",
-        "messageEncoding": "iso-8859-1",
-    ]
-
-    let primaryFields: [String: Any] = [
-        "key": "name",
-        "label": "NAME",
-        "value": passObject.passName,
-    ]
-
-    let data: [String: Any] = [
-        "primaryFields": [primaryFields],
-    ]
-
-    let generic: [String: Any] = [
-        "generic": data,
-        "barcode": barcodeFields,
-    ]
-    return generic
-    // Custom case where the QR code must be represented as an image
+    return secondaryFields
 }
 
 func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: String) {
@@ -215,7 +243,7 @@ func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: Stri
 }
 
 func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
-    if (passObject.stripImage == Data()) && ((passObject.barcodeType == BarcodeType.code128) || (passObject.passType == PassType.qrCodePass)) {
+    if /* (passObject.stripImage == Data()) && */ (passObject.barcodeType == BarcodeType.code128) || (passObject.barcodeType == BarcodeType.pdf417) || (passObject.barcodeType == BarcodeType.qr) || (passObject.barcodeType == BarcodeType.none) {
         return true
     } else {
         return false
@@ -224,6 +252,22 @@ func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
 
 func shouldBackgroundImageBeAddedToPass(passObject: PassObject) -> Bool {
     if (passObject.backgroundImage != Data()) && getIsBackgroundImageSupported(passObject: passObject) {
+        return true
+    } else {
+        return false
+    }
+}
+
+func getIsStripImageSupported(passObject: PassObject) -> Bool {
+    if passObject.barcodeType != BarcodeType.qr && (passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) || passObject.isCustomStripImageOn) {
+        return true
+    } else {
+        return false
+    }
+}
+
+func shouldStripImageBeAddedToPass(passObject: PassObject) -> Bool {
+    if (passObject.stripImage != Data()) && getIsStripImageSupported(passObject: passObject) {
         return true
     } else {
         return false

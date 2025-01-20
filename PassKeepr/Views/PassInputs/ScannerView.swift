@@ -34,23 +34,42 @@ struct ScannerView: View {
                 }
                 .background(Color(UIColor.secondarySystemBackground))
             }
-            HStack {
-                Text("Scan: \(tempScanData), Symbology: \(tempScanSymbology?.rawValue ?? "-")")
+            VStack {
+                var displayedString: String {
+                    if tempScanData.isEmpty || (tempScanSymbology?.rawValue.isEmpty ?? true) {
+                        return "Tap a highlighted barcode to select it"
+                    } else {
+                        let symbologyDescription = tempScanSymbology?.toBarcodeType()?.description ?? "-"
+                        return "Scanned Data: \(tempScanData)\nType: \(symbologyDescription)"
+                    }
+                }
+
+                Text(displayedString)
+                    .font(.system(size: 18))
+                    .multilineTextAlignment(.center)
                     .padding()
                     .background(Color(UIColor.systemBackground).opacity(0.8))
                     .cornerRadius(8)
 
-                Button("Insert") {
-                    scannedData = tempScanData
-                    scannedSymbology = tempScanSymbology
-                    showScanner.toggle()
+                HStack {
+                    Spacer()
+                    Button("Insert") {
+                        scannedData = tempScanData
+                        scannedSymbology = tempScanSymbology
+                        showScanner.toggle()
+                    }
+                    .padding()
+                    .background(Color(UIColor.systemBackground).opacity(0.8))
+                    .cornerRadius(8)
+                    Spacer()
                 }
-                .padding()
-                .background(Color(UIColor.systemBackground).opacity(0.8))
-                .cornerRadius(8)
             }
             .padding(.bottom, 40)
 //            .opacity(0.8)
+        }
+        .onChange(of: tempScanData) {
+            print(tempScanData)
+            print(tempScanSymbology?.toBarcodeType()?.description)
         }
     }
 }

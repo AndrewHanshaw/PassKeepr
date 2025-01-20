@@ -3,36 +3,35 @@ import SwiftUI
 struct ColorInput: View {
     @Binding var pass: PassObject
 
+    @State private var backgroundColor: Color = .black
+    @State private var foregroundColor: Color = .black
+    @State private var labelColor: Color = .black
+
     var body: some View {
         Section {
-            ColorPicker("Background Color", selection: Color.binding(from: $pass.backgroundColor))
-        }
-
-        if getIsBackgroundImageSupported(passObject: pass) {
-            Section {
-                HStack {
-                    Spacer()
-                    Text("Or:")
-                        .font(.system(size: 20))
-                        .foregroundColor(.secondary)
-                    Spacer()
+            if pass.backgroundImage == Data() {
+                ColorPicker("Background Color", selection: $backgroundColor)
+                    .onChange(of: backgroundColor) {
+                        pass.backgroundColor = backgroundColor.toHex()
+                    }
+                ColorPicker("Text Color", selection: $foregroundColor)
+                    .onChange(of: foregroundColor) {
+                        pass.foregroundColor = foregroundColor.toHex()
+                    }
+            }
+            ColorPicker("Label Color", selection: $labelColor)
+                .onChange(of: labelColor) {
+                    pass.labelColor = labelColor.toHex()
                 }
-            }
-            .listSectionSpacing(0)
-            .listRowBackground(Color.clear)
-
-            Section {
-                BackgroundImagePicker(passObject: $pass)
-            }
         }
-
-        Section {
-            ColorPicker("Foreground Color", selection: Color.binding(from: $pass.foregroundColor))
-            ColorPicker("Label Color", selection: Color.binding(from: $pass.labelColor))
+        .onAppear {
+            backgroundColor = Color(hex: pass.backgroundColor)
+            foregroundColor = Color(hex: pass.foregroundColor)
+            labelColor = Color(hex: pass.labelColor)
         }
     }
 }
 
 #Preview {
-    ColorInput(pass: .constant(ModelData().passObjects[0]))
+    ColorInput(pass: .constant(MockModelData().passObjects[0]))
 }

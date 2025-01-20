@@ -4,9 +4,10 @@ import SwiftUI
 struct QRCodeView: View {
     var data: String
     var correctionLevel: QrCodeCorrectionLevel
+    var encoding: QrCodeEncoding
 
     var body: some View {
-        if let QRCodeImage = GenerateQRCode(string: data, viewWidth: UIScreen.main.bounds.width, correctionLevel: correctionLevel) {
+        if let QRCodeImage = GenerateQRCode(string: data, viewWidth: UIScreen.main.bounds.width, correctionLevel: correctionLevel, encoding: encoding) {
             GeometryReader { _ in
                 Image(uiImage: QRCodeImage)
                     .resizable()
@@ -18,14 +19,14 @@ struct QRCodeView: View {
 }
 
 #Preview {
-    QRCodeView(data: "Hello, Swift QRcode!", correctionLevel: QrCodeCorrectionLevel.high)
+    QRCodeView(data: "Hello, Swift QRcode!", correctionLevel: QrCodeCorrectionLevel.high, encoding: QrCodeEncoding.ascii)
 }
 
-func GenerateQRCode(string: String, viewWidth: CGFloat, correctionLevel: QrCodeCorrectionLevel) -> UIImage? {
+func GenerateQRCode(string: String, viewWidth: CGFloat, correctionLevel: QrCodeCorrectionLevel, encoding: QrCodeEncoding) -> UIImage? {
     let filter = CIFilter.qrCodeGenerator()
 
     filter.correctionLevel = "\(correctionLevel)"
-    filter.message = string.data(using: String.Encoding.ascii)!
+    filter.message = string.data(using: encoding.toStringEncoding()) ?? Data()
 
     guard let outputImage = filter.outputImage else { return nil }
 
