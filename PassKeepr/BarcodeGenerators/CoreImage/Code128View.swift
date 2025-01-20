@@ -2,7 +2,7 @@ import CoreImage.CIFilterBuiltins
 import SwiftUI
 
 struct Code128View: View {
-    @Binding var data: String
+    var data: String
 
     var body: some View {
         if let code128BarcodeImage = GenerateCode128Barcode(string: data, viewWidth: UIScreen.main.bounds.width) {
@@ -16,7 +16,7 @@ struct Code128View: View {
 }
 
 #Preview {
-    Code128View(data: .constant("Hello, Swift Barcode!"))
+    Code128View(data: "Hello, Swift Barcode!")
 }
 
 func GenerateCode128Barcode(string: String, viewWidth: CGFloat) -> UIImage? {

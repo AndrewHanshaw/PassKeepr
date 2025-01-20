@@ -1,4 +1,3 @@
-
 extension UInt {
     func toRGBString() -> String {
         let red = (self >> 16) & 0xFF

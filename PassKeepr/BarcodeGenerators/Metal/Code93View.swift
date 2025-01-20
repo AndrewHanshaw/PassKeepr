@@ -2,9 +2,10 @@ import SwiftUI
 
 struct Code93View: View {
     @Binding var value: String
+    var border: Double
 
     var numberOfSegments: Int {
-        (value.count * 9) + 1 + 18 + 18
+        min((value.count * 9) + 1 + 18 + 18, 255) // cap at max value of UInt8
     }
 
     var barcodeDataBuffer: Data {
@@ -13,14 +14,17 @@ struct Code93View: View {
 
     var body: some View {
         GeometryReader { geometry in
+            let borderWidth = geometry.size.width * border
             Rectangle()
-                .colorEffect(ShaderLibrary.OneDimensionalBarcodeFilter(.float(geometry.size.width), .data(barcodeDataBuffer), .data(Data([UInt8(numberOfSegments)]))))
+                .colorEffect(ShaderLibrary.OneDimensionalBarcodeFilter(.float(geometry.size.width - CGFloat(borderWidth * 2)), .data(barcodeDataBuffer), .data(Data([UInt8(numberOfSegments)]))))
+                .padding(CGFloat(borderWidth))
+                .background(Color.white)
         }
     }
 }
 
 #Preview {
-    Code93View(value: .constant("TEST93"))
+    Code93View(value: .constant("TEST93"), border: 20)
 }
 
 import Foundation
@@ -85,14 +89,17 @@ func stringToCode93BarcodeData(_ stringValue: String) -> Data? {
     for (index, character) in tempString.enumerated() {
         // kvp is a pair [String : Int] that holds the encoded char
         // and the weight associated with the character
-        let kvp = characterTo9Bit[character]!
-        for (_, weightedValue) in kvp {
-            // generate the weighted sum for this character per the code93 algo
-            var currentPos: Int = (tempString.count - index) % 20
-            if currentPos == 0 {
-                currentPos = 20
+        if let kvp = characterTo9Bit[character] {
+            for (_, weightedValue) in kvp {
+                // generate the weighted sum for this character per the code93 algo
+                var currentPos: Int = (tempString.count - index) % 20
+                if currentPos == 0 {
+                    currentPos = 20
+                }
+                weightedSum += currentPos * weightedValue
             }
-            weightedSum += currentPos * weightedValue
+        } else {
+            return nil
         }
     }
 

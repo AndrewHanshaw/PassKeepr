@@ -31,44 +31,62 @@ struct ImageDocument: FileDocument {
 struct Settings: View {
     @EnvironmentObject var modelData: ModelData
 
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
     @State private var isDocumentPickerPresented: Bool = false
+    @State private var isInfoPagePresented: Bool = false
     @State private var showIcon = false
+    @State private var width: CGSize = CGSizeZero
 
     var body: some View {
-        Form {
-            Section {
-                Button("Delete All Passes", role: .destructive) {
-                    modelData.deleteAllItems()
-                }
-                Button("Delete Data File", role: .destructive) {
-                    modelData.deleteDataFile()
-                }
-                Button(action: {
-                    showIcon = true
-                }) {
-                    Text("Show App Icon")
-                }
-                .sheet(isPresented: $showIcon) {
-                    VStack {
-                        Spacer()
-                        AppIcon()
-                        Spacer()
+        VStack {
+            Button(action: {
+                modelData.deleteAllItems()
+            }) {
+                Text("Delete All Passes")
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                    .foregroundColor(Color.white)
+                    .padding(8)
+                    .readSize(into: $width)
+                    .background {
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            .foregroundColor(Color.red)
+                            .padding(0)
                     }
-                }
-
-                let uiimage = ImageRenderer(content: AppIcon().frame(width: 1024, height: 1024)).uiImage!
-
-                Button("Save Icon image") {
-                    self.isDocumentPickerPresented.toggle()
-                }
-                .fileExporter(isPresented: $isDocumentPickerPresented, document: ImageDocument(image: uiimage), contentType: .image, defaultFilename: "iconImage.png") { result in
-                    if case .success = result {
-                        print("Image saved successfully.")
-                    }
-                }
-            } footer: { Text("PassKeepr. Created by Drew Hanshaw")
             }
+            .simultaneousGesture(
+                LongPressGesture(minimumDuration: 2.0)
+                    .onEnded { _ in
+                        modelData.deleteAllItems()
+                        modelData.deleteDataFile()
+                        presentationMode.wrappedValue.dismiss()
+                    }
+            )
+            .onTapGesture {
+                modelData.deleteAllItems()
+            }
+
+            Button(action: {
+                isInfoPagePresented.toggle()
+            }) {
+                Text("About")
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                    .padding(8)
+                    .frame(width: width.width)
+                    .background {
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
+                            .foregroundColor(Color(.secondarySystemFill))
+                    }
+            }
+            .background(RoundedRectangle(cornerRadius: 5)
+                .foregroundColor(Color(.secondarySystemBackground))
+            )
+            .sheet(isPresented: $isInfoPagePresented, content: {
+                About()
+                    .presentationDragIndicator(.visible)
+            })
         }
+        .padding(10)
     }
 }
 
