@@ -55,7 +55,6 @@
 		BAA53E1C2D0E5C70004A175A /* EditablePassCardTopSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E1B2D0E5C70004A175A /* EditablePassCardTopSection.swift */; };
 		BABAADD22B0A69950014C73B /* PassObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD02B0A69950014C73B /* PassObject.swift */; };
 		BABAADD32B0A69950014C73B /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD12B0A69950014C73B /* ModelData.swift */; };
-		BABAADD62B0A6BAA0014C73B /* data.json in Resources */ = {isa = PBXBuildFile; fileRef = BABAADD52B0A6BAA0014C73B /* data.json */; };
 		BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD92B0A6C110014C73B /* AddPass.swift */; };
 		BACDA8AB2D166477009C249C /* CustomStripImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AA2D166477009C249C /* CustomStripImage.swift */; };
 		BACDA8AD2D167646009C249C /* StripImageSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AC2D167646009C249C /* StripImageSelection.swift */; };
@@ -146,7 +145,6 @@
 		BAA53E1B2D0E5C70004A175A /* EditablePassCardTopSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCardTopSection.swift; sourceTree = "<group>"; };
 		BABAADD02B0A69950014C73B /* PassObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassObject.swift; sourceTree = "<group>"; };
 		BABAADD12B0A69950014C73B /* ModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
-		BABAADD52B0A6BAA0014C73B /* data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data.json; sourceTree = "<group>"; };
 		BABAADD92B0A6C110014C73B /* AddPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPass.swift; sourceTree = "<group>"; };
 		BACDA8AA2D166477009C249C /* CustomStripImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStripImage.swift; sourceTree = "<group>"; };
 		BACDA8AC2D167646009C249C /* StripImageSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripImageSelection.swift; sourceTree = "<group>"; };
@@ -355,7 +353,6 @@
 			isa = PBXGroup;
 			children = (
 				BA6DACF82D3961D800C2FD90 /* DefaultPassIcon.png */,
-				BABAADD52B0A6BAA0014C73B /* data.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -532,7 +529,6 @@
 			files = (
 				3A02E7412AF6EE1A00383BC2 /* Preview Assets.xcassets in Resources */,
 				BA6DACF92D3961D800C2FD90 /* DefaultPassIcon.png in Resources */,
-				BABAADD62B0A6BAA0014C73B /* data.json in Resources */,
 				3A02E73E2AF6EE1A00383BC2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
