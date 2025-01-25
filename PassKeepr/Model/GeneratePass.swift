@@ -114,9 +114,7 @@ func generatePass(passObject: PassObject) -> URL? {
             if passObject.backgroundImage != Data() {
                 print("PassObject has background image and strip image. Not saving strip image")
             } else {
-//                savePNGToDirectory(pngData: (UIImage(data: passObject.stripImage)?.resizeToFit2(maxWidth: 1125, maxHeight: 432).pngData()!)!, destinationDirectory: passDirectory, fileName: "strip")
                 savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
-//                savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip@2x")
             }
         }
 
@@ -243,7 +241,7 @@ func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: Stri
 }
 
 func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
-    if /* (passObject.stripImage == Data()) && */ (passObject.barcodeType == BarcodeType.code128) || (passObject.barcodeType == BarcodeType.pdf417) || (passObject.barcodeType == BarcodeType.qr) || (passObject.barcodeType == BarcodeType.none) {
+    if (passObject.barcodeType == BarcodeType.code128) || (passObject.barcodeType == BarcodeType.pdf417) || (passObject.barcodeType == BarcodeType.qr) || (passObject.barcodeType == BarcodeType.none) {
         return true
     } else {
         return false
