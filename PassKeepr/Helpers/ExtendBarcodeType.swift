@@ -8,7 +8,13 @@ extension BarcodeType {
         case BarcodeType.code128:
             return "Code 128 barcodes may contain any standard ASCII character"
         case BarcodeType.code93:
-            return "Code 93 barcodes may contain 0-9, A-Z, - . $ / + %"
+            return "Code 93 barcodes may contain 0-9, A-Z, spaces, and the following special characters: - . $ / + %"
+            case BarcodeType.code39:
+                return "Code 93 barcodes may contain 0-9, A-Z, spaces, and the following special characters: - . $ / + %"
+            case BarcodeType.upce:
+                return "UPC-E barcodes must contain exactly 6 digits"
+            case BarcodeType.pdf417:
+                return "PDF-417 barcodes may contain any standard ASCII character"
         default:
             return "default text"
         }
