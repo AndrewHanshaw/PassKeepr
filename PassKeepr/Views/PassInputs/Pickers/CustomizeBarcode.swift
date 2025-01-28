@@ -60,7 +60,7 @@ struct CustomizeBarcode: View {
                 }
             } header: {
                 Group {
-                    if tempBarcodeType.isEnteredBarcodeValueValid(string: tempBarcodeData) == true {
+                    if tempBarcodeType.isEnteredBarcodeValueValid(string: tempBarcodeData) {
                         switch tempBarcodeType {
                         case BarcodeType.none:
                             EmptyView()

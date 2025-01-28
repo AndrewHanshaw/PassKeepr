@@ -28,7 +28,7 @@ extension BarcodeType {
             let regex = /^\d{6}$/
             return string.firstMatch(of: regex) != nil
         case BarcodeType.pdf417:
-            let regex = /^.+$/
+            let regex = /^[ -~]+$/
             return string.firstMatch(of: regex) != nil
         case BarcodeType.qr:
             let regex = /^.+$/
