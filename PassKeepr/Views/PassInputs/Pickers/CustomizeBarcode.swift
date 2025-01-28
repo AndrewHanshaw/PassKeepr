@@ -209,11 +209,6 @@ struct CustomizeBarcode: View {
                             }
                         )
                         .buttonStyle(PlainButtonStyle())
-                        .alert(isPresented: $showAlert) {
-                            Alert(title: Text(String(describing: tempBarcodeType)),
-                                  message: Text(tempBarcodeType.info()),
-                                  dismissButton: .default(Text("OK")))
-                        }
                     }
                 )
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -281,6 +276,11 @@ struct CustomizeBarcode: View {
                     }
             }
             .listRowBackground(Color.accentColor)
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(String(describing: tempBarcodeType)),
+                  message: Text(tempBarcodeType.info()),
+                  dismissButton: .default(Text("OK")))
         }
         .keyboardAware()
     }
