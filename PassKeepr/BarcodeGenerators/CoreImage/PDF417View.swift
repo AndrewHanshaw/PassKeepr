@@ -22,7 +22,7 @@ struct PDF417View: View {
 func GeneratePDF417Barcode(string: String, viewWidth: CGFloat, viewHeight: CGFloat) -> UIImage? {
     let filter = CIFilter.pdf417BarcodeGenerator()
 
-    filter.message = string.data(using: String.Encoding.ascii)!
+    filter.message = string.data(using: String.Encoding.ascii) ?? "invalid data".data(using: String.Encoding.ascii)!
 
     guard let outputImage = filter.outputImage else { return nil }
 
