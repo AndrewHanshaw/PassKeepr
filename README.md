@@ -22,3 +22,8 @@ See [CHANGELOG.md](./CHANGELOG.md) for supported features and associated version
 * Support notes/back field text
 * Support importing and editing existing signed `.pkpass`es (i.e. from other apps or shared from friends)
 * Improve drag and drop reordering performance/fluidity
+* Implement testing of behavior and UI
+
+## Contact me / Support
+
+Want to contact me with general questions about the app, feature requests, and bug reports? [Open a new issue](https://github.com/AndrewHanshaw/PassKeepr/issues/new?template=Blank+issue) on GitHub, or feel free to [send me an email](mailto:passkeepr@andrewhanshaw.com)
