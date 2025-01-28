@@ -1,3 +1,4 @@
+import PassKit
 import SwiftUI
 
 struct EditPass: View {
@@ -26,6 +27,7 @@ struct EditPass: View {
     @FocusState private var isTextFieldFocused: Bool
 
     @State private var showHelpPopover = false
+    @State private var isWalletSupported = false
 
     // On init, set the temp object owned by this view equal to the
     // one passed in via @Binding
@@ -78,7 +80,7 @@ struct EditPass: View {
                                     .offset(x: textSize.width / 2 + 20)
                                 HStack {
                                     Spacer()
-                                    Text("Save and Add to Wallet")
+                                    Text(isWalletSupported ? "Save and Add to Wallet" : "Save and Share")
                                         .fontWeight(.bold)
                                         .foregroundColor(Color.white)
                                         .readSize(into: $textSize)
@@ -146,21 +148,33 @@ struct EditPass: View {
             .listSectionSpacing(20)
         }
         .sheet(isPresented: $shouldShowSheet) {
-            AddToWalletView(pass: getPkPass(fileURL: passSigner.fileURL!)) { wasAdded in
-                if wasAdded {
-                    print("Pass was successfully added to wallet")
-                    presentationMode.wrappedValue.dismiss()
-                } else {
-                    print("Pass was not added to wallet")
-                }
+            if isWalletSupported {
+                AddToWalletView(pass: getPkPass(fileURL: passSigner.fileURL!)) { wasAdded in
+                    if wasAdded {
+                        print("Pass was successfully added to wallet")
+                        presentationMode.wrappedValue.dismiss()
+                    } else {
+                        print("Pass was not added to wallet")
+                    }
 
-                hasEditPassButtonBeenPressed = false // Disable loading circle
+                    hasEditPassButtonBeenPressed = false // Disable loading circle
+                }
+            } else {
+                let fileManager = FileManager.default
+                let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let destinationURL = documentsDirectory.appendingPathComponent("\(tempObject.id).pkpass")
+
+                ActivityView(activityItems: [destinationURL]) {
+                    presentationMode.wrappedValue.dismiss()
+                    hasEditPassButtonBeenPressed = false // Disable loading circle
+                }
             }
         }
         .scrollDismissesKeyboard(.immediately)
         .onAppear {
             showHelpPopover = modelData.tutorialStage == 1
             passSigner.isDataLoaded = false
+            isWalletSupported = PKAddPassesViewController.canAddPasses()
         }
         .onChange(of: passSigner.isDataLoaded) {
             if passSigner.isDataLoaded {
@@ -168,6 +182,24 @@ struct EditPass: View {
                 hasEditPassButtonBeenPressed = false
                 print(passSigner.isDataLoaded)
             }
+        }
+    }
+
+    struct ActivityView: UIViewControllerRepresentable {
+        let activityItems: [Any]
+        let applicationActivities: [UIActivity]? = nil
+        var completion: (() -> Void)? // Completion handler to notify dismissal
+
+        func makeUIViewController(context _: Context) -> UIActivityViewController {
+            let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
+            controller.completionWithItemsHandler = { _, _, _, _ in
+                completion?() // Call the completion handler when the share sheet is dismissed
+            }
+            return controller
+        }
+
+        func updateUIViewController(_: UIActivityViewController, context _: Context) {
+            // No updates needed
         }
     }
 }
