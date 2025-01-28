@@ -73,8 +73,8 @@ struct EditPass: View {
                             ZStack {
                                 ProgressView()
                                     .tint(.white)
-                                    .opacity(hasEditPassButtonBeenPressed && !passSigner.isDataLoaded ? 1 : 0) // Fade-in effect
-                                    .animation(.easeInOut(duration: 0.2), value: hasEditPassButtonBeenPressed && !passSigner.isDataLoaded)
+                                    .opacity(hasEditPassButtonBeenPressed ? 1 : 0) // Fade-in effect
+                                    .animation(.easeInOut(duration: 0.2), value: hasEditPassButtonBeenPressed)
                                     .offset(x: textSize.width / 2 + 20)
                                 HStack {
                                     Spacer()
@@ -163,7 +163,11 @@ struct EditPass: View {
             passSigner.isDataLoaded = false
         }
         .onChange(of: passSigner.isDataLoaded) {
-            shouldShowSheet = passSigner.isDataLoaded
+            if passSigner.isDataLoaded {
+                shouldShowSheet = true
+                hasEditPassButtonBeenPressed = false
+                print(passSigner.isDataLoaded)
+            }
         }
     }
 }
