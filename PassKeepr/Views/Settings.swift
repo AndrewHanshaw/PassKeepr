@@ -71,6 +71,7 @@ struct Settings: View {
             }) {
                 Text("About")
                     .font(.system(size: 16, weight: .bold, design: .rounded))
+                    .foregroundColor(Color.white)
                     .padding(8)
                     .frame(width: width.width)
                     .background {
