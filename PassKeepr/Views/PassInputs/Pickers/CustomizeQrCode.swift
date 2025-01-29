@@ -15,7 +15,7 @@ struct CustomizeQrCode: View {
     @State private var tempQrCodeEncoding: QrCodeEncoding = .ascii
 
     @State private var scannedCode = ""
-    @State private var scannedSymbology: VNBarcodeSymbology?
+    @State private var scannedBarcodeType: BarcodeType?
     @State private var isScannerPresented = false
     @State private var useScannedData = false
     @State private var showAlert: Bool = false
@@ -70,7 +70,7 @@ struct CustomizeQrCode: View {
                     }
                 )
                 .sheet(isPresented: $isScannerPresented) {
-                    ScannerView(scannedData: $scannedCode, scannedSymbology: $scannedSymbology, showScanner: $isScannerPresented)
+                    ScannerView(scannedData: $scannedCode, scannedBarcodeType: $scannedBarcodeType, showScanner: $isScannerPresented)
                         .edgesIgnoringSafeArea(.bottom)
                         .presentationDragIndicator(.visible)
                 }
@@ -115,11 +115,14 @@ struct CustomizeQrCode: View {
                 Task {
                     if let imageToScanForQrCodes {
                         if let imageBarcode = GetBarcodeFromImage(image: imageToScanForQrCodes) {
-                            if BarcodeType.qr != (imageBarcode.symbology.toBarcodeType() ?? BarcodeType.none) {
+                            // only allow scanning of qr codes
+                            if BarcodeType.qr != imageBarcode.barcodeType {
                                 showInvalidQrCodeAlert.toggle()
                             } else {
                                 tempQrCodeData = imageBarcode.payload
                             }
+                        } else {
+                            showInvalidQrCodeAlert.toggle()
                         }
                     }
                 }
@@ -152,7 +155,7 @@ struct CustomizeQrCode: View {
                     }
                 }
                 .onChange(of: tempQrCodeCorrectionLevel) {
-                    scannedSymbology = nil
+                    scannedBarcodeType = nil
                 }
 
                 Picker("Encoding", selection: $tempQrCodeEncoding) {
@@ -161,12 +164,13 @@ struct CustomizeQrCode: View {
                     }
                 }
                 .onChange(of: tempQrCodeEncoding) {
-                    scannedSymbology = nil
+                    scannedBarcodeType = nil
                 }
-            } footer: {
-                if scannedSymbology != nil && scannedSymbology != VNBarcodeSymbology.qr {
-                    Text("Scanned code is not a valid QR Code")
-                }
+            }
+            .alert(isPresented: $showInvalidQrCodeAlert) {
+                Alert(title: Text("No valid QR code Detected"),
+                      message: Text("Please select an image containing a valid QR code"),
+                      dismissButton: .default(Text("OK")))
             }
 
             Section {

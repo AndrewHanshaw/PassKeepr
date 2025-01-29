@@ -5,7 +5,7 @@ import VisionKit
 struct CodeScanner: UIViewControllerRepresentable {
     @Binding var shouldStartScanning: Bool
     @Binding var scannedText: String
-    @Binding var scannedSymbology: VNBarcodeSymbology?
+    @Binding var scannedBarcodeType: BarcodeType?
 
     var dataToScanFor: Set<DataScannerViewController.RecognizedDataType>
 
@@ -20,9 +20,19 @@ struct CodeScanner: UIViewControllerRepresentable {
             switch item {
             case let .text(text):
                 parent.scannedText = text.transcript
+
             case let .barcode(barcode):
-                parent.scannedText = barcode.payloadStringValue ?? "Unable to decode the scanned code"
-                parent.scannedSymbology = barcode.observation.symbology
+                if let payload = barcode.payloadStringValue {
+                    // Detect a UPC-A barcode, which scans in with EAN13 symbology with a leading 0
+                    if barcode.observation.symbology == VNBarcodeSymbology.ean13 && payload.count == 13 && payload.first == "0" {
+                        parent.scannedText = String(payload.suffix(12))
+                        parent.scannedBarcodeType = BarcodeType.upca
+                    } else {
+                        parent.scannedText = payload
+                        parent.scannedBarcodeType = barcode.observation.symbology.toBarcodeType()
+                    }
+                }
+
             default:
                 print("unexpected item")
             }

@@ -15,11 +15,11 @@ struct CustomizeBarcode: View {
     @State private var tempStripImage: Data
 
     @State private var scannedCode: String = ""
-    @State private var scannedSymbology: VNBarcodeSymbology?
+    @State private var scannedBarcodeType: BarcodeType?
     @State private var isScannerPresented = false
     @State private var useScannedData = false
     @State private var showAlert: Bool = false
-    @State private var showInvalidBarodeAlert: Bool = false
+    @State private var showInvalidBarcodeAlert: Bool = false
 
     @Environment(\.displayScale) var displayScale
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -54,7 +54,7 @@ struct CustomizeBarcode: View {
                     }
                 )
                 .sheet(isPresented: $isScannerPresented) {
-                    ScannerView(scannedData: $scannedCode, scannedSymbology: $scannedSymbology, showScanner: $isScannerPresented)
+                    ScannerView(scannedData: $scannedCode, scannedBarcodeType: $scannedBarcodeType, showScanner: $isScannerPresented)
                         .edgesIgnoringSafeArea(.bottom)
                         .presentationDragIndicator(.visible)
                 }
@@ -119,8 +119,8 @@ struct CustomizeBarcode: View {
                 tempBarcodeData = scannedCode
 
                 // Do not support converting a barcode pass to a qr code pass
-                if scannedSymbology?.toBarcodeType() != BarcodeType.qr {
-                    tempBarcodeType = scannedSymbology?.toBarcodeType() ?? BarcodeType.code128
+                if scannedBarcodeType != BarcodeType.qr {
+                    tempBarcodeType = scannedBarcodeType ?? BarcodeType.code128
                 }
 
                 scannedCode = "" // allows for repeated scanning of the same code
@@ -171,15 +171,15 @@ struct CustomizeBarcode: View {
                 Task {
                     if let imageToScanForBarcodes {
                         if let imageBarcode = GetBarcodeFromImage(image: imageToScanForBarcodes) {
-                            if let imageBarcodeType = imageBarcode.symbology.toBarcodeType() {
-                                switch imageBarcodeType {
-                                case BarcodeType.code128, BarcodeType.code93, BarcodeType.code39, BarcodeType.upce, BarcodeType.pdf417:
-                                    tempBarcodeData = imageBarcode.payload
-                                    tempBarcodeType = imageBarcode.symbology.toBarcodeType()!
-                                default:
-                                    showInvalidBarodeAlert.toggle()
-                                }
+                            switch imageBarcode.barcodeType {
+                            case BarcodeType.code128, BarcodeType.code93, BarcodeType.code39, BarcodeType.upce, BarcodeType.pdf417, BarcodeType.ean13, BarcodeType.upca:
+                                tempBarcodeData = imageBarcode.payload
+                                tempBarcodeType = imageBarcode.barcodeType
+                            default:
+                                showInvalidBarcodeAlert.toggle()
                             }
+                        } else {
+                            showInvalidBarcodeAlert.toggle()
                         }
                     }
                 }
@@ -234,16 +234,10 @@ struct CustomizeBarcode: View {
                         Text("Data")
                     }
                 }
-            } footer: {
-                if let barcodeSupported = IsScannedBarcodeSupported(symbology: scannedSymbology) {
-                    if !barcodeSupported {
-                        Text("Scanned code is not a valid barcode")
-                    }
-                }
             }
-            .alert(isPresented: $showInvalidBarodeAlert) {
-                Alert(title: Text("No QR Code Detected"),
-                      message: Text("Please select an image containing a valid QR Code"),
+            .alert(isPresented: $showInvalidBarcodeAlert) {
+                Alert(title: Text("No valid barcode Detected"),
+                      message: Text("Please select an image containing a valid barcode"),
                       dismissButton: .default(Text("OK")))
             }
 
@@ -318,21 +312,15 @@ struct CustomizeBarcode: View {
                 UPCEView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: imageWidth, height: imageHeight)
             ).uiImage?.pngData() ?? Data()
 
+        case BarcodeType.upca:
+            tempStripImage = ImageRenderer(content:
+                UPCAView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: imageWidth, height: imageHeight)
+            ).uiImage?.pngData() ?? Data()
+
         default:
             break
         }
     }
-}
-
-func IsScannedBarcodeSupported(symbology: VNBarcodeSymbology?) -> Bool? {
-    if symbology == nil {
-        return nil
-    }
-    if (symbology != VNBarcodeSymbology.code128) || (symbology != VNBarcodeSymbology.code93) || (symbology != VNBarcodeSymbology.code39) || (symbology != VNBarcodeSymbology.upce) || (symbology != VNBarcodeSymbology.pdf417) {
-        return true
-    }
-
-    return false
 }
 
 #Preview {
