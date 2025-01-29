@@ -4,11 +4,11 @@ import VisionKit
 
 struct ScannerView: View {
     @Binding var scannedData: String
-    @Binding var scannedSymbology: VNBarcodeSymbology?
+    @Binding var scannedBarcodeType: BarcodeType?
     @Binding var showScanner: Bool
 
     @State private var tempScanData = ""
-    @State private var tempScanSymbology: VNBarcodeSymbology?
+    @State private var tempScanBarcodeType: BarcodeType?
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -36,11 +36,14 @@ struct ScannerView: View {
             }
             VStack {
                 var displayedString: String {
-                    if tempScanData.isEmpty || (tempScanSymbology?.rawValue.isEmpty ?? true) {
+                    if tempScanData.isEmpty || (tempScanBarcodeType == nil) {
                         return "Tap a highlighted barcode to select it"
                     } else {
-                        let symbologyDescription = tempScanSymbology?.toBarcodeType()?.description ?? "-"
-                        return "Scanned Data: \(tempScanData)\nType: \(symbologyDescription)"
+                        if let symbologyDescription = tempScanBarcodeType?.description {
+                            return "Scanned Data: \(tempScanData)\nType: \(symbologyDescription)"
+                        } else {
+                            return "-"
+                        }
                     }
                 }
 
@@ -55,7 +58,7 @@ struct ScannerView: View {
                     Spacer()
                     Button("Insert") {
                         scannedData = tempScanData
-                        scannedSymbology = tempScanSymbology
+                        scannedBarcodeType = tempScanBarcodeType
                         showScanner.toggle()
                     }
                     .padding()
@@ -65,15 +68,10 @@ struct ScannerView: View {
                 }
             }
             .padding(.bottom, 40)
-//            .opacity(0.8)
-        }
-        .onChange(of: tempScanData) {
-            print(tempScanData)
-            print(tempScanSymbology?.toBarcodeType()?.description)
         }
     }
 }
 
 #Preview {
-    ScannerView(scannedData: .constant("asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"), scannedSymbology: .constant(VNBarcodeSymbology.aztec), showScanner: .constant(true))
+    ScannerView(scannedData: .constant("asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"), scannedBarcodeType: .constant(BarcodeType.code39), showScanner: .constant(true))
 }
