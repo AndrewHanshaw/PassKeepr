@@ -15,6 +15,8 @@ extension BarcodeType {
             return "UPC-E barcodes must contain exactly 6 digits"
         case BarcodeType.pdf417:
             return "PDF-417 barcodes may contain any standard ASCII character"
+        case BarcodeType.ean13:
+            return "EAN-13 barcodes must contain exactly 13 digits"
         case BarcodeType.qr, BarcodeType.none:
             return "default text"
         }
@@ -32,6 +34,9 @@ extension BarcodeType {
             return string.firstMatch(of: regex) != nil
         case BarcodeType.upce:
             let regex = /^\d{6}$/
+            return string.firstMatch(of: regex) != nil
+        case BarcodeType.ean13:
+            let regex = /^\d{13}$/
             return string.firstMatch(of: regex) != nil
         case BarcodeType.pdf417:
             let regex = /^[ -~]+$/
@@ -67,6 +72,7 @@ extension BarcodeType {
         case .code93: return BarcodeCategory.oneDimensional
         case .code39: return BarcodeCategory.oneDimensional
         case .upce: return BarcodeCategory.oneDimensional
+        case .ean13: return BarcodeCategory.oneDimensional
         case .pdf417: return BarcodeCategory.oneDimensional
         case .qr: return BarcodeCategory.twoDimensional
         }

@@ -28,6 +28,7 @@
 		BA2ECC512D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC502D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift */; };
 		BA2ECC532D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */; };
 		BA409E422CF427160079193E /* EditablePassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA409E412CF427160079193E /* EditablePassCard.swift */; };
+		BA428B842D49CF870024B8B1 /* EAN13View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA428B832D49CF870024B8B1 /* EAN13View.swift */; };
 		BA4918FF2CF5727500202180 /* EditablePassTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4918FE2CF5727500202180 /* EditablePassTextField.swift */; };
 		BA598E8E2D3609C900B06BAA /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA598E8D2D3609C900B06BAA /* About.swift */; };
 		BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D4FE02B71C60400CB6ACA /* Code39View.swift */; };
@@ -121,6 +122,7 @@
 		BA2ECC502D0F4F15001AD177 /* PrimaryTextFieldStoreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTextFieldStoreCard.swift; sourceTree = "<group>"; };
 		BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTextFieldGeneric.swift; sourceTree = "<group>"; };
 		BA409E412CF427160079193E /* EditablePassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCard.swift; sourceTree = "<group>"; };
+		BA428B832D49CF870024B8B1 /* EAN13View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EAN13View.swift; sourceTree = "<group>"; };
 		BA4918FE2CF5727500202180 /* EditablePassTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassTextField.swift; sourceTree = "<group>"; };
 		BA598E8D2D3609C900B06BAA /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		BA6D4FE02B71C60400CB6ACA /* Code39View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code39View.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 			children = (
 				BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */,
 				BA879C232B7064AB008A685E /* UPCEView.swift */,
+				BA428B832D49CF870024B8B1 /* EAN13View.swift */,
 				BA6D4FE02B71C60400CB6ACA /* Code39View.swift */,
 				BA25D8962B76E8300044E423 /* Code93View.swift */,
 			);
@@ -586,6 +589,7 @@
 				3A02E73A2AF6EE1000383BC2 /* PassKeeprApp.swift in Sources */,
 				BA409E422CF427160079193E /* EditablePassCard.swift in Sources */,
 				BAA53E182D0E3AF5004A175A /* CustomizePassTextField.swift in Sources */,
+				BA428B842D49CF870024B8B1 /* EAN13View.swift in Sources */,
 				BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */,
 				BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */,
 				BA2ECC532D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift in Sources */,
