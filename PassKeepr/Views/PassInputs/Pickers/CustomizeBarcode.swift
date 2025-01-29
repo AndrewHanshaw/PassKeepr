@@ -287,6 +287,7 @@ struct CustomizeBarcode: View {
                   dismissButton: .default(Text("OK")))
         }
         .keyboardAware()
+        .scrollDismissesKeyboard(.immediately)
     }
 
     @MainActor func render() {
