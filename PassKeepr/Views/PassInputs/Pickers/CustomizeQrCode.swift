@@ -199,6 +199,7 @@ struct CustomizeQrCode: View {
             .listRowBackground(Color.accentColor)
         }
         .keyboardAware()
+        .scrollDismissesKeyboard(.immediately)
     }
 }
 
