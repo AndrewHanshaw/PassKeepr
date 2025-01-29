@@ -79,6 +79,11 @@ struct CustomizeBarcode: View {
                                 .aspectRatio(1125.0 / 432.0, contentMode: .fit)
                                 .frame(maxWidth: .infinity)
 
+                        case BarcodeType.upca:
+                            UPCAView(value: $tempBarcodeData, border: tempBarcodeBorder)
+                                .aspectRatio(1125.0 / 432.0, contentMode: .fit)
+                                .frame(maxWidth: .infinity)
+
                         case BarcodeType.ean13:
                             EAN13View(value: $tempBarcodeData, border: tempBarcodeBorder)
                                 .aspectRatio(1125.0 / 432.0, contentMode: .fit)

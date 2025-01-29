@@ -11,6 +11,7 @@ extension VNBarcodeSymbology {
             return BarcodeType.code93
         case VNBarcodeSymbology.upce:
             return BarcodeType.upce
+        // there is no VNBarcodeSymbology.upca. It is lumped in with ean13, and scanned barcodes are given a leading 0
         case VNBarcodeSymbology.ean13:
             return BarcodeType.ean13
         case VNBarcodeSymbology.qr:

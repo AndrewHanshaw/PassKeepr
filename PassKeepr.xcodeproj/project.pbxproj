@@ -30,6 +30,7 @@
 		BA409E422CF427160079193E /* EditablePassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA409E412CF427160079193E /* EditablePassCard.swift */; };
 		BA428B842D49CF870024B8B1 /* EAN13View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA428B832D49CF870024B8B1 /* EAN13View.swift */; };
 		BA4918FF2CF5727500202180 /* EditablePassTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4918FE2CF5727500202180 /* EditablePassTextField.swift */; };
+		BA55E5CE2D496094001D8A03 /* UPCAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA55E5CD2D496094001D8A03 /* UPCAView.swift */; };
 		BA598E8E2D3609C900B06BAA /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA598E8D2D3609C900B06BAA /* About.swift */; };
 		BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D4FE02B71C60400CB6ACA /* Code39View.swift */; };
 		BA6D6C682CE83628007D4C9A /* CustomizeLogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */; };
@@ -124,6 +125,7 @@
 		BA409E412CF427160079193E /* EditablePassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCard.swift; sourceTree = "<group>"; };
 		BA428B832D49CF870024B8B1 /* EAN13View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EAN13View.swift; sourceTree = "<group>"; };
 		BA4918FE2CF5727500202180 /* EditablePassTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassTextField.swift; sourceTree = "<group>"; };
+		BA55E5CD2D496094001D8A03 /* UPCAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UPCAView.swift; sourceTree = "<group>"; };
 		BA598E8D2D3609C900B06BAA /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		BA6D4FE02B71C60400CB6ACA /* Code39View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code39View.swift; sourceTree = "<group>"; };
 		BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeLogoImage.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 			children = (
 				BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */,
 				BA879C232B7064AB008A685E /* UPCEView.swift */,
+				BA55E5CD2D496094001D8A03 /* UPCAView.swift */,
 				BA428B832D49CF870024B8B1 /* EAN13View.swift */,
 				BA6D4FE02B71C60400CB6ACA /* Code39View.swift */,
 				BA25D8962B76E8300044E423 /* Code93View.swift */,
@@ -603,6 +606,7 @@
 				BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */,
 				BA1515B92CE2BC6900DB1799 /* MeasureViewSize.swift in Sources */,
 				BAD0D7102D15130C0058054E /* SecondaryTextField.swift in Sources */,
+				BA55E5CE2D496094001D8A03 /* UPCAView.swift in Sources */,
 				BA4918FF2CF5727500202180 /* EditablePassTextField.swift in Sources */,
 				BA95576D2CD69ADE0010721A /* AddToWalletView.swift in Sources */,
 				BA879C242B7064AB008A685E /* UPCEView.swift in Sources */,
