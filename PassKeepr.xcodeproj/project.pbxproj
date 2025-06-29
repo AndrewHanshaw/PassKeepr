@@ -60,6 +60,7 @@
 		BABAADD22B0A69950014C73B /* PassObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD02B0A69950014C73B /* PassObject.swift */; };
 		BABAADD32B0A69950014C73B /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD12B0A69950014C73B /* ModelData.swift */; };
 		BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD92B0A6C110014C73B /* AddPass.swift */; };
+		BAC150E82E0DD52400249287 /* passkeepr.icon in Resources */ = {isa = PBXBuildFile; fileRef = BAC150E72E0DD52300249287 /* passkeepr.icon */; };
 		BACDA8AB2D166477009C249C /* CustomStripImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AA2D166477009C249C /* CustomStripImage.swift */; };
 		BACDA8AD2D167646009C249C /* StripImageSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AC2D167646009C249C /* StripImageSelection.swift */; };
 		BACDA8AF2D167704009C249C /* CustomizeStripImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AE2D167704009C249C /* CustomizeStripImage.swift */; };
@@ -154,6 +155,7 @@
 		BABAADD02B0A69950014C73B /* PassObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassObject.swift; sourceTree = "<group>"; };
 		BABAADD12B0A69950014C73B /* ModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		BABAADD92B0A6C110014C73B /* AddPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPass.swift; sourceTree = "<group>"; };
+		BAC150E72E0DD52300249287 /* passkeepr.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = passkeepr.icon; sourceTree = "<group>"; };
 		BACDA8AA2D166477009C249C /* CustomStripImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStripImage.swift; sourceTree = "<group>"; };
 		BACDA8AC2D167646009C249C /* StripImageSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripImageSelection.swift; sourceTree = "<group>"; };
 		BACDA8AE2D167704009C249C /* CustomizeStripImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeStripImage.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 		BABAADD42B0A6BAA0014C73B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BAC150E72E0DD52300249287 /* passkeepr.icon */,
 				BA6DACF82D3961D800C2FD90 /* DefaultPassIcon.png */,
 			);
 			path = Resources;
@@ -542,6 +545,7 @@
 				3A02E7412AF6EE1A00383BC2 /* Preview Assets.xcassets in Resources */,
 				BA6DACF92D3961D800C2FD90 /* DefaultPassIcon.png in Resources */,
 				3A02E73E2AF6EE1A00383BC2 /* Assets.xcassets in Resources */,
+				BAC150E82E0DD52400249287 /* passkeepr.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -787,7 +791,7 @@
 		3A02E75B2AF6EE1B00383BC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = passkeepr;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -826,7 +830,7 @@
 		3A02E75C2AF6EE1B00383BC2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = passkeepr;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
