@@ -105,6 +105,7 @@ struct ContentView: View {
                 }
             } // ZStack
         } // NavigationView
+        .environmentObject(dragProperties)
     }
 }
 
@@ -119,6 +120,10 @@ struct PassCardContainer: View {
 
     var body: some View {
         PassCard(passObject: passObject)
+            .opacity(properties.draggedItem?.id == passObject.id ? 0.6 : 1.0)
+            .scaleEffect(properties.currentHoverTarget?.id == passObject.id ? 1.02 : 1.0)
+            .animation(.easeInOut(duration: 0.15), value: properties.currentHoverTarget?.id)
+            .animation(.easeInOut(duration: 0.2), value: properties.draggedItem?.id)
             .onTapGesture {
                 shouldPresentEditPass.toggle()
             }
@@ -128,61 +133,80 @@ struct PassCardContainer: View {
             }
             .onDrag {
                 print("onDrag started for: \(passObject.id.uuidString)")
+                properties.draggedItem = passObject
                 return NSItemProvider(object: NSString(string: passObject.id.uuidString))
             }
             .onDrop(of: [.text], delegate: PassDropDelegate(
                 destinationItem: passObject,
-                modelData: modelData
+                modelData: modelData,
+                dragProperties: properties
             ))
     }
 }
 
-// Drop delegate to handle the reordering logic
 struct PassDropDelegate: DropDelegate {
     let destinationItem: PassObject
     let modelData: ModelData
+    let dragProperties: DragProperties
     
     func dropUpdated(info: DropInfo) -> DropProposal? {
         return DropProposal(operation: .move)
     }
     
     func performDrop(info: DropInfo) -> Bool {
-        guard let itemProvider = info.itemProviders(for: [.text]).first else {
-            return false
-        }
-        
-        itemProvider.loadItem(forTypeIdentifier: "public.text", options: nil) { (item, error) in
-            guard let data = item as? Data,
-                  let draggedIdString = String(data: data, encoding: .utf8),
-                  let draggedId = UUID(uuidString: draggedIdString) else {
-                return
-            }
+        // Clean up drag state and save the final order
+        defer {
+            dragProperties.draggedItem = nil
+            dragProperties.currentHoverTarget = nil
             
-            DispatchQueue.main.async {
-                // Find indices of the dragged and destination items
-                guard let fromIndex = modelData.passObjects.firstIndex(where: { $0.id == draggedId }),
-                      let toIndex = modelData.passObjects.firstIndex(where: { $0.id == destinationItem.id }) else {
-                    return
-                }
-                
-                // Perform the move
-                let draggedItem = modelData.passObjects.remove(at: fromIndex)
-                modelData.passObjects.insert(draggedItem, at: toIndex)
-                
-                // Save the changes
+            // Save the final reordered state
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 modelData.encodePassObjects()
             }
         }
         
+        // The array is already in the correct order from the live reordering
+        // so we just need to confirm the drop was successful
         return true
     }
     
     func dropEntered(info: DropInfo) {
-        // Optional: Add visual feedback when drag enters this drop zone
+        guard let draggedItem = dragProperties.draggedItem,
+              draggedItem.id != destinationItem.id else {
+            return
+        }
+        
+        // Update hover target for visual feedback
+        dragProperties.currentHoverTarget = destinationItem
+        
+        // Perform real-time reordering of the actual array
+        reorderPassObjects(draggedItem: draggedItem, destinationItem: destinationItem)
     }
     
     func dropExited(info: DropInfo) {
-        // Optional: Remove visual feedback when drag exits this drop zone
+        // Clear hover target when exiting
+        if dragProperties.currentHoverTarget?.id == destinationItem.id {
+            dragProperties.currentHoverTarget = nil
+        }
+    }
+    
+    private func reorderPassObjects(draggedItem: PassObject, destinationItem: PassObject) {
+        guard let fromIndex = modelData.passObjects.firstIndex(where: { $0.id == draggedItem.id }),
+              let toIndex = modelData.passObjects.firstIndex(where: { $0.id == destinationItem.id }),
+              fromIndex != toIndex else {
+            return
+        }
+        
+        print("Reordering: moving item from index \(fromIndex) to \(toIndex)")
+        
+        // Animate the reordering
+        withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
+            // Remove the dragged item from its current position
+            let item = modelData.passObjects.remove(at: fromIndex)
+            
+            // Insert it at the new position
+            modelData.passObjects.insert(item, at: toIndex)
+        }
     }
 }
 

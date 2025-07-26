@@ -1,12 +1,16 @@
 import SwiftUI
 
 // Create a custom drag-and-drop effect instead of using the native drag-and-drop feature because it lacks customization options for its preview.Additionally, the observable object contains all of its associated data
+
 class DragProperties: ObservableObject {
     // Drag Preview Properties
     @Published var show: Bool = false
     @Published var previewImage: UIImage?
     @Published var initialViewLocation: CGPoint = .zero
     @Published var updatedViewLocation: CGPoint = .zero
+    
+    @Published var draggedItem: PassObject?
+    @Published var currentHoverTarget: PassObject?
 
     // Gesture Properties
     @Published var offset: CGSize = .zero
