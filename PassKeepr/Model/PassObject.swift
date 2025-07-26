@@ -1,6 +1,7 @@
 import Foundation
+import SwiftUI
 
-struct PassObject: Codable, Identifiable, Equatable, Hashable {
+struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var id: UUID
     var passIcon: Data
     var barcodeString: String
@@ -35,6 +36,10 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable {
     var secondaryFieldThreeText: String
     var isCustomStripImageOn: Bool
     var frame: CGRect
+
+    static var transferRepresentation: some TransferRepresentation {
+        CodableRepresentation(contentType: .data)
+    }
 }
 
 extension PassObject {
