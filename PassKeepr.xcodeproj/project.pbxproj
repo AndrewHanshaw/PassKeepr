@@ -59,6 +59,7 @@
 		BABAADD32B0A69950014C73B /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD12B0A69950014C73B /* ModelData.swift */; };
 		BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD92B0A6C110014C73B /* AddPass.swift */; };
 		BAC150E82E0DD52400249287 /* passkeepr.icon in Resources */ = {isa = PBXBuildFile; fileRef = BAC150E72E0DD52300249287 /* passkeepr.icon */; };
+		BAC63CB62E331C91002EB978 /* DragProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC63CB52E331C8D002EB978 /* DragProperties.swift */; };
 		BACDA8AB2D166477009C249C /* CustomStripImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AA2D166477009C249C /* CustomStripImage.swift */; };
 		BACDA8AD2D167646009C249C /* StripImageSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AC2D167646009C249C /* StripImageSelection.swift */; };
 		BACDA8AF2D167704009C249C /* CustomizeStripImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AE2D167704009C249C /* CustomizeStripImage.swift */; };
@@ -152,6 +153,7 @@
 		BABAADD12B0A69950014C73B /* ModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		BABAADD92B0A6C110014C73B /* AddPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPass.swift; sourceTree = "<group>"; };
 		BAC150E72E0DD52300249287 /* passkeepr.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = passkeepr.icon; sourceTree = "<group>"; };
+		BAC63CB52E331C8D002EB978 /* DragProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragProperties.swift; sourceTree = "<group>"; };
 		BACDA8AA2D166477009C249C /* CustomStripImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStripImage.swift; sourceTree = "<group>"; };
 		BACDA8AC2D167646009C249C /* StripImageSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripImageSelection.swift; sourceTree = "<group>"; };
 		BACDA8AE2D167704009C249C /* CustomizeStripImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeStripImage.swift; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 		BABAADCF2B0A69950014C73B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BAC63CB52E331C8D002EB978 /* DragProperties.swift */,
 				BABAADD02B0A69950014C73B /* PassObject.swift */,
 				BABAADD12B0A69950014C73B /* ModelData.swift */,
 				BADD64672CA5021D00E8F0A0 /* MockModelData.swift */,
@@ -604,6 +607,7 @@
 				BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */,
 				BACDA8AF2D167704009C249C /* CustomizeStripImage.swift in Sources */,
 				BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */,
+				BAC63CB62E331C91002EB978 /* DragProperties.swift in Sources */,
 				BAE7B3402D066AD600DD0251 /* StripImageBarcode.swift in Sources */,
 				BAF0FB752D28D5E200948089 /* HeaderTextField.swift in Sources */,
 				BAD0D7122D1528350058054E /* SecondaryFieldSelection.swift in Sources */,
