@@ -112,6 +112,7 @@ struct PassCardContainer: View {
     @Binding var passObject: PassObject
     
     @EnvironmentObject private var properties: DragProperties
+    @EnvironmentObject var modelData: ModelData
     @GestureState var isActive: Bool
 
     @State var shouldPresentEditPass = false
@@ -126,9 +127,62 @@ struct PassCardContainer: View {
                     .presentationDragIndicator(.visible)
             }
             .onDrag {
-                print("onDrag started")
+                print("onDrag started for: \(passObject.id.uuidString)")
                 return NSItemProvider(object: NSString(string: passObject.id.uuidString))
             }
+            .onDrop(of: [.text], delegate: PassDropDelegate(
+                destinationItem: passObject,
+                modelData: modelData
+            ))
+    }
+}
+
+// Drop delegate to handle the reordering logic
+struct PassDropDelegate: DropDelegate {
+    let destinationItem: PassObject
+    let modelData: ModelData
+    
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        return DropProposal(operation: .move)
+    }
+    
+    func performDrop(info: DropInfo) -> Bool {
+        guard let itemProvider = info.itemProviders(for: [.text]).first else {
+            return false
+        }
+        
+        itemProvider.loadItem(forTypeIdentifier: "public.text", options: nil) { (item, error) in
+            guard let data = item as? Data,
+                  let draggedIdString = String(data: data, encoding: .utf8),
+                  let draggedId = UUID(uuidString: draggedIdString) else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                // Find indices of the dragged and destination items
+                guard let fromIndex = modelData.passObjects.firstIndex(where: { $0.id == draggedId }),
+                      let toIndex = modelData.passObjects.firstIndex(where: { $0.id == destinationItem.id }) else {
+                    return
+                }
+                
+                // Perform the move
+                let draggedItem = modelData.passObjects.remove(at: fromIndex)
+                modelData.passObjects.insert(draggedItem, at: toIndex)
+                
+                // Save the changes
+                modelData.encodePassObjects()
+            }
+        }
+        
+        return true
+    }
+    
+    func dropEntered(info: DropInfo) {
+        // Optional: Add visual feedback when drag enters this drop zone
+    }
+    
+    func dropExited(info: DropInfo) {
+        // Optional: Remove visual feedback when drag exits this drop zone
     }
 }
 
