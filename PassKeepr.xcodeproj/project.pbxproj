@@ -34,7 +34,6 @@
 		BA598E8E2D3609C900B06BAA /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA598E8D2D3609C900B06BAA /* About.swift */; };
 		BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D4FE02B71C60400CB6ACA /* Code39View.swift */; };
 		BA6D6C682CE83628007D4C9A /* CustomizeLogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */; };
-		BA6DACEF2D38AA2600C2FD90 /* ReorderableForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6DACEE2D38AA2600C2FD90 /* ReorderableForEach.swift */; };
 		BA6DACF72D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6DACF62D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift */; };
 		BA6DACF92D3961D800C2FD90 /* DefaultPassIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = BA6DACF82D3961D800C2FD90 /* DefaultPassIcon.png */; };
 		BA7A4A212B65ABE9006F06DF /* CodeScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */; };
@@ -129,7 +128,6 @@
 		BA598E8D2D3609C900B06BAA /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		BA6D4FE02B71C60400CB6ACA /* Code39View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code39View.swift; sourceTree = "<group>"; };
 		BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeLogoImage.swift; sourceTree = "<group>"; };
-		BA6DACEE2D38AA2600C2FD90 /* ReorderableForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReorderableForEach.swift; sourceTree = "<group>"; };
 		BA6DACF62D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendVNBarcodeSymbology.swift; sourceTree = "<group>"; };
 		BA6DACF82D3961D800C2FD90 /* DefaultPassIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPassIcon.png; sourceTree = "<group>"; };
 		BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeScanner.swift; sourceTree = "<group>"; };
@@ -387,7 +385,6 @@
 				BAED06672D32158C00D6789E /* GetBarcodeFromImage.swift */,
 				BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */,
 				BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */,
-				BA6DACEE2D38AA2600C2FD90 /* ReorderableForEach.swift */,
 				BA7A4A202B65ABE9006F06DF /* CodeScanner.swift */,
 				BA7A4A242B65B485006F06DF /* ExtendColor.swift */,
 				BAE2D4542B80F2B600CC7BE2 /* ExtendBarcodeType.swift */,
@@ -574,7 +571,6 @@
 				BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */,
 				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
 				BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */,
-				BA6DACEF2D38AA2600C2FD90 /* ReorderableForEach.swift in Sources */,
 				BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */,
 				BACDA8B12D1692C2009C249C /* OffsetCroppedStripImage.swift in Sources */,
 				BA25D8972B76E8300044E423 /* Code93View.swift in Sources */,

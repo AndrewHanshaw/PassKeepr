@@ -2,6 +2,11 @@ import SwiftUI
 
 private let PADDING: CGFloat = 14
 
+class DragProperties: ObservableObject {
+    @Published var draggedItem: PassObject?
+    @Published var currentHoverTarget: PassObject?
+}
+
 struct ContentView: View {
     @EnvironmentObject var modelData: ModelData
     @EnvironmentObject var passSigner: pkPassSigner
@@ -13,6 +18,10 @@ struct ContentView: View {
 
     @State private var active: PassObject?
 
+    @StateObject private var dragProperties: DragProperties = .init()
+    @State var lastDraggedItem: PassObject?
+    @State var lastDragEnded: Date?
+
     let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: PADDING), count: 2)
 
     var body: some View {
@@ -20,24 +29,49 @@ struct ContentView: View {
             ZStack {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: PADDING) {
-                        ReorderableForEach($modelData.passObjects, active: $active) { $passObject in
+                        ForEach($modelData.passObjects) { $passObject in
                             PassCardContainer(passObject: $passObject)
                                 .aspectRatio(1 / 1.45, contentMode: .fill)
                                 .background(Color.clear)
-                        }
-                        preview: { _ in
-                            Circle()
-                                .frame(width: 1, height: 1)
-                                .opacity(0)
-                        } moveAction: { from, to in
-                            modelData.passObjects.move(fromOffsets: from, toOffset: to)
-                            modelData.encodePassObjects()
+                                .scaleEffect(dragProperties.currentHoverTarget?.id == passObject.id ? 1.02 : 1.0)
+                                .onDrag {
+//                                    print("onDrag started for: \(passObject.id.uuidString)")
+
+                                    // Check if this is a spurious drag call after a recent drop. Bug introduced in iOS 18 where onDrag is called an additional time after dropping the item
+                                    if #available(iOS 18.0, *) {
+                                        if let lastDropTime = lastDragEnded,
+                                           lastDraggedItem?.id == passObject.id,
+                                           Date().timeIntervalSince(lastDropTime) < 1.3
+                                        {
+//                                            print("Ignoring spurious drag call - too soon after last drop")
+                                            return NSItemProvider()
+                                        }
+                                    }
+
+                                    // Record this as the start of a legitimate drag
+                                    lastDraggedItem = passObject
+                                    dragProperties.draggedItem = passObject
+
+                                    return NSItemProvider(object: NSString(string: passObject.id.uuidString))
+                                } preview: {
+                                    Circle()
+                                        .frame(width: 1, height: 1)
+                                        .opacity(0)
+                                }
+                                .onDrop(of: [.text], delegate: PassDropDelegate(
+                                    destinationItem: passObject,
+                                    modelData: modelData,
+                                    dragProperties: dragProperties,
+                                    onDropCompleted: {
+//                                        print("Drop Completed")
+                                        lastDragEnded = Date() // Update the timeout tracking when drop completes
+                                    }
+                                ))
                         }
                     }
                     .padding(PADDING)
                 }
                 .scrollDisabled(modelData.passObjects.isEmpty)
-                .reorderableForEachContainer(active: $active)
                 .navigationBarTitleDisplayMode(.inline) // Necessary to prevent a gap between the title and the start of the grid
                 .toolbar {
                     ToolbarItem(placement: .principal) {
@@ -99,11 +133,14 @@ struct ContentView: View {
                 }
             } // ZStack
         } // NavigationView
+        .environmentObject(dragProperties)
     }
 }
 
 struct PassCardContainer: View {
     @Binding var passObject: PassObject
+
+    @EnvironmentObject var modelData: ModelData
 
     @State var shouldPresentEditPass = false
 
@@ -116,6 +153,75 @@ struct PassCardContainer: View {
                 EditPass(objectToEdit: $passObject)
                     .presentationDragIndicator(.visible)
             }
+    }
+}
+
+struct PassDropDelegate: DropDelegate {
+    let destinationItem: PassObject
+    let modelData: ModelData
+    let dragProperties: DragProperties
+    let onDropCompleted: () -> Void
+
+    func dropUpdated(info _: DropInfo) -> DropProposal? {
+        DropProposal(operation: .move)
+    }
+
+    func performDrop(info _: DropInfo) -> Bool {
+        // Clean up drag state and save the final order
+        defer {
+            dragProperties.draggedItem = nil
+            dragProperties.currentHoverTarget = nil
+
+            // Notify that drop completed for timeout tracking
+            onDropCompleted()
+
+            // Save the final reordered state
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                modelData.encodePassObjects()
+            }
+        }
+
+        // The array is already in the correct order from the live reordering so we just need to confirm the drop was successful
+        return true
+    }
+
+    func dropEntered(info _: DropInfo) {
+        guard let draggedItem = dragProperties.draggedItem,
+              draggedItem.id != destinationItem.id
+        else {
+            return
+        }
+
+        // Update hover target for visual feedback
+        dragProperties.currentHoverTarget = destinationItem
+
+        // Perform real-time reordering of the actual array
+        reorderPassObjects(draggedItem: draggedItem, destinationItem: destinationItem)
+    }
+
+    func dropExited(info _: DropInfo) {
+        // Clear hover target when exiting
+        if dragProperties.currentHoverTarget?.id == destinationItem.id {
+            dragProperties.currentHoverTarget = nil
+        }
+    }
+
+    private func reorderPassObjects(draggedItem: PassObject, destinationItem: PassObject) {
+        guard let fromIndex = modelData.passObjects.firstIndex(where: { $0.id == draggedItem.id }),
+              let toIndex = modelData.passObjects.firstIndex(where: { $0.id == destinationItem.id }),
+              fromIndex != toIndex
+        else {
+            return
+        }
+
+        // Animate the reordering
+        withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
+            // Remove the dragged item from its current position
+            let item = modelData.passObjects.remove(at: fromIndex)
+
+            // Insert it at the new position
+            modelData.passObjects.insert(item, at: toIndex)
+        }
     }
 }
 
