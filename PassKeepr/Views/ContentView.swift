@@ -1,6 +1,6 @@
 import SwiftUI
 
-private let PADDING: CGFloat = 10
+private let PADDING: CGFloat = 14
 
 struct ContentView: View {
     @EnvironmentObject var modelData: ModelData
