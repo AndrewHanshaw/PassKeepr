@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct PassCard: View {
+    @EnvironmentObject var modelData: ModelData
+    @EnvironmentObject var passSigner: pkPassSigner
     var passObject: PassObject
 
     var body: some View {
@@ -126,6 +128,37 @@ struct PassCard: View {
                             }
                         }
                     )
+            }
+            .contextMenu {
+                let fileManager = FileManager.default
+                let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let destinationURL = documentsDirectory.appendingPathComponent("\(passObject.id).pkpass")
+                ShareLink(item: destinationURL) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+
+                Button(action: {
+                    let newPass = passObject.duplicate()
+                    modelData.passObjects.append(newPass)
+                    modelData.encodePassObjects()
+
+                    if let pkpassDir = generatePass(passObject: newPass) {
+                        Task {
+                            passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: newPass.id)
+                        }
+                        if passSigner.isDataLoaded == true {
+                            passSigner.isDataLoaded = false
+                        }
+                    }
+                }) {
+                    Label("Duplicate", systemImage: "rectangle.portrait.on.rectangle.portrait")
+                }
+
+                Button(role: .destructive, action: {
+                    modelData.deleteItemByID(passObject.id)
+                }) {
+                    Label("Delete", systemImage: "trash")
+                }
             }
         }
     }
