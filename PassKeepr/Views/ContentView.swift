@@ -171,7 +171,7 @@ struct PassCardContainer: View {
                 shouldPresentEditPass.toggle()
             }
             .sheet(isPresented: $shouldPresentEditPass) {
-                EditPass(objectToEdit: $passObject)
+                EditPass(objectToEdit: $passObject, isNewPass: false)
                     .presentationDragIndicator(.visible)
             }
     }

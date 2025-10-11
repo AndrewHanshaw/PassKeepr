@@ -6,7 +6,7 @@ struct AddPass: View {
     @State private var addedPass = PassObject()
 
     var body: some View {
-        EditPass(objectToEdit: $addedPass)
+        EditPass(objectToEdit: $addedPass, isNewPass: true)
     } // View
 } // Struct
 
