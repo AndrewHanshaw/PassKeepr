@@ -814,7 +814,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCAL_SERVER = false;
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.02;
 				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeepr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -853,7 +853,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCAL_SERVER = false;
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 1.02;
 				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeepr;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

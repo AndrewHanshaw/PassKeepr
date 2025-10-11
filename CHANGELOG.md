@@ -1,4 +1,19 @@
-## [1.0] - 2025-1-25
+## [1.02] - 2025-10-26
+
+### Added
+- Support for Liquid Glass for devices running iOS 26
+- Ability to save pass locally without signing it
+
+### Changed
+- Overhauled UI for cleaner navigation, saving, and editing of passes
+- Improved drag/drop performance of passes on main screen
+
+## [1.01] - 2025-01-28
+
+### Added
+- Support UPC-A barcodes
+
+## [1.0] - 2025-01-25
 
 ### Added
 - Support for the following barcodes:
