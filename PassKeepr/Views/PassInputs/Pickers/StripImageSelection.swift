@@ -1,14 +1,14 @@
 import SwiftUI
 
 struct StripImageSelection: View {
+    @Environment(\.colorScheme) var colorScheme
+
     @Binding var passObject: PassObject
 
     var body: some View {
-        Section {
-            Toggle(isOn: $passObject.isCustomStripImageOn) {
-                Text("Strip Image")
-            }
-        }
+        Toggle("Strip Image", isOn: $passObject.isCustomStripImageOn)
+            .padding(14)
+            .listSectionBackgroundModifier()
     }
 }
 
