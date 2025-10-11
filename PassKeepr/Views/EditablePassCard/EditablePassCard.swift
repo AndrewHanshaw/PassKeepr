@@ -14,7 +14,15 @@ struct EditablePassCard: View {
 
     var body: some View {
         ZStack {
-            EditablePassCardBackground(passObject: $passObject)
+            ZStack {
+                // Acts as a colored shadow for the passCard background, similar to the effect in the iOS add pass screen
+                EditablePassCardBackground(passObject: $passObject)
+                    .scaleEffect(0.9, anchor: .bottom)
+                    .opacity(0.3)
+                    .blur(radius: 8)
+
+                EditablePassCardBackground(passObject: $passObject)
+            }
 
             VStack {
                 EditablePassCardTopSection(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented)
