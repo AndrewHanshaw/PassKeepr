@@ -1,11 +1,14 @@
 import SwiftUI
 
 struct SecondaryFieldSelection: View {
-    @State private var shouldShowThirdSecondaryField: Bool = false // This state var, which shall always track the state of passObject.isSecondaryFieldTwoOn, is necessary for the animation to work
+    @Environment(\.colorScheme) var colorScheme
+
     @Binding var passObject: PassObject
 
+    @State private var shouldShowThirdSecondaryField: Bool = false // This state var, which shall always track the state of passObject.isSecondaryFieldTwoOn, is necessary for the animation to work
+
     var body: some View {
-        Section {
+        VStack(spacing: 12) {
             Toggle("Additional Secondary Field", isOn: $passObject.isSecondaryFieldTwoOn)
                 .onChange(of: passObject.isSecondaryFieldTwoOn) {
                     withAnimation {
@@ -15,12 +18,22 @@ struct SecondaryFieldSelection: View {
                         }
                     }
                 }
+                .padding([.top, .bottom], 14)
+                .overlay(alignment: .bottom) {
+                    if shouldShowThirdSecondaryField {
+                        Divider()
+                    }
+                }
+                .padding([.leading, .trailing], 14)
 
             if shouldShowThirdSecondaryField {
                 Toggle("Additional Secondary Field", isOn: $passObject.isSecondaryFieldThreeOn)
-                    .transition(.slide)
+                    .transition(.opacity)
+                    .padding([.bottom], 14)
+                    .padding([.leading, .trailing], 14)
             }
         }
+        .listSectionBackgroundModifier()
         .onAppear {
             shouldShowThirdSecondaryField = passObject.isSecondaryFieldTwoOn
         }
