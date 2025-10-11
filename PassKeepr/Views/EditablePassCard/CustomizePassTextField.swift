@@ -12,7 +12,7 @@ struct CustomizePassTextField: View {
             TextField("Text", text: $text)
                 .disableAutocorrection(true)
         }
-        .padding(5)
+        .textFieldPopoverModifier()
     }
 }
 

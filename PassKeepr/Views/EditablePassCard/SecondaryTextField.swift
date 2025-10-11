@@ -53,6 +53,7 @@ struct SecondaryTextField: View {
                     .minimumScaleFactor(0.34)
                     .foregroundColor(placeholderColor)
                     .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
+                    .padding(2)
                     .frame(maxWidth: textSize.width)
             }
 
