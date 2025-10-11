@@ -18,8 +18,6 @@ struct EditPass: View {
     @State private var tempObject: PassObject = .init()
     @State private var shouldShowSheet: Bool = false
 
-    @State private var category: BarcodeCategory
-
     @State private var hasEditPassButtonBeenPressed = false
     @State private var textSize: CGSize = CGSizeZero
 
@@ -34,7 +32,6 @@ struct EditPass: View {
     init(objectToEdit: Binding<PassObject>) {
         _objectToEdit = objectToEdit
         _tempObject = State(initialValue: objectToEdit.wrappedValue)
-        _category = State(initialValue: objectToEdit.wrappedValue.barcodeType.toBarcodeCategory())
         initializeTempObject()
     }
 
@@ -103,39 +100,7 @@ struct EditPass: View {
                 }
                 .listRowBackground(Color.accentColor)
 
-                Section {
-                    Picker("Barcode Type", selection: $category) {
-                        ForEach(BarcodeCategory.allCases, id: \.self) { type in
-                            HStack {
-                                Text(type.description)
-                                if type == BarcodeCategory.none {
-                                    Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled")
-                                } else if type == BarcodeCategory.twoDimensional {
-                                    Image(systemName: "qrcode")
-                                } else {
-                                    Image(systemName: "barcode")
-                                }
-                            }.tag(type)
-                        }
-                    }
-                    .onChange(of: category) {
-                        switch category {
-                        case BarcodeCategory.none:
-                            tempObject.barcodeType = BarcodeType.none
-                        case BarcodeCategory.oneDimensional:
-                            tempObject.barcodeType = BarcodeType.code128
-                        case BarcodeCategory.twoDimensional:
-                            tempObject.barcodeType = BarcodeType.qr
-                        }
-                    }
-                    .onChange(of: tempObject.barcodeType) { oldType, newType in
-                        // Clear barcode string and strip image when a barcode that uses the strip image is selected
-                        if oldType.doesBarcodeUseStripImage() && !newType.doesBarcodeUseStripImage() {
-//                            tempObject.barcodeString = ""
-                            tempObject.stripImage = Data()
-                        }
-                    }
-                }
+                BarcodeTypePicker(pass: $tempObject)
 
                 ColorInput(pass: $tempObject)
 
