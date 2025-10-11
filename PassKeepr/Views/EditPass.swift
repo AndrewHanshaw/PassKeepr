@@ -4,6 +4,7 @@ import SwiftUI
 struct EditPass: View {
     @EnvironmentObject var modelData: ModelData
     @EnvironmentObject var passSigner: pkPassSigner
+    @Environment(\.colorScheme) var colorScheme
 
     // Pass object passed into this view.
     // We want to update this object when the save button is pressed
@@ -13,10 +14,12 @@ struct EditPass: View {
     // This is @State because this view owns this PassObject
     // This PassObject will be swapped in for the @Binding passObject
     // when the save button is pressed
-    // This is done so the user can made edits, which won't be saved until
+    // This is done so the user can make edits, which won't be saved until
     // the Save button is pressed
     @State private var tempObject: PassObject = .init()
     @State private var shouldShowSheet: Bool = false
+
+    let isNewPass: Bool
 
     @State private var hasEditPassButtonBeenPressed = false
     @State private var textSize: CGSize = CGSizeZero
@@ -29,8 +32,9 @@ struct EditPass: View {
 
     // On init, set the temp object owned by this view equal to the
     // one passed in via @Binding
-    init(objectToEdit: Binding<PassObject>) {
+    init(objectToEdit: Binding<PassObject>, isNewPass: Bool) {
         _objectToEdit = objectToEdit
+        self.isNewPass = isNewPass
         _tempObject = State(initialValue: objectToEdit.wrappedValue)
         initializeTempObject()
     }
@@ -42,75 +46,62 @@ struct EditPass: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     var body: some View {
-        VStack {
-            Form {
-                Section {
-                    Button(
-                        action: {
-                            hasEditPassButtonBeenPressed = true
-                            objectToEdit = tempObject
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 20) {
+                    EditablePassCard(passObject: $tempObject, isSigningPass: hasEditPassButtonBeenPressed)
+                        .padding([.leading, .trailing], 6)
+                        .padding(.top, 56)
 
-                            // Delete existing pass's directory altogether, we will regenerate from scratch
-                            let passDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pass")
-                            let pkPassDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pkpass")
-                            do {
-                                try FileManager.default.removeItem(at: passDirectory)
-                                try FileManager.default.removeItem(at: pkPassDirectory)
-                            } catch {
-                                print("Unable to delete pass dir")
-                                modelData.passObjects.append(objectToEdit)
-                            }
+                    BarcodeTypePicker(pass: $tempObject)
 
-                            modelData.encodePassObjects()
+                    ColorInput(pass: $tempObject)
 
+                    SecondaryFieldSelection(passObject: $tempObject)
+                    HeaderFieldSelection(passObject: $tempObject)
+
+                    if (tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr) && tempObject.backgroundImage == Data() {
+                        StripImageSelection(passObject: $tempObject)
+                    }
+                }
+                .padding()
+            }
+            .ignoresSafeArea(edges: .top)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(isNewPass ? "New Pass" : "Edit Pass")
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                }
+
+                ToolbarItem(placement: .confirmationAction) {
+                    // This weird initializer for Menu is the only way I could find to get it to apply the GlassProminentButtonStyle on iOS 26
+                    Menu("Done", systemImage: "checkmark", content: {
+                        Button("Save + Add to Wallet", image: ImageResource(name: "custom.wallet.pass.badge.plus", bundle: .main), action: { saveWithoutAddingToWallet()
                             if let pkpassDir = generatePass(passObject: objectToEdit) {
                                 Task {
                                     passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: objectToEdit.id)
                                 }
                             }
-                        }) {
-                            ZStack {
-                                ProgressView()
-                                    .tint(.white)
-                                    .opacity(hasEditPassButtonBeenPressed ? 1 : 0) // Fade-in effect
-                                    .animation(.easeInOut(duration: 0.2), value: hasEditPassButtonBeenPressed)
-                                    .offset(x: textSize.width / 2 + 20)
-                                HStack {
-                                    Spacer()
-                                    Text(isWalletSupported ? "Save and Add to Wallet" : "Save and Share")
-                                        .fontWeight(.bold)
-                                        .foregroundColor(Color.white)
-                                        .readSize(into: $textSize)
-                                    Spacer()
-                                }
-                            }
+                        })
+                        .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
+
+                        Button("Save without Adding", systemImage: "square.and.arrow.down") {
+                            saveWithoutAddingToWallet()
+                            presentationMode.wrappedValue.dismiss()
                         }
-                        .disabled(hasEditPassButtonBeenPressed)
-                        .opacity(hasEditPassButtonBeenPressed ? 0.4 : 1.0)
-                        .animation(.easeInOut(duration: 0.2), value: hasEditPassButtonBeenPressed)
+                        .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
+                    })
+                    .toolbarConfirmButtonModifier()
                 }
-                header: { // Slightly hacky way to get a custom view into a Form/List without having to adhere to the typical styling of the Form/List
-                    EditablePassCard(passObject: $tempObject)
-                        .textCase(nil) // Otherwise all text within the view will be all caps
-                        .listRowInsets(.init(top: 40,
-                                             leading: 0,
-                                             bottom: 40,
-                                             trailing: 0))
-                        .listRowBackground(Color.clear)
-                }
-                .listRowBackground(Color.accentColor)
 
-                BarcodeTypePicker(pass: $tempObject)
-
-                ColorInput(pass: $tempObject)
-
-                SecondaryFieldSelection(passObject: $tempObject)
-                HeaderFieldSelection(passObject: $tempObject)
-                if (tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr) && tempObject.backgroundImage == Data() {
-                    StripImageSelection(passObject: $tempObject)
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel", systemImage: "xmark") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    .toolbarCancelButtonModifier()
                 }
             }
-            .listSectionSpacing(20)
+            .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
         }
         .sheet(isPresented: $shouldShowSheet) {
             if isWalletSupported {
@@ -145,9 +136,28 @@ struct EditPass: View {
             if passSigner.isDataLoaded {
                 shouldShowSheet = true
                 hasEditPassButtonBeenPressed = false
+                print("hasEditPassButtonBeenPressed = false")
                 print(passSigner.isDataLoaded)
             }
         }
+    }
+
+    func saveWithoutAddingToWallet() {
+        hasEditPassButtonBeenPressed = true
+        objectToEdit = tempObject
+
+        // Delete existing pass's directory altogether, we will regenerate from scratch
+        let passDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pass")
+        let pkPassDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pkpass")
+        do {
+            try FileManager.default.removeItem(at: passDirectory)
+            try FileManager.default.removeItem(at: pkPassDirectory)
+        } catch {
+            print("Unable to delete pass dir")
+            modelData.passObjects.append(objectToEdit)
+        }
+
+        modelData.encodePassObjects()
     }
 
     struct ActivityView: UIViewControllerRepresentable {
@@ -170,5 +180,5 @@ struct EditPass: View {
 }
 
 #Preview {
-    EditPass(objectToEdit: .constant(MockModelData().passObjects[0]))
+    EditPass(objectToEdit: .constant(MockModelData().passObjects[0]), isNewPass: true)
 }
