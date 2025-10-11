@@ -10,8 +10,8 @@ struct PrimaryTextFieldGeneric: View {
     var textColor: Color
     var labelColor: Color
 
+    @State private var textSize: CGSize = CGSizeZero
     @State private var showHelpPopover = false
-
     @State private var isCustomizeTextPresented = false
 
     var body: some View {
@@ -46,10 +46,14 @@ struct PrimaryTextFieldGeneric: View {
                     .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
                     .frame(maxHeight: .infinity)
                     .aspectRatio(2, contentMode: .fit)
+                    .readSize(into: $textSize)
                 Text("Primary\nField")
                     .multilineTextAlignment(.center)
+                    .minimumScaleFactor(0.34)
                     .foregroundColor(placeholderColor)
                     .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
+                    .padding(2)
+                    .frame(maxWidth: textSize.width)
             }
 
             Button(action: {

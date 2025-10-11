@@ -38,6 +38,25 @@ extension View {
     }
 }
 
+struct TextFieldPopoverModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .padding([.top, .bottom], 16)
+                .padding([.leading, .trailing], 24)
+        } else {
+            content
+                .padding(8)
+        }
+    }
+}
+
+extension View {
+    func textFieldPopoverModifier() -> some View {
+        modifier(TextFieldPopoverModifier())
+    }
+}
+
 struct ListSectionTextEditorModifier: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
 

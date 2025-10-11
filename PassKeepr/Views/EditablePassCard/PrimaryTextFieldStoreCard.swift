@@ -10,6 +10,7 @@ struct PrimaryTextFieldStoreCard: View {
     var textColor: Color
     var labelColor: Color
 
+    @State private var textSize: CGSize = CGSizeZero
     @State private var isCustomizeTextPresented = false
 
     var body: some View {
@@ -41,11 +42,13 @@ struct PrimaryTextFieldStoreCard: View {
                     .foregroundColor(placeholderColor)
                     .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
                     .frame(maxHeight: .infinity)
+                    .readSize(into: $textSize)
                 Text("Primary\nField")
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.34)
                     .foregroundColor(placeholderColor)
                     .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
+                    .frame(maxWidth: textSize.width)
             }
 
             Button(action: {
