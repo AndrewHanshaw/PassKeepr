@@ -5,20 +5,18 @@ struct About: View {
     @EnvironmentObject var modelData: ModelData
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Environment(\.colorScheme) var colorScheme
 
     @State private var isDocumentPickerPresented: Bool = false
     @State private var isInfoPagePresented: Bool = false
     @State private var showIcon = false
-    @State private var iconSize: CGSize = CGSizeZero
 
     var body: some View {
         VStack {
             Spacer()
-            Image("passkeepr.icon")
+            Image(colorScheme == .light ? "iOS26AppIconDefault" : "iOS26AppIconDark")
                 .resizable()
                 .scaledToFit()
-                .readSize(into: $iconSize)
-                .clipShape(RoundedRectangle(cornerRadius: iconSize.width * 0.2, style: .continuous))
                 .shadow(radius: 5)
                 .padding([.top, .leading, .trailing], 100)
             Text("PassKeepr")
@@ -42,6 +40,7 @@ struct About: View {
                     .foregroundColor(Color.accentColor)
                 )
             }
+            .glassProminentButtonStyleIfAvailable()
         }
     }
 }
