@@ -1,10 +1,3 @@
-//
-//  PassKeeprUITestsLaunchTests.swift
-//  PassKeeprUITests
-//
-//  Created by Drew on 11/4/23.
-//
-
 import XCTest
 
 final class PassKeeprUITestsLaunchTests: XCTestCase {

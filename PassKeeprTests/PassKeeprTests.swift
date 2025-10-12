@@ -1,10 +1,3 @@
-//
-//  PassKeeprTests.swift
-//  PassKeeprTests
-//
-//  Created by Drew on 11/4/23.
-//
-
 @testable import PassKeepr
 import XCTest
 
