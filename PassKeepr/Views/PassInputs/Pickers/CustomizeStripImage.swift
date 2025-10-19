@@ -3,6 +3,8 @@ import CoreImage
 import SwiftUI
 
 struct CustomizeStripImage: View {
+    @Environment(\.colorScheme) var colorScheme
+
     var placeholderColor: Color
     @Binding var passObject: PassObject
     @State private var cropOffset: CGFloat = 0.0
@@ -24,24 +26,8 @@ struct CustomizeStripImage: View {
     }
 
     var body: some View {
-        List {
-            Section {
-                ZStack {
-                    PhotosPicker(tempStrip == nil ? "Add Strip Image" : "Change strip Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(Color(.label))
-                        .onChange(of: photoItem) {
-                            Task {
-                                if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                                    tempStrip = UIImage(data: loaded)!
-                                } else {
-                                    print("Failed")
-                                }
-                            }
-                        }
-                }
-            }
-            header: {
+        NavigationView {
+            VStack(spacing: 20) {
                 if let strip = tempStrip {
                     OffsetCroppedStripImage(cropOffset: cropOffset, strip: strip)
                         .readSize(into: $size)
@@ -61,23 +47,35 @@ struct CustomizeStripImage: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-//                            .foregroundColor(placeholderColor)
-//                            .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
-//                            .frame(maxHeight: 80)
                             .aspectRatio(1125 / 432, contentMode: .fit)
+                            .foregroundColor(Color.gray)
+                            .opacity(0.5)
                         Text("Add a Strip Image")
-//                            .foregroundColor(placeholderColor)
-//                            .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
                             .scaledToFit()
                             .textCase(nil)
+                            .foregroundColor(Color.gray)
+                            .opacity(0.7)
                     }
                     .padding([.top, .bottom], 20)
                     .frame(maxWidth: .infinity, alignment: .center)
                 }
-            }
 
-            if offsetBound > 1 { // if the selected strip image is already the correct aspect ratio, don't show the adjustment slider
-                Section {
+                PhotosPicker(tempStrip == nil ? "Add Strip Image" : "Change strip Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .foregroundColor(Color.white)
+                    .onChange(of: photoItem) {
+                        Task {
+                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
+                                tempStrip = UIImage(data: loaded)!
+                            } else {
+                                print("Failed")
+                            }
+                        }
+                    }
+                    .padding([.top, .bottom], 12)
+                    .accentColorProminentButtonStyleIfAvailable()
+
+                if offsetBound > 1 { // if the selected strip image is already the correct aspect ratio, don't show the adjustment slider
                     HStack {
                         Text("Vertical Offset")
                             .foregroundColor(Color(.label))
@@ -85,10 +83,8 @@ struct CustomizeStripImage: View {
                             .padding()
                     }
                 }
-            }
 
-            if tempStrip != nil {
-                Section {
+                if tempStrip != nil {
                     Button(role: .destructive) {
                         passObject.stripImage = Data()
                         presentationMode.wrappedValue.dismiss()
@@ -97,12 +93,22 @@ struct CustomizeStripImage: View {
                         Text("Remove Strip Image")
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
+                    .padding([.top, .bottom], 12)
+                    .listSectionBackgroundModifier()
                 }
-            }
 
-            Section {
-                Button(
-                    action: {
+                Spacer()
+            }
+            .padding()
+            .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Strip Image")
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                }
+
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save", systemImage: "checkmark") {
                         if let strip = tempStrip {
                             let imageWidth = 1125.0
                             let imageHeight = 432.0
@@ -113,14 +119,17 @@ struct CustomizeStripImage: View {
                             passObject.backgroundImage = Data()
                         }
                         presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Text("Save")
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.white)
-                            .frame(maxWidth: .infinity, alignment: .center)
                     }
+                    .toolbarConfirmButtonModifier()
+                }
+
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel", systemImage: "xmark") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    .toolbarCancelButtonModifier()
+                }
             }
-            .listRowBackground(Color.accentColor)
         }
     }
 }
