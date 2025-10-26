@@ -3,6 +3,9 @@ import SwiftUI
 
 struct EditablePassCard: View {
     @Binding var passObject: PassObject
+
+    var isSigningPass: Bool
+
     @State private var size: CGSize = CGSizeZero
     @State private var scannedCode = ""
     @State private var isCustomizeLogoImagePresented = false
@@ -22,90 +25,104 @@ struct EditablePassCard: View {
                     .blur(radius: 8)
 
                 EditablePassCardBackground(passObject: $passObject)
-            }
 
-            VStack {
-                EditablePassCardTopSection(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented)
-                    .frame(height: size.height * 0.09) // TODO: Determine the actual height (%) of this
-                    .padding([.leading, .trailing], 12)
-                    .padding(.top, 6)
+                VStack {
+                    EditablePassCardTopSection(placeholderColor: placeholderColor, disableButtons: isSigningPass, passObject: $passObject, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented)
+                        .frame(height: size.height * 0.09) // TODO: Determine the actual height (%) of this
+                        .padding([.leading, .trailing], 12)
+                        .padding(.top, 6)
 
-                if passObject.barcodeType != BarcodeType.code128 && passObject.barcodeType != BarcodeType.pdf417 && passObject.barcodeType != BarcodeType.qr && passObject.barcodeType != BarcodeType.none {
-                    StripImageBarcodeView(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
-                } else {
-                    if passObject.isCustomStripImageOn == true {
-                        CustomStripImage(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
+                    if passObject.barcodeType != BarcodeType.code128 && passObject.barcodeType != BarcodeType.pdf417 && passObject.barcodeType != BarcodeType.qr && passObject.barcodeType != BarcodeType.none {
+                        StripImageBarcodeView(placeholderColor: placeholderColor, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                     } else {
-                        HStack {
-                            PrimaryTextFieldGeneric(placeholderColor: placeholderColor, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
-                                .padding([.leading, .trailing], 10)
-                                .padding(.top, 14)
-                                .frame(maxWidth: size.width) // Must limit this width BEFORE applying .fixedSize, otherwise the parent view will expand if this child view becomes too wide
-                                .fixedSize(horizontal: true, vertical: false)
-                            Spacer()
+                        if passObject.isCustomStripImageOn == true {
+                            CustomStripImage(placeholderColor: placeholderColor, disableButton: isSigningPass, passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
+                        } else {
+                            HStack {
+                                PrimaryTextFieldGeneric(placeholderColor: placeholderColor, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                    .padding([.leading, .trailing], 10)
+                                    .padding(.top, 14)
+                                    .frame(maxWidth: size.width) // Must limit this width BEFORE applying .fixedSize, otherwise the parent view will expand if this child view becomes too wide
+                                    .fixedSize(horizontal: true, vertical: false)
+                                Spacer()
+                            }
+                            .frame(width: size.width)
+                            .frame(maxHeight: size.height * 0.1)
+                            .padding(.bottom, 50)
                         }
-                        .frame(width: size.width)
-                        .frame(maxHeight: size.height * 0.1)
-                        .padding(.bottom, 50)
                     }
-                }
 
-                HStack {
-                    // These only apply when strip image is off?
-                    // When strip image is on, the text is a little larger for some reason
-                    SecondaryTextField(placeholderColor: placeholderColor, textLabel: $passObject.secondaryFieldOneLabel, text: $passObject.secondaryFieldOneText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                    HStack {
+                        // These only apply when strip image is off?
+                        // When strip image is on, the text is a little larger for some reason
+                        SecondaryTextField(placeholderColor: placeholderColor, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldOneLabel, text: $passObject.secondaryFieldOneText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+
+                        Spacer()
+
+                        if passObject.isSecondaryFieldTwoOn {
+                            SecondaryTextField(placeholderColor: placeholderColor, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldTwoLabel, text: $passObject.secondaryFieldTwoText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                .layoutPriority(1)
+                        }
+
+                        if passObject.isSecondaryFieldThreeOn {
+                            Spacer()
+
+                            SecondaryTextField(placeholderColor: placeholderColor, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldThreeLabel, text: $passObject.secondaryFieldThreeText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                        }
+                    }
+                    .padding([.leading, .trailing], 10)
+                    .layoutPriority(1)
+                    .frame(width: size.width)
+                    .frame(height: size.height * 0.068)
 
                     Spacer()
 
-                    if passObject.isSecondaryFieldTwoOn {
-                        SecondaryTextField(placeholderColor: placeholderColor, textLabel: $passObject.secondaryFieldTwoLabel, text: $passObject.secondaryFieldTwoText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
-                            .layoutPriority(1)
-                    }
-
-                    if passObject.isSecondaryFieldThreeOn {
-                        Spacer()
-
-                        SecondaryTextField(placeholderColor: placeholderColor, textLabel: $passObject.secondaryFieldThreeLabel, text: $passObject.secondaryFieldThreeText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                    if passObject.barcodeType == BarcodeType.qr {
+                        BuiltInQrCodeView(placeholderColor: placeholderColor, disableButton: isSigningPass, passObject: $passObject, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
+                            .frame(height: passObject.altText == "" ? size.height * 0.27 : size.height * 0.29)
+                            .sheet(isPresented: $isCustomizeQrCodePresented) {
+                                CustomizeQrCode(passObject: $passObject)
+                                    .edgesIgnoringSafeArea(.bottom)
+                            }
+                    } else if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 {
+                        BuiltInBarcodeView(placeholderColor: placeholderColor, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                     }
                 }
-                .padding([.leading, .trailing], 10)
-                .layoutPriority(1)
-                .frame(width: size.width)
-                .frame(height: size.height * 0.068)
-
-                Spacer()
-
-                if passObject.barcodeType == BarcodeType.qr {
-                    BuiltInQrCodeView(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
-                        .frame(height: passObject.altText == "" ? size.height * 0.27 : size.height * 0.29)
-                        .sheet(isPresented: $isCustomizeQrCodePresented) {
-                            CustomizeQrCode(passObject: $passObject)
-                                .edgesIgnoringSafeArea(.bottom)
-                                .presentationDragIndicator(.visible)
-                        }
-                } else if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 {
-                    BuiltInBarcodeView(placeholderColor: placeholderColor, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
+                .sheet(isPresented: $isCustomizeBackgroundImagePresented) {
+                    CustomizeBackgroundImage(passObject: $passObject)
+                        .edgesIgnoringSafeArea(.bottom)
                 }
             }
-            .sheet(isPresented: $isCustomizeBackgroundImagePresented) {
-                CustomizeBackgroundImage(passObject: $passObject)
-                    .edgesIgnoringSafeArea(.bottom)
-                    .presentationDragIndicator(.visible)
-            }
-
-            if passObject.stripImage == Data() && !passObject.isCustomStripImageOn {
-                Button(action: {
-                    isCustomizeBackgroundImagePresented.toggle()
-                }) {
-                    Image("custom.photo.circle.fill")
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.green, .white)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                        .font(.system(size: 28))
-                        .offset(x: 12, y: 12)
-                        .shadow(radius: 5, x: 0, y: 0)
+            .overlay {
+                if isSigningPass {
+                    ZStack {
+                        Rectangle()
+                            .foregroundStyle(Color.white)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .opacity(0.5)
+                        ProgressView()
+                            .controlSize(.large)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    }
+                    .clipShape(passObject.backgroundImage == Data() ? AnyShape(RoundedRectangle(cornerRadius: 10)) : AnyShape(NotchedRectangle()))
                 }
-                .buttonStyle(PlainButtonStyle())
+            }
+            .overlay {
+                if passObject.stripImage == Data() && !passObject.isCustomStripImageOn {
+                    Button(action: {
+                        isCustomizeBackgroundImagePresented.toggle()
+                    }) {
+                        Image("custom.photo.circle.fill")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.green, .white)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                            .font(.system(size: 28))
+                            .offset(x: 12, y: 12)
+                            .shadow(radius: 5, x: 0, y: 0)
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .disabled(isSigningPass)
+                }
             }
         }
         .sheet(isPresented: $isCustomizeBarcodePresented) {
@@ -159,5 +176,5 @@ struct EditablePassCard: View {
 }
 
 #Preview {
-    EditablePassCard(passObject: .constant(MockModelData().passObjects[0]))
+    EditablePassCard(passObject: .constant(MockModelData().passObjects[0]), isSigningPass: false)
 }

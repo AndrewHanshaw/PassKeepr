@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CustomStripImage: View {
     var placeholderColor: Color
+    var disableButton: Bool
     @Binding var passObject: PassObject
     @Binding var isCustomizeStripImagePresented: Bool
 
@@ -37,6 +38,7 @@ struct CustomStripImage: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             }
             .buttonStyle(PlainButtonStyle())
+            .disabled(disableButton)
         }
         .padding(.top, 10)
         .aspectRatio(1125 / 432, contentMode: .fit)
@@ -44,5 +46,5 @@ struct CustomStripImage: View {
 }
 
 #Preview {
-    CustomStripImage(placeholderColor: Color.black, passObject: .constant(MockModelData().passObjects[0]), isCustomizeStripImagePresented: .constant(true))
+    CustomStripImage(placeholderColor: Color.black, disableButton: false, passObject: .constant(MockModelData().passObjects[0]), isCustomizeStripImagePresented: .constant(true))
 }

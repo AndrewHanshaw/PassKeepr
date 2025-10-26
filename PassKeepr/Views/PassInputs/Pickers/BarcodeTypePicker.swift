@@ -5,10 +5,13 @@ struct BarcodeTypePicker: View {
 
     @Binding var pass: PassObject
 
+    var disableControl: Bool
+
     @State private var category: BarcodeCategory
 
-    init(pass: Binding<PassObject>) {
+    init(pass: Binding<PassObject>, disableControl: Bool) {
         _pass = pass
+        self.disableControl = disableControl
         _category = State(initialValue: pass.wrappedValue.barcodeType.toBarcodeCategory())
     }
 
@@ -31,6 +34,7 @@ struct BarcodeTypePicker: View {
                     .tag(type)
                 }
             }
+            .disabled(disableControl)
             .accentColor(.secondary)
         }
         .padding([.top, .bottom], 10)
@@ -58,5 +62,5 @@ struct BarcodeTypePicker: View {
 }
 
 #Preview {
-    BarcodeTypePicker(pass: .constant(MockModelData().passObjects[0]))
+    BarcodeTypePicker(pass: .constant(MockModelData().passObjects[0]), disableControl: false)
 }

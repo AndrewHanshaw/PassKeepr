@@ -5,6 +5,8 @@ struct ColorInput: View {
 
     @Binding var pass: PassObject
 
+    var disableControl: Bool
+
     @State private var backgroundColor: Color = .black
     @State private var foregroundColor: Color = .black
     @State private var labelColor: Color = .black
@@ -19,6 +21,7 @@ struct ColorInput: View {
                     .padding([.top, .bottom], 16)
                     .overlay(Divider(), alignment: .bottom)
                     .padding([.leading, .trailing], 16)
+                    .disabled(disableControl)
 
                 // Text color is forced to white when there is a background image
                 ColorPicker("Text Color", selection: $foregroundColor)
@@ -28,7 +31,8 @@ struct ColorInput: View {
                     .padding([.bottom], 16)
                     .overlay(Divider(), alignment: .bottom)
                     .padding([.leading, .trailing], 16)
-                    .background(colorScheme == .light ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground))
+//                    .background(colorScheme == .light ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground))
+                    .disabled(disableControl)
             }
             ColorPicker("Label Color", selection: $labelColor)
                 .onChange(of: labelColor) {
@@ -36,7 +40,8 @@ struct ColorInput: View {
                 }
                 .padding([.leading, .trailing, .bottom], 16)
                 .padding(.top, pass.backgroundImage == Data() ? 0 : 16) // Need to add top padding only when the other two pickers are disabled
-                .background(colorScheme == .light ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground))
+//                .background(colorScheme == .light ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground))
+                .disabled(disableControl)
         }
         .listSectionBackgroundModifier()
         .onAppear {
@@ -48,5 +53,5 @@ struct ColorInput: View {
 }
 
 #Preview {
-    ColorInput(pass: .constant(MockModelData().passObjects[0]))
+    ColorInput(pass: .constant(MockModelData().passObjects[0]), disableControl: false)
 }
