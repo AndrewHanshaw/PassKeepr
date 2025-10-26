@@ -5,6 +5,8 @@ struct SecondaryFieldSelection: View {
 
     @Binding var passObject: PassObject
 
+    var disableControl: Bool
+
     @State private var shouldShowThirdSecondaryField: Bool = false // This state var, which shall always track the state of passObject.isSecondaryFieldTwoOn, is necessary for the animation to work
 
     var body: some View {
@@ -25,12 +27,14 @@ struct SecondaryFieldSelection: View {
                     }
                 }
                 .padding([.leading, .trailing], 14)
+                .disabled(disableControl)
 
             if shouldShowThirdSecondaryField {
                 Toggle("Additional Secondary Field", isOn: $passObject.isSecondaryFieldThreeOn)
                     .transition(.opacity)
                     .padding([.bottom], 14)
                     .padding([.leading, .trailing], 14)
+                    .disabled(disableControl)
             }
         }
         .listSectionBackgroundModifier()
@@ -41,5 +45,5 @@ struct SecondaryFieldSelection: View {
 }
 
 #Preview {
-    SecondaryFieldSelection(passObject: .constant(MockModelData().passObjects[0]))
+    SecondaryFieldSelection(passObject: .constant(MockModelData().passObjects[0]), disableControl: false)
 }

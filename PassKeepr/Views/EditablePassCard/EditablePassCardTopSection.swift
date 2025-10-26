@@ -2,6 +2,8 @@ import SwiftUI
 
 struct EditablePassCardTopSection: View {
     var placeholderColor: Color
+    var disableButtons: Bool
+
     @Binding var passObject: PassObject
     @Binding var isCustomizeLogoImagePresented: Bool
 
@@ -37,6 +39,7 @@ struct EditablePassCardTopSection: View {
                             .offset(x: 12, y: 12)
                             .shadow(radius: 2, x: 0, y: 0)
                     }
+                    .disabled(disableButtons)
                 }
                 .frame(maxWidth: geometry.size.width * 0.64)
                 .fixedSize(horizontal: true, vertical: false)
@@ -49,11 +52,11 @@ struct EditablePassCardTopSection: View {
                 Spacer()
                 HStack {
                     if passObject.isHeaderFieldTwoOn {
-                        EditableHeaderTextField(placeholderColor: placeholderColor, textLabel: $passObject.headerFieldTwoLabel, text: $passObject.headerFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                        EditableHeaderTextField(placeholderColor: placeholderColor, disableButton: disableButtons, textLabel: $passObject.headerFieldTwoLabel, text: $passObject.headerFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                             .padding(.trailing, 10)
                     }
 
-                    EditableHeaderTextField(placeholderColor: placeholderColor, textLabel: $passObject.headerFieldOneLabel, text: $passObject.headerFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                    EditableHeaderTextField(placeholderColor: placeholderColor, disableButton: disableButtons, textLabel: $passObject.headerFieldOneLabel, text: $passObject.headerFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                         .padding(.trailing, 5)
                 }
                 .padding(.top, 4)
@@ -65,5 +68,5 @@ struct EditablePassCardTopSection: View {
 }
 
 #Preview {
-    EditablePassCardTopSection(placeholderColor: Color.black, passObject: .constant(MockModelData().passObjects[0]), isCustomizeLogoImagePresented: .constant(false))
+    EditablePassCardTopSection(placeholderColor: Color.black, disableButtons: false, passObject: .constant(MockModelData().passObjects[0]), isCustomizeLogoImagePresented: .constant(false))
 }

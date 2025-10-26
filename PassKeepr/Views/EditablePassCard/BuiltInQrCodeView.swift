@@ -1,8 +1,10 @@
 import SwiftUI
 
 struct BuiltInQrCodeView: View {
-    @State var backgroundSize: CGSize = CGSizeZero
     var placeholderColor: Color
+    var disableButton: Bool
+
+    @State var backgroundSize: CGSize = CGSizeZero
     @Binding var passObject: PassObject
     @Binding var isCustomizeQrCodePresented: Bool
 
@@ -56,11 +58,12 @@ struct BuiltInQrCodeView: View {
                     .frame(maxWidth: backgroundSize.width, maxHeight: .infinity, alignment: .bottomTrailing)
             }
             .buttonStyle(PlainButtonStyle())
+            .disabled(disableButton)
         }
         .padding(.bottom, 15)
     }
 }
 
 #Preview {
-    BuiltInQrCodeView(placeholderColor: Color.black, passObject: .constant(MockModelData().passObjects[0]), isCustomizeQrCodePresented: .constant(true))
+    BuiltInQrCodeView(placeholderColor: Color.black, disableButton: false, passObject: .constant(MockModelData().passObjects[0]), isCustomizeQrCodePresented: .constant(true))
 }

@@ -2,6 +2,8 @@ import SwiftUI
 
 struct EditableHeaderTextField: View {
     var placeholderColor: Color
+    var disableButton: Bool
+
     @Binding var textLabel: String
     @Binding var text: String
 
@@ -71,6 +73,7 @@ struct EditableHeaderTextField: View {
                         .shadow(radius: 3, x: 0, y: 0)
                 }
                 .buttonStyle(PlainButtonStyle())
+                .disabled(disableButton)
             }
             .frame(maxWidth: .infinity)
             .popover(isPresented: $isCustomizeTextPresented, arrowEdge: .top) {
@@ -83,5 +86,5 @@ struct EditableHeaderTextField: View {
 }
 
 #Preview {
-    EditableHeaderTextField(placeholderColor: Color.black, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
+    EditableHeaderTextField(placeholderColor: Color.black, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
 }

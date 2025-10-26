@@ -4,6 +4,8 @@ import SwiftUI
 
 struct PrimaryTextFieldStoreCard: View {
     var placeholderColor: Color
+    var disableButton: Bool
+
     @Binding var textLabel: String
     @Binding var text: String
 
@@ -63,6 +65,7 @@ struct PrimaryTextFieldStoreCard: View {
             }
             .offset(x: 9, y: 9)
             .buttonStyle(PlainButtonStyle())
+            .disabled(disableButton)
         }
         .popover(isPresented: $isCustomizeTextPresented, arrowEdge: .leading) {
             CustomizePassTextField(textLabel: $textLabel, text: $text)
@@ -72,5 +75,5 @@ struct PrimaryTextFieldStoreCard: View {
 }
 
 #Preview {
-    PrimaryTextFieldStoreCard(placeholderColor: Color.black, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
+    PrimaryTextFieldStoreCard(placeholderColor: Color.black, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
 }

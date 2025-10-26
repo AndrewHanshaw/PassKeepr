@@ -2,6 +2,8 @@ import SwiftUI
 
 struct SecondaryTextField: View {
     var placeholderColor: Color
+    var disableButton: Bool
+
     @Binding var textLabel: String
     @Binding var text: String
     var isStripImageOn: Bool
@@ -69,6 +71,7 @@ struct SecondaryTextField: View {
             }
             .offset(x: 9, y: 9)
             .buttonStyle(PlainButtonStyle())
+            .disabled(disableButton)
         }
         .popover(isPresented: $isCustomizeTextPresented, arrowEdge: .top) {
             CustomizePassTextField(textLabel: $textLabel, text: $text)
@@ -79,5 +82,5 @@ struct SecondaryTextField: View {
 }
 
 #Preview {
-    SecondaryTextField(placeholderColor: Color.black, textLabel: .constant("HEADER"), text: .constant("TEST"), isStripImageOn: true, textColor: .black, labelColor: .black)
+    SecondaryTextField(placeholderColor: Color.black, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), isStripImageOn: true, textColor: .black, labelColor: .black)
 }

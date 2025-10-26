@@ -53,15 +53,15 @@ struct EditPass: View {
                         .padding([.leading, .trailing], 6)
                         .padding(.top, 56)
 
-                    BarcodeTypePicker(pass: $tempObject)
+                    BarcodeTypePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
 
-                    ColorInput(pass: $tempObject)
+                    ColorInput(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
 
-                    SecondaryFieldSelection(passObject: $tempObject)
-                    HeaderFieldSelection(passObject: $tempObject)
+                    SecondaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                    HeaderFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
 
                     if (tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr) && tempObject.backgroundImage == Data() {
-                        StripImageSelection(passObject: $tempObject)
+                        StripImageSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
                     }
                 }
                 .padding()

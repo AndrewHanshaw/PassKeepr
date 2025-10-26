@@ -4,6 +4,8 @@ struct PrimaryTextFieldGeneric: View {
     @EnvironmentObject var modelData: ModelData
 
     var placeholderColor: Color
+    var disableButton: Bool
+
     @Binding var textLabel: String
     @Binding var text: String
 
@@ -68,6 +70,7 @@ struct PrimaryTextFieldGeneric: View {
             }
             .offset(x: 9, y: 9)
             .buttonStyle(PlainButtonStyle())
+            .disabled(disableButton)
 
             HStack {
                 Spacer()
@@ -110,5 +113,5 @@ struct PrimaryTextFieldGeneric: View {
 }
 
 #Preview {
-    PrimaryTextFieldGeneric(placeholderColor: Color.black, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
+    PrimaryTextFieldGeneric(placeholderColor: Color.black, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
 }

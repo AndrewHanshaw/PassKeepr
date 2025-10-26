@@ -2,6 +2,8 @@ import SwiftUI
 
 struct BuiltInBarcodeView: View {
     var placeholderColor: Color
+    var disableButton: Bool
+
     @Binding var passObject: PassObject
     @Binding var isCustomizeBarcodePresented: Bool
 
@@ -47,6 +49,7 @@ struct BuiltInBarcodeView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             }
             .buttonStyle(PlainButtonStyle())
+            .disabled(disableButton)
         }
         .aspectRatio(passObject.altText == "" ? 3.4 : 3, contentMode: .fit)
         .padding([.leading, .trailing], 45)
@@ -55,5 +58,5 @@ struct BuiltInBarcodeView: View {
 }
 
 #Preview {
-    BuiltInBarcodeView(placeholderColor: Color.black, passObject: .constant(MockModelData().passObjects[0]), isCustomizeBarcodePresented: .constant(true))
+    BuiltInBarcodeView(placeholderColor: Color.black, disableButton: false, passObject: .constant(MockModelData().passObjects[0]), isCustomizeBarcodePresented: .constant(true))
 }
