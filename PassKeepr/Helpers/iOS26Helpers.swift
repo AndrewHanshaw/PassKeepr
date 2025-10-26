@@ -120,6 +120,25 @@ extension View {
     }
 }
 
+struct AccentColorProminentButtonStyleModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .glassEffect(.regular.tint(.accentColor).interactive())
+        } else {
+            content
+                .background(Color.accentColor)
+                .clipShape(.rect(cornerRadius: 12))
+        }
+    }
+}
+
+extension View {
+    func accentColorProminentButtonStyleIfAvailable() -> some View {
+        modifier(AccentColorProminentButtonStyleModifier())
+    }
+}
+
 struct ToolbarConfirmButtonModifier: ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {

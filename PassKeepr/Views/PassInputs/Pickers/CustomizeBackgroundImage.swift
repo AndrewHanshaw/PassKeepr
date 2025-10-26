@@ -3,6 +3,8 @@ import CoreImage
 import SwiftUI
 
 struct CustomizeBackgroundImage: View {
+    @Environment(\.colorScheme) var colorScheme
+
     @Binding var passObject: PassObject
 
     @State private var tempBackground: UIImage?
@@ -11,7 +13,7 @@ struct CustomizeBackgroundImage: View {
 
     @State private var showAlert: Bool = false
     private let alertTitleText = "Background Image"
-    private let alertDescriptionText = "The background image is displayed behind the pass. The image will be blurred. (Only available for Code 128, PDF417, and QR Code passes)"
+    private let alertDescriptionText = "The background image is displayed behind the pass. The image will be blurred.\nOnly available for Code 128, PDF417, and QR Code passes"
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
@@ -21,43 +23,8 @@ struct CustomizeBackgroundImage: View {
     }
 
     var body: some View {
-        List {
-            Section {
-                ZStack {
-                    PhotosPicker(tempBackground == nil ? "Add Background Image" : "Change Background Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
-                        .foregroundColor(Color(.label))
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .onChange(of: photoItem) {
-                            Task {
-                                if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                                    tempBackground = UIImage(data: loaded)!
-                                } else {
-                                    print("Failed")
-                                }
-                            }
-                        }
-
-                    HStack {
-                        Spacer()
-                        Button(
-                            action: {
-                                showAlert.toggle()
-                            },
-                            label: {
-                                Image(systemName: "info.circle")
-                                    .foregroundColor(Color(.label))
-                            }
-                        )
-                        .buttonStyle(PlainButtonStyle())
-                        .alert(isPresented: $showAlert) {
-                            Alert(title: Text(alertTitleText),
-                                  message: Text(alertDescriptionText),
-                                  dismissButton: .default(Text("OK")))
-                        }
-                    }
-                }
-            }
-            header: {
+        NavigationView {
+            VStack(spacing: 20) {
                 if let tempBackground {
                     HStack {
                         Spacer()
@@ -74,16 +41,49 @@ struct CustomizeBackgroundImage: View {
                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                             .aspectRatio(1 / 1.45, contentMode: .fit)
                             .frame(maxHeight: 300)
+                            .foregroundColor(Color.gray)
+                            .opacity(0.5)
                         Text("Add a Background Image")
-                            .textCase(nil)
+                            .foregroundColor(Color.gray)
+                            .opacity(0.7)
                     }
                     .padding([.top, .bottom], 20)
                     .frame(maxWidth: .infinity, alignment: .center)
                 }
-            }
 
-            if tempBackground != nil {
-                Section {
+                ZStack {
+                    PhotosPicker(tempBackground == nil ? "Select a Background Image" : "Change Background Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                        .foregroundColor(Color.white)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .onChange(of: photoItem) {
+                            Task {
+                                if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
+                                    tempBackground = UIImage(data: loaded)!
+                                } else {
+                                    print("Failed")
+                                }
+                            }
+                        }
+
+                    HStack {
+                        Spacer()
+                        Image(systemName: "info.circle")
+                            .foregroundColor(Color.white)
+                            .onTapGesture {
+                                showAlert.toggle()
+                            }
+                            .alert(isPresented: $showAlert) {
+                                Alert(title: Text(alertTitleText),
+                                      message: Text(alertDescriptionText),
+                                      dismissButton: .default(Text("OK")))
+                            }
+                            .padding(.trailing, 12)
+                    }
+                }
+                .padding([.top, .bottom], 12)
+                .accentColorProminentButtonStyleIfAvailable()
+
+                if tempBackground != nil {
                     Button(role: .destructive) {
                         passObject.backgroundImage = Data()
                         presentationMode.wrappedValue.dismiss()
@@ -92,29 +92,42 @@ struct CustomizeBackgroundImage: View {
                         Text("Remove Background Image")
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
+                    .padding([.top, .bottom], 12)
+                    .listSectionBackgroundModifier()
                 }
-            }
 
-            Section {
-                Button(
-                    action: {
+                Spacer()
+            }
+            .padding()
+            .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Background Image")
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                }
+
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save", systemImage: "checkmark") {
                         if let background = tempBackground {
                             passObject.backgroundImage = background.resize(targetSize: CGSize(width: 112, height: 142))!.pngData()!
                         }
                         presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Text("Save")
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.white)
-                            .frame(maxWidth: .infinity, alignment: .center)
                     }
+                    .toolbarConfirmButtonModifier()
+                }
+
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel", systemImage: "xmark") {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    .toolbarCancelButtonModifier()
+                }
             }
-            .listRowBackground(Color.accentColor)
-        }
-        .onChange(of: passObject.backgroundImage) {
-            if passObject.backgroundImage != Data() {
-                // Force white text when a background color is set
-                passObject.foregroundColor = Color.white.toHex()
+            .onChange(of: passObject.backgroundImage) {
+                if passObject.backgroundImage != Data() {
+                    // Force white text when a background color is set
+                    passObject.foregroundColor = Color.white.toHex()
+                }
             }
         }
     }
