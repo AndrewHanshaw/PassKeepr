@@ -46,7 +46,6 @@ struct EditablePassCardTopSection: View {
                 .sheet(isPresented: $isCustomizeLogoImagePresented) {
                     CustomizeLogoImage(passObject: $passObject, placeholderColor: placeholderColor)
                         .edgesIgnoringSafeArea(.bottom)
-                        .presentationDragIndicator(.visible)
                 }
 
                 Spacer()

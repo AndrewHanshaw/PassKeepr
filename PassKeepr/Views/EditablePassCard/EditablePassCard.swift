@@ -128,12 +128,10 @@ struct EditablePassCard: View {
         .sheet(isPresented: $isCustomizeBarcodePresented) {
             CustomizeBarcode(passObject: $passObject)
                 .edgesIgnoringSafeArea(.bottom)
-                .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $isCustomizeStripImagePresented) {
             CustomizeStripImage(passObject: $passObject, placeholderColor: placeholderColor)
                 .edgesIgnoringSafeArea(.bottom)
-                .presentationDragIndicator(.visible)
         }
         .frame(maxWidth: .infinity)
         .aspectRatio(1 / 1.45, contentMode: .fill)

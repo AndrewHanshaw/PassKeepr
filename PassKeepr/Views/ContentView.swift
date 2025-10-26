@@ -141,7 +141,6 @@ struct ContentView: View {
                 })
                 .sheet(isPresented: $shouldPresentAddPass) {
                     AddPass()
-                        .presentationDragIndicator(.visible)
                 }
                 if modelData.passObjects.isEmpty {
                     NoPassesToShow()
@@ -174,7 +173,6 @@ struct PassCardContainer: View {
             }
             .sheet(isPresented: $shouldPresentEditPass) {
                 EditPass(objectToEdit: $passObject, isNewPass: false)
-                    .presentationDragIndicator(.visible)
             }
     }
 }
