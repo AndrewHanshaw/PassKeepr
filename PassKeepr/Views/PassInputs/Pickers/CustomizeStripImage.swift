@@ -60,7 +60,7 @@ struct CustomizeStripImage: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 }
 
-                PhotosPicker(tempStrip == nil ? "Add Strip Image" : "Change strip Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                PhotosPicker(tempStrip == nil ? "Select a Strip Image" : "Change Strip Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
                     .frame(maxWidth: .infinity, alignment: .center)
                     .foregroundColor(Color.white)
                     .onChange(of: photoItem) {
