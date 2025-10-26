@@ -16,6 +16,7 @@ struct ContentView: View {
 
     @State var shouldPresentAddPass = false
     @State var shouldPresentSettings = false
+    @State var shouldPresentInfo = false
 
     @StateObject private var dragState = DragState()
     @State private var dragProperties = DragProperties()
@@ -100,13 +101,10 @@ struct ContentView: View {
                     }
 
                     ToolbarItem(placement: .primaryAction) {
-                        Button("Settings", systemImage: "gearshape.fill") {
-                            shouldPresentSettings.toggle()
-                        }
-                        .labelStyle(.iconOnly)
-                        .popover(isPresented: $shouldPresentSettings) {
-                            Settings()
-                                .presentationCompactAdaptation((.popover))
+                        Menu {
+                            Settings(isInfoPagePresented: $shouldPresentInfo)
+                        } label: {
+                            Image(systemName: "gearshape.fill")
                         }
                     }
                 }
@@ -137,6 +135,10 @@ struct ContentView: View {
                         }
                     }
                 }
+                .sheet(isPresented: $shouldPresentInfo, content: {
+                    About()
+                        .presentationDragIndicator(.visible)
+                })
                 .sheet(isPresented: $shouldPresentAddPass) {
                     AddPass()
                         .presentationDragIndicator(.visible)

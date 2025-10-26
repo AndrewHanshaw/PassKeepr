@@ -1,32 +1,4 @@
 import SwiftUI
-import UniformTypeIdentifiers
-
-struct ImageDocument: FileDocument {
-    static var readableContentTypes: [UTType] { [.image] }
-
-    var image: UIImage
-
-    init(image: UIImage) {
-        self.image = image
-    }
-
-    init(configuration: ReadConfiguration) throws {
-        guard let data = configuration.file.regularFileContents else {
-            throw CocoaError(.fileReadCorruptFile)
-        }
-        guard let loadedImage = UIImage(data: data) else {
-            throw CocoaError(.fileReadCorruptFile)
-        }
-        image = loadedImage
-    }
-
-    func fileWrapper(configuration _: WriteConfiguration) throws -> FileWrapper {
-        guard let data = image.pngData() else {
-            throw CocoaError(.fileWriteInapplicableStringEncoding)
-        }
-        return .init(regularFileWithContents: data)
-    }
-}
 
 struct Settings: View {
     @EnvironmentObject var modelData: ModelData
@@ -34,64 +6,28 @@ struct Settings: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @State private var isDocumentPickerPresented: Bool = false
-    @State private var isInfoPagePresented: Bool = false
-    @State private var showIcon = false
-    @State private var width: CGSize = CGSizeZero
+    @Binding var isInfoPagePresented: Bool
 
     var body: some View {
-        VStack {
-            Button(action: {
-                modelData.deleteAllItems()
-            }) {
-                Text("Delete All Passes")
-                    .font(.system(size: 16, weight: .bold, design: .rounded))
-                    .foregroundColor(Color.white)
-                    .padding(8)
-                    .readSize(into: $width)
-                    .background {
-                        RoundedRectangle(cornerRadius: 8, style: .continuous)
-                            .foregroundColor(Color.red)
-                            .padding(0)
-                    }
-            }
-            .simultaneousGesture(
-                LongPressGesture(minimumDuration: 2.0)
-                    .onEnded { _ in
-                        modelData.deleteAllItems()
-                        modelData.deleteDataFile()
-                        presentationMode.wrappedValue.dismiss()
-                    }
-            )
-            .onTapGesture {
-                modelData.deleteAllItems()
-            }
-
-            Button(action: {
-                isInfoPagePresented.toggle()
-            }) {
-                Text("About")
-                    .font(.system(size: 16, weight: .bold, design: .rounded))
-                    .foregroundColor(Color.white)
-                    .padding(8)
-                    .frame(width: width.width)
-                    .background {
-                        RoundedRectangle(cornerRadius: 8, style: .continuous)
-                            .foregroundColor(Color(.secondarySystemFill))
-                    }
-            }
-            .background(RoundedRectangle(cornerRadius: 5)
-                .foregroundColor(Color(.secondarySystemBackground))
-            )
-            .sheet(isPresented: $isInfoPagePresented, content: {
-                About()
-                    .presentationDragIndicator(.visible)
-            })
+        Button("Delete All Passes", systemImage: "trash", role: .destructive) {
+            modelData.deleteAllItems()
         }
-        .padding(10)
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 2.0)
+                .onEnded { _ in
+                    modelData.deleteAllItems()
+                    modelData.deleteDataFile()
+                    presentationMode.wrappedValue.dismiss()
+                }
+        )
+
+        Button("About PassKeepr", systemImage: "info.circle") {
+            isInfoPagePresented.toggle()
+        }
     }
 }
 
 #Preview {
-    Settings()
+    Settings(isInfoPagePresented: .constant(false))
         .environment(MockModelData())
 }
