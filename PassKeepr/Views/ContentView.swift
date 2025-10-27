@@ -115,9 +115,18 @@ struct ContentView: View {
 
                     ToolbarItem(placement: .bottomBar) {
                         if #available(iOS 26.0, *) {
-                            Button("Add", systemImage: "plus") {
-                                shouldPresentAddPass.toggle()
+                            // Have to do this instead of something like the commented out below because it will throw a UIViewAlertForUnsatisfiableConstraints warning.
+                            // It doesn't like the systemImage initializer for some reason. Doing something like `
+                            Button(action: {shouldPresentAddPass.toggle()}) {
+                                Image(systemName: "plus")
+                                // Label("Add Pass", systemImage: "plus").labelStyle(.iconOnly) // This throws a warning too for some reason
                             }
+                            .accessibilityLabel("Add Pass")
+
+                            // Ideally we'd do it this way
+//                            Button("Add", systemImage: "plus") {
+//                                shouldPresentAddPass.toggle()
+//                            }
                             .buttonStyle(GlassProminentButtonStyle())
                         } else {
                             HStack {
