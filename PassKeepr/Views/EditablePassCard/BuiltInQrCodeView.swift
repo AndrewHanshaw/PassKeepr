@@ -4,7 +4,6 @@ struct BuiltInQrCodeView: View {
     var placeholderColor: Color
     var disableButton: Bool
 
-    @State var backgroundSize: CGSize = CGSizeZero
     @Binding var passObject: PassObject
     @Binding var isCustomizeQrCodePresented: Bool
 
@@ -43,22 +42,21 @@ struct BuiltInQrCodeView: View {
                 RoundedRectangle(cornerRadius: 5)
                     .fill(Color.white)
                     .shadow(radius: 0.2)
-                    .readSize(into: $backgroundSize)
             }
-
-            Button(action: {
-                isCustomizeQrCodePresented.toggle()
-            }) {
-                Image(systemName: "pencil.circle.fill")
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(.green, .white)
-                    .font(.system(size: 24))
-                    .offset(x: 12, y: 12)
-                    .shadow(radius: 2, x: 0, y: 0)
-                    .frame(maxWidth: backgroundSize.width, maxHeight: .infinity, alignment: .bottomTrailing)
+            .overlay(alignment: .bottomTrailing) {
+                Button(action: {
+                    isCustomizeQrCodePresented.toggle()
+                }) {
+                    Image(systemName: "pencil.circle.fill")
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.green, .white)
+                        .font(.system(size: 24))
+                        .offset(x: 12, y: 12)
+                        .shadow(radius: 2, x: 0, y: 0)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .disabled(disableButton)
             }
-            .buttonStyle(PlainButtonStyle())
-            .disabled(disableButton)
         }
         .padding(.bottom, 15)
     }

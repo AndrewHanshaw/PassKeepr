@@ -135,7 +135,7 @@ struct EditablePassCard: View {
         }
         .frame(maxWidth: .infinity)
         .aspectRatio(1 / 1.45, contentMode: .fill)
-        .background(GeometryReader { geometry in // TODO: figure out why readSize can't be used here
+        .background(GeometryReader { geometry in
             Color.clear
                 .onAppear {
                     size = geometry.size
