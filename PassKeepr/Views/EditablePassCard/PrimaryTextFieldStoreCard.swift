@@ -12,7 +12,6 @@ struct PrimaryTextFieldStoreCard: View {
     var textColor: Color
     var labelColor: Color
 
-    @State private var textSize: CGSize = CGSizeZero
     @State private var isCustomizeTextPresented = false
 
     var body: some View {
@@ -43,23 +42,22 @@ struct PrimaryTextFieldStoreCard: View {
                     .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                     .foregroundColor(placeholderColor)
                     .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
-                    .frame(maxHeight: .infinity)
-                    .readSize(into: $textSize)
+                    .aspectRatio(2, contentMode: .fit)
                 Text("Primary\nField")
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.34)
                     .foregroundColor(placeholderColor)
                     .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
-                    .frame(maxWidth: textSize.width)
+                    .padding(2)
             }
-
+        }
+        .overlay(alignment: .bottomTrailing) {
             Button(action: {
                 isCustomizeTextPresented.toggle()
             }) {
                 Image(systemName: "pencil.circle.fill")
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.green, .white)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                     .font(.system(size: 18))
                     .shadow(radius: 3, x: 0, y: 0)
             }

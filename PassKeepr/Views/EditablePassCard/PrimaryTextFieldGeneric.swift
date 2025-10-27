@@ -46,18 +46,35 @@ struct PrimaryTextFieldGeneric: View {
                     .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                     .foregroundColor(placeholderColor)
                     .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
-                    .frame(maxHeight: .infinity)
                     .aspectRatio(2, contentMode: .fit)
-                    .readSize(into: $textSize)
                 Text("Primary\nField")
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.34)
                     .foregroundColor(placeholderColor)
                     .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
                     .padding(2)
-                    .frame(maxWidth: textSize.width)
             }
-
+        }
+        .popover(isPresented: $showHelpPopover, attachmentAnchor: .point(.bottomTrailing), arrowEdge: .top) {
+            Group {
+                Text("Tap on icons\nto edit each field")
+                    .multilineTextAlignment(.center)
+                Button(action: { showHelpPopover = false; print("popover 0 dismissed") }) {
+                    Text("Ok")
+                        .foregroundColor(.white)
+                        .padding(5)
+                        .background(Color.accentColor)
+                        .cornerRadius(5)
+                }
+            }
+            .padding(5)
+            .presentationCompactAdaptation(.popover)
+            .onChange(of: showHelpPopover) {
+                print("Popover was dismissed")
+                modelData.tutorialStage += 1
+            }
+        }
+        .overlay(alignment: .bottomTrailing) {
             Button(action: {
                 isCustomizeTextPresented.toggle()
             }) {
@@ -71,36 +88,6 @@ struct PrimaryTextFieldGeneric: View {
             .offset(x: 9, y: 9)
             .buttonStyle(PlainButtonStyle())
             .disabled(disableButton)
-
-            HStack {
-                Spacer()
-                VStack {
-                    Spacer()
-                    Image(systemName: "pencil.circle.fill")
-                        .opacity(0)
-                        .font(.system(size: 18))
-                        .popover(isPresented: $showHelpPopover, arrowEdge: .top) {
-                            Group {
-                                Text("Tap on icons\nto edit each field")
-                                    .multilineTextAlignment(.center)
-                                    .presentationCompactAdaptation((.popover))
-                                Button(action: { showHelpPopover = false; print("popover 0 dismissed") }) {
-                                    Text("Ok")
-                                        .foregroundColor(.white)
-                                        .padding(5)
-                                        .background(Color.accentColor)
-                                        .cornerRadius(5)
-                                }
-                            }
-                            .padding(5)
-                        }
-                        .onChange(of: showHelpPopover) {
-                            print("Popover was dismissed")
-                            modelData.tutorialStage += 1
-                        }
-                }
-            }
-            .offset(x: 9, y: 9)
         }
         .popover(isPresented: $isCustomizeTextPresented, arrowEdge: .leading) {
             CustomizePassTextField(textLabel: $textLabel, text: $text)
