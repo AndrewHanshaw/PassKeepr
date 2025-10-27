@@ -5,7 +5,7 @@
 # PassKeepr
 
 [![License](https://img.shields.io/badge/license-MIT-60A769)](./LICENSE.txt)
-![Version](https://img.shields.io/badge/version-1.0-389144)
+![Version](https://img.shields.io/badge/version-1.02-389144)
 
 </div>
 
@@ -21,7 +21,6 @@ See [CHANGELOG.md](./CHANGELOG.md) for supported features and associated version
 * Support additional barcode formats
 * Support notes/back field text
 * Support importing and editing existing signed `.pkpass`es (i.e. from other apps or shared from friends)
-* Improve drag and drop reordering performance/fluidity
 * Implement testing of behavior and UI
 
 ## Contact me / Support
