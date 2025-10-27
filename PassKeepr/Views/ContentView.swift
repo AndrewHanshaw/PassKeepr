@@ -14,8 +14,6 @@ struct ContentView: View {
     @EnvironmentObject var modelData: ModelData
     @EnvironmentObject var passSigner: pkPassSigner
 
-    @State private var plusButtonSize: CGSize = CGSizeZero
-
     @State var shouldPresentAddPass = false
     @State var shouldPresentSettings = false
 
@@ -92,65 +90,59 @@ struct ContentView: View {
                         dragState.orderIDs = ids
                     }
                 }
+                .softTopBottomScrollEdgeEffectStyleIfAvailable()
                 .scrollDisabled(modelData.passObjects.isEmpty)
                 .navigationBarTitleDisplayMode(.inline) // Necessary to prevent a gap between the title and the start of the grid
                 .toolbar {
                     ToolbarItem(placement: .principal) {
-                        HStack {
-                            Text("My Passes")
-                                .font(.system(size: 30, weight: .bold, design: .rounded))
-                                .padding()
-                            Spacer()
-                            Button(role: .none,
-                                   action: { shouldPresentSettings.toggle() },
-                                   label: {
-                                       Image(systemName: "gearshape.fill")
-                                           .resizable()
-                                           .scaledToFit()
-                                           .frame(width: 20)
-                                   })
-                                   .labelStyle(.iconOnly)
-                                   .popover(isPresented: $shouldPresentSettings) {
-                                       Settings()
-                                           .presentationCompactAdaptation((.popover))
-                                   }
+                        Text("My Passes")
+                            .font(.system(size: 30, weight: .bold, design: .rounded))
+                    }
+
+                    ToolbarItem(placement: .primaryAction) {
+                        Button("Settings", systemImage: "gearshape.fill") {
+                            shouldPresentSettings.toggle()
+                        }
+                        .labelStyle(.iconOnly)
+                        .popover(isPresented: $shouldPresentSettings) {
+                            Settings()
+                                .presentationCompactAdaptation((.popover))
                         }
                     }
                 }
-                VStack {
-                    Spacer()
-                    if modelData.passObjects.isEmpty {
-                        Text("Use the ＋ Button\nto Add a Pass")
-                            .font(Font.system(size: 24, weight: .bold, design: .rounded))
-                            .padding([.trailing], plusButtonSize.width + 40)
-                            .multilineTextAlignment(.trailing)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                            .padding(.bottom, -10)
-                            .opacity(0.4)
+                .toolbar {
+                    if #available(iOS 26.0, *) {
+                        ToolbarSpacer(.flexible, placement: .bottomBar)
                     }
-                    HStack {
-                        Spacer()
-                        if modelData.passObjects.isEmpty {
-                            Image(systemName: "arrow.turn.down.right")
-                                .font(.system(size: 36))
-                                .opacity(0.4)
+
+                    ToolbarItem(placement: .bottomBar) {
+                        if #available(iOS 26.0, *) {
+                            Button("Add", systemImage: "plus") {
+                                shouldPresentAddPass.toggle()
+                            }
+                            .buttonStyle(GlassProminentButtonStyle())
+                        } else {
+                            HStack {
+                                Spacer()
+                                Button(role: .none,
+                                       action: { shouldPresentAddPass.toggle() },
+                                       label: {
+                                           Image(systemName: "plus.circle.fill")
+                                               .resizable()
+                                               .scaledToFit()
+                                               .frame(width: 50)
+                                       })
+                                       .labelStyle(.iconOnly)
+                            }
                         }
-                        Button(role: .none,
-                               action: { shouldPresentAddPass.toggle() },
-                               label: {
-                                   Image(systemName: "plus.circle.fill")
-                                       .resizable()
-                                       .scaledToFit()
-                                       .frame(width: 50)
-                               })
-                               .labelStyle(.iconOnly)
-                               .padding([.trailing], 33)
-                               .sheet(isPresented: $shouldPresentAddPass) {
-                                   AddPass()
-                                       .presentationDragIndicator(.visible)
-                               }
-                               .readSize(into: $plusButtonSize)
                     }
+                }
+                .sheet(isPresented: $shouldPresentAddPass) {
+                    AddPass()
+                        .presentationDragIndicator(.visible)
+                }
+                if modelData.passObjects.isEmpty {
+                    NoPassesToShow()
                 }
             } // ZStack
         } // NavigationView
