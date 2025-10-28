@@ -20,8 +20,14 @@ struct CustomizeBarcode: View {
     @State private var scannedBarcodeType: BarcodeType?
     @State private var isScannerPresented = false
     @State private var useScannedData = false
-    @State private var showAlert: Bool = false
-    @State private var showInvalidBarcodeAlert: Bool = false
+
+    enum ActiveAlert: Identifiable {
+        case barcodeInfoAlert, invalidBarcodeAlert
+
+        var id: Self { self }
+    }
+
+    @State private var activeAlert: ActiveAlert?
 
     @Environment(\.displayScale) var displayScale
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -172,10 +178,10 @@ struct CustomizeBarcode: View {
                                         tempBarcodeData = imageBarcode.payload
                                         tempBarcodeType = imageBarcode.barcodeType
                                     default:
-                                        showInvalidBarcodeAlert.toggle()
+                                        activeAlert = .invalidBarcodeAlert
                                     }
                                 } else {
-                                    showInvalidBarcodeAlert.toggle()
+                                    activeAlert = .invalidBarcodeAlert
                                 }
                             }
                         }
@@ -206,7 +212,7 @@ struct CustomizeBarcode: View {
                                 Spacer()
                                 Button(
                                     action: {
-                                        showAlert.toggle()
+                                        activeAlert = .barcodeInfoAlert
                                     },
                                     label: {
                                         Image(systemName: "info.circle")
@@ -295,15 +301,17 @@ struct CustomizeBarcode: View {
             .ignoresSafeArea(edges: .all) // otherwise it gets all wiggy when you flick scroll to the top or bottom
             .highProrityDragGestureModifier()
             .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
-            .alert(isPresented: $showAlert) {
-                Alert(title: Text(String(describing: tempBarcodeType)),
-                      message: Text(tempBarcodeType.info()),
-                      dismissButton: .default(Text("OK")))
-            }
-            .alert(isPresented: $showInvalidBarcodeAlert) {
-                Alert(title: Text("No valid barcode Detected"),
-                      message: Text("Please select an image containing a valid barcode"),
-                      dismissButton: .default(Text("OK")))
+        }
+        .alert(item: $activeAlert) { alert in
+            switch alert {
+            case .barcodeInfoAlert:
+                return Alert(title: Text(String(describing: tempBarcodeType)),
+                             message: Text(tempBarcodeType.info()),
+                             dismissButton: .default(Text("OK")))
+            case .invalidBarcodeAlert:
+                return Alert(title: Text("No valid barcode Detected"),
+                             message: Text("Please select an image containing a valid barcode"),
+                             dismissButton: .default(Text("OK")))
             }
         }
     }
