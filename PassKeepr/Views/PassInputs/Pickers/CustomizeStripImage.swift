@@ -78,10 +78,10 @@ struct CustomizeStripImage: View {
                 if offsetBound > 1 { // if the selected strip image is already the correct aspect ratio, don't show the adjustment slider
                     HStack {
                         Text("Vertical Offset")
-                            .foregroundColor(Color(.label))
                         Slider(value: $cropOffset, in: -offsetBound ... offsetBound, step: 1)
-                            .padding()
                     }
+                    .padding(14)
+                    .listSectionBackgroundModifier()
                 }
 
                 if tempStrip != nil {
