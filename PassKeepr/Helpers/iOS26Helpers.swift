@@ -73,53 +73,6 @@ extension View {
     }
 }
 
-struct ListSectionTextEditorModifier: ViewModifier {
-    @Environment(\.colorScheme) var colorScheme
-
-    var placeholderText: String
-
-    var isEnteredTextEmpty: Bool
-
-    func body(content: Content) -> some View {
-        if #available(iOS 26.0, *) {
-            content
-//                .scrollDisabled(true) // This prevents all newline scrolling on iOS 26. I'd rather just have the clipping
-                .overlay(alignment: .leading) {
-                    if isEnteredTextEmpty {
-                        Text(placeholderText)
-                            .foregroundColor(.gray.opacity(0.7))
-                            .padding(.horizontal, 5)
-                            .allowsHitTesting(false)
-                    }
-                }
-                .padding(14)
-                .listSectionBackgroundModifier()
-        } else {
-            content
-                .scrollDisabled(true) // Otherwise adding new lines will momentarily clip on the vertical edge as it scrolls
-                .overlay(alignment: .topLeading) {
-                    if isEnteredTextEmpty {
-                        Text(placeholderText)
-                            .foregroundColor(.gray.opacity(0.7))
-                            .padding(.horizontal, 5)
-                            .padding(.vertical, 8)
-                            .allowsHitTesting(false)
-                    }
-                }
-                .padding(14)
-                .listSectionBackgroundModifier()
-        }
-    }
-}
-
-extension View {
-    func listSectionTextEditorModifier(placeholderText: String,
-                                       isEnteredTextEmpty: Bool) -> some View
-    {
-        modifier(ListSectionTextEditorModifier(placeholderText: placeholderText, isEnteredTextEmpty: isEnteredTextEmpty))
-    }
-}
-
 struct AccentColorProminentButtonStyleModifier: ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {
