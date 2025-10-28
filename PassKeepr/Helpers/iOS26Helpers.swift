@@ -32,6 +32,12 @@ struct ListSectionBackgroundModifier: ViewModifier {
     }
 }
 
+extension View {
+    func listSectionBackgroundModifier() -> some View {
+        modifier(ListSectionBackgroundModifier())
+    }
+}
+
 struct GlassProminentButtonStyleModifier: ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {
@@ -45,12 +51,6 @@ struct GlassProminentButtonStyleModifier: ViewModifier {
 extension View {
     func glassProminentButtonStyleIfAvailable() -> some View {
         modifier(GlassProminentButtonStyleModifier())
-    }
-}
-
-extension View {
-    func listSectionBackgroundModifier() -> some View {
-        modifier(ListSectionBackgroundModifier())
     }
 }
 
