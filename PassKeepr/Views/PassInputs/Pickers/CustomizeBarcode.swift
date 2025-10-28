@@ -216,7 +216,7 @@ struct CustomizeBarcode: View {
                                     },
                                     label: {
                                         Image(systemName: "info.circle")
-                                            .foregroundColor(Color(.label))
+                                            .foregroundColor(.secondary)
                                     }
                                 )
                                 .buttonStyle(PlainButtonStyle())
