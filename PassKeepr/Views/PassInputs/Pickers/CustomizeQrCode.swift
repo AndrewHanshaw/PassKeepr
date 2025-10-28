@@ -221,7 +221,7 @@ struct CustomizeQrCode: View {
             .keyboardAware()
             .scrollDismissesKeyboard(.immediately)
             .ignoresSafeArea(edges: .all) // otherwise it gets all wiggy when you flick scroll to the top or bottom
-            .highPriorityGesture(DragGesture()) // Fix for an iOS 18 bug. Otherwise if you drag with your finger on a button it will click that button. (see https://www.reddit.com/r/SwiftUI/comments/1hf4wwq/sheet_button_triggering_while_scrolling/)
+            .highProrityDragGestureModifier()
             .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
             .alert(isPresented: $showInvalidQrCodeAlert) {
                 Alert(title: Text("No valid QR code Detected"),

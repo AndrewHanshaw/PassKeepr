@@ -126,3 +126,21 @@ extension View {
         modifier(ToolbarCancelButtonModifier())
     }
 }
+
+// Fix for an iOS 18 bug. Otherwise if you drag with your finger on a button it will click that button. (see https://www.reddit.com/r/SwiftUI/comments/1hf4wwq/sheet_button_triggering_while_scrolling/)
+struct HighProrityDragGestureModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+        } else {
+            content
+                .highPriorityGesture(DragGesture())
+        }
+    }
+}
+
+extension View {
+    func highProrityDragGestureModifier() -> some View {
+        modifier(HighProrityDragGestureModifier())
+    }
+}
