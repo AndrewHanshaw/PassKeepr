@@ -293,7 +293,7 @@ struct CustomizeBarcode: View {
             .keyboardAware()
             .scrollDismissesKeyboard(.immediately)
             .ignoresSafeArea(edges: .all) // otherwise it gets all wiggy when you flick scroll to the top or bottom
-//            .highPriorityGesture(DragGesture()) // Would use this like we do in CustomizeQRCode but it breaks the Sliders.
+            .highProrityDragGestureModifier()
             .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
             .alert(isPresented: $showAlert) {
                 Alert(title: Text(String(describing: tempBarcodeType)),
