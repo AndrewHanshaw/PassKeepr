@@ -134,8 +134,16 @@ struct CustomizeQrCode: View {
                         .font(.system(size: 20))
                         .foregroundColor(.secondary)
 
-                    TextEditor(text: $tempQrCodeData)
-                        .listSectionTextEditorModifier(placeholderText: "QR Code Data", isEnteredTextEmpty: tempQrCodeData.isEmpty)
+                    LabeledContent {
+                        TextField("QR Code Data", text: $tempQrCodeData, axis: .vertical)
+                            .keyboardType(tempBarcodeType.keyboardType())
+                            .disableAutocorrection(true)
+                            .lineLimit(1 ... 20)
+                    } label: {
+                        Text("Data")
+                    }
+                    .padding(16)
+                    .listSectionBackgroundModifier()
 
                     HStack {
                         Text("Correction Level")
