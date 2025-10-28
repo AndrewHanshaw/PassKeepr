@@ -344,6 +344,11 @@ struct CustomizeBarcode: View {
                 UPCAView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: imageWidth, height: imageHeight)
             ).uiImage?.pngData() ?? Data()
 
+        case BarcodeType.ean13:
+            tempStripImage = ImageRenderer(content:
+                EAN13View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: imageWidth, height: imageHeight)
+            ).uiImage?.pngData() ?? Data()
+
         default:
             break
         }
