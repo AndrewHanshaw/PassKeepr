@@ -35,7 +35,6 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var secondaryFieldThreeLabel: String
     var secondaryFieldThreeText: String
     var isCustomStripImageOn: Bool
-    var frame: CGRect
 
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .data)
@@ -76,7 +75,6 @@ extension PassObject {
         secondaryFieldThreeLabel = ""
         secondaryFieldThreeText = ""
         isCustomStripImageOn = false
-        frame = .zero
     }
 
     func duplicate() -> PassObject {
