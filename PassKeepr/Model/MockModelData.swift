@@ -55,6 +55,7 @@ private extension PassObject {
         secondaryFieldThreeLabel: "",
         secondaryFieldThreeText: "",
         isCustomStripImageOn: false,
+        logoSymbolName: "info.circle"
     )
 
     static let preview2 = PassObject(
@@ -90,5 +91,6 @@ private extension PassObject {
         secondaryFieldThreeLabel: "",
         secondaryFieldThreeText: "",
         isCustomStripImageOn: false,
+        logoSymbolName: "checkmark"
     )
 }
