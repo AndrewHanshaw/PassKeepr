@@ -44,7 +44,7 @@ struct EditablePassCardTopSection: View {
                 .frame(maxWidth: geometry.size.width * 0.64)
                 .fixedSize(horizontal: true, vertical: false)
                 .sheet(isPresented: $isCustomizeLogoImagePresented) {
-                    CustomizeLogoImage(passObject: $passObject, placeholderColor: placeholderColor)
+                    CustomizeLogoImage(passObject: $passObject)
                         .edgesIgnoringSafeArea(.bottom)
                 }
 
