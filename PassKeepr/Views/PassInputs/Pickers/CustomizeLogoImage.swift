@@ -9,7 +9,6 @@ import Vision
 struct CustomizeLogoImage: View {
     @Environment(\.colorScheme) var colorScheme
 
-    var placeholderColor: Color
     @State private var tempLogoImageType: LogoImageType
     @Binding var passObject: PassObject
     @State private var isTransparencyOn: Bool = false
@@ -30,9 +29,8 @@ struct CustomizeLogoImage: View {
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    init(passObject: Binding<PassObject>, placeholderColor: Color) {
+    init(passObject: Binding<PassObject>) {
         _tempLogoImageType = State(initialValue: passObject.wrappedValue.logoImageType)
-        self.placeholderColor = placeholderColor
         _passObject = passObject
         _tempLogo = State(initialValue: UIImage(data: passObject.wrappedValue.logoImage))
         _isTransparencyAvailable = State(initialValue: tempLogoNoBackground != nil)
@@ -349,5 +347,5 @@ private func cropToVisibleContent(image: UIImage) -> UIImage? {
 }
 
 #Preview {
-    CustomizeLogoImage(passObject: .constant(MockModelData().passObjects[0]), placeholderColor: Color.black)
+    CustomizeLogoImage(passObject: .constant(MockModelData().passObjects[0]))
 }
