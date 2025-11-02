@@ -36,6 +36,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var secondaryFieldThreeText: String
     var isCustomStripImageOn: Bool
     var logoSymbolName: String
+    var logoSymbolColor: UInt
 
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .data)
@@ -77,6 +78,7 @@ extension PassObject {
         secondaryFieldThreeText = ""
         isCustomStripImageOn = false
         logoSymbolName = ""
+        logoSymbolColor = 0x000000
     }
 
     func duplicate() -> PassObject {
@@ -113,6 +115,7 @@ extension PassObject {
         newObject.secondaryFieldThreeText = secondaryFieldThreeText
         newObject.isCustomStripImageOn = isCustomStripImageOn
         newObject.logoSymbolName = logoSymbolName
+        newObject.logoSymbolColor = logoSymbolColor
         return newObject
     }
 }
