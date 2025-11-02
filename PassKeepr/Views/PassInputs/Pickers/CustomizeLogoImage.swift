@@ -16,7 +16,8 @@ struct CustomizeLogoImage: View {
     @State private var isEmojiPickerOn: Bool = false
     @State private var emoji: String = ""
 
-    @State private var icon: String = ""
+    @State private var symbolName: String = ""
+    @State private var symbolColor: Color = .black
     @State private var isSymbolPickerOn = false
 
     @State private var tempLogo: UIImage?
@@ -34,6 +35,12 @@ struct CustomizeLogoImage: View {
         _passObject = passObject
         _tempLogo = State(initialValue: UIImage(data: passObject.wrappedValue.logoImage))
         _isTransparencyAvailable = State(initialValue: tempLogoNoBackground != nil)
+        _symbolName = State(initialValue: passObject.wrappedValue.logoSymbolName)
+        if passObject.wrappedValue.logoSymbolName != "" {
+            _symbolColor = State(initialValue: Color(hex: passObject.wrappedValue.logoSymbolColor))
+        } else {
+            _symbolColor = State(initialValue: .primary)
+        }
     }
 
     var body: some View {
@@ -104,7 +111,7 @@ struct CustomizeLogoImage: View {
                     ).uiImage
                 }
                 .sheet(isPresented: $isSymbolPickerOn) {
-                    SymbolPicker(symbol: $icon)
+                    SymbolPicker(symbol: $symbolName)
                 }
 
                 switch tempLogoImageType {
@@ -160,6 +167,9 @@ struct CustomizeLogoImage: View {
                     .padding([.top, .bottom], 12)
                     .accentColorProminentButtonStyleIfAvailable()
 
+                    ColorPicker("Symbol Color", selection: $symbolColor)
+                        .padding(16)
+                        .listSectionBackgroundModifier()
                 case .none:
                     EmptyView()
                 }
@@ -208,9 +218,11 @@ struct CustomizeLogoImage: View {
                     isTransparencyOn = false
                 }
             }
-            .onChange(of: icon) {
+            .onChange(of: symbolName) {
                 renderSymbol()
             }
+            .onChange(of: symbolColor) {
+                renderSymbol()
             }
         }
     }
@@ -229,11 +241,14 @@ struct CustomizeLogoImage: View {
                 }
             }
         } else if tempLogoImageType == LogoImageType.symbol {
+            passObject.logoSymbolColor = symbolColor.toHex()
             if let logo = tempLogo {
                 passObject.logoImage = logo.pngData()!
             }
         }
         passObject.logoImageType = tempLogoImageType
+        passObject.logoSymbolName = symbolName
+        passObject.logoSymbolColor = symbolColor.toHex()
         presentationMode.wrappedValue.dismiss()
     }
 
