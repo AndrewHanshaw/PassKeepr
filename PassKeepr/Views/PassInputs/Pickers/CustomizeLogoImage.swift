@@ -83,17 +83,7 @@ struct CustomizeLogoImage: View {
                 }
                 .pickerStyle(.segmented)
                 .onChange(of: tempLogoImageType) {
-                    switch tempLogoImageType {
-                    case .photo:
-                        isPhotosPickerOn = true
-                    case .emoji:
-                        isEmojiPickerOn = true
-                    case .symbol:
-                        isSymbolPickerOn = true
-                    case .none:
-                        tempLogoImageType = LogoImageType.none
-                        tempLogo = nil
-                    }
+                    tempLogo = nil
                 }
                 .emojiPicker(
                     isPresented: $isEmojiPickerOn,
@@ -117,7 +107,31 @@ struct CustomizeLogoImage: View {
                     SymbolPicker(symbol: $icon)
                 }
 
-                if tempLogoImageType == LogoImageType.photo {
+                switch tempLogoImageType {
+                case .photo:
+                    ZStack {
+                        PhotosPicker(tempLogo == nil ? "Select a Logo Image" : "Change Logo Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                            .foregroundColor(Color.white)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .onChange(of: photoItem) {
+                                Task {
+                                    if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
+                                        tempLogo = UIImage(data: loaded)!
+                                    } else {
+                                        print("Failed")
+                                    }
+                                }
+                            }
+
+                        HStack {
+                            Spacer()
+                            Image(systemName: "info.circle")
+                                .foregroundColor(Color.white)
+                                .padding(.trailing, 12)
+                        }
+                    }
+                    .padding([.top, .bottom], 12)
+                    .accentColorProminentButtonStyleIfAvailable()
                     Toggle(isOn: $isTransparencyOn) {
                         Text("Transparent background")
                             .opacity(isTransparencyAvailable ? 1 : 0.2)
@@ -125,6 +139,29 @@ struct CustomizeLogoImage: View {
                     .disabled(!isTransparencyAvailable)
                     .padding(14)
                     .listSectionBackgroundModifier()
+                case .emoji:
+                    Button(tempLogo == nil ? "Select an Emoji" : "Change Emoji") {
+                        isEmojiPickerOn = true
+                    }
+                    .foregroundColor(Color.white)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding([.top, .bottom], 12)
+                    .accentColorProminentButtonStyleIfAvailable()
+                    .emojiPicker(
+                        isPresented: $isEmojiPickerOn,
+                        selectedEmoji: $emoji
+                    )
+                case .symbol:
+                    Button(tempLogo == nil ? "Select a Symbol" : "Change Symbol") {
+                        isSymbolPickerOn = true
+                    }
+                    .foregroundColor(Color.white)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding([.top, .bottom], 12)
+                    .accentColorProminentButtonStyleIfAvailable()
+
+                case .none:
+                    EmptyView()
                 }
 
                 Spacer()
@@ -172,15 +209,8 @@ struct CustomizeLogoImage: View {
                 }
             }
             .onChange(of: icon) {
-                tempLogoImageType = LogoImageType.symbol
-                print(icon)
-                tempLogo = ImageRenderer(content:
-                    Image(systemName: icon)
-                        .resizable()
-                        .font(.system(size: 1000))
-                        .scaledToFit()
-                        .frame(maxWidth: 1000, maxHeight: 1000) // Adjust size as needed
-                        .foregroundStyle(Color(hex: passObject.foregroundColor))).uiImage
+                renderSymbol()
+            }
             }
         }
     }
@@ -188,7 +218,7 @@ struct CustomizeLogoImage: View {
     private func updateLogoImage() {
         if tempLogoImageType == LogoImageType.none {
             passObject.logoImage = Data()
-        } else {
+        } else if tempLogoImageType == LogoImageType.photo {
             if isTransparencyOn {
                 if let logoNoBg = tempLogoNoBackground {
                     passObject.logoImage = logoNoBg.pngData()!
@@ -198,9 +228,25 @@ struct CustomizeLogoImage: View {
                     passObject.logoImage = logo.pngData()!
                 }
             }
+        } else if tempLogoImageType == LogoImageType.symbol {
+            if let logo = tempLogo {
+                passObject.logoImage = logo.pngData()!
+            }
         }
         passObject.logoImageType = tempLogoImageType
         presentationMode.wrappedValue.dismiss()
+    }
+
+    private func renderSymbol() {
+        if symbolName != "" {
+            tempLogo = ImageRenderer(content:
+                Image(systemName: symbolName)
+                    .resizable()
+                    .font(.system(size: 1000))
+                    .scaledToFit()
+                    .frame(maxWidth: 1000, maxHeight: 1000)
+                    .foregroundStyle(symbolColor)).uiImage
+        }
     }
 }
 
