@@ -12,10 +12,12 @@ struct PassCard: View {
                     .fill(passObject.backgroundImage != Data() ?
                         Color.clear : Color(hex: passObject.backgroundColor)
                     )
+                    .strokeBorder(Color.black.opacity(0.1), lineWidth: 2) // strokeBorder draws the line only on the inside of the view
                     .background(
                         passObject.backgroundImage != Data() ?
                             Image(uiImage: UIImage(data: passObject.backgroundImage)!)
                             .resizable()
+                            .scaleEffect(1.05) // Scale up the image slightly to prevent a semitransparent halo around the image
                             // .scaledToFill()
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .blur(radius: 6)
@@ -24,7 +26,6 @@ struct PassCard: View {
                     .clipShape(
                         RoundedRectangle(cornerRadius: 10, style: .continuous)
                     )
-                    .shadow(radius: 3, x: 0, y: 3)
                     .overlay(
                         VStack {
                             PassCardTopSection(passObject: passObject)
