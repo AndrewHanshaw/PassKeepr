@@ -31,7 +31,6 @@ struct ColorInput: View {
                     .padding([.bottom], 16)
                     .overlay(Divider(), alignment: .bottom)
                     .padding([.leading, .trailing], 16)
-//                    .background(colorScheme == .light ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground))
                     .disabled(disableControl)
             }
             ColorPicker("Label Color", selection: $labelColor)
@@ -39,8 +38,7 @@ struct ColorInput: View {
                     pass.labelColor = labelColor.toHex()
                 }
                 .padding([.leading, .trailing, .bottom], 16)
-                .padding(.top, pass.backgroundImage == Data() ? 0 : 16) // Need to add top padding only when the other two pickers are disabled
-//                .background(colorScheme == .light ? Color(UIColor.systemBackground) : Color(UIColor.secondarySystemBackground))
+                .padding(.top, pass.backgroundImage == Data() ? 0 : 16) // Need to add top padding only when the other two pickers are not shown
                 .disabled(disableControl)
         }
         .listSectionBackgroundModifier()
