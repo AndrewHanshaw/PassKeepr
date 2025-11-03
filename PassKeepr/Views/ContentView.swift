@@ -80,14 +80,16 @@ struct ContentView: View {
                         // initial order = current model order
                         dragState.orderIDs = modelData.passObjects.map(\.id)
                     }
-                    .onChange(of: modelData.passObjects) {
+                    .onChange(of: modelData.passObjects.count) { _, _ in
                         // Keep orderIDs in sync when items are added/removed:
                         // remove missing ids, append newly added ids to the end
+                        dragProperties.draggedID = nil
+                        let modelIDs = Set(modelData.passObjects.map(\.id))
                         var ids = dragState.orderIDs
-                        ids.removeAll { id in !modelData.passObjects.contains(where: { $0.id == id }) }
+                        ids.removeAll { id in !modelIDs.contains(id) }
                         let existing = Set(ids)
-                        let added = modelData.passObjects.map(\.id).filter { !existing.contains($0) }
-                        ids.append(contentsOf: added)
+                        let newIDs = modelData.passObjects.map(\.id).filter { !existing.contains($0) }
+                        ids.append(contentsOf: newIDs)
                         dragState.orderIDs = ids
                     }
                 }
