@@ -144,3 +144,21 @@ extension View {
         modifier(HighProrityDragGestureModifier())
     }
 }
+
+struct PopoverModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        if #available(iOS 26.0, *) {
+            content
+                .padding(10)
+        } else {
+            content
+                .padding(5)
+        }
+    }
+}
+
+extension View {
+    func popoverModifier() -> some View {
+        modifier(PopoverModifier())
+    }
+}
