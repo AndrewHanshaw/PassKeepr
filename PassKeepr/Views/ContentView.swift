@@ -177,13 +177,19 @@ struct PassCardContainer: View {
     @State private var shouldPresentEditPass = false
 
     var body: some View {
-        PassCard(passObject: passObject)
-            .onTapGesture {
-                shouldPresentEditPass.toggle()
-            }
-            .sheet(isPresented: $shouldPresentEditPass) {
-                EditPass(objectToEdit: $passObject, isNewPass: false)
-            }
+        ZStack {
+            PassCard(passObject: passObject)
+            PassCard(passObject: passObject)
+                .scaleEffect(0.9, anchor: .bottom)
+                .opacity(0.7)
+                .blur(radius: 10)
+        }
+        .onTapGesture {
+            shouldPresentEditPass.toggle()
+        }
+        .sheet(isPresented: $shouldPresentEditPass) {
+            EditPass(objectToEdit: $passObject, isNewPass: false)
+        }
     }
 }
 
