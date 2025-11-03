@@ -59,15 +59,13 @@ struct PrimaryTextFieldGeneric: View {
             Group {
                 Text("Tap on icons\nto edit each field")
                     .multilineTextAlignment(.center)
-                Button(action: { showHelpPopover = false; print("popover 0 dismissed") }) {
-                    Text("Ok")
-                        .foregroundColor(.white)
-                        .padding(5)
-                        .background(Color.accentColor)
-                        .cornerRadius(5)
-                }
+                Button("Ok", action: { showHelpPopover = false; print("popover 0 dismissed") })
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .accentColorProminentButtonStyleIfAvailable()
             }
-            .padding(5)
+            .popoverModifier()
             .presentationCompactAdaptation(.popover)
             .onChange(of: showHelpPopover) {
                 print("Popover was dismissed")
