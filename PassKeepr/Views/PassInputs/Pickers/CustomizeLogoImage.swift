@@ -92,10 +92,6 @@ struct CustomizeLogoImage: View {
                 .onChange(of: tempLogoImageType) {
                     tempLogo = nil
                 }
-                .emojiPicker(
-                    isPresented: $isEmojiPickerOn,
-                    selectedEmoji: $emoji
-                )
                 .padding(14)
                 .listSectionBackgroundModifier()
                 .onChange(of: emoji) {
