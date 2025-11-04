@@ -224,7 +224,7 @@ struct CustomizeQrCode: View {
             .highProrityDragGestureModifier()
             .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
             .alert(isPresented: $showInvalidQrCodeAlert) {
-                Alert(title: Text("No valid QR code Detected"),
+                Alert(title: Text("No Valid QR Code Detected"),
                       message: Text("Please select an image containing a valid QR code"),
                       dismissButton: .default(Text("OK")))
             }

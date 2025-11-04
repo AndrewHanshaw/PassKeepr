@@ -309,7 +309,7 @@ struct CustomizeBarcode: View {
                              message: Text(tempBarcodeType.info()),
                              dismissButton: .default(Text("OK")))
             case .invalidBarcodeAlert:
-                return Alert(title: Text("No valid barcode Detected"),
+                return Alert(title: Text("No Valid Barcode Detected"),
                              message: Text("Please select an image containing a valid barcode"),
                              dismissButton: .default(Text("OK")))
             }
