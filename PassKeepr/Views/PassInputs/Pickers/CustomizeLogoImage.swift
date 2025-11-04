@@ -241,6 +241,10 @@ struct CustomizeLogoImage: View {
             if let logo = tempLogo {
                 passObject.logoImage = logo.pngData()!
             }
+        } else if tempLogoImageType == LogoImageType.emoji {
+            if let logo = tempLogo {
+                passObject.logoImage = logo.pngData()!
+            }
         }
         passObject.logoImageType = tempLogoImageType
         passObject.logoSymbolName = symbolName
