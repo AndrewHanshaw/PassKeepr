@@ -18,13 +18,13 @@ struct EditPass: View {
     // the Save button is pressed
     @State private var tempObject: PassObject = .init()
     @State private var shouldShowSheet: Bool = false
+    @State private var showAlert: Bool = false
 
     let isNewPass: Bool
 
     @State private var hasEditPassButtonBeenPressed = false
     @State private var textSize: CGSize = CGSizeZero
 
-    @State private var isEditing: Bool = false
     @FocusState private var isTextFieldFocused: Bool
 
     @State private var showHelpPopover = false
@@ -89,6 +89,8 @@ struct EditPass: View {
                             if saveWithoutAddingToWallet() {
                                 _ = generatePass(passObject: objectToEdit)
                                 presentationMode.wrappedValue.dismiss()
+                            } else {
+                                showAlert = true
                             }
                         }
                         .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
@@ -141,6 +143,11 @@ struct EditPass: View {
                 print("hasEditPassButtonBeenPressed = false")
                 print(passSigner.isDataLoaded)
             }
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Failed to Update Pass"),
+                  message: Text("Deleting existing pass data was unsuccessful."),
+                  dismissButton: .default(Text("OK")))
         }
     }
 
