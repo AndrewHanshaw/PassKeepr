@@ -143,14 +143,7 @@ struct PassCard: View {
                     modelData.passObjects.append(newPass)
                     modelData.encodePassObjects()
 
-                    if let pkpassDir = generatePass(passObject: newPass) {
-                        Task {
-                            passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: newPass.id)
-                        }
-                        if passSigner.isDataLoaded == true {
-                            passSigner.isDataLoaded = false
-                        }
-                    }
+                    _ = generatePass(passObject: newPass)
                 }) {
                     Label("Duplicate", systemImage: "rectangle.portrait.on.rectangle.portrait")
                 }
