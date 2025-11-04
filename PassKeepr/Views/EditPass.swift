@@ -76,7 +76,7 @@ struct EditPass: View {
                 ToolbarItem(placement: .confirmationAction) {
                     // This weird initializer for Menu is the only way I could find to get it to apply the GlassProminentButtonStyle on iOS 26
                     Menu("Done", systemImage: "checkmark", content: {
-                        Button("Save + Add to Wallet", image: ImageResource(name: "custom.wallet.pass.badge.plus", bundle: .main), action: { saveWithoutAddingToWallet()
+                        Button("Save + Add to Wallet", image: ImageResource(name: "custom.wallet.pass.badge.plus", bundle: .main), action: { showAlert = !saveWithoutAddingToWallet()
                             if let pkpassDir = generatePass(passObject: objectToEdit) {
                                 Task {
                                     passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: objectToEdit.id)
@@ -86,8 +86,10 @@ struct EditPass: View {
                         .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
 
                         Button("Save without Adding", systemImage: "square.and.arrow.down") {
-                            saveWithoutAddingToWallet()
-                            presentationMode.wrappedValue.dismiss()
+                            if saveWithoutAddingToWallet() {
+                                _ = generatePass(passObject: objectToEdit)
+                                presentationMode.wrappedValue.dismiss()
+                            }
                         }
                         .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
                     })
@@ -142,22 +144,27 @@ struct EditPass: View {
         }
     }
 
-    func saveWithoutAddingToWallet() {
+    func saveWithoutAddingToWallet() -> Bool {
         hasEditPassButtonBeenPressed = true
         objectToEdit = tempObject
 
-        // Delete existing pass's directory altogether, we will regenerate from scratch
-        let passDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pass")
-        let pkPassDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pkpass")
-        do {
-            try FileManager.default.removeItem(at: passDirectory)
-            try FileManager.default.removeItem(at: pkPassDirectory)
-        } catch {
-            print("Unable to delete pass dir")
+        if !isNewPass {
+            do {
+                // Delete existing pass's directory altogether, we will regenerate from scratch
+                let passDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pass")
+                let pkPassDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pkpass")
+
+                try FileManager.default.removeItem(at: passDirectory)
+                try FileManager.default.removeItem(at: pkPassDirectory)
+            } catch {
+                return false
+            }
+        } else {
             modelData.passObjects.append(objectToEdit)
         }
 
         modelData.encodePassObjects()
+        return true
     }
 
     struct ActivityView: UIViewControllerRepresentable {
