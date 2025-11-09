@@ -26,7 +26,7 @@ import UIKit
 protocol MCEmojiCategoryViewDelegate: AnyObject {
     /**
      Processes an event by category selection.
-     
+
      - Parameter index: index of the selected category.
      */
     func didChoiceCategory(at index: Int)
@@ -34,9 +34,8 @@ protocol MCEmojiCategoryViewDelegate: AnyObject {
 
 /// The class store the category icon and processes handling touches.
 final class MCTouchableEmojiCategoryView: UIView {
-    
     // MARK: - Private Properties
-    
+
     private var categoryIconView: MCEmojiCategoryIconView
     /// Insets for categoryIconView.
     private lazy var categoryIconViewInsets: UIEdgeInsets = {
@@ -44,13 +43,14 @@ final class MCTouchableEmojiCategoryView: UIView {
         let inset = bounds.width * 0.23
         return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
     }()
+
     /// Target category index.
     private var categoryIndex: Int
-    
+
     private weak var delegate: MCEmojiCategoryViewDelegate?
-    
+
     // MARK: - Initializers
-    
+
     init(
         delegate: MCEmojiCategoryViewDelegate,
         categoryIndex: Int,
@@ -59,19 +59,20 @@ final class MCTouchableEmojiCategoryView: UIView {
     ) {
         self.delegate = delegate
         self.categoryIndex = categoryIndex
-        self.categoryIconView = MCEmojiCategoryIconView(
+        categoryIconView = MCEmojiCategoryIconView(
             type: categoryType,
             selectedIconTintColor: selectedEmojiCategoryTintColor
         )
         super.init(frame: .zero)
     }
-    
-    required init?(coder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Life Cycle
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         setupCategoryIconViewLayout()
@@ -87,12 +88,12 @@ final class MCTouchableEmojiCategoryView: UIView {
         categoryIconView.updateIconTintColor(for: .selected)
         delegate?.didChoiceCategory(at: categoryIndex)
     }
-    
+
     // MARK: - Public Methods
-    
+
     /**
      Updates the icon state to the selected one if the indexes match and the standard one if not.
-     
+
      - Parameter selectedCategoryIndex: Selected category index.
      */
     public func updateCategoryViewState(selectedCategoryIndex: Int) {
@@ -100,9 +101,9 @@ final class MCTouchableEmojiCategoryView: UIView {
             for: categoryIndex == selectedCategoryIndex ? .selected : .standard
         )
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func setupCategoryIconViewLayout() {
         guard !categoryIconView.isDescendant(of: self) else { return }
         addSubview(categoryIconView)
@@ -110,7 +111,7 @@ final class MCTouchableEmojiCategoryView: UIView {
             categoryIconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: categoryIconViewInsets.left),
             categoryIconView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -categoryIconViewInsets.right),
             categoryIconView.topAnchor.constraint(equalTo: topAnchor, constant: categoryIconViewInsets.top),
-            categoryIconView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -categoryIconViewInsets.bottom)
+            categoryIconView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -categoryIconViewInsets.bottom),
         ])
     }
 }

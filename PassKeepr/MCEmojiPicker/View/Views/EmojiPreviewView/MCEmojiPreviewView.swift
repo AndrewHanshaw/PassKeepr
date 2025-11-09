@@ -23,32 +23,31 @@
 import UIKit
 
 final class MCEmojiPreviewView: UIView {
-    
     // MARK: - Private Properties
-    
+
     private let emojiLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 30.fit())
         label.textAlignment = .center
         return label
     }()
-    
+
     private lazy var backgroundView = MCEmojiPreviewBackgroundView(
         frame: bounds,
         senderFrame: sender.convert(sender.bounds, to: self)
     )
-    
+
     private var sender: UIView
     private var sourceView: UIView
-    
+
     // MARK: - Initializers
-    
+
     init(
         emoji: MCEmoji?,
         sender: UIView,
         sourceView: UIView
     ) {
-        self.emojiLabel.text = emoji?.string
+        emojiLabel.text = emoji?.string
         self.sender = sender
         self.sourceView = sourceView
         super.init(frame: .zero)
@@ -56,20 +55,21 @@ final class MCEmojiPreviewView: UIView {
         setupBackground()
         setupEmojiLabelLayout()
     }
-    
-    required init?(coder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func setupLayout() {
         let sourceRect = sender.convert(sender.bounds, to: sourceView)
         let targetViewSize = CGSize(
             width: sourceRect.height * 1.5,
             height: sourceRect.height * 2.65
         )
-        
+
         frame = .init(
             x: sourceRect.midX - targetViewSize.width / 2,
             y: sourceRect.maxY - targetViewSize.height,
@@ -77,11 +77,11 @@ final class MCEmojiPreviewView: UIView {
             height: targetViewSize.height
         )
     }
-    
+
     private func setupBackground() {
         addSubview(backgroundView)
     }
-    
+
     private func setupEmojiLabelLayout() {
         emojiLabel.frame = backgroundView.contentFrame
         addSubview(emojiLabel)

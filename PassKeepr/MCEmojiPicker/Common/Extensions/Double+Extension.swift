@@ -31,7 +31,7 @@ extension Double {
     static let upAngle: CGFloat = Double.pi / 2
     /// Angle `0°` in radians.
     static let rightAngle: CGFloat = 0.0
-    
+
     /// Used to increase various sizes (fonts, heights and widths).
     /// - Parameter isOnlyToIncrease: Responsible for whether the value will decrease if the screen size is smaller than the default.
     func fit(isOnlyToIncrease: Bool = true) -> Double {

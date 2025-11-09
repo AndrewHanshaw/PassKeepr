@@ -24,11 +24,10 @@ import UIKit
 
 /// The class where the background is drawn for `MCEmojiPreviewView`.
 final class MCEmojiPreviewBackgroundView: UIView {
-    
     // MARK: - Public Properties
-    
+
     public var contentFrame: CGRect {
-        return .init(
+        .init(
             origin: .init(
                 x: 0,
                 y: Constants.mainCornerRadius / 2
@@ -36,35 +35,35 @@ final class MCEmojiPreviewBackgroundView: UIView {
             size: topRectangleFrame.size
         )
     }
-    
+
     // MARK: - Constants
-    
+
     private enum Constants {
         static let mainCornerRadius = 10.0
         static let bottomCornerRadius = 6.0
-        
+
         static let shadowRadius: Double = 2.5
         static let shadowOpacity: Float = 0.05
         static let shadowOffset: CGSize = .init(width: 0, height: 5)
-        
+
         static let borderWidth = 0.1
     }
-    
+
     // MARK: - Private Properties
-    
+
     private var backgroundPath: CGPath? {
         didSet {
             setupShadow()
             setupBorders()
         }
     }
-    
+
     private var senderFrame: CGRect
     private var topRectangleFrame: CGRect = .zero
     private var bottomRectangleFrame: CGRect = .zero
-    
+
     // MARK: - Initializers
-    
+
     init(
         frame: CGRect,
         senderFrame: CGRect
@@ -74,13 +73,14 @@ final class MCEmojiPreviewBackgroundView: UIView {
         backgroundColor = .clear
         initFramesForRectangles()
     }
-    
-    required init?(coder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func initFramesForRectangles() {
         bottomRectangleFrame = .init(
             x: senderFrame.origin.x,
@@ -98,7 +98,7 @@ final class MCEmojiPreviewBackgroundView: UIView {
             )
         )
     }
-    
+
     private func setupShadow() {
         layer.shadowPath = backgroundPath
         layer.shadowColor = UIColor.black.cgColor
@@ -106,7 +106,7 @@ final class MCEmojiPreviewBackgroundView: UIView {
         layer.shadowOpacity = Constants.shadowOpacity
         layer.shadowOffset = Constants.shadowOffset
     }
-    
+
     private func setupBorders() {
         let borderLayer = CAShapeLayer()
         borderLayer.path = backgroundPath
@@ -121,14 +121,14 @@ final class MCEmojiPreviewBackgroundView: UIView {
 // MARK: - Drawing
 
 extension MCEmojiPreviewBackgroundView {
-    public override func draw(_ rect: CGRect) {
+    override public func draw(_ rect: CGRect) {
         super.draw(rect)
         drawBackground()
     }
-    
+
     private func drawBackground() {
         UIColor.previewAndSkinToneBackgroundViewColor.setFill()
-        
+
         let path = UIBezierPath()
         path.addArc(
             withCenter: .init(
@@ -212,7 +212,7 @@ extension MCEmojiPreviewBackgroundView {
         )
         path.close()
         path.fill()
-        
+
         backgroundPath = path.cgPath
     }
 }
