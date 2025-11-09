@@ -60,20 +60,22 @@ struct CustomizeStripImage: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                 }
 
-                PhotosPicker(tempStrip == nil ? "Select a Strip Image" : "Change Strip Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundColor(Color.white)
-                    .onChange(of: photoItem) {
-                        Task {
-                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                                tempStrip = UIImage(data: loaded)!
-                            } else {
-                                print("Failed")
-                            }
+                PhotosPicker(selection: $photoItem, matching: .any(of: [.images, .not(.videos)])) {
+                    Text(tempStrip == nil ? "Select a Strip Image" : "Change Strip Image")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .foregroundColor(Color.white)
+                        .padding(.vertical, 12)
+                        .accentColorProminentButtonStyleIfAvailable()
+                }
+                .onChange(of: photoItem) {
+                    Task {
+                        if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
+                            tempStrip = UIImage(data: loaded)!
+                        } else {
+                            print("Failed")
                         }
                     }
-                    .padding([.top, .bottom], 12)
-                    .accentColorProminentButtonStyleIfAvailable()
+                }
 
                 if offsetBound > 1 { // if the selected strip image is already the correct aspect ratio, don't show the adjustment slider
                     HStack {
