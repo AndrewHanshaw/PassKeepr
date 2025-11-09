@@ -1,7 +1,6 @@
 import _PhotosUI_SwiftUI
 import CoreImage
 import CoreImage.CIFilterBuiltins
-import MCEmojiPicker
 import SwiftUI
 import SymbolPicker
 import Vision

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -47,7 +47,6 @@
 		BA8671DF2B951FD700F20608 /* PDF417View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8671DE2B951FD700F20608 /* PDF417View.swift */; };
 		BA879C242B7064AB008A685E /* UPCEView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA879C232B7064AB008A685E /* UPCEView.swift */; };
 		BA885AE82CF2A01C0084FC25 /* TextFieldDynamicWidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA885AE72CF2A01C0084FC25 /* TextFieldDynamicWidth.swift */; };
-		BA8D50BE2D30C6CA009617C1 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = BA8D50BD2D30C6CA009617C1 /* MCEmojiPicker */; };
 		BA8D50C12D30C756009617C1 /* SFSymbolsPicker in Frameworks */ = {isa = PBXBuildFile; productRef = BA8D50C02D30C756009617C1 /* SFSymbolsPicker */; };
 		BA8D50C42D30C8F5009617C1 /* SymbolPicker in Frameworks */ = {isa = PBXBuildFile; productRef = BA8D50C32D30C8F5009617C1 /* SymbolPicker */; };
 		BA95576D2CD69ADE0010721A /* AddToWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA95576C2CD69ADE0010721A /* AddToWalletView.swift */; };
@@ -178,6 +177,10 @@
 		BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeQrCode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		BADAC0F22EC03729002B7F84 /* MCEmojiPicker */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MCEmojiPicker; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		3A02E7332AF6EE1000383BC2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -186,7 +189,6 @@
 				BA8D50C42D30C8F5009617C1 /* SymbolPicker in Frameworks */,
 				BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */,
 				BA8D50C12D30C756009617C1 /* SFSymbolsPicker in Frameworks */,
-				BA8D50BE2D30C6CA009617C1 /* MCEmojiPicker in Frameworks */,
 				BA17A9112D36155E00A8C992 /* KeyboardAware in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,6 +243,7 @@
 				3A02E7392AF6EE1000383BC2 /* PassKeeprApp.swift */,
 				3A02E73D2AF6EE1A00383BC2 /* Assets.xcassets */,
 				3A02E73F2AF6EE1A00383BC2 /* Preview Content */,
+				BADAC0F22EC03729002B7F84 /* MCEmojiPicker */,
 			);
 			path = PassKeepr;
 			sourceTree = "<group>";
@@ -439,10 +442,12 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				BADAC0F22EC03729002B7F84 /* MCEmojiPicker */,
+			);
 			name = PassKeepr;
 			packageProductDependencies = (
 				BAF9428A2CB35689009CF225 /* ZIPFoundation */,
-				BA8D50BD2D30C6CA009617C1 /* MCEmojiPicker */,
 				BA8D50C02D30C756009617C1 /* SFSymbolsPicker */,
 				BA8D50C32D30C8F5009617C1 /* SymbolPicker */,
 				BA17A9102D36155E00A8C992 /* KeyboardAware */,
@@ -521,7 +526,6 @@
 			mainGroup = 3A02E72D2AF6EE1000383BC2;
 			packageReferences = (
 				BAF942892CB35689009CF225 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
-				BA8D50BC2D30C555009617C1 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
 				BA8D50BF2D30C756009617C1 /* XCRemoteSwiftPackageReference "SFSymbolsPicker" */,
 				BA8D50C22D30C8F5009617C1 /* XCRemoteSwiftPackageReference "SymbolPicker" */,
 				BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */,
@@ -988,14 +992,6 @@
 				minimumVersion = 0.5.0;
 			};
 		};
-		BA8D50BC2D30C555009617C1 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/izyumkin/MCEmojiPicker";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.3;
-			};
-		};
 		BA8D50BF2D30C756009617C1 /* XCRemoteSwiftPackageReference "SFSymbolsPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/alessiorubicini/SFSymbolsPicker";
@@ -1027,11 +1023,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */;
 			productName = KeyboardAware;
-		};
-		BA8D50BD2D30C6CA009617C1 /* MCEmojiPicker */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BA8D50BC2D30C555009617C1 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */;
-			productName = MCEmojiPicker;
 		};
 		BA8D50C02D30C756009617C1 /* SFSymbolsPicker */ = {
 			isa = XCSwiftPackageProductDependency;
