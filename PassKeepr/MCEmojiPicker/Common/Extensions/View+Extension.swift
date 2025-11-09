@@ -23,7 +23,7 @@
 import SwiftUI
 
 @available(iOS 13, *)
-extension View {
+public extension View {
     /// The method adds a macOS style emoji picker.
     ///
     /// - Parameters:
@@ -35,7 +35,7 @@ extension View {
     ///     - isDismissAfterChoosing: A boolean value that determines whether the screen will be hidden after the emoji is selected.
     ///     - selectedEmojiCategoryTintColor: Color for the selected emoji category.
     ///     - feedBackGeneratorStyle: Feedback generator style. To turn off, set `nil` to this parameter.
-    @ViewBuilder public func emojiPicker(
+    @ViewBuilder func emojiPicker(
         isPresented: Binding<Bool>,
         selectedEmoji: Binding<String>,
         arrowDirection: MCPickerArrowDirection? = nil,
@@ -45,7 +45,7 @@ extension View {
         selectedEmojiCategoryTintColor: UIColor? = nil,
         feedBackGeneratorStyle: UIImpactFeedbackGenerator.FeedbackStyle? = nil
     ) -> some View {
-        self.overlay(
+        overlay(
             MCEmojiPickerRepresentableController(
                 isPresented: isPresented,
                 selectedEmoji: selectedEmoji,
@@ -56,7 +56,7 @@ extension View {
                 selectedEmojiCategoryTintColor: selectedEmojiCategoryTintColor,
                 feedBackGeneratorStyle: feedBackGeneratorStyle
             )
-                .allowsHitTesting(false)
+            .allowsHitTesting(false)
         )
     }
 }

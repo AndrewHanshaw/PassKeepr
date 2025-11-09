@@ -32,7 +32,7 @@ protocol MCUnicodeManagerProtocol {
 extension MCEmojiCategoryType {
     var emojiCategoryTitle: String {
         NSLocalizedString(
-            self.localizeKey,
+            localizeKey,
             tableName: "MCEmojiPickerLocalizable",
             bundle: .module,
             comment: ""
@@ -42,18 +42,17 @@ extension MCEmojiCategoryType {
 
 /// The class is responsible for getting a relevant set of emojis for iOS version.
 final class MCUnicodeManager: MCUnicodeManagerProtocol {
-    
     /// The maximum number of frequently used emojis to include in the `frequentlyUsed` category.
     public let maxFrequentlyUsedEmojisCount: Int
-    
+
     // MARK: - Initializers
-    
+
     public init(maxFrequentlyUsedEmojis: Int = 30) {
-        self.maxFrequentlyUsedEmojisCount = maxFrequentlyUsedEmojis
+        maxFrequentlyUsedEmojisCount = maxFrequentlyUsedEmojis
     }
-    
+
     // MARK: - Public Methods
-    
+
     /// Returns all emojis available for the current device's iOS version.
     func getEmojisForCurrentIOSVersion() -> [MCEmojiCategory] {
         let frequentlyUsedEmojis: MCEmojiCategory = .init(
@@ -62,7 +61,7 @@ final class MCUnicodeManager: MCUnicodeManagerProtocol {
         )
         return [frequentlyUsedEmojis] + Self.defaultEmojis
     }
-    
+
     // MARK: - Private Methods
 
     /// Returns the top n (`maxFrequentlyUsedEmojis`) emojis by usage, for emojis with a `usageCount` > 0.
@@ -70,8 +69,8 @@ final class MCUnicodeManager: MCUnicodeManagerProtocol {
         Array(
             Self.defaultEmojis
                 .lazy
-                .flatMap({ $0.emojis })
-                .filter({ $0.usageCount > 0 })
+                .flatMap { $0.emojis }
+                .filter { $0.usageCount > 0 }
                 .sorted(by: { lhs, rhs in
                     let (aUsage, bUsage) = (lhs.usage, rhs.usage)
                     guard aUsage.count != bUsage.count else {
@@ -85,20 +84,20 @@ final class MCUnicodeManager: MCUnicodeManagerProtocol {
     }
 
     // MARK: - Private Properties
-    
+
     /// The maximum available emoji version for the current iOS version.
     private static let maxCurrentAvailableEmojiVersion: Double = {
         let currentIOSVersion = (UIDevice.current.systemVersion as NSString).floatValue
         switch currentIOSVersion {
-        case 12.1...13.1:
+        case 12.1 ... 13.1:
             return 11.0
-        case 13.2...14.1:
+        case 13.2 ... 14.1:
             return 12.0
-        case 14.2...14.4:
+        case 14.2 ... 14.4:
             return 13.0
-        case 14.5...15.3:
+        case 14.5 ... 15.3:
             return 13.1
-        case 15.4...16.3:
+        case 15.4 ... 16.3:
             return 14.0
         case 16.4...:
             return 15.0
@@ -127,7 +126,7 @@ final class MCUnicodeManager: MCUnicodeManagerProtocol {
         MCUnicodeManager.travelAndPlacesEmojis,
         MCUnicodeManager.objectsEmojis,
         MCUnicodeManager.symbolsEmojis,
-        MCUnicodeManager.flagsEmojis
+        MCUnicodeManager.flagsEmojis,
     ]
 
     static let peopleEmojis = emojis(for: .people)

@@ -27,14 +27,14 @@ import Foundation
 ///
 /// To do this, a check has been added before the extension.
 #if !SWIFT_PACKAGE
-extension Bundle {
-    /// Resources bundle.
-    static var module: Bundle {
-        let path = Bundle(for: MCUnicodeManager.self).path(
-            forResource: "MCEmojiPicker",
-            ofType: "bundle"
-        ) ?? ""
-        return Bundle(path: path) ?? Bundle.main
+    extension Bundle {
+        /// Resources bundle.
+        static var module: Bundle {
+            let path = Bundle(for: MCUnicodeManager.self).path(
+                forResource: "MCEmojiPicker",
+                ofType: "bundle"
+            ) ?? ""
+            return Bundle(path: path) ?? Bundle.main
+        }
     }
-}
 #endif

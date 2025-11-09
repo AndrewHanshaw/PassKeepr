@@ -27,7 +27,7 @@ extension UIColor {
     ///
     /// This is a standard color from UIKit - `.systemGroupedBackground`.
     static let popoverBackgroundColor = UIColor(
-        light:  UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.0),
+        light: UIColor(red: 0.95, green: 0.95, blue: 0.97, alpha: 1.0),
         dark: UIColor(red: 0.11, green: 0.11, blue: 0.12, alpha: 1.0)
     )
     /// Background color for `MCEmojiSkinTonePickerBackgroundView` and `MCEmojiPreviewView`.

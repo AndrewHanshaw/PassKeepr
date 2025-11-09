@@ -25,6 +25,6 @@ import UIKit
 extension UICollectionReusableView {
     /// Converts the class name to a string.
     static var reuseIdentifier: String {
-        return String(describing: self)
+        String(describing: self)
     }
 }

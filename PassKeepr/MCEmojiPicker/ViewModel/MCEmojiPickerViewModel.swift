@@ -48,23 +48,22 @@ protocol MCEmojiPickerViewModelProtocol {
 
 /// View model which using in `MCEmojiPickerViewController`.
 final class MCEmojiPickerViewModel: MCEmojiPickerViewModelProtocol {
-    
     // MARK: - Public Properties
-    
+
     public var selectedEmoji = Observable<MCEmoji?>(value: nil)
     public var selectedEmojiCategoryIndex = Observable<Int>(value: 0)
     public var showEmptyEmojiCategories = false
     public var emojiCategories: [MCEmojiCategory] {
-        allEmojiCategories.filter({ showEmptyEmojiCategories || $0.emojis.count > 0 })
+        allEmojiCategories.filter { showEmptyEmojiCategories || $0.emojis.count > 0 }
     }
-    
+
     // MARK: - Private Properties
-    
+
     /// All emoji categories.
     private var allEmojiCategories = [MCEmojiCategory]()
-    
+
     // MARK: - Initializers
-    
+
     init(unicodeManager: MCUnicodeManagerProtocol = MCUnicodeManager()) {
         allEmojiCategories = unicodeManager.getEmojisForCurrentIOSVersion()
         // Increment usage of each emoji upon selection
@@ -72,29 +71,29 @@ final class MCEmojiPickerViewModel: MCEmojiPickerViewModelProtocol {
             emoji?.incrementUsageCount()
         }
     }
-    
+
     // MARK: - Public Methods
-    
+
     public func clearSelectedEmoji() {
         selectedEmoji.value = nil
     }
-    
+
     public func numberOfSections() -> Int {
-        return emojiCategories.count
+        emojiCategories.count
     }
-    
+
     public func numberOfItems(in section: Int) -> Int {
-        return emojiCategories[section].emojis.count
+        emojiCategories[section].emojis.count
     }
-    
+
     public func emoji(at indexPath: IndexPath) -> MCEmoji {
-        return emojiCategories[indexPath.section].emojis[indexPath.row]
+        emojiCategories[indexPath.section].emojis[indexPath.row]
     }
-    
+
     public func sectionHeaderName(for section: Int) -> String {
-        return emojiCategories[section].categoryName
+        emojiCategories[section].categoryName
     }
-    
+
     public func updateEmojiSkinTone(_ skinToneRawValue: Int, in indexPath: IndexPath) -> MCEmoji {
         let categoryType: MCEmojiCategoryType = emojiCategories[indexPath.section].type
         let allCategoriesIndex: Int = allEmojiCategories.firstIndex { $0.type == categoryType } ?? 0

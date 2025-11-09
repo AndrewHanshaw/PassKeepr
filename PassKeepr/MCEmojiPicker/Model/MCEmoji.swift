@@ -26,7 +26,7 @@ import Foundation
 @_spi(JSON)
 public struct MCEmoji: Codable {
     // MARK: - Types
-    
+
     /// Keys for storage in UserDefaults.
     private enum StorageKeys {
         case skinTone(_ emoji: MCEmoji)
@@ -34,55 +34,60 @@ public struct MCEmoji: Codable {
 
         var key: String {
             switch self {
-            case .skinTone(let emoji):
+            case let .skinTone(emoji):
                 return emoji.emojiKeys.emoji()
-            case .usageTimestamps(let emoji):
+            case let .usageTimestamps(emoji):
                 return StorageKeys.skinTone(emoji).key + "-usage-timestamps"
             }
         }
     }
-    
+
     // MARK: - Public Properties
-    
+
     /// A boolean indicating whether the skin for this emoji has been selected before.
     public var isSkinBeenSelectedBefore: Bool {
         skinTone != nil
     }
+
     /// The current skin tone for this emoji, if one has been selected.
     public var skinTone: MCEmojiSkinTone? {
         let skinToneRawValue = UserDefaults.standard.integer(forKey: StorageKeys.skinTone(self).key)
         return MCEmojiSkinTone(rawValue: skinToneRawValue)
     }
+
     /// All times when the emoji has been selected.
     public var usage: [TimeInterval] {
         (UserDefaults.standard.array(forKey: StorageKeys.usageTimestamps(self).key) as? [TimeInterval]) ?? []
     }
+
     /// The number of times this emoji has been selected.
     public var usageCount: Int {
         usage.count
     }
+
     /// The last time when this emoji has been selected.
     public var lastUsage: TimeInterval {
         usage.first ?? .zero
     }
+
     /// The string representation of the emoji.
     public var string: String {
         getEmoji()
     }
 
     /// The keys used to represent the emoji.
-    private(set) public var emojiKeys: [Int]
+    public private(set) var emojiKeys: [Int]
     /// A boolean indicating whether this emoji has different skin tones available.
-    private(set) public var isSkinToneSupport: Bool
+    public private(set) var isSkinToneSupport: Bool
     /// The search key for the emoji.
-    private(set) public var searchKey: String
+    public private(set) var searchKey: String
     /// The emoji version.
-    private(set) public var version: Double
-    
+    public private(set) var version: Double
+
     // MARK: - Initializers
-    
+
     /// Initializes a new instance of the `MCEmoji` struct.
-    
+
     /// - Parameters:
     ///   - emojiKeys: The keys used to represent the emoji.
     ///   - isSkinToneSupport: A boolean indicating whether this emoji has different skin tones available.
@@ -99,30 +104,31 @@ public struct MCEmoji: Codable {
         self.searchKey = searchKey
         self.version = version
     }
-    
+
     // MARK: - Public Methods
 
     /// Sets the skin tone of the emoji.
-    
+
     /// - Parameters:
     ///   - skinToneRawValue: The raw value of the `MCEmojiSkinTone`.
     public func set(skinToneRawValue: Int) {
         UserDefaults.standard.set(skinToneRawValue, forKey: StorageKeys.skinTone(self).key)
     }
-    
+
     /// Increments the usage count for this emoji.
     public func incrementUsageCount() {
         let nowTimestamp = Date().timeIntervalSince1970
         UserDefaults.standard.set([nowTimestamp] + usage, forKey: StorageKeys.usageTimestamps(self).key)
     }
-    
+
     // MARK: - Private Methods
-    
+
     /// Returns the string representation of this smiley. Considering the skin tone, if it has been selected.
     private func getEmoji() -> String {
         guard isSkinToneSupport,
               let skinTone = skinTone,
-              let skinToneKey = skinTone.skinKey else {
+              let skinToneKey = skinTone.skinKey
+        else {
             return emojiKeys.emoji()
         }
         var bufferEmojiKeys = emojiKeys
@@ -140,7 +146,7 @@ public enum MCEmojiSkinTone: Int, CaseIterable {
     case medium = 4
     case mediumDark = 5
     case dark = 6
-    
+
     /// Hex value for the skin tone.
     public var skinKey: Int? {
         switch self {

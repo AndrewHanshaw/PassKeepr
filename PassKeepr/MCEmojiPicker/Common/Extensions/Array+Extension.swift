@@ -35,13 +35,13 @@ extension Array where Element == Int {
     /// print([0x1F600, 0x1F635, 0x200D, 0x1F4AB].emoji()) // "😀😵‍💫"
     /// ```
     func emoji() -> String {
-        return self
+        self
             // Converting hex value into a 32-bit integer representation of emoji in the Unicode table.
-            .map({ UnicodeScalar($0) })
+            .map { UnicodeScalar($0) }
             // Removing the optional.
-            .compactMap({ $0 })
+            .compactMap { $0 }
             // Converting a 32-bit integer to a character for correct representation.
-            .map({ String($0) })
+            .map { String($0) }
             // Combine all the received values to get the final emoji.
             .joined()
     }

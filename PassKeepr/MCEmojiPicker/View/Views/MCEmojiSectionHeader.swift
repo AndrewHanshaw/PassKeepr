@@ -23,54 +23,54 @@
 import UIKit
 
 final class MCEmojiSectionHeader: UICollectionReusableView {
-    
     // MARK: - Constants
-    
+
     private enum Constants {
         static let backgroundColor = UIColor.popoverBackgroundColor
-        
+
         static let headerLabelColor = UIColor.systemGray
         static let headerLabelFont = UIFont.systemFont(ofSize: 14.fit(), weight: .regular)
         static let headerLabelInsets = UIEdgeInsets(top: 0, left: 7, bottom: -4, right: -16)
     }
-    
+
     // MARK: - Private Properties
-    
+
     private let headerLabel: UILabel = {
-        let label: UILabel = UILabel()
+        let label = UILabel()
         label.textColor = Constants.headerLabelColor
         label.font = Constants.headerLabelFont
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     // MARK: - Initializers
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupBackgroundColor()
         setupHeaderLabelLayout()
     }
-    
-    required init?(coder aDecoder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Public Methods
-    
+
     public func configure(with categoryName: String) {
         headerLabel.text = categoryName
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func setupBackgroundColor() {
         backgroundColor = Constants.backgroundColor
     }
-    
+
     private func setupHeaderLabelLayout() {
         addSubview(headerLabel)
-        
+
         NSLayoutConstraint.activate([
             headerLabel.leadingAnchor.constraint(
                 equalTo: leadingAnchor,
@@ -83,7 +83,7 @@ final class MCEmojiSectionHeader: UICollectionReusableView {
             headerLabel.bottomAnchor.constraint(
                 equalTo: bottomAnchor,
                 constant: Constants.headerLabelInsets.bottom
-            )
+            ),
         ])
     }
 }

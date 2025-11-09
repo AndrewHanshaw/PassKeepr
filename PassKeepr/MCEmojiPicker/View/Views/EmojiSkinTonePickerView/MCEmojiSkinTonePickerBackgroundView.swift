@@ -24,41 +24,40 @@ import UIKit
 
 /// The class where the background is drawn for `MCEmojiSkinTonePickerView`.
 final class MCEmojiSkinTonePickerBackgroundView: UIView {
-    
     // MARK: - Public Properties
-    
+
     public var contentFrame: CGRect {
-        return topRectangleFrame
+        topRectangleFrame
     }
-    
+
     // MARK: - Constants
-    
+
     private enum Constants {
         static let mainCornerRadius = 10.0
         static let bottomCornerRadius = 6.0
-        
+
         static let shadowRadius: Double = 2.5
         static let shadowOpacity: Float = 0.05
         static let shadowOffset: CGSize = .init(width: 0, height: 5)
-        
+
         static let borderWidth = 0.1
     }
-    
+
     // MARK: - Private Properties
-    
+
     private var senderFrame: CGRect
     private var topRectangleFrame: CGRect = .zero
     private var bottomRectangleFrame: CGRect = .zero
-    
+
     private var backgroundPath: CGPath? {
         didSet {
             setupShadow()
             setupBorders()
         }
     }
-    
+
     // MARK: - Initializers
-    
+
     init(
         frame: CGRect,
         senderFrame: CGRect
@@ -68,22 +67,23 @@ final class MCEmojiSkinTonePickerBackgroundView: UIView {
         backgroundColor = .clear
         initFramesForRectangles()
     }
-    
-    required init?(coder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Life Cycle
-    
+
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if let backgroundPath = backgroundPath, backgroundPath.contains(point) {
             return super.hitTest(point, with: event)
         }
         return nil
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func initFramesForRectangles() {
         bottomRectangleFrame = .init(
             x: senderFrame.origin.x,
@@ -100,7 +100,7 @@ final class MCEmojiSkinTonePickerBackgroundView: UIView {
             )
         )
     }
-    
+
     private func setupShadow() {
         layer.shadowPath = backgroundPath
         layer.shadowColor = UIColor.black.cgColor
@@ -108,7 +108,7 @@ final class MCEmojiSkinTonePickerBackgroundView: UIView {
         layer.shadowOpacity = Constants.shadowOpacity
         layer.shadowOffset = Constants.shadowOffset
     }
-    
+
     private func setupBorders() {
         let borderLayer = CAShapeLayer()
         borderLayer.path = backgroundPath
@@ -123,14 +123,14 @@ final class MCEmojiSkinTonePickerBackgroundView: UIView {
 // MARK: - Drawing
 
 extension MCEmojiSkinTonePickerBackgroundView {
-    public override func draw(_ rect: CGRect) {
+    override public func draw(_ rect: CGRect) {
         super.draw(rect)
         drawBackground()
     }
-    
+
     private func drawBackground() {
         UIColor.previewAndSkinToneBackgroundViewColor.setFill()
-        
+
         let path = UIBezierPath()
         path.addArc(
             withCenter: .init(
@@ -214,7 +214,7 @@ extension MCEmojiSkinTonePickerBackgroundView {
         )
         path.close()
         path.fill()
-        
+
         backgroundPath = path.cgPath
     }
 }

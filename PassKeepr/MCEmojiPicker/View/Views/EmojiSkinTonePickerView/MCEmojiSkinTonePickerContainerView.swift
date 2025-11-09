@@ -32,17 +32,16 @@ protocol MCEmojiSkinTonePickerDelegate: AnyObject {
 }
 
 final class MCEmojiSkinTonePickerContainerView: UIView {
-    
     // MARK: - Private Properties
-    
+
     private var sender: UIView
     private var sourceView: UIView
     private var emojiPickerFrame: CGRect
     private var cell: MCEmojiCollectionViewCell
     private var emoji: MCEmoji?
-    
+
     private weak var delegate: MCEmojiSkinTonePickerDelegate?
-    
+
     private lazy var skinTonePicker = MCEmojiSkinTonePickerView(
         delegate: self,
         emoji: emoji,
@@ -50,9 +49,9 @@ final class MCEmojiSkinTonePickerContainerView: UIView {
         sourceView: sourceView,
         emojiPickerFrame: emojiPickerFrame
     )
-    
+
     // MARK: - Initializers
-    
+
     init(
         delegate: MCEmojiSkinTonePickerDelegate,
         cell: MCEmojiCollectionViewCell,
@@ -64,7 +63,7 @@ final class MCEmojiSkinTonePickerContainerView: UIView {
         self.delegate = delegate
         self.cell = cell
         self.emoji = emoji
-        self.sender = cell.emojiLabel
+        sender = cell.emojiLabel
         self.sourceView = sourceView
         self.emojiPickerFrame = emojiPickerFrame
         super.init(frame: frame)
@@ -72,11 +71,12 @@ final class MCEmojiSkinTonePickerContainerView: UIView {
         setupNotifications()
         setupGestureRecognizers()
     }
-    
-    required init?(coder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(
             self,
@@ -84,25 +84,25 @@ final class MCEmojiSkinTonePickerContainerView: UIView {
             object: nil
         )
     }
-    
+
     // MARK: - Actions
-    
+
     @objc private func orientationChanged() {
         removeFromSuperview()
         delegate?.didEmojiSkinTonePickerDismissed()
     }
-    
+
     @objc private func backgroundTapAction() {
         removeFromSuperview()
         delegate?.didEmojiSkinTonePickerDismissed()
     }
-    
+
     // MARK: - Private Methods
-    
+
     private func setupSkinTonePicker() {
         addSubview(skinTonePicker)
     }
-    
+
     private func setupNotifications() {
         NotificationCenter.default.addObserver(
             self,
@@ -111,7 +111,7 @@ final class MCEmojiSkinTonePickerContainerView: UIView {
             object: nil
         )
     }
-    
+
     private func setupGestureRecognizers() {
         addGestureRecognizer(
             UITapGestureRecognizer(
@@ -131,7 +131,7 @@ extension MCEmojiSkinTonePickerContainerView: MCEmojiSkinTonePickerViewDelegate 
         guard let emojiToneIndex = emojiToneIndex else { return }
         delegate?.updateSkinTone(emojiToneIndex + 1, in: cell)
     }
-    
+
     func feedbackImpactOccurred() {
         delegate?.feedbackImpactOccurred()
     }
