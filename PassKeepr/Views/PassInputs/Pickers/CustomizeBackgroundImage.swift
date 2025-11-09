@@ -52,18 +52,20 @@ struct CustomizeBackgroundImage: View {
                 }
 
                 ZStack {
-                    PhotosPicker(tempBackground == nil ? "Select a Background Image" : "Change Background Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
-                        .foregroundColor(Color.white)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .onChange(of: photoItem) {
-                            Task {
-                                if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                                    tempBackground = UIImage(data: loaded)!
-                                } else {
-                                    print("Failed")
-                                }
+                    PhotosPicker(selection: $photoItem, matching: .any(of: [.images, .not(.videos)])) {
+                        Text(tempBackground == nil ? "Select a Background Image" : "Change Background Image")
+                            .frame(maxWidth: .infinity)
+                            .foregroundColor(Color.white)
+                    }
+                    .onChange(of: photoItem) {
+                        Task {
+                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
+                                tempBackground = UIImage(data: loaded)!
+                            } else {
+                                print("Failed")
                             }
                         }
+                    }
 
                     HStack {
                         Spacer()

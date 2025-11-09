@@ -111,29 +111,23 @@ struct CustomizeLogoImage: View {
 
                 switch tempLogoImageType {
                 case .photo:
-                    ZStack {
-                        PhotosPicker(tempLogo == nil ? "Select a Logo Image" : "Change Logo Image", selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                    PhotosPicker(selection: $photoItem, matching: .any(of: [.images, .not(.videos)])) {
+                        Text(tempLogo == nil ? "Select a Logo Image" : "Change Logo Image")
                             .foregroundColor(Color.white)
                             .frame(maxWidth: .infinity, alignment: .center)
-                            .onChange(of: photoItem) {
-                                Task {
-                                    if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                                        tempLogo = UIImage(data: loaded)!
-                                    } else {
-                                        print("Failed")
-                                    }
-                                }
+                    }
+                    .onChange(of: photoItem) {
+                        Task {
+                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
+                                tempLogo = UIImage(data: loaded)!
+                            } else {
+                                print("Failed")
                             }
-
-                        HStack {
-                            Spacer()
-                            Image(systemName: "info.circle")
-                                .foregroundColor(Color.white)
-                                .padding(.trailing, 12)
                         }
                     }
                     .padding([.top, .bottom], 12)
                     .accentColorProminentButtonStyleIfAvailable()
+
                     Toggle(isOn: $isTransparencyOn) {
                         Text("Transparent background")
                             .opacity(isTransparencyAvailable ? 1 : 0.2)
@@ -142,24 +136,28 @@ struct CustomizeLogoImage: View {
                     .padding(14)
                     .listSectionBackgroundModifier()
                 case .emoji:
-                    Button(tempLogo == nil ? "Select an Emoji" : "Change Emoji") {
+                    Button {
                         isEmojiPickerOn = true
+                    } label: {
+                        Text(tempLogo == nil ? "Select an Emoji" : "Change Emoji")
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
                     }
-                    .foregroundColor(Color.white)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding([.top, .bottom], 12)
+                    .foregroundColor(.white)
                     .accentColorProminentButtonStyleIfAvailable()
                     .emojiPicker(
                         isPresented: $isEmojiPickerOn,
                         selectedEmoji: $emoji
                     )
                 case .symbol:
-                    Button(tempLogo == nil ? "Select a Symbol" : "Change Symbol") {
+                    Button {
                         isSymbolPickerOn = true
+                    } label: {
+                        Text(tempLogo == nil ? "Select a Symbol" : "Change Symbol")
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
                     }
                     .foregroundColor(Color.white)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding([.top, .bottom], 12)
                     .accentColorProminentButtonStyleIfAvailable()
 
                     ColorPicker("Symbol Color", selection: $symbolColor)
