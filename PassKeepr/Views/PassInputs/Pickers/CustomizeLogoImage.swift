@@ -37,8 +37,6 @@ struct CustomizeLogoImage: View {
         _symbolName = State(initialValue: passObject.wrappedValue.logoSymbolName)
         if passObject.wrappedValue.logoSymbolName != "" {
             _symbolColor = State(initialValue: Color(hex: passObject.wrappedValue.logoSymbolColor))
-        } else {
-            _symbolColor = State(initialValue: .primary)
         }
     }
 
@@ -216,6 +214,11 @@ struct CustomizeLogoImage: View {
             }
             .onChange(of: symbolColor) {
                 renderSymbol()
+            }
+            .onAppear {
+                if passObject.logoSymbolName == "" {
+                    symbolColor = colorScheme == .light ? .black : .white
+                }
             }
         }
     }
