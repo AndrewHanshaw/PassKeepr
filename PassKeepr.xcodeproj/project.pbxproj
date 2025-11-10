@@ -71,7 +71,6 @@
 		BAE7B33C2D06588E00DD0251 /* CustomizeBarcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */; };
 		BAE7B33E2D065DFF00DD0251 /* BuiltInBarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */; };
 		BAE7B3402D066AD600DD0251 /* StripImageBarcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE7B33F2D066AD600DD0251 /* StripImageBarcode.swift */; };
-		BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE838F82B49BFCE0081A1DE /* Settings.swift */; };
 		BAED06682D32158C00D6789E /* GetBarcodeFromImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED06672D32158C00D6789E /* GetBarcodeFromImage.swift */; };
 		BAED92C52D04D596000822CA /* CustomizeBackgroundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */; };
 		BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */; };
@@ -166,7 +165,6 @@
 		BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeBarcode.swift; sourceTree = "<group>"; };
 		BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInBarcodeView.swift; sourceTree = "<group>"; };
 		BAE7B33F2D066AD600DD0251 /* StripImageBarcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripImageBarcode.swift; sourceTree = "<group>"; };
-		BAE838F82B49BFCE0081A1DE /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		BAED06672D32158C00D6789E /* GetBarcodeFromImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBarcodeFromImage.swift; sourceTree = "<group>"; };
 		BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeBackgroundImage.swift; sourceTree = "<group>"; };
 		BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignPass.swift; sourceTree = "<group>"; };
@@ -383,7 +381,6 @@
 				3A02E73B2AF6EE1000383BC2 /* ContentView.swift */,
 				BABAADD92B0A6C110014C73B /* AddPass.swift */,
 				BA1BACD32B463FCD00F86890 /* EditPass.swift */,
-				BAE838F82B49BFCE0081A1DE /* Settings.swift */,
 				BA598E8D2D3609C900B06BAA /* About.swift */,
 				BA95576C2CD69ADE0010721A /* AddToWalletView.swift */,
 				BA5B292E2E80D69200DBD750 /* NoPassesToShow.swift */,
@@ -613,7 +610,6 @@
 				BA2ECC4F2D0F4E93001AD177 /* EditablePassCardBackground.swift in Sources */,
 				BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */,
 				BACDA8AF2D167704009C249C /* CustomizeStripImage.swift in Sources */,
-				BAE838F92B49BFCE0081A1DE /* Settings.swift in Sources */,
 				BAE7B3402D066AD600DD0251 /* StripImageBarcode.swift in Sources */,
 				BAF0FB752D28D5E200948089 /* HeaderTextField.swift in Sources */,
 				BAD0D7122D1528350058054E /* SecondaryFieldSelection.swift in Sources */,
