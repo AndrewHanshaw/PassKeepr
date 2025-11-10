@@ -13,7 +13,7 @@ struct CustomizeBackgroundImage: View {
 
     @State private var showAlert: Bool = false
     private let alertTitleText = "Background Image"
-    private let alertDescriptionText = "The background image is displayed behind the pass. The image will be blurred.\nOnly available for passes without barcodes, or passes with Code 128, PDF417, or QR CodeX barcodes"
+    private let alertDescriptionText = "The background image is displayed behind the pass. The image will be blurred.\nOnly available for passes without barcodes, or passes with Code 128, PDF417, or QR Code barcodes"
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
