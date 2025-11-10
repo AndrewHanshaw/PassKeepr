@@ -104,7 +104,20 @@ struct ContentView: View {
 
                     ToolbarItem(placement: .primaryAction) {
                         Menu {
-                            Settings(isInfoPagePresented: $shouldPresentInfo)
+                            Button("Delete All Passes", systemImage: "trash", role: .destructive) {
+                                modelData.deleteAllItems()
+                            }
+                            .simultaneousGesture(
+                                LongPressGesture(minimumDuration: 2.0)
+                                    .onEnded { _ in
+                                        modelData.deleteAllItems()
+                                        modelData.deleteDataFile()
+                                    }
+                            )
+
+                            Button("About PassKeepr", systemImage: "info.circle") {
+                                shouldPresentInfo.toggle()
+                            }
                         } label: {
                             Image(systemName: "gearshape.fill")
                         }
