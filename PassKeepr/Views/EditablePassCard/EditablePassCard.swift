@@ -105,6 +105,14 @@ struct EditablePassCard: View {
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                     .clipShape(passObject.backgroundImage == Data() ? AnyShape(RoundedRectangle(cornerRadius: 10)) : AnyShape(NotchedRectangle()))
+                    .overlay {
+                        VStack(spacing: 8) {
+                            Spacer().frame(height: 0)
+                            Text("Signing Pass…")
+                                .offset(y: 40)
+                        }
+                        .opacity(0.5)
+                    }
                 }
             }
             .overlay {
