@@ -17,6 +17,7 @@ struct ContentView: View {
     @State var shouldPresentAddPass = false
     @State var shouldPresentSettings = false
     @State var shouldPresentInfo = false
+    @State var shouldPresentDeleteConfirmation = false
 
     @StateObject private var dragState = DragState()
     @State private var dragProperties = DragProperties()
@@ -105,7 +106,7 @@ struct ContentView: View {
                     ToolbarItem(placement: .primaryAction) {
                         Menu {
                             Button("Delete All Passes", systemImage: "trash", role: .destructive) {
-                                modelData.deleteAllItems()
+                                shouldPresentDeleteConfirmation = true
                             }
                             .simultaneousGesture(
                                 LongPressGesture(minimumDuration: 2.0)
@@ -122,6 +123,14 @@ struct ContentView: View {
                             Image(systemName: "gearshape.fill")
                         }
                     }
+                }
+                .alert("Delete All Passes?",
+                       isPresented: $shouldPresentDeleteConfirmation)
+                {
+                    Button("Delete", role: .destructive) { modelData.deleteAllItems() }
+                    Button("Cancel", role: .cancel) {}
+                } message: {
+                    Text("This action cannot be undone.")
                 }
                 .toolbar {
                     if #available(iOS 26.0, *) {
