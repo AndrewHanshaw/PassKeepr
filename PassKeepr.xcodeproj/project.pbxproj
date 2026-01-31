@@ -14,6 +14,7 @@
 		3A02E74B2AF6EE1B00383BC2 /* PassKeeprTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E74A2AF6EE1B00383BC2 /* PassKeeprTests.swift */; };
 		3A02E7552AF6EE1B00383BC2 /* PassKeeprUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7542AF6EE1B00383BC2 /* PassKeeprUITests.swift */; };
 		3A02E7572AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */; };
+		BA0AF0A42F2EAA350001CCAE /* PkPassShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BA0AF09A2F2EAA350001CCAE /* PkPassShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BA0F98212CE2BA4800F76501 /* ExtendUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */; };
 		BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */; };
 		BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869B2B95756500AC82E4 /* AztecView.swift */; };
@@ -97,7 +98,28 @@
 			remoteGlobalIDString = 3A02E7352AF6EE1000383BC2;
 			remoteInfo = PassKeepr;
 		};
+		BA0AF0A22F2EAA350001CCAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A02E72E2AF6EE1000383BC2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BA0AF0992F2EAA350001CCAE;
+			remoteInfo = PkPassShare;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BA0AF0A92F2EAA350001CCAE /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				BA0AF0A42F2EAA350001CCAE /* PkPassShare.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3A02E7362AF6EE1000383BC2 /* PassKeepr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PassKeepr.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +132,7 @@
 		3A02E7502AF6EE1B00383BC2 /* PassKeeprUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PassKeeprUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A02E7542AF6EE1B00383BC2 /* PassKeeprUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprUITests.swift; sourceTree = "<group>"; };
 		3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BA0AF09A2F2EAA350001CCAE /* PkPassShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PkPassShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendUInt.swift; sourceTree = "<group>"; };
 		BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendUIImage.swift; sourceTree = "<group>"; };
 		BA12869B2B95756500AC82E4 /* AztecView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AztecView.swift; sourceTree = "<group>"; };
@@ -175,7 +198,18 @@
 		BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeQrCode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		BA0AF0A52F2EAA350001CCAE /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BA0AF0992F2EAA350001CCAE /* PkPassShare */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		BA0AF09B2F2EAA350001CCAE /* PkPassShare */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (BA0AF0A52F2EAA350001CCAE /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PkPassShare; sourceTree = "<group>"; };
 		BADAC0F22EC03729002B7F84 /* MCEmojiPicker */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MCEmojiPicker; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -205,6 +239,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BA0AF0972F2EAA350001CCAE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -214,6 +255,7 @@
 				3A02E7382AF6EE1000383BC2 /* PassKeepr */,
 				3A02E7492AF6EE1B00383BC2 /* PassKeeprTests */,
 				3A02E7532AF6EE1B00383BC2 /* PassKeeprUITests */,
+				BA0AF09B2F2EAA350001CCAE /* PkPassShare */,
 				3A02E7372AF6EE1000383BC2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -224,6 +266,7 @@
 				3A02E7362AF6EE1000383BC2 /* PassKeepr.app */,
 				3A02E7462AF6EE1B00383BC2 /* PassKeeprTests.xctest */,
 				3A02E7502AF6EE1B00383BC2 /* PassKeeprUITests.xctest */,
+				BA0AF09A2F2EAA350001CCAE /* PkPassShare.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -434,10 +477,12 @@
 				3A02E7322AF6EE1000383BC2 /* Sources */,
 				3A02E7332AF6EE1000383BC2 /* Frameworks */,
 				3A02E7342AF6EE1000383BC2 /* Resources */,
+				BA0AF0A92F2EAA350001CCAE /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				BA0AF0A32F2EAA350001CCAE /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				BADAC0F22EC03729002B7F84 /* MCEmojiPicker */,
@@ -489,6 +534,28 @@
 			productReference = 3A02E7502AF6EE1B00383BC2 /* PassKeeprUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		BA0AF0992F2EAA350001CCAE /* PkPassShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA0AF0A62F2EAA350001CCAE /* Build configuration list for PBXNativeTarget "PkPassShare" */;
+			buildPhases = (
+				BA0AF0962F2EAA350001CCAE /* Sources */,
+				BA0AF0972F2EAA350001CCAE /* Frameworks */,
+				BA0AF0982F2EAA350001CCAE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				BA0AF09B2F2EAA350001CCAE /* PkPassShare */,
+			);
+			name = PkPassShare;
+			packageProductDependencies = (
+			);
+			productName = PkPassShare;
+			productReference = BA0AF09A2F2EAA350001CCAE /* PkPassShare.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -496,7 +563,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					3A02E7352AF6EE1000383BC2 = {
@@ -509,6 +576,9 @@
 					3A02E74F2AF6EE1B00383BC2 = {
 						CreatedOnToolsVersion = 15.0;
 						TestTargetID = 3A02E7352AF6EE1000383BC2;
+					};
+					BA0AF0992F2EAA350001CCAE = {
+						CreatedOnToolsVersion = 26.0;
 					};
 				};
 			};
@@ -534,6 +604,7 @@
 				3A02E7352AF6EE1000383BC2 /* PassKeepr */,
 				3A02E7452AF6EE1B00383BC2 /* PassKeeprTests */,
 				3A02E74F2AF6EE1B00383BC2 /* PassKeeprUITests */,
+				BA0AF0992F2EAA350001CCAE /* PkPassShare */,
 			);
 		};
 /* End PBXProject section */
@@ -558,6 +629,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		3A02E74E2AF6EE1B00383BC2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA0AF0982F2EAA350001CCAE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -653,6 +731,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BA0AF0962F2EAA350001CCAE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -665,6 +750,11 @@
 			isa = PBXTargetDependency;
 			target = 3A02E7352AF6EE1000383BC2 /* PassKeepr */;
 			targetProxy = 3A02E7512AF6EE1B00383BC2 /* PBXContainerItemProxy */;
+		};
+		BA0AF0A32F2EAA350001CCAE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BA0AF0992F2EAA350001CCAE /* PkPassShare */;
+			targetProxy = BA0AF0A22F2EAA350001CCAE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -938,6 +1028,64 @@
 			};
 			name = Release;
 		};
+		BA0AF0A72F2EAA350001CCAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NZDS56Z4Q9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PkPassShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PkPassShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeepr.PkPassShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BA0AF0A82F2EAA350001CCAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NZDS56Z4Q9;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PkPassShare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PkPassShare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = AHanshaw.PassKeepr.PkPassShare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -973,6 +1121,15 @@
 			buildConfigurations = (
 				3A02E7612AF6EE1B00383BC2 /* Debug */,
 				3A02E7622AF6EE1B00383BC2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA0AF0A62F2EAA350001CCAE /* Build configuration list for PBXNativeTarget "PkPassShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA0AF0A72F2EAA350001CCAE /* Debug */,
+				BA0AF0A82F2EAA350001CCAE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
