@@ -14,10 +14,14 @@ struct ContentView: View {
     @EnvironmentObject var modelData: ModelData
     @EnvironmentObject var passSigner: pkPassSigner
 
+    @Binding var importedPassURL: URL?
+
     @State var shouldPresentAddPass = false
     @State var shouldPresentSettings = false
     @State var shouldPresentInfo = false
     @State var shouldPresentDeleteConfirmation = false
+    @State var shouldPresentImportedPass = false
+    @State var importedPassObject = PassObject()
 
     @StateObject private var dragState = DragState()
     @State private var dragProperties = DragProperties()
@@ -174,6 +178,20 @@ struct ContentView: View {
                 .sheet(isPresented: $shouldPresentAddPass) {
                     AddPass()
                 }
+                .sheet(isPresented: $shouldPresentImportedPass) {
+                    EditPass(objectToEdit: $importedPassObject, isNewPass: true)
+                }
+                .onChange(of: importedPassURL) { _, newURL in
+                    if let url = newURL {
+                        // For now, just create a new empty pass
+                        importedPassObject = PassObject()
+                        shouldPresentImportedPass = true
+
+                        // Clean up the imported file
+                        try? FileManager.default.removeItem(at: url)
+                        importedPassURL = nil
+                    }
+                }
                 if modelData.passObjects.isEmpty {
                     NoPassesToShow()
                 }
@@ -251,5 +269,7 @@ struct PassDropDelegate: DropDelegate {
 }
 
 #Preview {
-    ContentView()
+    ContentView(importedPassURL: .constant(nil))
+        .environmentObject(ModelData())
+        .environmentObject(pkPassSigner())
 }

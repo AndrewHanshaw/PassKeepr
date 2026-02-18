@@ -4,5 +4,16 @@
 <dict>
 	<key>LocalServer</key>
 	<string>${LOCAL_SERVER}</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>passkeepr</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>com.hanshaw.passKeepr</string>
+		</dict>
+	</array>
 </dict>
 </plist>

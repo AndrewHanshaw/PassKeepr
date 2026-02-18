@@ -14,14 +14,14 @@
 				$extensionItem.attachments,
 				$attachment,
 				(
-				ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "com.apple.pkpass"
-				|| ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "com.apple.pkpass-data"
+				ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;com.apple.pkpass&quot;
+				|| ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO &quot;com.apple.pkpass-data&quot;
 				)
 				).@count == 1
 				).@count == 1</string>
 		</dict>
-		<key>NSExtensionMainStoryboard</key>
-		<string>MainInterface</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>PkPassShare.ShareViewController</string>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.share-services</string>
 	</dict>
