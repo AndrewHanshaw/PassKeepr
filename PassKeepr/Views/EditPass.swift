@@ -136,6 +136,12 @@ struct EditPass: View {
             passSigner.isDataLoaded = false
             isWalletSupported = PKAddPassesViewController.canAddPasses()
         }
+        .onChange(of: objectToEdit) { _, newValue in
+            // Update tempObject when the binding changes (e.g., from import)
+            if tempObject.id != newValue.id {
+                tempObject = newValue
+            }
+        }
         .onChange(of: passSigner.isDataLoaded) {
             if passSigner.isDataLoaded {
                 shouldShowSheet = true

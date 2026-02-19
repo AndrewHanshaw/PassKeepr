@@ -20,8 +20,7 @@ struct ContentView: View {
     @State var shouldPresentSettings = false
     @State var shouldPresentInfo = false
     @State var shouldPresentDeleteConfirmation = false
-    @State var shouldPresentImportedPass = false
-    @State var importedPassObject = PassObject()
+    @State var importedPassObject: PassObject?
 
     @StateObject private var dragState = DragState()
     @State private var dragProperties = DragProperties()
@@ -178,18 +177,31 @@ struct ContentView: View {
                 .sheet(isPresented: $shouldPresentAddPass) {
                     AddPass()
                 }
-                .sheet(isPresented: $shouldPresentImportedPass) {
-                    EditPass(objectToEdit: $importedPassObject, isNewPass: true)
-                }
                 .onChange(of: importedPassURL) { _, newURL in
                     if let url = newURL {
-                        // For now, just create a new empty pass
-                        importedPassObject = PassObject()
-                        shouldPresentImportedPass = true
+                        // Import the .pkpass file and parse it
+                        if let importedPass = importPass(from: url) {
+                            // Add the imported pass to modelData first
+                            modelData.passObjects.append(importedPass)
+                            modelData.encodePassObjects()
+
+                            // Find the binding for the newly added pass
+                            if let index = modelData.passObjects.firstIndex(where: { $0.id == importedPass.id }) {
+                                // Set importedPassObject to trigger the sheet with a proper binding
+                                importedPassObject = importedPass
+                            }
+                        } else {
+                            // Could show an error alert here
+                        }
 
                         // Clean up the imported file
                         try? FileManager.default.removeItem(at: url)
                         importedPassURL = nil
+                    }
+                }
+                .sheet(item: $importedPassObject) { passObject in
+                    if let index = modelData.passObjects.firstIndex(where: { $0.id == passObject.id }) {
+                        EditPass(objectToEdit: $modelData.passObjects[index], isNewPass: false)
                     }
                 }
                 if modelData.passObjects.isEmpty {
