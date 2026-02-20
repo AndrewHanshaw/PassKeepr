@@ -209,36 +209,35 @@ func importPass(from pkpassURL: URL) -> PassObject? {
     }
 
     func extractImages(from archive: Archive, into passObject: inout PassObject) {
-        // Try to extract icon (required)
-        if let iconEntry = archive["icon@3x.png"] ?? archive["icon@2x.png"] ?? archive["icon.png"],
-           let iconData = extractEntry(iconEntry, from: archive)
-        {
-            passObject.passIcon = iconData
+        func extractLargestVariant(_ baseName: String) -> Data {
+            let x3 = archive["\(baseName)@3x.png"].flatMap { extractEntry($0, from: archive) } ?? Data()
+            if x3 != Data() { return x3 }
+            let x2 = archive["\(baseName)@2x.png"].flatMap { extractEntry($0, from: archive) } ?? Data()
+            if x2 != Data() { return x2 }
+            let standard = archive["\(baseName).png"].flatMap { extractEntry($0, from: archive) } ?? Data()
+            return standard
         }
 
-        // Try to extract logo
-        if let logoEntry = archive["logo@3x.png"] ?? archive["logo@2x.png"] ?? archive["logo.png"],
-           let logoData = extractEntry(logoEntry, from: archive)
-        {
-            passObject.logoImage = logoData
+        // Extract icon (required)
+        let icon = extractLargestVariant("icon")
+        passObject.passIcon = icon
+
+        // Extract logo
+        let logo = extractLargestVariant("logo")
+        if logo != Data() {
+            passObject.logoImage = logo
             passObject.logoImageType = .photo
         }
 
-        // Try to extract strip image
-        if let stripEntry = archive["strip@3x.png"] ?? archive["strip@2x.png"]
-            ?? archive["strip.png"],
-            let stripData = extractEntry(stripEntry, from: archive)
-        {
-            passObject.stripImage = stripData
+        // Extract strip image
+        let strip = extractLargestVariant("strip")
+        if strip != Data() {
+            passObject.stripImage = strip
             passObject.isCustomStripImageOn = true
         }
 
-        // Try to extract background image
-        if let bgEntry = archive["background@3x.png"] ?? archive["background@2x.png"]
-            ?? archive["background.png"],
-            let bgData = extractEntry(bgEntry, from: archive)
-        {
-            passObject.backgroundImage = bgData
-        }
+        // Extract background image
+        let bg = extractLargestVariant("background")
+        passObject.backgroundImage = bg
     }
 }

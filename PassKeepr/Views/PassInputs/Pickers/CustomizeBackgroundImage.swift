@@ -111,18 +111,10 @@ struct CustomizeBackgroundImage: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save", systemImage: "checkmark") {
                         if let background = tempBackground {
-                            // Generate @1x
-                            passObject.backgroundImage = background.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width, height: PassKitConstants.BackgroundImage.height))!.pngData()!
-
-                            // Generate @2x
-                            passObject.backgroundImage2x = background.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width * 2, height: PassKitConstants.BackgroundImage.height * 2))!.pngData()!
-
-                            // Generate @3x
-                            passObject.backgroundImage3x = background.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width * 3, height: PassKitConstants.BackgroundImage.height * 3))!.pngData()!
+                            // Store the largest (3x) variant so imports/exports can downscale as needed
+                            passObject.backgroundImage = background.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width * 3, height: PassKitConstants.BackgroundImage.height * 3))!.pngData()!
 
                             passObject.stripImage = Data()
-                            passObject.stripImage2x = Data()
-                            passObject.stripImage3x = Data()
                         }
                         presentationMode.wrappedValue.dismiss()
                     }
