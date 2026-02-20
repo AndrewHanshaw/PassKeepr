@@ -142,7 +142,7 @@ struct EditablePassCard: View {
                 .edgesIgnoringSafeArea(.bottom)
         }
         .frame(maxWidth: .infinity)
-        .aspectRatio(1 / 1.45, contentMode: .fill)
+        .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fill)
         .background(GeometryReader { geometry in
             Color.clear
                 .onAppear {

@@ -37,7 +37,7 @@ struct PassCard: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(maxWidth: .infinity)
-                                    .aspectRatio(1125 / 432, contentMode: .fit)
+                                    .aspectRatio(stripImageAspectRatio, contentMode: .fit)
                                     .padding(.top, -10)
                             } else if (passObject.primaryFieldText != "" || passObject.primaryFieldLabel != "") && !passObject.isCustomStripImageOn {
                                 HStack {

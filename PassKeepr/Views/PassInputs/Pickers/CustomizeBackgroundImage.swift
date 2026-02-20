@@ -39,7 +39,7 @@ struct CustomizeBackgroundImage: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                            .aspectRatio(1 / 1.45, contentMode: .fit)
+                            .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fit)
                             .frame(maxHeight: 300)
                             .foregroundColor(Color.gray)
                             .opacity(0.5)
@@ -111,7 +111,18 @@ struct CustomizeBackgroundImage: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save", systemImage: "checkmark") {
                         if let background = tempBackground {
-                            passObject.backgroundImage = background.resize(targetSize: CGSize(width: 112, height: 142))!.pngData()!
+                            // Generate @1x
+                            passObject.backgroundImage = background.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width, height: PassKitConstants.BackgroundImage.height))!.pngData()!
+
+                            // Generate @2x
+                            passObject.backgroundImage2x = background.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width * 2, height: PassKitConstants.BackgroundImage.height * 2))!.pngData()!
+
+                            // Generate @3x
+                            passObject.backgroundImage3x = background.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width * 3, height: PassKitConstants.BackgroundImage.height * 3))!.pngData()!
+
+                            passObject.stripImage = Data()
+                            passObject.stripImage2x = Data()
+                            passObject.stripImage3x = Data()
                         }
                         presentationMode.wrappedValue.dismiss()
                     }

@@ -52,37 +52,37 @@ struct CustomizeBarcode: View {
                                 EmptyView()
 
                             case BarcodeType.code39:
-                                Code39View(value: $tempBarcodeData, border: tempBarcodeBorder).aspectRatio(1125.0 / 432.0, contentMode: .fit)
+                                Code39View(value: $tempBarcodeData, border: tempBarcodeBorder).aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                                     .frame(maxWidth: .infinity)
 
                             case BarcodeType.code93:
                                 Code93View(value: $tempBarcodeData, border: tempBarcodeBorder)
-                                    .aspectRatio(1125.0 / 432.0, contentMode: .fit)
+                                    .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                                     .frame(maxWidth: .infinity)
 
                             case BarcodeType.upce:
                                 UPCEView(value: $tempBarcodeData, border: tempBarcodeBorder)
-                                    .aspectRatio(1125.0 / 432.0, contentMode: .fit)
+                                    .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                                     .frame(maxWidth: .infinity)
 
                             case BarcodeType.upca:
                                 UPCAView(value: $tempBarcodeData, border: tempBarcodeBorder)
-                                    .aspectRatio(1125.0 / 432.0, contentMode: .fit)
+                                    .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                                     .frame(maxWidth: .infinity)
 
                             case BarcodeType.ean13:
                                 EAN13View(value: $tempBarcodeData, border: tempBarcodeBorder)
-                                    .aspectRatio(1125.0 / 432.0, contentMode: .fit)
+                                    .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                                     .frame(maxWidth: .infinity)
 
                             case BarcodeType.code128:
                                 Code128View(data: tempBarcodeData)
-                                    .aspectRatio(1125.0 / 432.0, contentMode: .fit)
+                                    .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                                     .frame(maxWidth: .infinity)
 
                             case BarcodeType.pdf417:
                                 PDF417View(data: tempBarcodeData)
-                                    .aspectRatio(1125.0 / 432.0, contentMode: .fit)
+                                    .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                                     .frame(maxWidth: .infinity)
 
                             case BarcodeType.qr:
@@ -90,7 +90,7 @@ struct CustomizeBarcode: View {
                             }
                         } else {
                             InvalidBarcodeView(isEmpty: tempBarcodeData == "")
-                                .aspectRatio(1125.0 / 432.0, contentMode: .fit)
+                                .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                         }
                     }
                     .padding(.bottom, 20)
@@ -317,36 +317,30 @@ struct CustomizeBarcode: View {
     }
 
     @MainActor func render() {
-        // Strip image size according to
-        // https://help.passkit.com/en/articles/2214902-what-are-the-optimum-image-sizes
-        // (Seems to be accurate)
-        let imageWidth = 1125.0
-        let imageHeight = 432.0
-
         switch tempBarcodeType {
         case BarcodeType.code39:
             tempStripImage = ImageRenderer(content:
-                Code39View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: imageWidth, height: imageHeight)
+                Code39View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)
             ).uiImage?.pngData() ?? Data()
 
         case BarcodeType.code93:
             tempStripImage = ImageRenderer(content:
-                Code93View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: imageWidth, height: imageHeight)
+                Code93View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)
             ).uiImage?.pngData() ?? Data()
 
         case BarcodeType.upce:
             tempStripImage = ImageRenderer(content:
-                UPCEView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: imageWidth, height: imageHeight)
+                UPCEView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)
             ).uiImage?.pngData() ?? Data()
 
         case BarcodeType.upca:
             tempStripImage = ImageRenderer(content:
-                UPCAView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: imageWidth, height: imageHeight)
+                UPCAView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)
             ).uiImage?.pngData() ?? Data()
 
         case BarcodeType.ean13:
             tempStripImage = ImageRenderer(content:
-                EAN13View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: imageWidth, height: imageHeight)
+                EAN13View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)
             ).uiImage?.pngData() ?? Data()
 
         default:
