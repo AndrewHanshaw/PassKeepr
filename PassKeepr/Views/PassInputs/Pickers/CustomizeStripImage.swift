@@ -112,10 +112,15 @@ struct CustomizeStripImage: View {
                         if let strip = tempStrip {
                             let imageWidth = PassKitConstants.StripImage.width
                             let imageHeight = PassKitConstants.StripImage.height
+                            let scaledCropOffset = cropOffset * imageHeight / size.height
 
+                            // Store the largest (3x) generated strip image
                             passObject.stripImage = ImageRenderer(content:
-                                OffsetCroppedStripImage(cropOffset: cropOffset * imageHeight / size.height /* must scale cropOffset by the ratio between this rendered larger view and the original view */, strip: strip).frame(width: imageWidth, height: imageHeight)
+                                OffsetCroppedStripImage(cropOffset: scaledCropOffset * 3, strip: strip)
+                                    .frame(width: imageWidth * 3, height: imageHeight * 3)
                             ).uiImage?.pngData() ?? Data()
+
+                            // Remove background image (incompatible with strip image)
                             passObject.backgroundImage = Data()
                         }
                         presentationMode.wrappedValue.dismiss()

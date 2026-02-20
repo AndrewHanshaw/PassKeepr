@@ -105,6 +105,12 @@ func generatePass(passObject: PassObject) -> URL? {
         try jsonData.write(to: fileURL)
 
         savePNGToDirectory(pngData: passObject.passIcon, destinationDirectory: passDirectory, fileName: "icon")
+        if passObject.passIcon2x != Data() {
+            savePNGToDirectory(pngData: passObject.passIcon2x, destinationDirectory: passDirectory, fileName: "icon@2x")
+        }
+        if passObject.passIcon3x != Data() {
+            savePNGToDirectory(pngData: passObject.passIcon3x, destinationDirectory: passDirectory, fileName: "icon@3x")
+        }
 
         if shouldStripImageBeAddedToPass(passObject: passObject) {
             if passStyleString != "storeCard" {
@@ -115,6 +121,12 @@ func generatePass(passObject: PassObject) -> URL? {
                 print("PassObject has background image and strip image. Not saving strip image")
             } else {
                 savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
+                if passObject.stripImage2x != Data() {
+                    savePNGToDirectory(pngData: passObject.stripImage2x, destinationDirectory: passDirectory, fileName: "strip@2x")
+                }
+                if passObject.stripImage3x != Data() {
+                    savePNGToDirectory(pngData: passObject.stripImage3x, destinationDirectory: passDirectory, fileName: "strip@3x")
+                }
             }
         }
 
@@ -123,10 +135,22 @@ func generatePass(passObject: PassObject) -> URL? {
                 print("PassObject should have background image but is not of style 'eventTicket'")
             }
             savePNGToDirectory(pngData: UIImage(data: passObject.backgroundImage)!.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width, height: PassKitConstants.BackgroundImage.height))!.pngData()!, destinationDirectory: passDirectory, fileName: "background")
+            if passObject.backgroundImage2x != Data() {
+                savePNGToDirectory(pngData: UIImage(data: passObject.backgroundImage2x)!.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width * 2, height: PassKitConstants.BackgroundImage.height * 2))!.pngData()!, destinationDirectory: passDirectory, fileName: "background@2x")
+            }
+            if passObject.backgroundImage3x != Data() {
+                savePNGToDirectory(pngData: UIImage(data: passObject.backgroundImage3x)!.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width * 3, height: PassKitConstants.BackgroundImage.height * 3))!.pngData()!, destinationDirectory: passDirectory, fileName: "background@3x")
+            }
         }
 
         if passObject.logoImage != Data() {
             savePNGToDirectory(pngData: (UIImage(data: passObject.logoImage)?.resizeToFit().pngData()!)!, destinationDirectory: passDirectory, fileName: "logo")
+            if passObject.logoImage2x != Data() {
+                savePNGToDirectory(pngData: (UIImage(data: passObject.logoImage2x)?.resizeToFit().pngData()!)!, destinationDirectory: passDirectory, fileName: "logo@2x")
+            }
+            if passObject.logoImage3x != Data() {
+                savePNGToDirectory(pngData: (UIImage(data: passObject.logoImage3x)?.resizeToFit().pngData()!)!, destinationDirectory: passDirectory, fileName: "logo@3x")
+            }
         }
 
         if let pkpassDir = try zipDirectory(uuid: passObject.id) {
