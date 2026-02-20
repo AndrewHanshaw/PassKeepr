@@ -15,6 +15,7 @@
 		3A02E7552AF6EE1B00383BC2 /* PassKeeprUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7542AF6EE1B00383BC2 /* PassKeeprUITests.swift */; };
 		3A02E7572AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */; };
 		BA0AF0A42F2EAA350001CCAE /* PkPassShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BA0AF09A2F2EAA350001CCAE /* PkPassShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BA0C54E42F6505B600DC2C7F /* PassKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0C54E32F6505B500DC2C7F /* PassKitConstants.swift */; };
 		BA0F98212CE2BA4800F76501 /* ExtendUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */; };
 		BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */; };
 		BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869B2B95756500AC82E4 /* AztecView.swift */; };
@@ -136,6 +137,7 @@
 		3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BA0AF09A2F2EAA350001CCAE /* PkPassShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PkPassShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA0AF0AD2F2EB3480001CCAE /* PassKeepr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PassKeepr.entitlements; sourceTree = "<group>"; };
+		BA0C54E32F6505B500DC2C7F /* PassKitConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKitConstants.swift; sourceTree = "<group>"; };
 		BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendUInt.swift; sourceTree = "<group>"; };
 		BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendUIImage.swift; sourceTree = "<group>"; };
 		BA12869B2B95756500AC82E4 /* AztecView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AztecView.swift; sourceTree = "<group>"; };
@@ -438,6 +440,7 @@
 		BABAADDC2B0AB8150014C73B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BA0C54E32F6505B500DC2C7F /* PassKitConstants.swift */,
 				BA5FBE992F2F07BB00C7AA2A /* ImportPass.swift */,
 				BA7F036A2E9AC4F2004E9610 /* iOS26Helpers.swift */,
 				BA885AE72CF2A01C0084FC25 /* TextFieldDynamicWidth.swift */,
@@ -699,6 +702,7 @@
 				BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */,
 				BA1515B92CE2BC6900DB1799 /* MeasureViewSize.swift in Sources */,
 				BAD0D7102D15130C0058054E /* SecondaryTextField.swift in Sources */,
+				BA0C54E42F6505B600DC2C7F /* PassKitConstants.swift in Sources */,
 				BA55E5CE2D496094001D8A03 /* UPCAView.swift in Sources */,
 				BA7F036B2E9AC4F4004E9610 /* iOS26Helpers.swift in Sources */,
 				BA4918FF2CF5727500202180 /* EditablePassTextField.swift in Sources */,

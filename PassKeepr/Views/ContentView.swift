@@ -41,7 +41,7 @@ struct ContentView: View {
                                 $0.id == id
                             }) {
                                 PassCardContainer(passObject: $modelData.passObjects[bindingIndex])
-                                    .aspectRatio(1 / 1.45, contentMode: .fill)
+                                    .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fill)
                                     .opacity(dragProperties.draggedID == id ? 0.001 : 1.0)
                                     .onDrag {
 //                                      print("onDrag started for: \(passObject.id.uuidString)")

@@ -32,7 +32,7 @@ struct StripImageBarcodeView: View {
             .disabled(disableButton)
         }
         .padding(.top, 10)
-        .aspectRatio(1125 / 432, contentMode: .fit)
+        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
     }
 
     func shouldShowStripBarcodeImage() -> Bool {

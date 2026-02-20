@@ -47,7 +47,7 @@ struct CustomizeStripImage: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                            .aspectRatio(1125 / 432, contentMode: .fit)
+                            .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                             .foregroundColor(Color.gray)
                             .opacity(0.5)
                         Text("Add a Strip Image")
@@ -112,8 +112,8 @@ struct CustomizeStripImage: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save", systemImage: "checkmark") {
                         if let strip = tempStrip {
-                            let imageWidth = 1125.0
-                            let imageHeight = 432.0
+                            let imageWidth = PassKitConstants.StripImage.width
+                            let imageHeight = PassKitConstants.StripImage.height
 
                             passObject.stripImage = ImageRenderer(content:
                                 OffsetCroppedStripImage(cropOffset: cropOffset * imageHeight / size.height /* must scale cropOffset by the ratio between this rendered larger view and the original view */, strip: strip).frame(width: imageWidth, height: imageHeight)

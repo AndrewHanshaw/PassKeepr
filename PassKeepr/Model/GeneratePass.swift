@@ -122,7 +122,7 @@ func generatePass(passObject: PassObject) -> URL? {
             if passStyleString != "eventTicket" {
                 print("PassObject should have background image but is not of style 'eventTicket'")
             }
-            savePNGToDirectory(pngData: UIImage(data: passObject.backgroundImage)!.resize(targetSize: CGSize(width: 112, height: 142))!.pngData()!, destinationDirectory: passDirectory, fileName: "background")
+            savePNGToDirectory(pngData: UIImage(data: passObject.backgroundImage)!.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width, height: PassKitConstants.BackgroundImage.height))!.pngData()!, destinationDirectory: passDirectory, fileName: "background")
         }
 
         if passObject.logoImage != Data() {
