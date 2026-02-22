@@ -19,6 +19,7 @@ struct EditPass: View {
     @State private var tempObject: PassObject = .init()
     @State private var shouldShowSheet: Bool = false
     @State private var showAlert: Bool = false
+    @State private var alertMessage: String = ""
 
     let isNewPass: Bool
 
@@ -76,20 +77,25 @@ struct EditPass: View {
                 ToolbarItem(placement: .confirmationAction) {
                     // This weird initializer for Menu is the only way I could find to get it to apply the GlassProminentButtonStyle on iOS 26
                     Menu("Done", systemImage: "checkmark", content: {
-                        Button("Save + Add to Wallet", image: ImageResource(name: "custom.wallet.pass.badge.plus", bundle: .main), action: { showAlert = !saveWithoutAddingToWallet()
-                            if let pkpassDir = generatePass(passObject: objectToEdit) {
+                        Button("Save + Add to Wallet", image: ImageResource(name: "custom.wallet.pass.badge.plus", bundle: .main), action: {
+                            let result = saveWithoutAddingToWallet()
+                            showAlert = !result.success
+                            alertMessage = result.errorMessage ?? ""
+                            if let pkpassDir = generatePass(passObject: tempObject) {
                                 Task {
-                                    passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: objectToEdit.id)
+                                    passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: tempObject.id)
                                 }
                             }
                         })
                         .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
 
                         Button("Save without Adding", systemImage: "square.and.arrow.down") {
-                            if saveWithoutAddingToWallet() {
-                                _ = generatePass(passObject: objectToEdit)
+                            let result = saveWithoutAddingToWallet()
+                            if result.success {
+                                _ = generatePass(passObject: tempObject)
                                 presentationMode.wrappedValue.dismiss()
                             } else {
+                                alertMessage = result.errorMessage ?? ""
                                 showAlert = true
                             }
                         }
@@ -152,12 +158,12 @@ struct EditPass: View {
         }
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Failed to Update Pass"),
-                  message: Text("Deleting existing pass data was unsuccessful."),
+                  message: Text(alertMessage),
                   dismissButton: .default(Text("OK")))
         }
     }
 
-    func saveWithoutAddingToWallet() -> Bool {
+    func saveWithoutAddingToWallet() -> (success: Bool, errorMessage: String?) {
         hasEditPassButtonBeenPressed = true
         objectToEdit = tempObject
 
@@ -175,14 +181,14 @@ struct EditPass: View {
                     try FileManager.default.removeItem(at: pkPassDirectory)
                 }
             } catch {
-                return false
+                return (false, "Deleting existing pass data was unsuccessful: \(error.localizedDescription)")
             }
         } else {
             modelData.passObjects.append(objectToEdit)
         }
 
         modelData.encodePassObjects()
-        return true
+        return (true, nil)
     }
 
     struct ActivityView: UIViewControllerRepresentable {
