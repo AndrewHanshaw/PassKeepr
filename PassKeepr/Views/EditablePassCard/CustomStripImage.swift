@@ -47,7 +47,6 @@ struct CustomStripImage: View {
             .buttonStyle(PlainButtonStyle())
             .disabled(disableButton)
         }
-        .padding(.top, 10)
         .aspectRatio(aspectRatio, contentMode: .fit)
     }
 }

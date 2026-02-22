@@ -31,7 +31,6 @@ struct StripImageBarcodeView: View {
             .buttonStyle(PlainButtonStyle())
             .disabled(disableButton)
         }
-        .padding(.top, 10)
         .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
     }
 
