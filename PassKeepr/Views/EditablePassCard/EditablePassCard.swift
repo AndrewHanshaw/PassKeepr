@@ -34,10 +34,12 @@ struct EditablePassCard: View {
 
                     if passObject.barcodeType != BarcodeType.code128 && passObject.barcodeType != BarcodeType.pdf417 && passObject.barcodeType != BarcodeType.qr && passObject.barcodeType != BarcodeType.none {
                         StripImageBarcodeView(placeholderColor: placeholderColor, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
+                            .padding(.top, 10)
                     } else {
                         if passObject.isCustomStripImageOn == true {
                             CustomStripImage(placeholderColor: placeholderColor, disableButton: isSigningPass, passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
                                 .frame(width: size.width)
+                                .padding(.top, 10)
                         } else {
                             HStack {
                                 PrimaryTextFieldGeneric(placeholderColor: placeholderColor, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
