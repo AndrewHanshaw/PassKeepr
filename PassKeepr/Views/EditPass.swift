@@ -167,8 +167,13 @@ struct EditPass: View {
                 let passDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pass")
                 let pkPassDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pkpass")
 
-                try FileManager.default.removeItem(at: passDirectory)
-                try FileManager.default.removeItem(at: pkPassDirectory)
+                // Only try to remove if they exist
+                if FileManager.default.fileExists(atPath: passDirectory.path) {
+                    try FileManager.default.removeItem(at: passDirectory)
+                }
+                if FileManager.default.fileExists(atPath: pkPassDirectory.path) {
+                    try FileManager.default.removeItem(at: pkPassDirectory)
+                }
             } catch {
                 return false
             }
