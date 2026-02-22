@@ -89,7 +89,7 @@ struct EditPass: View {
                         })
                         .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
 
-                        Button("Save without Adding", systemImage: "square.and.arrow.down") {
+                        Button("Done", systemImage: "checkmark.circle") {
                             let result = saveWithoutAddingToWallet()
                             if result.success {
                                 _ = generatePass(passObject: tempObject)
