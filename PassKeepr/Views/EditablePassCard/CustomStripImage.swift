@@ -16,21 +16,33 @@ struct CustomStripImage: View {
         }()
 
         ZStack {
-            if passObject.stripImage != Data(), let uiImage = UIImage(data: passObject.stripImage) {
-                Image(uiImage: uiImage)
-                    .resizable()
-            } else {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                        .foregroundColor(placeholderColor)
-                        .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
-                    Text("Add a Strip Image")
-                        .font(.system(size: 18))
-                        .foregroundColor(placeholderColor)
-                        .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
+            Group {
+                if passObject.stripImage != Data(), let uiImage = UIImage(data: passObject.stripImage) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                } else {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
+                            .foregroundColor(placeholderColor)
+                            .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
+                        Text("Add a Strip Image")
+                            .font(.system(size: 18))
+                            .foregroundColor(placeholderColor)
+                            .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
+                    }
+                    .padding([.leading, .trailing], 10)
                 }
-                .padding([.leading, .trailing], 10)
+            }
+            .overlay(alignment: .leading) {
+                Rectangle()
+                    .fill(Color.black.opacity(0.1))
+                    .frame(width: 2)
+            }
+            .overlay(alignment: .trailing) {
+                Rectangle()
+                    .fill(Color.black.opacity(0.1))
+                    .frame(width: 2)
             }
 
             Button(action: {
@@ -47,6 +59,7 @@ struct CustomStripImage: View {
             .buttonStyle(PlainButtonStyle())
             .disabled(disableButton)
         }
+
         .aspectRatio(aspectRatio, contentMode: .fit)
     }
 }

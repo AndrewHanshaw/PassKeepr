@@ -40,6 +40,16 @@ struct PassCard: View {
                                         .scaledToFit()
                                         .frame(maxWidth: .infinity)
                                         .aspectRatio(imageAspectRatio, contentMode: .fit)
+                                        .overlay(alignment: .leading) {
+                                            Rectangle()
+                                                .fill(Color.black.opacity(0.1))
+                                                .frame(width: 2)
+                                        }
+                                        .overlay(alignment: .trailing) {
+                                            Rectangle()
+                                                .fill(Color.black.opacity(0.1))
+                                                .frame(width: 2)
+                                        }
                                         .padding(.top, -10)
                                 }
                             } else if (passObject.primaryFieldText != "" || passObject.primaryFieldLabel != "") && !passObject.isCustomStripImageOn {

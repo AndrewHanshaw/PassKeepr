@@ -10,11 +10,23 @@ struct StripImageBarcodeView: View {
     // TODO: Handle when passObject.stripImage == Data() ?
     var body: some View {
         ZStack {
-            if shouldShowStripBarcodeImage() {
-                Image(uiImage: UIImage(data: passObject.stripImage)!)
-                    .resizable()
-            } else {
-                InvalidBarcodeView(placeholderColor: placeholderColor, isEmpty: passObject.barcodeString == "")
+            Group {
+                if shouldShowStripBarcodeImage() {
+                    Image(uiImage: UIImage(data: passObject.stripImage)!)
+                        .resizable()
+                } else {
+                    InvalidBarcodeView(placeholderColor: placeholderColor, isEmpty: passObject.barcodeString == "")
+                }
+            }
+            .overlay(alignment: .leading) {
+                Rectangle()
+                    .fill(Color.black.opacity(0.1))
+                    .frame(width: 2)
+            }
+            .overlay(alignment: .trailing) {
+                Rectangle()
+                    .fill(Color.black.opacity(0.1))
+                    .frame(width: 2)
             }
 
             Button(action: {
