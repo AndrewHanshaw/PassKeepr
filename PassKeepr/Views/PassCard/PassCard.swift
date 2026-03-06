@@ -7,166 +7,164 @@ struct PassCard: View {
 
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .fill(passObject.backgroundImage != Data() ?
-                        Color.clear : Color(hex: passObject.backgroundColor)
-                    )
-                    .strokeBorder(Color.black.opacity(0.1), lineWidth: 2) // strokeBorder draws the line only on the inside of the view
-                    .background(
-                        passObject.backgroundImage != Data() ?
-                            Image(uiImage: UIImage(data: passObject.backgroundImage)!)
-                            .resizable()
-                            .scaleEffect(1.05) // Scale up the image slightly to prevent a semitransparent halo around the image
-                            // .scaledToFill()
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .blur(radius: 6)
-                            : nil // No background if image is nil
-                    )
-                    .clipShape(
-                        RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    )
-                    .overlay(
-                        VStack {
-                            PassCardTopSection(passObject: passObject)
-                                .frame(height: geometry.size.height * 0.2)
-                                .padding(0)
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(passObject.backgroundImage != Data() ?
+                    Color.clear : Color(hex: passObject.backgroundColor)
+                )
+                .strokeBorder(Color.black.opacity(0.1), lineWidth: 2) // strokeBorder draws the line only on the inside of the view
+                .background(
+                    passObject.backgroundImage != Data() ?
+                        Image(uiImage: UIImage(data: passObject.backgroundImage)!)
+                        .resizable()
+                        .scaleEffect(1.05) // Scale up the image slightly to prevent a semitransparent halo around the image
+                        // .scaledToFill()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .blur(radius: 6)
+                        : nil // No background if image is nil
+                )
+                .clipShape(
+                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                )
+                .overlay(
+                    VStack {
+                        PassCardTopSection(passObject: passObject)
+                            .frame(height: geometry.size.height * 0.2)
+                            .padding(0)
 
-                            if getIsStripImageSupported(passObject: passObject) && passObject.stripImage != Data() {
-                                if let uiImage = UIImage(data: passObject.stripImage) {
-                                    let imageAspectRatio = uiImage.size.width / uiImage.size.height
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(maxWidth: .infinity)
-                                        .aspectRatio(imageAspectRatio, contentMode: .fit)
-                                        .overlay(alignment: .leading) {
-                                            Rectangle()
-                                                .fill(Color.black.opacity(0.1))
-                                                .frame(width: 2)
-                                        }
-                                        .overlay(alignment: .trailing) {
-                                            Rectangle()
-                                                .fill(Color.black.opacity(0.1))
-                                                .frame(width: 2)
-                                        }
-                                        .padding(.top, -10)
-                                }
-                            } else if (passObject.primaryFieldText != "" || passObject.primaryFieldLabel != "") && !passObject.isCustomStripImageOn {
-                                HStack {
-                                    ZStack(alignment: .leading) {
-                                        Text(passObject.primaryFieldLabel)
-                                            .lineLimit(1)
-                                            .frame(maxHeight: .infinity, alignment: .topLeading)
-                                            .foregroundColor(Color(hex: passObject.labelColor))
-                                            .textCase(.uppercase)
-                                            .font(.system(size: 11))
-                                            .fontWeight(.semibold)
-                                            .padding(0)
-                                            .padding(.top, -2)
-
-                                        Text(passObject.primaryFieldText)
-                                            .lineLimit(1)
-                                            .frame(maxHeight: .infinity, alignment: .topLeading)
-                                            .foregroundColor(Color(hex: passObject.foregroundColor))
-                                            .font(.system(size: 14))
-                                            .fontWeight(.thin)
-                                            .padding(0)
-                                            .padding(.top, 9)
-                                            .minimumScaleFactor(0.34)
+                        if getIsStripImageSupported(passObject: passObject) && passObject.stripImage != Data() {
+                            if let uiImage = UIImage(data: passObject.stripImage) {
+                                let imageAspectRatio = uiImage.size.width / uiImage.size.height
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(maxWidth: .infinity)
+                                    .aspectRatio(imageAspectRatio, contentMode: .fit)
+                                    .overlay(alignment: .leading) {
+                                        Rectangle()
+                                            .fill(Color.black.opacity(0.1))
+                                            .frame(width: 2)
                                     }
-                                    .padding(.leading, 8)
-                                    Spacer()
-                                }
-                                .frame(height: geometry.size.height * 0.1)
+                                    .overlay(alignment: .trailing) {
+                                        Rectangle()
+                                            .fill(Color.black.opacity(0.1))
+                                            .frame(width: 2)
+                                    }
+                                    .padding(.top, -10)
                             }
+                        } else if (passObject.primaryFieldText != "" || passObject.primaryFieldLabel != "") && !passObject.isCustomStripImageOn {
+                            HStack {
+                                ZStack(alignment: .leading) {
+                                    Text(passObject.primaryFieldLabel)
+                                        .lineLimit(1)
+                                        .frame(maxHeight: .infinity, alignment: .topLeading)
+                                        .foregroundColor(Color(hex: passObject.labelColor))
+                                        .textCase(.uppercase)
+                                        .font(.system(size: 11))
+                                        .fontWeight(.semibold)
+                                        .padding(0)
+                                        .padding(.top, -2)
 
-                            if passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" {
-                                HStack {
-                                    ZStack(alignment: .leading) {
-                                        Text(passObject.secondaryFieldOneLabel)
-                                            .lineLimit(1)
-                                            .frame(maxHeight: .infinity, alignment: .topLeading)
-                                            .foregroundColor(Color(hex: passObject.labelColor))
-                                            .textCase(.uppercase)
-                                            .font(.system(size: 9))
-                                            .fontWeight(.semibold)
-                                            .padding(0)
-                                            .padding(.top, -2)
-
-                                        Text(passObject.secondaryFieldOneText)
-                                            .lineLimit(1)
-                                            .frame(maxHeight: .infinity, alignment: .topLeading)
-                                            .foregroundColor(Color(hex: passObject.foregroundColor))
-                                            .font(.system(size: 12))
-                                            .fontWeight(.thin)
-                                            .padding(0)
-                                            .padding(.top, 7)
-                                            .minimumScaleFactor(0.34)
-                                    }
-                                    .padding(.leading, 8)
-                                    Spacer()
+                                    Text(passObject.primaryFieldText)
+                                        .lineLimit(1)
+                                        .frame(maxHeight: .infinity, alignment: .topLeading)
+                                        .foregroundColor(Color(hex: passObject.foregroundColor))
+                                        .font(.system(size: 14))
+                                        .fontWeight(.thin)
+                                        .padding(0)
+                                        .padding(.top, 9)
+                                        .minimumScaleFactor(0.34)
                                 }
-                                .frame(height: geometry.size.height * 0.1)
+                                .padding(.leading, 8)
+                                Spacer()
                             }
-                            Spacer()
+                            .frame(height: geometry.size.height * 0.1)
+                        }
 
-                            if passObject.barcodeType == BarcodeType.qr, passObject.barcodeString != "" {
-                                QRCodeView(data: passObject.barcodeString, correctionLevel: passObject.qrCodeCorrectionLevel, encoding: passObject.qrCodeEncoding)
-                                    .padding(3)
-                                    .background {
-                                        RoundedRectangle(cornerRadius: 2)
-                                            .fill(Color.white)
-                                    }
-                                    .frame(height: 60)
-                                    .padding(.bottom, 15)
-                            } else if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 {
-                                Group {
-                                    if passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) == true {
-                                        if passObject.barcodeType == BarcodeType.code128 {
-                                            Code128View(data: passObject.barcodeString)
-                                                .padding(10)
-                                        } else if passObject.barcodeType == BarcodeType.pdf417 {
-                                            PDF417View(data: passObject.barcodeString)
-                                                .padding(5)
-                                        }
-                                    }
+                        if passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" {
+                            HStack {
+                                ZStack(alignment: .leading) {
+                                    Text(passObject.secondaryFieldOneLabel)
+                                        .lineLimit(1)
+                                        .frame(maxHeight: .infinity, alignment: .topLeading)
+                                        .foregroundColor(Color(hex: passObject.labelColor))
+                                        .textCase(.uppercase)
+                                        .font(.system(size: 9))
+                                        .fontWeight(.semibold)
+                                        .padding(0)
+                                        .padding(.top, -2)
+
+                                    Text(passObject.secondaryFieldOneText)
+                                        .lineLimit(1)
+                                        .frame(maxHeight: .infinity, alignment: .topLeading)
+                                        .foregroundColor(Color(hex: passObject.foregroundColor))
+                                        .font(.system(size: 12))
+                                        .fontWeight(.thin)
+                                        .padding(0)
+                                        .padding(.top, 7)
+                                        .minimumScaleFactor(0.34)
                                 }
+                                .padding(.leading, 8)
+                                Spacer()
+                            }
+                            .frame(height: geometry.size.height * 0.1)
+                        }
+                        Spacer()
+
+                        if passObject.barcodeType == BarcodeType.qr, passObject.barcodeString != "" {
+                            QRCodeView(data: passObject.barcodeString, correctionLevel: passObject.qrCodeCorrectionLevel, encoding: passObject.qrCodeEncoding)
+                                .padding(3)
                                 .background {
-                                    RoundedRectangle(cornerRadius: 5)
+                                    RoundedRectangle(cornerRadius: 2)
                                         .fill(Color.white)
                                 }
-                                .aspectRatio(3, contentMode: .fit)
-                                .padding([.leading, .trailing], 20)
+                                .frame(height: 60)
                                 .padding(.bottom, 15)
+                        } else if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 {
+                            Group {
+                                if passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) == true {
+                                    if passObject.barcodeType == BarcodeType.code128 {
+                                        Code128View(data: passObject.barcodeString)
+                                            .padding(10)
+                                    } else if passObject.barcodeType == BarcodeType.pdf417 {
+                                        PDF417View(data: passObject.barcodeString)
+                                            .padding(5)
+                                    }
+                                }
                             }
+                            .background {
+                                RoundedRectangle(cornerRadius: 5)
+                                    .fill(Color.white)
+                            }
+                            .aspectRatio(3, contentMode: .fit)
+                            .padding([.leading, .trailing], 20)
+                            .padding(.bottom, 15)
                         }
-                    )
-            }
-            .contextMenu {
-                let fileManager = FileManager.default
-                let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-                let destinationURL = documentsDirectory.appendingPathComponent("\(passObject.id).pkpass")
-                ShareLink(item: destinationURL) {
-                    Label("Share", systemImage: "square.and.arrow.up")
-                }
+                    }
+                )
+                .contextMenu {
+                    let fileManager = FileManager.default
+                    let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+                    let destinationURL = documentsDirectory.appendingPathComponent("\(passObject.id).pkpass")
+                    ShareLink(item: destinationURL) {
+                        Label("Share", systemImage: "square.and.arrow.up")
+                    }
 
-                Button(action: {
-                    let newPass = passObject.duplicate()
-                    modelData.passObjects.append(newPass)
-                    modelData.encodePassObjects()
+                    Button(action: {
+                        let newPass = passObject.duplicate()
+                        modelData.passObjects.append(newPass)
+                        modelData.encodePassObjects()
 
-                    _ = generatePass(passObject: newPass)
-                }) {
-                    Label("Duplicate", systemImage: "rectangle.portrait.on.rectangle.portrait")
-                }
+                        _ = generatePass(passObject: newPass)
+                    }) {
+                        Label("Duplicate", systemImage: "rectangle.portrait.on.rectangle.portrait")
+                    }
 
-                Button(role: .destructive, action: {
-                    modelData.deleteItemByID(passObject.id)
-                }) {
-                    Label("Delete", systemImage: "trash")
+                    Button(role: .destructive, action: {
+                        modelData.deleteItemByID(passObject.id)
+                    }) {
+                        Label("Delete", systemImage: "trash")
+                    }
                 }
-            }
         }
     }
 }
