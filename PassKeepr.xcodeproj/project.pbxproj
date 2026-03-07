@@ -79,6 +79,7 @@
 		BAF0FB732D28D0AB00948089 /* PassCardTopSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF0FB722D28D0AB00948089 /* PassCardTopSection.swift */; };
 		BAF0FB752D28D5E200948089 /* HeaderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF0FB742D28D5E200948089 /* HeaderTextField.swift */; };
 		BAF0FB772D29CCED00948089 /* PassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF0FB762D29CCED00948089 /* PassCard.swift */; };
+		BAF456BF2F5C083D000BE9A4 /* MCEmojiPicker in Frameworks */ = {isa = PBXBuildFile; productRef = BAF456BE2F5C083D000BE9A4 /* MCEmojiPicker */; };
 		BAF5EF932D094FCE00259BEA /* BuiltInQrCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */; };
 		BAF5EF952D09542200259BEA /* CustomizeQrCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */; };
 		BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = BAF9428A2CB35689009CF225 /* ZIPFoundation */; };
@@ -213,7 +214,6 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BA0AF09B2F2EAA350001CCAE /* PkPassShare */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (BA0AF0A52F2EAA350001CCAE /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = PkPassShare; sourceTree = "<group>"; };
-		BADAC0F22EC03729002B7F84 /* MCEmojiPicker */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MCEmojiPicker; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -222,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA8D50C42D30C8F5009617C1 /* SymbolPicker in Frameworks */,
+				BAF456BF2F5C083D000BE9A4 /* MCEmojiPicker in Frameworks */,
 				BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */,
 				BA8D50C12D30C756009617C1 /* SFSymbolsPicker in Frameworks */,
 				BA17A9112D36155E00A8C992 /* KeyboardAware in Frameworks */,
@@ -288,7 +289,6 @@
 				3A02E7392AF6EE1000383BC2 /* PassKeeprApp.swift */,
 				3A02E73D2AF6EE1A00383BC2 /* Assets.xcassets */,
 				3A02E73F2AF6EE1A00383BC2 /* Preview Content */,
-				BADAC0F22EC03729002B7F84 /* MCEmojiPicker */,
 			);
 			path = PassKeepr;
 			sourceTree = "<group>";
@@ -489,15 +489,13 @@
 			dependencies = (
 				BA0AF0A32F2EAA350001CCAE /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				BADAC0F22EC03729002B7F84 /* MCEmojiPicker */,
-			);
 			name = PassKeepr;
 			packageProductDependencies = (
 				BAF9428A2CB35689009CF225 /* ZIPFoundation */,
 				BA8D50C02D30C756009617C1 /* SFSymbolsPicker */,
 				BA8D50C32D30C8F5009617C1 /* SymbolPicker */,
 				BA17A9102D36155E00A8C992 /* KeyboardAware */,
+				BAF456BE2F5C083D000BE9A4 /* MCEmojiPicker */,
 			);
 			productName = PassKeepr;
 			productReference = 3A02E7362AF6EE1000383BC2 /* PassKeepr.app */;
@@ -601,6 +599,7 @@
 				BA8D50BF2D30C756009617C1 /* XCRemoteSwiftPackageReference "SFSymbolsPicker" */,
 				BA8D50C22D30C8F5009617C1 /* XCRemoteSwiftPackageReference "SymbolPicker" */,
 				BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */,
+				BAF456BD2F5C083D000BE9A4 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
 			);
 			productRefGroup = 3A02E7372AF6EE1000383BC2 /* Products */;
 			projectDirPath = "";
@@ -1167,6 +1166,14 @@
 				minimumVersion = 1.6.0;
 			};
 		};
+		BAF456BD2F5C083D000BE9A4 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jeanno/MCEmojiPicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.6;
+			};
+		};
 		BAF942892CB35689009CF225 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/weichsel/ZIPFoundation.git";
@@ -1192,6 +1199,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA8D50C22D30C8F5009617C1 /* XCRemoteSwiftPackageReference "SymbolPicker" */;
 			productName = SymbolPicker;
+		};
+		BAF456BE2F5C083D000BE9A4 /* MCEmojiPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAF456BD2F5C083D000BE9A4 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */;
+			productName = MCEmojiPicker;
 		};
 		BAF9428A2CB35689009CF225 /* ZIPFoundation */ = {
 			isa = XCSwiftPackageProductDependency;

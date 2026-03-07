@@ -1,5 +1,5 @@
 {
-  "originHash" : "880143c30baba2eaf5a51a5e7d7b1d527e2f350985ba476f46cba46615be886e",
+  "originHash" : "2d751f2eca0e5ff08a5d36b642512022ff51d5461a96342f3f33bd2f8fee78ee",
   "pins" : [
     {
       "identity" : "keyboardawareswiftui",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "c76a2e1ee69b413885c604e62f39b796de97dcda",
         "version" : "0.5.0"
+      }
+    },
+    {
+      "identity" : "mcemojipicker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jeanno/MCEmojiPicker",
+      "state" : {
+        "revision" : "c065ed4c6325054eff4d12d28d738a0f542e80ee",
+        "version" : "1.2.6"
       }
     },
     {

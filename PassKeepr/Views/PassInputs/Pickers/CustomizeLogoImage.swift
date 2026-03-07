@@ -4,6 +4,7 @@ import CoreImage.CIFilterBuiltins
 import SwiftUI
 import SymbolPicker
 import Vision
+import MCEmojiPicker
 
 struct CustomizeLogoImage: View {
     @Environment(\.colorScheme) var colorScheme
