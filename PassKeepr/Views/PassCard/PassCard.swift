@@ -9,180 +9,167 @@ struct PassCard: View {
     var passObject: PassObject
 
     var body: some View {
-        GeometryReader { geometry in
-            passCardBackground
-                .background(GeometryReader { geometry in
-                    Color.clear
-                        .onAppear {
+        passCardBackground
+            .background(GeometryReader { geometry in
+                Color.clear
+                    .onAppear {
+                        size = geometry.size
+                    }
+                    .onChange(of: geometry.size) {
+                        Task {
                             size = geometry.size
                         }
-                        .onChange(of: geometry.size) {
-                            Task {
-                                size = geometry.size
-                            }
+                    }
+            })
+            .onChange(of: passObject.backgroundImage) {
+                determineBackgroundColor()
+            }
+            .onChange(of: passObject.backgroundColor) {
+                determineBackgroundColor()
+            }
+            .onAppear {
+                determineBackgroundColor()
+            }
+            .overlay(
+                VStack {
+                    PassCardTopSection(passObject: passObject)
+                        .frame(height: size.height * 0.2)
+                        .padding(0)
+
+                    if getIsStripImageSupported(passObject: passObject) && passObject.stripImage != Data() {
+                        if let uiImage = UIImage(data: passObject.stripImage) {
+                            let imageAspectRatio = uiImage.size.width / uiImage.size.height
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: .infinity)
+                                .aspectRatio(imageAspectRatio, contentMode: .fit)
+                                .overlay(alignment: .leading) {
+                                    Rectangle()
+                                        .fill(Color.black.opacity(0.1))
+                                        .frame(width: 2)
+                                }
+                                .overlay(alignment: .trailing) {
+                                    Rectangle()
+                                        .fill(Color.black.opacity(0.1))
+                                        .frame(width: 2)
+                                }
+                                .padding(.top, -10)
                         }
-                })
-                .onChange(of: passObject.backgroundImage) {
-                    determineBackgroundColor()
-                }
-                .onChange(of: passObject.backgroundColor) {
-                    determineBackgroundColor()
-                }
-                .onAppear {
-                    determineBackgroundColor()
-                }
-                .clipShape(
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                )
-                .background(
-                    passCardBackground
-                        .scaleEffect(0.95, anchor: .bottom)
-                        .blur(radius: 3)
-                        .opacity(colorScheme == .light ? 0.6 : 0.7)
-                        .padding(.bottom, -2)
-                        .allowsHitTesting(false)
-                )
-                .overlay(
-                    VStack {
-                        PassCardTopSection(passObject: passObject)
-                            .frame(height: geometry.size.height * 0.2)
-                            .padding(0)
+                    } else if (passObject.primaryFieldText != "" || passObject.primaryFieldLabel != "") && !passObject.isCustomStripImageOn {
+                        HStack {
+                            ZStack(alignment: .leading) {
+                                Text(passObject.primaryFieldLabel)
+                                    .lineLimit(1)
+                                    .frame(maxHeight: .infinity, alignment: .topLeading)
+                                    .foregroundColor(Color(hex: passObject.labelColor))
+                                    .textCase(.uppercase)
+                                    .font(.system(size: 11))
+                                    .fontWeight(.semibold)
+                                    .padding(0)
+                                    .padding(.top, -2)
 
-                        if getIsStripImageSupported(passObject: passObject) && passObject.stripImage != Data() {
-                            if let uiImage = UIImage(data: passObject.stripImage) {
-                                let imageAspectRatio = uiImage.size.width / uiImage.size.height
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(maxWidth: .infinity)
-                                    .aspectRatio(imageAspectRatio, contentMode: .fit)
-                                    .overlay(alignment: .leading) {
-                                        Rectangle()
-                                            .fill(Color.black.opacity(0.1))
-                                            .frame(width: 2)
-                                    }
-                                    .overlay(alignment: .trailing) {
-                                        Rectangle()
-                                            .fill(Color.black.opacity(0.1))
-                                            .frame(width: 2)
-                                    }
-                                    .padding(.top, -10)
+                                Text(passObject.primaryFieldText)
+                                    .lineLimit(1)
+                                    .frame(maxHeight: .infinity, alignment: .topLeading)
+                                    .foregroundColor(Color(hex: passObject.foregroundColor))
+                                    .font(.system(size: 14))
+                                    .fontWeight(.thin)
+                                    .padding(0)
+                                    .padding(.top, 9)
+                                    .minimumScaleFactor(0.34)
                             }
-                        } else if (passObject.primaryFieldText != "" || passObject.primaryFieldLabel != "") && !passObject.isCustomStripImageOn {
-                            HStack {
-                                ZStack(alignment: .leading) {
-                                    Text(passObject.primaryFieldLabel)
-                                        .lineLimit(1)
-                                        .frame(maxHeight: .infinity, alignment: .topLeading)
-                                        .foregroundColor(Color(hex: passObject.labelColor))
-                                        .textCase(.uppercase)
-                                        .font(.system(size: 11))
-                                        .fontWeight(.semibold)
-                                        .padding(0)
-                                        .padding(.top, -2)
-
-                                    Text(passObject.primaryFieldText)
-                                        .lineLimit(1)
-                                        .frame(maxHeight: .infinity, alignment: .topLeading)
-                                        .foregroundColor(Color(hex: passObject.foregroundColor))
-                                        .font(.system(size: 14))
-                                        .fontWeight(.thin)
-                                        .padding(0)
-                                        .padding(.top, 9)
-                                        .minimumScaleFactor(0.34)
-                                }
-                                .padding(.leading, 8)
-                                Spacer()
-                            }
-                            .frame(height: geometry.size.height * 0.1)
+                            .padding(.leading, 8)
+                            Spacer()
                         }
+                        .frame(height: size.height * 0.1)
+                    }
 
-                        if passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" {
-                            HStack {
-                                ZStack(alignment: .leading) {
-                                    Text(passObject.secondaryFieldOneLabel)
-                                        .lineLimit(1)
-                                        .frame(maxHeight: .infinity, alignment: .topLeading)
-                                        .foregroundColor(Color(hex: passObject.labelColor))
-                                        .textCase(.uppercase)
-                                        .font(.system(size: 9))
-                                        .fontWeight(.semibold)
-                                        .padding(0)
-                                        .padding(.top, -2)
+                    if passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" {
+                        HStack {
+                            ZStack(alignment: .leading) {
+                                Text(passObject.secondaryFieldOneLabel)
+                                    .lineLimit(1)
+                                    .frame(maxHeight: .infinity, alignment: .topLeading)
+                                    .foregroundColor(Color(hex: passObject.labelColor))
+                                    .textCase(.uppercase)
+                                    .font(.system(size: 9))
+                                    .fontWeight(.semibold)
+                                    .padding(0)
+                                    .padding(.top, -2)
 
-                                    Text(passObject.secondaryFieldOneText)
-                                        .lineLimit(1)
-                                        .frame(maxHeight: .infinity, alignment: .topLeading)
-                                        .foregroundColor(Color(hex: passObject.foregroundColor))
-                                        .font(.system(size: 12))
-                                        .fontWeight(.thin)
-                                        .padding(0)
-                                        .padding(.top, 7)
-                                        .minimumScaleFactor(0.34)
-                                }
-                                .padding(.leading, 8)
-                                Spacer()
+                                Text(passObject.secondaryFieldOneText)
+                                    .lineLimit(1)
+                                    .frame(maxHeight: .infinity, alignment: .topLeading)
+                                    .foregroundColor(Color(hex: passObject.foregroundColor))
+                                    .font(.system(size: 12))
+                                    .fontWeight(.thin)
+                                    .padding(0)
+                                    .padding(.top, 7)
+                                    .minimumScaleFactor(0.34)
                             }
-                            .frame(height: geometry.size.height * 0.1)
+                            .padding(.leading, 8)
+                            Spacer()
                         }
-                        Spacer()
+                        .frame(height: size.height * 0.1)
+                    }
+                    Spacer()
 
-                        if passObject.barcodeType == BarcodeType.qr, passObject.barcodeString != "" {
-                            QRCodeView(data: passObject.barcodeString, correctionLevel: passObject.qrCodeCorrectionLevel, encoding: passObject.qrCodeEncoding)
-                                .padding(3)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 2)
-                                        .fill(Color.white)
-                                }
-                                .frame(height: 60)
-                                .padding(.bottom, 15)
-                        } else if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 {
-                            Group {
-                                if passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) == true {
-                                    if passObject.barcodeType == BarcodeType.code128 {
-                                        Code128View(data: passObject.barcodeString)
-                                            .padding(10)
-                                    } else if passObject.barcodeType == BarcodeType.pdf417 {
-                                        PDF417View(data: passObject.barcodeString)
-                                            .padding(5)
-                                    }
-                                }
-                            }
+                    if passObject.barcodeType == BarcodeType.qr, passObject.barcodeString != "" {
+                        QRCodeView(data: passObject.barcodeString, correctionLevel: passObject.qrCodeCorrectionLevel, encoding: passObject.qrCodeEncoding)
+                            .padding(3)
                             .background {
-                                RoundedRectangle(cornerRadius: 5)
+                                RoundedRectangle(cornerRadius: 2)
                                     .fill(Color.white)
                             }
-                            .aspectRatio(3, contentMode: .fit)
-                            .padding([.leading, .trailing], 20)
+                            .frame(height: 60)
                             .padding(.bottom, 15)
+                    } else if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 {
+                        Group {
+                            if passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) == true {
+                                if passObject.barcodeType == BarcodeType.code128 {
+                                    Code128View(data: passObject.barcodeString)
+                                        .padding(10)
+                                } else if passObject.barcodeType == BarcodeType.pdf417 {
+                                    PDF417View(data: passObject.barcodeString)
+                                        .padding(5)
+                                }
+                            }
                         }
-                    }
-                )
-                .contextMenu {
-                    let fileManager = FileManager.default
-                    let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-                    let destinationURL = documentsDirectory.appendingPathComponent("\(passObject.id).pkpass")
-                    ShareLink(item: destinationURL) {
-                        Label("Share", systemImage: "square.and.arrow.up")
-                    }
-
-                    Button(action: {
-                        let newPass = passObject.duplicate()
-                        modelData.passObjects.append(newPass)
-                        modelData.encodePassObjects()
-
-                        _ = generatePass(passObject: newPass)
-                    }) {
-                        Label("Duplicate", systemImage: "rectangle.portrait.on.rectangle.portrait")
-                    }
-
-                    Button(role: .destructive, action: {
-                        modelData.deleteItemByID(passObject.id)
-                    }) {
-                        Label("Delete", systemImage: "trash")
+                        .background {
+                            RoundedRectangle(cornerRadius: 5)
+                                .fill(Color.white)
+                        }
+                        .aspectRatio(3, contentMode: .fit)
+                        .padding([.leading, .trailing], 20)
+                        .padding(.bottom, 15)
                     }
                 }
-        }
+            )
+            .contextMenu {
+                let fileManager = FileManager.default
+                let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let destinationURL = documentsDirectory.appendingPathComponent("\(passObject.id).pkpass")
+                ShareLink(item: destinationURL) {
+                    Label("Share", systemImage: "square.and.arrow.up")
+                }
+
+                Button(action: {
+                    let newPass = passObject.duplicate()
+                    modelData.passObjects.append(newPass)
+                    modelData.encodePassObjects()
+
+                    _ = generatePass(passObject: newPass)
+                }) {
+                    Label("Duplicate", systemImage: "rectangle.portrait.on.rectangle.portrait")
+                }
+
+                Button(role: .destructive, action: {
+                    modelData.deleteItemByID(passObject.id)
+                }) {
+                    Label("Delete", systemImage: "trash")
+                }
+            }
     }
 
     private var passCardBackground: some View {
