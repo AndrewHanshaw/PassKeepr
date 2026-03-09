@@ -265,7 +265,7 @@ func getIsStripImageSupported(passObject: PassObject) -> Bool {
 }
 
 func shouldStripImageBeAddedToPass(passObject: PassObject) -> Bool {
-    if (passObject.stripImage != Data()) && getIsStripImageSupported(passObject: passObject) {
+    if (passObject.isCustomStripImageOn) && (passObject.stripImage != Data()) && getIsStripImageSupported(passObject: passObject) {
         return true
     } else {
         return false
