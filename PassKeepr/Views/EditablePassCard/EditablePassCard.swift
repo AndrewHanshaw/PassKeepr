@@ -16,6 +16,26 @@ struct EditablePassCard: View {
     @Binding var isCustomizeQrCodePresented: Bool
     @State private var passBackgroundBrightness: BackgroundBrightness = .normal
 
+    private var signingOverlayColor: Color {
+        switch passBackgroundBrightness {
+        case .veryLight:
+            return colorScheme == .light ? Color.black.opacity(0.05) : Color.black.opacity(0.3)
+        case .normal:
+            return colorScheme == .light ? Color.white.opacity(0.5) : Color.black.opacity(0.5)
+        case .veryDark:
+            return colorScheme == .light ? Color.white.opacity(0.5) : Color.white.opacity(0.2)
+        }
+    }
+
+    private var signingContentColor: Color {
+        switch passBackgroundBrightness {
+        case .veryLight:
+            return colorScheme == .light ? Color.gray : Color.white
+        default:
+            return colorScheme == .light ? Color.white : Color.white
+        }
+    }
+
     var body: some View {
         ZStack {
             ZStack {
@@ -91,12 +111,13 @@ struct EditablePassCard: View {
                 if isSigningPass {
                     ZStack {
                         Rectangle()
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(signingOverlayColor)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .opacity(0.5)
                         ProgressView()
                             .controlSize(.large)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .tint(signingContentColor)
+                            .foregroundColor(signingContentColor)
                     }
                     .clipShape(passObject.backgroundImage == Data() ? AnyShape(RoundedRectangle(cornerRadius: 10)) : AnyShape(NotchedRectangle()))
                     .overlay {
@@ -104,8 +125,10 @@ struct EditablePassCard: View {
                             Spacer().frame(height: 0)
                             Text("Signing Pass…")
                                 .offset(y: 40)
+                                .foregroundColor(signingContentColor)
+                                .fontWeight(.semibold)
                         }
-                        .opacity(0.5)
+                        .opacity(0.9)
                     }
                 }
             }
