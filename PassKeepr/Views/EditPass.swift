@@ -47,6 +47,12 @@ struct EditPass: View {
 
     private func initializeTempObject() {
         tempObject.primaryFieldText == "" ? tempObject.primaryFieldText = "Default" : ()
+        if isNewPass {
+            // Overwrite so the navigation title shows this.
+            // On save, we will return it back to the default description
+            // That way if the user hasn't changed it, when they go back to edit it, it won't show "New Pass" again
+            tempObject.description = "New Pass"
+        }
     }
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -96,6 +102,9 @@ struct EditPass: View {
                         .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
 
                         Button("Done", systemImage: "checkmark.circle") {
+                            if tempObject.description == "New Pass" {
+                                tempObject.description = PassObject.defaultDescription
+                            }
                             let result = saveWithoutAddingToWallet()
                             if result.success {
                                 _ = generatePass(passObject: tempObject)
