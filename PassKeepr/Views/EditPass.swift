@@ -33,6 +33,8 @@ struct EditPass: View {
     @State private var showHelpPopover = false
     @State private var isWalletSupported = false
     @State private var showDiscardConfirmation = false
+    @State private var isCustomizeBarcodePresented = false
+    @State private var isCustomizeQrCodePresented = false
 
     // On init, set the temp object owned by this view equal to the
     // one passed in via @Binding
@@ -54,10 +56,10 @@ struct EditPass: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
-                    EditablePassCard(passObject: $tempObject, isSigningPass: hasEditPassButtonBeenPressed)
+                    EditablePassCard(passObject: $tempObject, isSigningPass: hasEditPassButtonBeenPressed, isCustomizeBarcodePresented: $isCustomizeBarcodePresented, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
                         .padding([.leading, .trailing], 6)
                         .padding(.top, 56)
 
@@ -75,12 +77,9 @@ struct EditPass: View {
                 .padding()
             }
             .ignoresSafeArea(edges: .top)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle($tempObject.description)
             .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text(isNewPass ? "New Pass" : "Edit Pass")
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
-                }
-
                 ToolbarItem(placement: .confirmationAction) {
                     // This weird initializer for Menu is the only way I could find to get it to apply the GlassProminentButtonStyle on iOS 26
                     Menu("Done", systemImage: "checkmark", content: {
@@ -132,6 +131,14 @@ struct EditPass: View {
                 }
             }
             .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
+        }
+        .sheet(isPresented: $isCustomizeBarcodePresented) {
+            CustomizeBarcode(passObject: $tempObject)
+                .edgesIgnoringSafeArea(.bottom)
+        }
+        .sheet(isPresented: $isCustomizeQrCodePresented) {
+            CustomizeQrCode(passObject: $tempObject)
+                .edgesIgnoringSafeArea(.bottom)
         }
         .interactiveDismissDisabled(isPassModified, attemptToDismiss: $attemptToDismiss)
         .onChange(of: attemptToDismiss) { _ in

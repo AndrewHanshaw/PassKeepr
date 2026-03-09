@@ -12,8 +12,8 @@ struct EditablePassCard: View {
     @State private var isCustomizeLogoImagePresented = false
     @State private var isCustomizeBackgroundImagePresented = false
     @State private var isCustomizeStripImagePresented = false
-    @State private var isCustomizeBarcodePresented = false
-    @State private var isCustomizeQrCodePresented = false
+    @Binding var isCustomizeBarcodePresented: Bool
+    @Binding var isCustomizeQrCodePresented: Bool
     @State private var passBackgroundBrightness: BackgroundBrightness = .normal
 
     var body: some View {
@@ -78,10 +78,6 @@ struct EditablePassCard: View {
                     if passObject.barcodeType == BarcodeType.qr {
                         BuiltInQrCodeView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
                             .frame(height: passObject.altText == "" ? size.height * 0.27 : size.height * 0.29)
-                            .sheet(isPresented: $isCustomizeQrCodePresented) {
-                                CustomizeQrCode(passObject: $passObject)
-                                    .edgesIgnoringSafeArea(.bottom)
-                            }
                     } else if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 {
                         BuiltInBarcodeView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                     }
@@ -131,10 +127,6 @@ struct EditablePassCard: View {
                 }
             }
         }
-        .sheet(isPresented: $isCustomizeBarcodePresented) {
-            CustomizeBarcode(passObject: $passObject)
-                .edgesIgnoringSafeArea(.bottom)
-        }
         .sheet(isPresented: $isCustomizeStripImagePresented) {
             CustomizeStripImage(passObject: $passObject)
                 .edgesIgnoringSafeArea(.bottom)
@@ -179,5 +171,5 @@ struct EditablePassCard: View {
 }
 
 #Preview {
-    EditablePassCard(passObject: .constant(MockModelData().passObjects[0]), isSigningPass: false)
+    EditablePassCard(passObject: .constant(MockModelData().passObjects[0]), isSigningPass: false, isCustomizeBarcodePresented: .constant(false), isCustomizeQrCodePresented: .constant(false))
 }
