@@ -14,41 +14,45 @@ struct SecondaryTextField: View {
     @State private var isCustomizeTextPresented = false
 
     var body: some View {
-        ZStack(alignment: .leading) {
+        Group {
             if textLabel != "" || text != "" {
-                Text(textLabel)
-                    .lineLimit(1)
-                    .frame(maxHeight: .infinity, alignment: .topLeading)
-                    .foregroundColor(labelColor)
-                    .disableAutocorrection(true)
-                    .textCase(.uppercase)
-                    .font(.system(size: 11))
-                    .fontWeight(.semibold)
-                    .padding(0)
-                    .padding(.top, -2)
+                ZStack(alignment: .leading) {
+                    Text(textLabel)
+                        .lineLimit(1)
+                        .frame(maxHeight: .infinity, alignment: .topLeading)
+                        .foregroundColor(labelColor)
+                        .disableAutocorrection(true)
+                        .textCase(.uppercase)
+                        .font(.system(size: 11))
+                        .fontWeight(.semibold)
+                        .padding(0)
+                        .padding(.top, -2)
 
-                Text(text)
-                    .lineLimit(1)
-                    .frame(maxHeight: .infinity, alignment: .topLeading)
-                    .foregroundColor(textColor)
-                    .disableAutocorrection(true)
-                    .font(.system(size: isStripImageOn ? 28 : 20))
-                    .fontWeight(.thin)
-                    .padding(0)
-                    .padding(.top, 8)
-                    .minimumScaleFactor(0.34)
+                    Text(text)
+                        .lineLimit(1)
+                        .frame(maxHeight: .infinity, alignment: .topLeading)
+                        .foregroundColor(textColor)
+                        .disableAutocorrection(true)
+                        .font(.system(size: isStripImageOn ? 28 : 20))
+                        .fontWeight(.thin)
+                        .padding(0)
+                        .padding(.top, 8)
+                        .minimumScaleFactor(0.34)
+                }
             } else {
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                    .foregroundColor(backgroundBrightness.overwriteForegroundColor)
-                    .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
-                    .aspectRatio(2, contentMode: .fit)
-                Text("Secondary\nField")
-                    .multilineTextAlignment(.center)
-                    .minimumScaleFactor(0.34)
-                    .foregroundColor(backgroundBrightness.overwriteForegroundColor)
-                    .opacity(backgroundBrightness.overwriteOpacity)
-                    .padding(2)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
+                        .foregroundColor(backgroundBrightness.overwriteForegroundColor)
+                        .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
+                        .aspectRatio(2, contentMode: .fit)
+                    Text("Secondary\nField")
+                        .multilineTextAlignment(.center)
+                        .minimumScaleFactor(0.34)
+                        .foregroundColor(backgroundBrightness.overwriteForegroundColor)
+                        .opacity(backgroundBrightness.overwriteOpacity)
+                        .padding(2)
+                }
             }
         }
         .overlay(alignment: .bottomTrailing) {
