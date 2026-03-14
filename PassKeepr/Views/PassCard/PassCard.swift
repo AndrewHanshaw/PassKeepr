@@ -3,27 +3,44 @@ import SwiftUI
 struct PassCard: View {
     @EnvironmentObject var modelData: ModelData
     @EnvironmentObject var passSigner: pkPassSigner
+    @Environment(\.colorScheme) var colorScheme
+    @State private var size: CGSize = CGSizeZero
+    @State private var passBackgroundBrightness: BackgroundBrightness = .normal
     var passObject: PassObject
 
     var body: some View {
         GeometryReader { geometry in
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(passObject.backgroundImage != Data() ?
-                    Color.clear : Color(hex: passObject.backgroundColor)
-                )
-                .strokeBorder(Color.black.opacity(0.1), lineWidth: 2) // strokeBorder draws the line only on the inside of the view
-                .background(
-                    passObject.backgroundImage != Data() ?
-                        Image(uiImage: UIImage(data: passObject.backgroundImage)!)
-                        .resizable()
-                        .scaleEffect(1.05) // Scale up the image slightly to prevent a semitransparent halo around the image
-                        // .scaledToFill()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .blur(radius: 6)
-                        : nil // No background if image is nil
-                )
+            passCardBackground
+                .background(GeometryReader { geometry in
+                    Color.clear
+                        .onAppear {
+                            size = geometry.size
+                        }
+                        .onChange(of: geometry.size) {
+                            Task {
+                                size = geometry.size
+                            }
+                        }
+                })
+                .onChange(of: passObject.backgroundImage) {
+                    determineBackgroundColor()
+                }
+                .onChange(of: passObject.backgroundColor) {
+                    determineBackgroundColor()
+                }
+                .onAppear {
+                    determineBackgroundColor()
+                }
                 .clipShape(
                     RoundedRectangle(cornerRadius: 10, style: .continuous)
+                )
+                .background(
+                    passCardBackground
+                        .scaleEffect(0.95, anchor: .bottom)
+                        .blur(radius: 3)
+                        .opacity(colorScheme == .light ? 0.6 : 0.7)
+                        .padding(.bottom, -2)
+                        .allowsHitTesting(false)
                 )
                 .overlay(
                     VStack {
@@ -166,6 +183,82 @@ struct PassCard: View {
                     }
                 }
         }
+    }
+
+    private var passCardBackground: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(shadowColor)
+                .background(
+                    passObject.backgroundImage != Data() ?
+                        Image(uiImage: UIImage(data: passObject.backgroundImage)!)
+                        .resizable()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .blur(radius: 6)
+                        : nil // No background if image is nil
+                )
+                .scaleEffect(0.95, anchor: .bottom)
+                .blur(radius: 3)
+                .opacity(shadowOpacity)
+                .padding(.bottom, -4)
+                .allowsHitTesting(false)
+
+            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .strokeBorder(passBackgroundBrightness == .veryDark ? Color.white.opacity(0.15) : Color.black.opacity(0.1), lineWidth: 2) // strokeBorder draws the line only on the inside of the view
+                .background(
+                    passObject.backgroundImage != Data() ?
+                        AnyView(
+                            Image(uiImage: UIImage(data: passObject.backgroundImage)!)
+                                .resizable()
+                                .scaleEffect(1.05) // Scale up the image slightly to prevent a semitransparent halo around the image
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .blur(radius: 6)
+                                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        )
+                        : AnyView(RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .fill(Color(hex: passObject.backgroundColor)))
+                )
+        }
+    }
+
+    private var shadowColor: Color {
+        if passObject.backgroundImage != Data() {
+            return Color.clear
+        }
+
+        switch passBackgroundBrightness {
+        case .veryDark:
+            return colorScheme == .light ? Color(hex: passObject.backgroundColor) : Color.gray.opacity(0.6)
+        case .normal:
+            return Color(hex: passObject.backgroundColor)
+        case .veryLight:
+            return colorScheme == .light ? Color.gray : Color(hex: passObject.backgroundColor)
+        }
+    }
+
+    private var shadowOpacity: Double {
+        switch passBackgroundBrightness {
+        case .veryDark:
+            return colorScheme == .light ? 0.5 : 0.4
+        case .normal:
+            return colorScheme == .light ? 0.5 : 0.6
+        case .veryLight:
+            return 0.4
+        }
+    }
+
+    func determineBackgroundColor() {
+        let backgroundBrightness: CGFloat = ImageRenderer(content: passCardBackground.frame(width: size.width, height: size.height)).uiImage?.averageBrightness() ?? 0.5
+
+        if backgroundBrightness < 0.2 {
+            passBackgroundBrightness = .veryDark
+        } else if backgroundBrightness > 0.2, backgroundBrightness < 0.55 {
+            passBackgroundBrightness = .normal
+        } else {
+            passBackgroundBrightness = .veryLight
+        }
+
+        // print("PassCardContainer background brightness: \(backgroundBrightness)")
     }
 }
 
