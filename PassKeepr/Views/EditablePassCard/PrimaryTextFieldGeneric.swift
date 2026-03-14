@@ -68,10 +68,10 @@ struct PrimaryTextFieldGeneric: View {
             }
             .popoverModifier()
             .presentationCompactAdaptation(.popover)
-            .onChange(of: showHelpPopover) {
-                print("Popover was dismissed")
-                modelData.tutorialStage += 1
-            }
+        }
+        .onChange(of: showHelpPopover) {
+            print("Popover was dismissed")
+            modelData.tutorialStage += 1
         }
         .overlay(alignment: .bottomTrailing) {
             Button(action: {
