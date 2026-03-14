@@ -8,24 +8,20 @@ struct EditablePassCardTopSection: View {
     @Binding var isCustomizeLogoImagePresented: Bool
 
     var body: some View {
+        let aspectRatio: CGFloat? = {
+            if passObject.logoImage != Data(), let uiImage = UIImage(data: passObject.logoImage) {
+                return uiImage.size.width / uiImage.size.height
+            }
+            return PassKitConstants.LogoImage.aspectRatio
+        }()
+
         GeometryReader { geometry in
             HStack {
                 ZStack {
                     if passObject.logoImage != Data() {
-                        Image(uiImage: UIImage(data: passObject.logoImage)!)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(alignment: .leading)
-                            .fixedSize(horizontal: true, vertical: false)
+                        logoImage
                     } else {
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                            .aspectRatio(3, contentMode: .fit)
-                            .foregroundColor(backgroundBrightness.overwriteForegroundColor)
-                            .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
-                        Text("Logo Image")
-                            .foregroundColor(backgroundBrightness.overwriteForegroundColor)
-                            .opacity(backgroundBrightness.overwriteOpacity)
+                        placeholder
                     }
 
                     Button(action: {
@@ -63,6 +59,35 @@ struct EditablePassCardTopSection: View {
             }
             .frame(width: geometry.size.width)
         }
+    }
+
+    @ViewBuilder
+    private var logoImage: some View {
+        // Small logo images can be rendered at their native size. Anything larger needs to be shrunk down
+        if let uiImage = UIImage(data: passObject.logoImage),
+           uiImage.size.width < PassKitConstants.LogoImage.width && uiImage.size.height < PassKitConstants.LogoImage.height
+        {
+            Image(uiImage: uiImage)
+                .frame(maxHeight: .infinity, alignment: .center)
+        } else if let uiImage = UIImage(data: passObject.logoImage) {
+            let aspectRatio = uiImage.size.width / uiImage.size.height
+            Image(uiImage: uiImage)
+                .resizable()
+                .aspectRatio(aspectRatio, contentMode: .fit)
+        }
+    }
+
+    private var placeholder: some View {
+        Group {
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
+                .foregroundColor(backgroundBrightness.overwriteForegroundColor)
+                .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
+            Text("Logo Image")
+                .foregroundColor(backgroundBrightness.overwriteForegroundColor)
+                .opacity(backgroundBrightness.overwriteOpacity)
+        }
+        .aspectRatio(PassKitConstants.LogoImage.aspectRatio, contentMode: .fit)
     }
 }
 
