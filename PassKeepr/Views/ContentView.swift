@@ -232,13 +232,6 @@ struct PassCardContainer: View {
 
     var body: some View {
         PassCard(passObject: passObject)
-            .background(
-                PassCard(passObject: passObject)
-                    .scaleEffect(0.95, anchor: .bottom)
-                    .blur(radius: 8)
-                    .opacity(colorScheme == .light ? 1.0 : 0.8)
-                    .allowsHitTesting(false) // still safe to include
-            )
             .onTapGesture {
                 shouldPresentEditPass.toggle()
             }
