@@ -31,7 +31,6 @@ struct EditableHeaderTextField: View {
                                     .fontWeight(.semibold)
                                     .padding(0)
                                     .padding(.leading, -20)
-//                                    .minimumScaleFactor(0.34) // TODO: Is this needed?
                             }
 
                             HStack {
@@ -41,9 +40,9 @@ struct EditableHeaderTextField: View {
                                     .frame(alignment: .top)
                                     .foregroundColor(textColor)
                                     .disableAutocorrection(true)
-                                    .font(.system(size: 20))
+                                    .font(.system(size: 22))
                                     .padding(0)
-                                    .padding(.leading, -20)
+                                    // .padding(.leading, -20)
                                     .minimumScaleFactor(0.34)
                             }
                             Spacer()
