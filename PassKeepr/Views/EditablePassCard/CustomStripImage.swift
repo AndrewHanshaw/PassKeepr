@@ -8,9 +8,16 @@ struct CustomStripImage: View {
 
     // TODO: Handle when passObject.stripImage == Data() ?
     var body: some View {
+        let aspectRatio: CGFloat? = {
+            if passObject.stripImage != Data(), let uiImage = UIImage(data: passObject.stripImage) {
+                return uiImage.size.width / uiImage.size.height
+            }
+            return PassKitConstants.StripImage.aspectRatio
+        }()
+
         ZStack {
-            if passObject.stripImage != Data() {
-                Image(uiImage: UIImage(data: passObject.stripImage)!)
+            if passObject.stripImage != Data(), let uiImage = UIImage(data: passObject.stripImage) {
+                Image(uiImage: uiImage)
                     .resizable()
             } else {
                 ZStack {
@@ -41,7 +48,7 @@ struct CustomStripImage: View {
             .disabled(disableButton)
         }
         .padding(.top, 10)
-        .aspectRatio(stripImageAspectRatio, contentMode: .fit)
+        .aspectRatio(aspectRatio, contentMode: .fit)
     }
 }
 

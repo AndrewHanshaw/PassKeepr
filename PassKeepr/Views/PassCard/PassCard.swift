@@ -33,12 +33,15 @@ struct PassCard: View {
                                 .padding(0)
 
                             if getIsStripImageSupported(passObject: passObject) && passObject.stripImage != Data() {
-                                Image(uiImage: UIImage(data: passObject.stripImage)!)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(maxWidth: .infinity)
-                                    .aspectRatio(stripImageAspectRatio, contentMode: .fit)
-                                    .padding(.top, -10)
+                                if let uiImage = UIImage(data: passObject.stripImage) {
+                                    let imageAspectRatio = uiImage.size.width / uiImage.size.height
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(maxWidth: .infinity)
+                                        .aspectRatio(imageAspectRatio, contentMode: .fit)
+                                        .padding(.top, -10)
+                                }
                             } else if (passObject.primaryFieldText != "" || passObject.primaryFieldLabel != "") && !passObject.isCustomStripImageOn {
                                 HStack {
                                     ZStack(alignment: .leading) {

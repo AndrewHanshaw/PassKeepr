@@ -37,6 +37,7 @@ struct EditablePassCard: View {
                     } else {
                         if passObject.isCustomStripImageOn == true {
                             CustomStripImage(placeholderColor: placeholderColor, disableButton: isSigningPass, passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
+                                .frame(width: size.width)
                         } else {
                             HStack {
                                 PrimaryTextFieldGeneric(placeholderColor: placeholderColor, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))

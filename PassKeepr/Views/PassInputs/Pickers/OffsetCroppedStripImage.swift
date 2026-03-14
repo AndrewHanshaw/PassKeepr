@@ -7,7 +7,7 @@ struct OffsetCroppedStripImage: View {
 
     var body: some View {
         Rectangle()
-            .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fill)
+            .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
             .overlay(
                 Image(uiImage: strip)
                     .resizable()
