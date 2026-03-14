@@ -71,6 +71,7 @@
 		BAD0D7102D15130C0058054E /* SecondaryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD0D70F2D15130C0058054E /* SecondaryTextField.swift */; };
 		BAD0D7122D1528350058054E /* SecondaryFieldSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD0D7112D1528350058054E /* SecondaryFieldSelection.swift */; };
 		BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD64672CA5021D00E8F0A0 /* MockModelData.swift */; };
+		BAE0C1552F5E3627001CC4DB /* InteractiveDismissDisabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0C1542F5E3627001CC4DB /* InteractiveDismissDisabled.swift */; };
 		BAE2D4552B80F2B600CC7BE2 /* ExtendBarcodeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE2D4542B80F2B600CC7BE2 /* ExtendBarcodeType.swift */; };
 		BAE7B33C2D06588E00DD0251 /* CustomizeBarcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */; };
 		BAE7B33E2D065DFF00DD0251 /* BuiltInBarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */; };
@@ -192,6 +193,7 @@
 		BAD0D70F2D15130C0058054E /* SecondaryTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryTextField.swift; sourceTree = "<group>"; };
 		BAD0D7112D1528350058054E /* SecondaryFieldSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryFieldSelection.swift; sourceTree = "<group>"; };
 		BADD64672CA5021D00E8F0A0 /* MockModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockModelData.swift; sourceTree = "<group>"; };
+		BAE0C1542F5E3627001CC4DB /* InteractiveDismissDisabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveDismissDisabled.swift; sourceTree = "<group>"; };
 		BAE2D4542B80F2B600CC7BE2 /* ExtendBarcodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendBarcodeType.swift; sourceTree = "<group>"; };
 		BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeBarcode.swift; sourceTree = "<group>"; };
 		BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInBarcodeView.swift; sourceTree = "<group>"; };
@@ -443,6 +445,7 @@
 		BABAADDC2B0AB8150014C73B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BAE0C1542F5E3627001CC4DB /* InteractiveDismissDisabled.swift */,
 				BA0C54E32F6505B500DC2C7F /* PassKitConstants.swift */,
 				BA5FBE992F2F07BB00C7AA2A /* ImportPass.swift */,
 				BA7F036A2E9AC4F2004E9610 /* iOS26Helpers.swift */,
@@ -678,6 +681,7 @@
 				BA25D8972B76E8300044E423 /* Code93View.swift in Sources */,
 				BAF0FB772D29CCED00948089 /* PassCard.swift in Sources */,
 				BA6D6C682CE83628007D4C9A /* CustomizeLogoImage.swift in Sources */,
+				BAE0C1552F5E3627001CC4DB /* InteractiveDismissDisabled.swift in Sources */,
 				3A02E73C2AF6EE1000383BC2 /* ContentView.swift in Sources */,
 				BAED06682D32158C00D6789E /* GetBarcodeFromImage.swift in Sources */,
 				BA6DACF72D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift in Sources */,
