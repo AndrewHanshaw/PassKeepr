@@ -2,6 +2,100 @@ import Foundation
 import UIKit
 import ZIPFoundation
 
+// Helper: save 1x and optional @2x/@3x variants based on source pixels and PassKit box
+func saveImageVariants(from data: Data, name: String, passDirectory: URL, boxWidth: CGFloat, boxHeight: CGFloat) {
+    guard let ui = UIImage(data: data) else {
+        // Not a decodable image - write raw data
+        savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: name)
+        return
+    }
+
+    // Prefer actual pixel dims from cgImage when available
+    let srcPixelW: CGFloat = (ui.cgImage != nil) ? CGFloat(ui.cgImage!.width) : (ui.size.width * ui.scale)
+    let srcPixelH: CGFloat = (ui.cgImage != nil) ? CGFloat(ui.cgImage!.height) : (ui.size.height * ui.scale)
+
+    // Thresholds for 1x/2x/3x
+    let t1W = boxWidth
+    let t1H = boxHeight
+    let t2W = boxWidth * 2.0
+    let t2H = boxHeight * 2.0
+    let t3W = boxWidth * 3.0
+    let t3H = boxHeight * 3.0
+
+    // Helper to save data or resized image for a given pixel size
+    func saveResized(_ targetW: Int, _ targetH: Int, fileSuffix: String?) {
+        if let resized = ui.resize(targetSize: CGSize(width: CGFloat(targetW), height: CGFloat(targetH)))?.pngData() {
+            let fileName = fileSuffix != nil ? "\(name)@\(fileSuffix!)" : name
+            savePNGToDirectory(pngData: resized, destinationDirectory: passDirectory, fileName: fileName)
+        }
+    }
+
+    // Determine classification and generate accordingly
+    if srcPixelW >= t3W, srcPixelH >= t3H {
+        // Source is large enough to be 3x; if it's bigger than t3, downscale to fit within t3
+        let needsDownscale = (srcPixelW > t3W) || (srcPixelH > t3H)
+        let final3xW: Int
+        let final3xH: Int
+        if needsDownscale {
+            let downscale = min(t3W / srcPixelW, t3H / srcPixelH)
+            final3xW = max(1, Int((srcPixelW * downscale).rounded()))
+            final3xH = max(1, Int((srcPixelH * downscale).rounded()))
+        } else {
+            final3xW = max(1, Int(srcPixelW.rounded()))
+            final3xH = max(1, Int(srcPixelH.rounded()))
+        }
+
+        // Save 3x
+        if final3xW == Int(srcPixelW.rounded()), final3xH == Int(srcPixelH.rounded()) {
+            savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: "\(name)@3x")
+        } else if let png3 = ui.resize(targetSize: CGSize(width: CGFloat(final3xW), height: CGFloat(final3xH)))?.pngData() {
+            savePNGToDirectory(pngData: png3, destinationDirectory: passDirectory, fileName: "\(name)@3x")
+        }
+
+        // Derive and save 2x & 1x from the 3x dims
+        let target2xW = max(1, Int((CGFloat(final3xW) * 2.0 / 3.0).rounded()))
+        let target2xH = max(1, Int((CGFloat(final3xH) * 2.0 / 3.0).rounded()))
+        let target1xW = max(1, Int((CGFloat(final3xW) / 3.0).rounded()))
+        let target1xH = max(1, Int((CGFloat(final3xH) / 3.0).rounded()))
+
+        saveResized(target2xW, target2xH, fileSuffix: "2x")
+        saveResized(target1xW, target1xH, fileSuffix: nil)
+
+    } else if srcPixelW >= t2W, srcPixelH >= t2H {
+        // Between 2x and 3x: treat as 3x (use source as 3x), then derive 2x & 1x
+        let final3xW = max(1, Int(srcPixelW.rounded()))
+        let final3xH = max(1, Int(srcPixelH.rounded()))
+
+        // Save source as 3x
+        savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: "\(name)@3x")
+
+        let target2xW = max(1, Int((CGFloat(final3xW) * 2.0 / 3.0).rounded()))
+        let target2xH = max(1, Int((CGFloat(final3xH) * 2.0 / 3.0).rounded()))
+        let target1xW = max(1, Int((CGFloat(final3xW) / 3.0).rounded()))
+        let target1xH = max(1, Int((CGFloat(final3xH) / 3.0).rounded()))
+
+        saveResized(target2xW, target2xH, fileSuffix: "2x")
+        saveResized(target1xW, target1xH, fileSuffix: nil)
+
+    } else if srcPixelW >= t1W, srcPixelH >= t1H {
+        // Between 1x and 2x: treat as 2x
+        let final2xW = max(1, Int(srcPixelW.rounded()))
+        let final2xH = max(1, Int(srcPixelH.rounded()))
+
+        // Save source as 2x
+        savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: "\(name)@2x")
+
+        // Derive 1x
+        let target1xW = max(1, Int((CGFloat(final2xW) / 2.0).rounded()))
+        let target1xH = max(1, Int((CGFloat(final2xH) / 2.0).rounded()))
+        saveResized(target1xW, target1xH, fileSuffix: nil)
+
+    } else {
+        // Smaller than 1x: only save as 1x (do not upscale)
+        savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: name)
+    }
+}
+
 // Fields required by every PassKit pass
 // These are not customizable by the user, so they're kept separate from the PassObject used to otherwise build the pass
 let requiredFields: [String: Any] = [
@@ -52,6 +146,10 @@ func generatePass(passObject: PassObject) -> URL? {
 
         if passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" || passObject.isSecondaryFieldTwoOn || passObject.isSecondaryFieldThreeOn {
             data.merge(encodeSecondaryFields(passObject: passObject)) { _, _ in }
+        }
+
+        if !passObject.isCustomStripImageOn && (passObject.auxiliaryFieldOneLabel != "" || passObject.auxiliaryFieldOneText != "" || passObject.isAuxiliaryFieldTwoOn || passObject.isAuxiliaryFieldThreeOn) {
+            data.merge(encodeAuxiliaryFields(passObject: passObject)) { _, _ in }
         }
 
         var passStyleString: String
@@ -105,12 +203,6 @@ func generatePass(passObject: PassObject) -> URL? {
         try jsonData.write(to: fileURL)
 
         savePNGToDirectory(pngData: passObject.passIcon, destinationDirectory: passDirectory, fileName: "icon")
-        if passObject.passIcon2x != Data() {
-            savePNGToDirectory(pngData: passObject.passIcon2x, destinationDirectory: passDirectory, fileName: "icon@2x")
-        }
-        if passObject.passIcon3x != Data() {
-            savePNGToDirectory(pngData: passObject.passIcon3x, destinationDirectory: passDirectory, fileName: "icon@3x")
-        }
 
         if shouldStripImageBeAddedToPass(passObject: passObject) {
             if passStyleString != "storeCard" {
@@ -120,13 +212,7 @@ func generatePass(passObject: PassObject) -> URL? {
             if passObject.backgroundImage != Data() {
                 print("PassObject has background image and strip image. Not saving strip image")
             } else {
-                savePNGToDirectory(pngData: passObject.stripImage, destinationDirectory: passDirectory, fileName: "strip")
-                if passObject.stripImage2x != Data() {
-                    savePNGToDirectory(pngData: passObject.stripImage2x, destinationDirectory: passDirectory, fileName: "strip@2x")
-                }
-                if passObject.stripImage3x != Data() {
-                    savePNGToDirectory(pngData: passObject.stripImage3x, destinationDirectory: passDirectory, fileName: "strip@3x")
-                }
+                saveImageVariants(from: passObject.stripImage, name: "strip", passDirectory: passDirectory, boxWidth: PassKitConstants.StripImage.width, boxHeight: PassKitConstants.StripImage.height)
             }
         }
 
@@ -134,27 +220,15 @@ func generatePass(passObject: PassObject) -> URL? {
             if passStyleString != "eventTicket" {
                 print("PassObject should have background image but is not of style 'eventTicket'")
             }
-            savePNGToDirectory(pngData: UIImage(data: passObject.backgroundImage)!.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width, height: PassKitConstants.BackgroundImage.height))!.pngData()!, destinationDirectory: passDirectory, fileName: "background")
-            if passObject.backgroundImage2x != Data() {
-                savePNGToDirectory(pngData: UIImage(data: passObject.backgroundImage2x)!.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width * 2, height: PassKitConstants.BackgroundImage.height * 2))!.pngData()!, destinationDirectory: passDirectory, fileName: "background@2x")
-            }
-            if passObject.backgroundImage3x != Data() {
-                savePNGToDirectory(pngData: UIImage(data: passObject.backgroundImage3x)!.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width * 3, height: PassKitConstants.BackgroundImage.height * 3))!.pngData()!, destinationDirectory: passDirectory, fileName: "background@3x")
-            }
+            saveImageVariants(from: passObject.backgroundImage, name: "background", passDirectory: passDirectory, boxWidth: PassKitConstants.BackgroundImage.width, boxHeight: PassKitConstants.BackgroundImage.height)
         }
 
         if passObject.logoImage != Data() {
-            savePNGToDirectory(pngData: (UIImage(data: passObject.logoImage)?.resizeToFit().pngData()!)!, destinationDirectory: passDirectory, fileName: "logo")
-            if passObject.logoImage2x != Data() {
-                savePNGToDirectory(pngData: (UIImage(data: passObject.logoImage2x)?.resizeToFit().pngData()!)!, destinationDirectory: passDirectory, fileName: "logo@2x")
-            }
-            if passObject.logoImage3x != Data() {
-                savePNGToDirectory(pngData: (UIImage(data: passObject.logoImage3x)?.resizeToFit().pngData()!)!, destinationDirectory: passDirectory, fileName: "logo@3x")
-            }
+            saveImageVariants(from: passObject.logoImage, name: "logo", passDirectory: passDirectory, boxWidth: PassKitConstants.LogoImage.width, boxHeight: PassKitConstants.LogoImage.height)
         }
 
         if passObject.thumbnailImage != Data() {
-            savePNGToDirectory(pngData: passObject.thumbnailImage, destinationDirectory: passDirectory, fileName: "thumbnail")
+            saveImageVariants(from: passObject.thumbnailImage, name: "thumbnail", passDirectory: passDirectory, boxWidth: PassKitConstants.ThumbnailImage.width, boxHeight: PassKitConstants.ThumbnailImage.height)
         }
 
         if let pkpassDir = try zipDirectory(uuid: passObject.id) {
@@ -255,6 +329,46 @@ func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
     ]
 
     return secondaryFields
+}
+
+func encodeAuxiliaryFields(passObject: PassObject) -> [String: Any] {
+    var encodedData: [Any] = []
+
+    if passObject.auxiliaryFieldOneLabel != "", passObject.auxiliaryFieldOneText != "" {
+        let auxiliaryField1: [String: Any] = [
+            "key": passObject.auxiliaryFieldOneLabel,
+            "label": passObject.auxiliaryFieldOneLabel,
+            "value": passObject.auxiliaryFieldOneText,
+        ]
+
+        encodedData.append(auxiliaryField1)
+    }
+
+    if passObject.isAuxiliaryFieldTwoOn == true {
+        let auxiliaryField2: [String: Any] = [
+            "key": passObject.auxiliaryFieldTwoLabel,
+            "label": passObject.auxiliaryFieldTwoLabel,
+            "value": passObject.auxiliaryFieldTwoText,
+        ]
+
+        encodedData.append(auxiliaryField2)
+    }
+
+    if passObject.isAuxiliaryFieldThreeOn == true {
+        let auxiliaryField3: [String: Any] = [
+            "key": passObject.auxiliaryFieldThreeLabel,
+            "label": passObject.auxiliaryFieldThreeLabel,
+            "value": passObject.auxiliaryFieldThreeText,
+        ]
+
+        encodedData.append(auxiliaryField3)
+    }
+
+    let auxiliaryFields: [String: Any] = [
+        "auxiliaryFields": encodedData,
+    ]
+
+    return auxiliaryFields
 }
 
 func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: String) {
