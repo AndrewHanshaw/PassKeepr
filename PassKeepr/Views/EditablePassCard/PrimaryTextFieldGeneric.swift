@@ -24,25 +24,30 @@ struct PrimaryTextFieldGeneric: View {
                 if textLabel != "" || text != "" {
                     VStack(alignment: .leading, spacing: 0) {
                         Text(textLabel)
-                            .frame(maxHeight: .infinity, alignment: .topLeading)
+                            .frame(alignment: .topLeading)
                             .foregroundColor(labelColor)
                             .disableAutocorrection(true)
                             .textCase(.uppercase)
                             .font(.system(size: 11))
+                            .lineLimit(1)
                             .fontWeight(.semibold)
                             .padding(0)
                             .padding(.top, 0)
 
                         Text(text)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+                            .frame(alignment: .topLeading)
                             .foregroundColor(textColor)
                             .disableAutocorrection(true)
                             .font(.system(size: 30))
-                            .lineLimit(nil)
+                            .lineLimit(2)
                             .padding(0)
                             .padding(.bottom, -4)
+                            .minimumScaleFactor(0.34)
                             .layoutPriority(1)
                     }
+                    // .padding(.bottom, 30) // TODO: figure out how to only apply if there is 1 line of text.
+                    // Doing this https://medium.com/@kieraj_82811/counting-the-number-of-rendered-lines-in-swiftui-text-1151c4ba8a72 does not work
+                    // I get "Bound preference LayoutKey tried to update multiple times per frame" upon initial draw
                     .layoutPriority(1)
                 } else {
                     ZStack {
@@ -57,7 +62,6 @@ struct PrimaryTextFieldGeneric: View {
                             .opacity(backgroundBrightness.overwriteOpacity)
                             .padding(2)
                     }
-                    .padding([.top, .bottom], 10)
                 }
             }
             .overlay(alignment: .bottomTrailing) {
@@ -75,27 +79,26 @@ struct PrimaryTextFieldGeneric: View {
                 .buttonStyle(PlainButtonStyle())
                 .disabled(disableButton)
             }
-            .frame(maxWidth: .infinity)
+            .popover(isPresented: $showHelpPopover, attachmentAnchor: .point(.bottomTrailing), arrowEdge: .top) {
+                Group {
+                    Text("Tap on icons\nto edit each field")
+                        .multilineTextAlignment(.center)
+                    Button("Ok", action: { showHelpPopover = false; print("popover 0 dismissed") })
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .accentColorProminentButtonStyleIfAvailable()
+                }
+                .popoverModifier()
+                .presentationCompactAdaptation(.popover)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.trailing, 10)
 
             ThumbnailImageView(backgroundBrightness: backgroundBrightness, disableButton: disableButton, passObject: $passObject, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented)
+                .aspectRatio(1, contentMode: .fit)
                 .padding(4)
                 .padding(.trailing, 7)
-                .aspectRatio(1, contentMode: .fit)
-                .border(Color.blue)
-        }
-        .popover(isPresented: $showHelpPopover, attachmentAnchor: .point(.bottomTrailing), arrowEdge: .top) {
-            Group {
-                Text("Tap on icons\nto edit each field")
-                    .multilineTextAlignment(.center)
-                Button("Ok", action: { showHelpPopover = false; print("popover 0 dismissed") })
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 5)
-                    .accentColorProminentButtonStyleIfAvailable()
-            }
-            .popoverModifier()
-            .presentationCompactAdaptation(.popover)
         }
         .onChange(of: showHelpPopover) {
             print("Popover was dismissed")
