@@ -8,22 +8,16 @@ struct EditablePassCardTopSection: View {
     @Binding var isCustomizeLogoImagePresented: Bool
 
     var body: some View {
-        let aspectRatio: CGFloat? = {
-            if passObject.logoImage != Data(), let uiImage = UIImage(data: passObject.logoImage) {
-                return uiImage.size.width / uiImage.size.height
-            }
-            return PassKitConstants.LogoImage.aspectRatio
-        }()
-
         GeometryReader { geometry in
-            HStack {
-                ZStack {
+            HStack(spacing: 0) {
+                Group {
                     if passObject.logoImage != Data() {
                         logoImage
                     } else {
                         placeholder
                     }
-
+                }
+                .overlay {
                     Button(action: {
                         isCustomizeLogoImagePresented.toggle()
                     }) {
@@ -45,19 +39,14 @@ struct EditablePassCardTopSection: View {
                 }
 
                 Spacer()
-                HStack {
-                    if passObject.isHeaderFieldTwoOn {
-                        EditableHeaderTextField(backgroundBrightness: backgroundBrightness, disableButton: disableButtons, textLabel: $passObject.headerFieldTwoLabel, text: $passObject.headerFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
-                            .padding(.trailing, 10)
-                    }
 
-                    EditableHeaderTextField(backgroundBrightness: backgroundBrightness, disableButton: disableButtons, textLabel: $passObject.headerFieldOneLabel, text: $passObject.headerFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
-                        .padding(.trailing, 5)
+                if passObject.isHeaderFieldTwoOn {
+                    EditableHeaderTextField(backgroundBrightness: backgroundBrightness, disableButton: disableButtons, textLabel: $passObject.headerFieldTwoLabel, text: $passObject.headerFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                        .padding(.trailing, 10)
                 }
-                .padding(.top, 4)
-                .frame(width: geometry.size.width * 0.36)
+
+                EditableHeaderTextField(backgroundBrightness: backgroundBrightness, disableButton: disableButtons, textLabel: $passObject.headerFieldOneLabel, text: $passObject.headerFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
             }
-            .frame(width: geometry.size.width)
         }
     }
 
@@ -68,17 +57,17 @@ struct EditablePassCardTopSection: View {
            uiImage.size.width < PassKitConstants.LogoImage.width && uiImage.size.height < PassKitConstants.LogoImage.height
         {
             Image(uiImage: uiImage)
-                .frame(maxHeight: .infinity, alignment: .center)
+                .frame(alignment: .center)
         } else if let uiImage = UIImage(data: passObject.logoImage) {
-            let aspectRatio = uiImage.size.width / uiImage.size.height
             Image(uiImage: uiImage)
                 .resizable()
-                .aspectRatio(aspectRatio, contentMode: .fit)
+                .scaledToFit()
+                .frame(maxWidth: 140, alignment: .center)
         }
     }
 
     private var placeholder: some View {
-        Group {
+        ZStack {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                 .foregroundColor(backgroundBrightness.overwriteForegroundColor)
