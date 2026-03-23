@@ -42,27 +42,28 @@ struct EditablePassCard: View {
             ZStack {
                 EditablePassCardBackground(backgroundImage: passObject.backgroundImage, backgroundColor: passObject.backgroundColor, backgroundBrightness: passBackgroundBrightness)
 
-                VStack {
+                VStack(spacing: 0) {
                     EditablePassCardTopSection(backgroundBrightness: passBackgroundBrightness, disableButtons: isSigningPass, passObject: $passObject, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented)
-                        .frame(height: size.height * 0.09) // TODO: Determine the actual height (%) of this
+                        .frame(height: size.height * 0.09)
                         .padding([.leading, .trailing], 12)
                         .padding(.top, 6)
+                        .padding(.bottom, 0)
 
-                    if passObject.barcodeType != BarcodeType.code128 && passObject.barcodeType != BarcodeType.pdf417 && passObject.barcodeType != BarcodeType.qr && passObject.barcodeType != BarcodeType.none {
-                        StripImageBarcodeView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
-                            .padding(.top, 10)
-                    } else {
-                        if passObject.isCustomStripImageOn == true {
-                            CustomStripImage(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
-                                .frame(width: size.width)
-                                .padding(.top, 10)
+                    Group {
+                        if passObject.barcodeType != BarcodeType.code128 && passObject.barcodeType != BarcodeType.pdf417 && passObject.barcodeType != BarcodeType.qr && passObject.barcodeType != BarcodeType.none {
+                            StripImageBarcodeView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                         } else {
-                            PrimaryTextFieldGeneric(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, passObject: $passObject, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
-                                .padding([.leading, .trailing], 10)
-                                .padding(.top, 12)
-                                .frame(maxWidth: size.width, maxHeight: size.height * 0.2)
+                            if passObject.isCustomStripImageOn {
+                                CustomStripImage(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
+                                    .frame(width: size.width)
+                            } else {
+                                PrimaryTextFieldGeneric(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, passObject: $passObject, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                    .padding([.leading, .trailing], 10)
+                                    .frame(maxWidth: size.width, maxHeight: size.height * 0.2)
+                            }
                         }
                     }
+                    .padding([.top, .bottom], 8)
 
                     // TODO: The text size for all of these should match while still being as large as possible
                     HStack {
@@ -102,10 +103,10 @@ struct EditablePassCard: View {
                             }
                         }
                     }
-                    .padding([.leading, .trailing], 10)
+                    .padding([.leading, .trailing], 14)
                     .layoutPriority(1)
-                    .frame(width: size.width)
-                    .frame(height: size.height * 0.068)
+                    .frame(width: size.width, height: size.height * 0.08)
+                    .padding([.top, .bottom], 5)
 
                     if !passObject.isCustomStripImageOn {
                         HStack {
