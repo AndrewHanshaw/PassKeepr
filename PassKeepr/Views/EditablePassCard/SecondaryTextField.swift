@@ -6,7 +6,6 @@ struct SecondaryTextField: View {
 
     @Binding var textLabel: String
     @Binding var text: String
-    var isStripImageOn: Bool
 
     var textColor: Color
     var labelColor: Color
@@ -16,10 +15,10 @@ struct SecondaryTextField: View {
     var body: some View {
         Group {
             if textLabel != "" || text != "" {
-                ZStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 0) {
                     Text(textLabel)
                         .lineLimit(1)
-                        .frame(maxHeight: .infinity, alignment: .topLeading)
+                        .frame(alignment: .top)
                         .foregroundColor(labelColor)
                         .disableAutocorrection(true)
                         .textCase(.uppercase)
@@ -30,13 +29,12 @@ struct SecondaryTextField: View {
 
                     Text(text)
                         .lineLimit(1)
-                        .frame(maxHeight: .infinity, alignment: .topLeading)
+                        .frame(maxHeight: .infinity, alignment: .bottom)
                         .foregroundColor(textColor)
                         .disableAutocorrection(true)
-                        .font(.system(size: isStripImageOn ? 26 : 20))
+                        .font(.system(size: 26))
                         .fontWeight(.light)
                         .padding(0)
-                        .padding(.top, 8)
                         .minimumScaleFactor(0.34)
                 }
             } else {
@@ -73,10 +71,9 @@ struct SecondaryTextField: View {
             CustomizePassTextField(textLabel: $textLabel, text: $text)
                 .presentationCompactAdaptation((.popover))
         }
-        .padding(.trailing, -5)
     }
 }
 
 #Preview {
-    SecondaryTextField(backgroundBrightness: .normal, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), isStripImageOn: true, textColor: .black, labelColor: .black)
+    SecondaryTextField(backgroundBrightness: .normal, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
 }
