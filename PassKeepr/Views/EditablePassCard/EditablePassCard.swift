@@ -81,11 +81,56 @@ struct EditablePassCard: View {
 
                             SecondaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldThreeLabel, text: $passObject.secondaryFieldThreeText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                         }
+
+                        if passObject.isCustomStripImageOn {
+                            AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldOneLabel, text: $passObject.auxiliaryFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                .layoutPriority(1)
+
+                            if passObject.isAuxiliaryFieldTwoOn {
+                                Spacer()
+
+                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldTwoLabel, text: $passObject.auxiliaryFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                    .layoutPriority(1)
+                            }
+
+                            if passObject.isAuxiliaryFieldThreeOn {
+                                Spacer()
+
+                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldThreeLabel, text: $passObject.auxiliaryFieldThreeText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                    .layoutPriority(1)
+                            }
+                        }
                     }
                     .padding([.leading, .trailing], 10)
                     .layoutPriority(1)
                     .frame(width: size.width)
                     .frame(height: size.height * 0.068)
+
+                    if !passObject.isCustomStripImageOn {
+                        HStack {
+                            AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldOneLabel, text: $passObject.auxiliaryFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                .layoutPriority(1)
+
+                            Spacer()
+
+                            if passObject.isAuxiliaryFieldTwoOn {
+                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldTwoLabel, text: $passObject.auxiliaryFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                    .layoutPriority(1)
+                            }
+
+                            if passObject.isAuxiliaryFieldThreeOn {
+                                Spacer()
+
+                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldThreeLabel, text: $passObject.auxiliaryFieldThreeText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                    .layoutPriority(1)
+                            }
+                        }
+                        .padding([.leading, .trailing], 10)
+                        .layoutPriority(1)
+                        .frame(width: size.width)
+                        .frame(height: size.height * 0.07)
+                        .padding(.top, 5)
+                    }
 
                     Spacer()
 

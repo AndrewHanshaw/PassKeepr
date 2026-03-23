@@ -23,6 +23,8 @@
 		BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869D2B957BD700AC82E4 /* GeneratePass.swift */; };
 		BA12A7312F66086800B55431 /* ThumbnailImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12A7302F66086800B55431 /* ThumbnailImageView.swift */; };
 		BA12A7332F66089600B55431 /* CustomizeThumbnailImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12A7322F66089600B55431 /* CustomizeThumbnailImage.swift */; };
+		BA12A7352F68EF2600B55431 /* AuxiliaryFieldSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12A7342F68EF2600B55431 /* AuxiliaryFieldSelection.swift */; };
+		BA12A7372F68EF3000B55431 /* AuxiliaryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12A7362F68EF3000B55431 /* AuxiliaryTextField.swift */; };
 		BA1515B92CE2BC6900DB1799 /* MeasureViewSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1515B82CE2BC6900DB1799 /* MeasureViewSize.swift */; };
 		BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA15EC172B3CE75400078A17 /* AppIcon.swift */; };
 		BA17A9112D36155E00A8C992 /* KeyboardAware in Frameworks */ = {isa = PBXBuildFile; productRef = BA17A9102D36155E00A8C992 /* KeyboardAware */; };
@@ -149,6 +151,8 @@
 		BA12869D2B957BD700AC82E4 /* GeneratePass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePass.swift; sourceTree = "<group>"; };
 		BA12A7302F66086800B55431 /* ThumbnailImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailImageView.swift; sourceTree = "<group>"; };
 		BA12A7322F66089600B55431 /* CustomizeThumbnailImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeThumbnailImage.swift; sourceTree = "<group>"; };
+		BA12A7342F68EF2600B55431 /* AuxiliaryFieldSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuxiliaryFieldSelection.swift; sourceTree = "<group>"; };
+		BA12A7362F68EF3000B55431 /* AuxiliaryTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuxiliaryTextField.swift; sourceTree = "<group>"; };
 		BA1515B82CE2BC6900DB1799 /* MeasureViewSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureViewSize.swift; sourceTree = "<group>"; };
 		BA15A2C92CE0002800ECD183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BA15EC172B3CE75400078A17 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
@@ -340,6 +344,7 @@
 		BA0F32E72B9AC837007120B8 /* Pickers */ = {
 			isa = PBXGroup;
 			children = (
+				BA12A7342F68EF2600B55431 /* AuxiliaryFieldSelection.swift */,
 				BA12A7322F66089600B55431 /* CustomizeThumbnailImage.swift */,
 				BA7F036C2E9ADB58004E9610 /* BarcodeTypePicker.swift */,
 				BA7A4A222B65AE3A006F06DF /* ColorInput.swift */,
@@ -393,6 +398,7 @@
 		BAA53E1A2D0E5443004A175A /* EditablePassCard */ = {
 			isa = PBXGroup;
 			children = (
+				BA12A7362F68EF3000B55431 /* AuxiliaryTextField.swift */,
 				BA12A7302F66086800B55431 /* ThumbnailImageView.swift */,
 				BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */,
 				BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */,
@@ -673,6 +679,7 @@
 				BABAADD22B0A69950014C73B /* PassObject.swift in Sources */,
 				BA885AE82CF2A01C0084FC25 /* TextFieldDynamicWidth.swift in Sources */,
 				BAE2D4552B80F2B600CC7BE2 /* ExtendBarcodeType.swift in Sources */,
+				BA12A7352F68EF2600B55431 /* AuxiliaryFieldSelection.swift in Sources */,
 				BAF5EF932D094FCE00259BEA /* BuiltInQrCodeView.swift in Sources */,
 				BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */,
 				BABAADD32B0A69950014C73B /* ModelData.swift in Sources */,
@@ -697,6 +704,7 @@
 				BA12A7332F66089600B55431 /* CustomizeThumbnailImage.swift in Sources */,
 				BAE7B33E2D065DFF00DD0251 /* BuiltInBarcodeView.swift in Sources */,
 				BA0F98212CE2BA4800F76501 /* ExtendUInt.swift in Sources */,
+				BA12A7372F68EF3000B55431 /* AuxiliaryTextField.swift in Sources */,
 				BACDA8AB2D166477009C249C /* CustomStripImage.swift in Sources */,
 				BA7F036D2E9ADB63004E9610 /* BarcodeTypePicker.swift in Sources */,
 				BACDA8AD2D167646009C249C /* StripImageSelection.swift in Sources */,
