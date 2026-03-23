@@ -34,4 +34,10 @@ enum PassKitConstants {
         static let width: CGFloat = 90.0
         static let height: CGFloat = 90.0
     }
+
+    // Icon image dimensions
+    enum IconImage {
+        static let width: CGFloat = 29.0
+        static let height: CGFloat = 29.0
+    }
 }

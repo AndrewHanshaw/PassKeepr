@@ -2,8 +2,8 @@ import Foundation
 import UIKit
 import ZIPFoundation
 
-// Helper: save 1x and optional @2x/@3x variants based on source pixels and PassKit box
-func saveImageVariants(from data: Data, name: String, passDirectory: URL, boxWidth: CGFloat, boxHeight: CGFloat) {
+// Helper: save 1x and optional @2x/@3x variants from PassObject image
+func saveImageVariants(from data: Data, name: String, passDirectory: URL, maxWidth: CGFloat, maxHeight: CGFloat) {
     guard let ui = UIImage(data: data) else {
         // Not a decodable image - write raw data
         savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: name)
@@ -14,13 +14,17 @@ func saveImageVariants(from data: Data, name: String, passDirectory: URL, boxWid
     let srcPixelW: CGFloat = (ui.cgImage != nil) ? CGFloat(ui.cgImage!.width) : (ui.size.width * ui.scale)
     let srcPixelH: CGFloat = (ui.cgImage != nil) ? CGFloat(ui.cgImage!.height) : (ui.size.height * ui.scale)
 
+    // Debug: initial sizes
+    print("[saveImageVariants] name=\(name) srcPixels=\(Int(srcPixelW))x\(Int(srcPixelH)) ui.size=\(ui.size) ui.scale=\(ui.scale)")
+
     // Thresholds for 1x/2x/3x
-    let t1W = boxWidth
-    let t1H = boxHeight
-    let t2W = boxWidth * 2.0
-    let t2H = boxHeight * 2.0
-    let t3W = boxWidth * 3.0
-    let t3H = boxHeight * 3.0
+    let t1W = maxWidth
+    let t1H = maxHeight
+    let t2W = maxWidth * 2.0
+    let t2H = maxHeight * 2.0
+    let t3W = maxWidth * 3.0
+    let t3H = maxHeight * 3.0
+    print("[saveImageVariants] thresholds: 1x=\(Int(t1W))x\(Int(t1H)) 2x=\(Int(t2W))x\(Int(t2H)) 3x=\(Int(t3W))x\(Int(t3H))")
 
     // Helper to save data or resized image for a given pixel size
     func saveResized(_ targetW: Int, _ targetH: Int, fileSuffix: String?) {
@@ -30,14 +34,20 @@ func saveImageVariants(from data: Data, name: String, passDirectory: URL, boxWid
         }
     }
 
-    // Determine classification and generate accordingly
-    if srcPixelW >= t3W, srcPixelH >= t3H {
-        // Source is large enough to be 3x; if it's bigger than t3, downscale to fit within t3
-        let needsDownscale = (srcPixelW > t3W) || (srcPixelH > t3H)
+    // Determine classification and generate accordingly using per-axis (OR) checks
+    print("[saveImageVariants] per-axis thresholds check: 1x=\(Int(t1W))x\(Int(t1H)) 2x=\(Int(t2W))x\(Int(t2H)) 3x=\(Int(t3W))x\(Int(t3H))")
+
+    // Any axis above 2x -> classify as 3x
+    if srcPixelW >= t2W || srcPixelH >= t2H {
+        print("[saveImageVariants] classification=3x (axis-based)")
         let final3xW: Int
         let final3xH: Int
-        if needsDownscale {
+
+        // If the image is above 3x on any axis, downscale it to fit within 3x max dimensions while preserving aspect ratio
+        // Otherwise, keep original dimensions for 3x variant
+        if (srcPixelW > t3W) || (srcPixelH > t3H) {
             let downscale = min(t3W / srcPixelW, t3H / srcPixelH)
+            print("[saveImageVariants] Downscaling image. downscale=\(downscale)")
             final3xW = max(1, Int((srcPixelW * downscale).rounded()))
             final3xH = max(1, Int((srcPixelH * downscale).rounded()))
         } else {
@@ -45,53 +55,42 @@ func saveImageVariants(from data: Data, name: String, passDirectory: URL, boxWid
             final3xH = max(1, Int(srcPixelH.rounded()))
         }
 
-        // Save 3x
+        print("[saveImageVariants] final3x=\(final3xW)x\(final3xH)")
+        // If the original image is already the correct dimensions for 3x, save it directly (don't bother resizing and risk quality loss from an encode/decode cycle)
+        // Otherwise, resize it to 3x dimensions before saving
         if final3xW == Int(srcPixelW.rounded()), final3xH == Int(srcPixelH.rounded()) {
+            print("[saveImageVariants] saving original as \(name)@3x.png")
             savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: "\(name)@3x")
         } else if let png3 = ui.resize(targetSize: CGSize(width: CGFloat(final3xW), height: CGFloat(final3xH)))?.pngData() {
+            print("[saveImageVariants] saving resized 3x \(final3xW)x\(final3xH) as \(name)@3x.png")
             savePNGToDirectory(pngData: png3, destinationDirectory: passDirectory, fileName: "\(name)@3x")
         }
 
-        // Derive and save 2x & 1x from the 3x dims
+        // Derive 2x and 1x images from the 3x variant
         let target2xW = max(1, Int((CGFloat(final3xW) * 2.0 / 3.0).rounded()))
         let target2xH = max(1, Int((CGFloat(final3xH) * 2.0 / 3.0).rounded()))
+        saveResized(target2xW, target2xH, fileSuffix: "2x")
+
         let target1xW = max(1, Int((CGFloat(final3xW) / 3.0).rounded()))
         let target1xH = max(1, Int((CGFloat(final3xH) / 3.0).rounded()))
-
-        saveResized(target2xW, target2xH, fileSuffix: "2x")
         saveResized(target1xW, target1xH, fileSuffix: nil)
 
-    } else if srcPixelW >= t2W, srcPixelH >= t2H {
-        // Between 2x and 3x: treat as 3x (use source as 3x), then derive 2x & 1x
-        let final3xW = max(1, Int(srcPixelW.rounded()))
-        let final3xH = max(1, Int(srcPixelH.rounded()))
+        print("[saveImageVariants] derived 2x=\(target2xW)x\(target2xH) 1x=\(target1xW)x\(target1xH)")
 
-        // Save source as 3x
-        savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: "\(name)@3x")
-
-        let target2xW = max(1, Int((CGFloat(final3xW) * 2.0 / 3.0).rounded()))
-        let target2xH = max(1, Int((CGFloat(final3xH) * 2.0 / 3.0).rounded()))
-        let target1xW = max(1, Int((CGFloat(final3xW) / 3.0).rounded()))
-        let target1xH = max(1, Int((CGFloat(final3xH) / 3.0).rounded()))
-
-        saveResized(target2xW, target2xH, fileSuffix: "2x")
-        saveResized(target1xW, target1xH, fileSuffix: nil)
-
-    } else if srcPixelW >= t1W, srcPixelH >= t1H {
-        // Between 1x and 2x: treat as 2x
+    } else if srcPixelW >= t1W || srcPixelH >= t1H { // Any axis above 1x -> classify as 2x
+        print("[saveImageVariants] classification=2x (axis-based)")
         let final2xW = max(1, Int(srcPixelW.rounded()))
         let final2xH = max(1, Int(srcPixelH.rounded()))
-
-        // Save source as 2x
         savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: "\(name)@2x")
+        print("[saveImageVariants] saving original as \(name)@2x.png (source dims) \(final2xW)x\(final2xH)")
 
-        // Derive 1x
         let target1xW = max(1, Int((CGFloat(final2xW) / 2.0).rounded()))
         let target1xH = max(1, Int((CGFloat(final2xH) / 2.0).rounded()))
         saveResized(target1xW, target1xH, fileSuffix: nil)
+        print("[saveImageVariants] derived 1x=\(target1xW)x\(target1xH)")
 
-    } else {
-        // Smaller than 1x: only save as 1x (do not upscale)
+    } else { // Smaller than 1x: only save as 1x
+        print("[saveImageVariants] classification=smaller_than_1x — saving only 1x")
         savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: name)
     }
 }
@@ -202,7 +201,7 @@ func generatePass(passObject: PassObject) -> URL? {
         let jsonData = try JSONSerialization.data(withJSONObject: passData, options: .prettyPrinted)
         try jsonData.write(to: fileURL)
 
-        savePNGToDirectory(pngData: passObject.passIcon, destinationDirectory: passDirectory, fileName: "icon")
+        saveImageVariants(from: passObject.passIcon, name: "icon", passDirectory: passDirectory, maxWidth: PassKitConstants.IconImage.width, maxHeight: PassKitConstants.IconImage.height)
 
         if shouldStripImageBeAddedToPass(passObject: passObject) {
             if passStyleString != "storeCard" {
@@ -212,7 +211,7 @@ func generatePass(passObject: PassObject) -> URL? {
             if passObject.backgroundImage != Data() {
                 print("PassObject has background image and strip image. Not saving strip image")
             } else {
-                saveImageVariants(from: passObject.stripImage, name: "strip", passDirectory: passDirectory, boxWidth: PassKitConstants.StripImage.width, boxHeight: PassKitConstants.StripImage.height)
+                saveImageVariants(from: passObject.stripImage, name: "strip", passDirectory: passDirectory, maxWidth: PassKitConstants.StripImage.width, maxHeight: PassKitConstants.StripImage.height)
             }
         }
 
@@ -220,15 +219,15 @@ func generatePass(passObject: PassObject) -> URL? {
             if passStyleString != "eventTicket" {
                 print("PassObject should have background image but is not of style 'eventTicket'")
             }
-            saveImageVariants(from: passObject.backgroundImage, name: "background", passDirectory: passDirectory, boxWidth: PassKitConstants.BackgroundImage.width, boxHeight: PassKitConstants.BackgroundImage.height)
+            saveImageVariants(from: passObject.backgroundImage, name: "background", passDirectory: passDirectory, maxWidth: PassKitConstants.BackgroundImage.width, maxHeight: PassKitConstants.BackgroundImage.height)
         }
 
         if passObject.logoImage != Data() {
-            saveImageVariants(from: passObject.logoImage, name: "logo", passDirectory: passDirectory, boxWidth: PassKitConstants.LogoImage.width, boxHeight: PassKitConstants.LogoImage.height)
+            saveImageVariants(from: passObject.logoImage, name: "logo", passDirectory: passDirectory, maxWidth: PassKitConstants.LogoImage.width, maxHeight: PassKitConstants.LogoImage.height)
         }
 
         if passObject.thumbnailImage != Data() {
-            saveImageVariants(from: passObject.thumbnailImage, name: "thumbnail", passDirectory: passDirectory, boxWidth: PassKitConstants.ThumbnailImage.width, boxHeight: PassKitConstants.ThumbnailImage.height)
+            saveImageVariants(from: passObject.thumbnailImage, name: "thumbnail", passDirectory: passDirectory, maxWidth: PassKitConstants.ThumbnailImage.width, maxHeight: PassKitConstants.ThumbnailImage.height)
         }
 
         if let pkpassDir = try zipDirectory(uuid: passObject.id) {
