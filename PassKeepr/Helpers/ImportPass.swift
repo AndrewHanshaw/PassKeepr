@@ -177,6 +177,24 @@ func importPass(from pkpassURL: URL) -> PassObject? {
                 passObject.secondaryFieldThreeText = valueToString(secondaryFields[2]["value"])
             }
         }
+
+        // Extract auxiliary fields
+        if let auxiliaryFields = passStyle["auxiliaryFields"] as? [[String: Any]] {
+            if auxiliaryFields.count > 0 {
+                passObject.auxiliaryFieldOneLabel = auxiliaryFields[0]["label"] as? String ?? ""
+                passObject.auxiliaryFieldOneText = valueToString(auxiliaryFields[0]["value"])
+            }
+            if auxiliaryFields.count > 1 {
+                passObject.isAuxiliaryFieldTwoOn = true
+                passObject.auxiliaryFieldTwoLabel = auxiliaryFields[1]["label"] as? String ?? ""
+                passObject.auxiliaryFieldTwoText = valueToString(auxiliaryFields[1]["value"])
+            }
+            if auxiliaryFields.count > 2 {
+                passObject.isAuxiliaryFieldThreeOn = true
+                passObject.auxiliaryFieldThreeLabel = auxiliaryFields[2]["label"] as? String ?? ""
+                passObject.auxiliaryFieldThreeText = valueToString(auxiliaryFields[2]["value"])
+            }
+        }
     }
 
     func extractBarcode(from barcode: [String: Any], into passObject: inout PassObject) {

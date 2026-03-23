@@ -37,6 +37,14 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var isSecondaryFieldThreeOn: Bool
     var secondaryFieldThreeLabel: String
     var secondaryFieldThreeText: String
+    var auxiliaryFieldOneLabel: String
+    var auxiliaryFieldOneText: String
+    var isAuxiliaryFieldTwoOn: Bool
+    var auxiliaryFieldTwoLabel: String
+    var auxiliaryFieldTwoText: String
+    var isAuxiliaryFieldThreeOn: Bool
+    var auxiliaryFieldThreeLabel: String
+    var auxiliaryFieldThreeText: String
     var isCustomStripImageOn: Bool
     var logoSymbolName: String
     var logoSymbolColor: UInt
@@ -86,6 +94,14 @@ extension PassObject {
             isSecondaryFieldThreeOn: false,
             secondaryFieldThreeLabel: "",
             secondaryFieldThreeText: "",
+            auxiliaryFieldOneLabel: "",
+            auxiliaryFieldOneText: "",
+            isAuxiliaryFieldTwoOn: false,
+            auxiliaryFieldTwoLabel: "",
+            auxiliaryFieldTwoText: "",
+            isAuxiliaryFieldThreeOn: false,
+            auxiliaryFieldThreeLabel: "",
+            auxiliaryFieldThreeText: "",
             isCustomStripImageOn: false,
             logoSymbolName: "",
             logoSymbolColor: 0x000000,
@@ -129,6 +145,14 @@ extension PassObject {
             isSecondaryFieldThreeOn: isSecondaryFieldThreeOn,
             secondaryFieldThreeLabel: secondaryFieldThreeLabel,
             secondaryFieldThreeText: secondaryFieldThreeText,
+            auxiliaryFieldOneLabel: auxiliaryFieldOneLabel,
+            auxiliaryFieldOneText: auxiliaryFieldOneText,
+            isAuxiliaryFieldTwoOn: isAuxiliaryFieldTwoOn,
+            auxiliaryFieldTwoLabel: auxiliaryFieldTwoLabel,
+            auxiliaryFieldTwoText: auxiliaryFieldTwoText,
+            isAuxiliaryFieldThreeOn: isAuxiliaryFieldThreeOn,
+            auxiliaryFieldThreeLabel: auxiliaryFieldThreeLabel,
+            auxiliaryFieldThreeText: auxiliaryFieldThreeText,
             isCustomStripImageOn: isCustomStripImageOn,
             logoSymbolName: logoSymbolName,
             logoSymbolColor: logoSymbolColor,
