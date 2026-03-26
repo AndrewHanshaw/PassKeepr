@@ -155,7 +155,11 @@ func generatePass(passObject: PassObject) -> URL? {
 
         // Strip image takes priority for pass style
         if passObject.stripImage != Data() {
-            passStyleString = "storeCard"
+            if passObject.thumbnailImage != Data() && !passObject.isCustomStripImageOn {
+                passStyleString = "generic"
+            } else {
+                passStyleString = "storeCard"
+            }
         } else if passObject.backgroundImage != Data() {
             // If there is a background image
             passStyleString = "eventTicket"
@@ -226,7 +230,7 @@ func generatePass(passObject: PassObject) -> URL? {
             saveImageVariants(from: passObject.logoImage, name: "logo", passDirectory: passDirectory, maxWidth: PassKitConstants.LogoImage.width, maxHeight: PassKitConstants.LogoImage.height)
         }
 
-        if passObject.thumbnailImage != Data() {
+        if passObject.thumbnailImage != Data(), passStyleString == "generic" {
             saveImageVariants(from: passObject.thumbnailImage, name: "thumbnail", passDirectory: passDirectory, maxWidth: PassKitConstants.ThumbnailImage.width, maxHeight: PassKitConstants.ThumbnailImage.height)
         }
 
