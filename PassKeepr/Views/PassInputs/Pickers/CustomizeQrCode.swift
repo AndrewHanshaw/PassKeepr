@@ -59,6 +59,8 @@ struct CustomizeQrCode: View {
                         }
                     }
                     .clipShape(.rect(cornerRadius: 5))
+                    .padding([.leading, .trailing], 80)
+                    .padding([.top, .bottom], 10)
 
                     Button(
                         action: { isScannerPresented.toggle() },
