@@ -138,7 +138,7 @@ struct EditablePassCard: View {
 
                     if passObject.barcodeType == BarcodeType.qr {
                         BuiltInQrCodeView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
-                            .frame(height: passObject.altText == "" ? size.height * 0.27 : size.height * 0.29)
+                            .frame(height: passObject.altText == "" ? size.height * 0.32 : size.height * 0.36)
                     } else if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 {
                         BuiltInBarcodeView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                     }
