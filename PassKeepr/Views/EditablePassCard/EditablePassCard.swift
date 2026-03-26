@@ -53,7 +53,7 @@ struct EditablePassCard: View {
                         if passObject.barcodeType != BarcodeType.code128 && passObject.barcodeType != BarcodeType.pdf417 && passObject.barcodeType != BarcodeType.qr && passObject.barcodeType != BarcodeType.none {
                             StripImageBarcodeView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                         } else {
-                            if passObject.isCustomStripImageOn {
+                            if passObject.isCustomStripImageOn && passObject.barcodeType != BarcodeType.qr {
                                 CustomStripImage(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
                                     .frame(width: size.width)
                             } else {
