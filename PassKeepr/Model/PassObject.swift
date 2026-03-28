@@ -37,6 +37,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var isSecondaryFieldThreeOn: Bool
     var secondaryFieldThreeLabel: String
     var secondaryFieldThreeText: String
+    var isAuxiliaryFieldOneOn: Bool
     var auxiliaryFieldOneLabel: String
     var auxiliaryFieldOneText: String
     var isAuxiliaryFieldTwoOn: Bool
@@ -95,6 +96,7 @@ extension PassObject {
             isSecondaryFieldThreeOn: false,
             secondaryFieldThreeLabel: "",
             secondaryFieldThreeText: "",
+            isAuxiliaryFieldOneOn: true, // Default to on. This only needs to be toggled to not cramp the view when the strip image is on (which makes the aux fields share a line with the secondary fields)
             auxiliaryFieldOneLabel: "",
             auxiliaryFieldOneText: "",
             isAuxiliaryFieldTwoOn: false,
@@ -147,6 +149,7 @@ extension PassObject {
             isSecondaryFieldThreeOn: isSecondaryFieldThreeOn,
             secondaryFieldThreeLabel: secondaryFieldThreeLabel,
             secondaryFieldThreeText: secondaryFieldThreeText,
+            isAuxiliaryFieldOneOn: isAuxiliaryFieldOneOn,
             auxiliaryFieldOneLabel: auxiliaryFieldOneLabel,
             auxiliaryFieldOneText: auxiliaryFieldOneText,
             isAuxiliaryFieldTwoOn: isAuxiliaryFieldTwoOn,

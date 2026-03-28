@@ -19,6 +19,17 @@ struct StripImageSelection: View {
                         passObject.isCustomStripImageOn = false
                     }
                 }
+                .onChange(of: passObject.isCustomStripImageOn) { isOn in
+                    // When the strip image is on, the auxiliary fields share space with the secondary fields.
+                    // If the strip image is on (either by the user turning it on or by importing a pass with a strip image)
+                    // but there isn't any text for the first auxiliary field, turn the strip image back off
+                    // This prevents the 'placeholder' for the first auxiliary field from being displayed
+                    // Especially important for imported passes, since the placeholder will mess up the layout with the secondary fields
+                    // So it sort of looks like the imported pass came in "wrong"
+                    if isOn && passObject.auxiliaryFieldOneText.isEmpty {
+                        passObject.isAuxiliaryFieldOneOn = false
+                    }
+                }
                 .onAppear {
                     if passObject.barcodeType == .qr {
                         passObject.isCustomStripImageOn = false
