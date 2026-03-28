@@ -1,5 +1,5 @@
 {
-  "originHash" : "2d751f2eca0e5ff08a5d36b642512022ff51d5461a96342f3f33bd2f8fee78ee",
+  "originHash" : "679acd0ff864721acfc49c347b7f81e1ba51787c1616a85eff13b7122a2ed74d",
   "pins" : [
     {
       "identity" : "keyboardawareswiftui",
@@ -17,15 +17,6 @@
       "state" : {
         "revision" : "c065ed4c6325054eff4d12d28d738a0f542e80ee",
         "version" : "1.2.6"
-      }
-    },
-    {
-      "identity" : "sfsymbolspicker",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alessiorubicini/SFSymbolsPicker",
-      "state" : {
-        "revision" : "73c909b8a7fc77a30dd04208e33f759f8b52c4c8",
-        "version" : "1.0.6"
       }
     },
     {
