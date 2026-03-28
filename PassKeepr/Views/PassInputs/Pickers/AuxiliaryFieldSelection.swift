@@ -7,33 +7,53 @@ struct AuxiliaryFieldSelection: View {
 
     var disableControl: Bool
 
+    @State private var shouldShowSecondAuxiliaryField: Bool = false // This state var, which shall always track the state of passObject.isAuxiliaryFieldOneOn, is necessary for the animation to work
     @State private var shouldShowThirdAuxiliaryField: Bool = false // This state var, which shall always track the state of passObject.isAuxiliaryFieldTwoOn, is necessary for the animation to work
 
     var body: some View {
         VStack(spacing: 12) {
-            Toggle("Additional Auxiliary Field", isOn: $passObject.isAuxiliaryFieldTwoOn)
-                .onChange(of: passObject.isAuxiliaryFieldTwoOn) {
+            Toggle("Auxiliary Field", isOn: $passObject.isAuxiliaryFieldOneOn)
+                .onChange(of: passObject.isAuxiliaryFieldOneOn) {
                     withAnimation {
-                        shouldShowThirdAuxiliaryField = passObject.isAuxiliaryFieldTwoOn
-                        if !passObject.isAuxiliaryFieldTwoOn {
-                            passObject.isAuxiliaryFieldThreeOn = false
+                        shouldShowSecondAuxiliaryField = passObject.isAuxiliaryFieldOneOn
+                        if !passObject.isAuxiliaryFieldOneOn {
+                            passObject.isAuxiliaryFieldTwoOn = false
                         }
                     }
                 }
                 .padding([.top, .bottom], 14)
                 .overlay(alignment: .bottom) {
-                    if shouldShowThirdAuxiliaryField {
+                    if shouldShowSecondAuxiliaryField {
                         Divider()
                     }
                 }
                 .padding([.leading, .trailing], 14)
                 .disabled(disableControl)
 
+            if shouldShowSecondAuxiliaryField {
+                Toggle("Additional Auxiliary Field", isOn: $passObject.isAuxiliaryFieldTwoOn)
+                    .onChange(of: passObject.isAuxiliaryFieldTwoOn) {
+                        withAnimation {
+                            shouldShowThirdAuxiliaryField = passObject.isAuxiliaryFieldTwoOn
+                            if !passObject.isAuxiliaryFieldTwoOn {
+                                passObject.isAuxiliaryFieldThreeOn = false
+                            }
+                        }
+                    }
+                    .padding(.bottom, 14)
+                    .overlay(alignment: .bottom) {
+                        if shouldShowThirdAuxiliaryField {
+                            Divider()
+                        }
+                    }
+                    .padding([.leading, .trailing], 14)
+                    .disabled(disableControl)
+            }
+
             if shouldShowThirdAuxiliaryField {
                 Toggle("Additional Auxiliary Field", isOn: $passObject.isAuxiliaryFieldThreeOn)
                     .transition(.opacity)
-                    .padding([.bottom], 14)
-                    .padding([.leading, .trailing], 14)
+                    .padding([.bottom, .leading, .trailing], 14)
                     .disabled(disableControl)
             }
         }

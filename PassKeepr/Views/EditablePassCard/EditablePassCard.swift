@@ -85,8 +85,10 @@ struct EditablePassCard: View {
                         }
 
                         if passObject.isCustomStripImageOn {
-                            AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldOneLabel, text: $passObject.auxiliaryFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
-                                .layoutPriority(1)
+                            if passObject.isAuxiliaryFieldOneOn {
+                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldOneLabel, text: $passObject.auxiliaryFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                    .layoutPriority(1)
+                            }
 
                             if passObject.isAuxiliaryFieldTwoOn {
                                 Spacer()
@@ -103,15 +105,17 @@ struct EditablePassCard: View {
                             }
                         }
                     }
-                    .padding([.leading, .trailing], 14)
+                    .padding([.leading, .trailing], 10)
                     .layoutPriority(1)
                     .frame(width: size.width, height: size.height * 0.08)
                     .padding([.top, .bottom], 5)
 
                     if !passObject.isCustomStripImageOn {
                         HStack {
-                            AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldOneLabel, text: $passObject.auxiliaryFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
-                                .layoutPriority(1)
+                            if passObject.isAuxiliaryFieldOneOn {
+                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldOneLabel, text: $passObject.auxiliaryFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                    .layoutPriority(1)
+                            }
 
                             Spacer()
 
