@@ -68,7 +68,8 @@ private extension PassObject {
         logoSymbolName: "info.circle",
         logoSymbolColor: 0x0000FF,
         thumbnailSymbolName: "info.circle",
-        thumbnailSymbolColor: 0x0000FF
+        thumbnailSymbolColor: 0x0000FF,
+        associatedStoreIdentifiers: [0]
     )
 
     static let preview2 = PassObject(
@@ -117,6 +118,7 @@ private extension PassObject {
         logoSymbolName: "checkmark",
         logoSymbolColor: 0x0000FF,
         thumbnailSymbolName: "checkmark",
-        thumbnailSymbolColor: 0x0000FF
+        thumbnailSymbolColor: 0x0000FF,
+        associatedStoreIdentifiers: [0]
     )
 }
