@@ -124,6 +124,9 @@ func generatePass(passObject: PassObject) -> URL? {
         passData.merge(["foregroundColor": passObject.foregroundColor.toRGBString()]) { _, _ in }
         passData.merge(["backgroundColor": passObject.backgroundColor.toRGBString()]) { _, _ in }
         passData.merge(["labelColor": passObject.labelColor.toRGBString()]) { _, _ in }
+        if !passObject.associatedStoreIdentifiers.isEmpty {
+            passData.merge(["associatedStoreIdentifiers": passObject.associatedStoreIdentifiers]) { _, _ in }
+        }
 
         // Add customizable data to the pass
         var data: [String: Any] = [:]

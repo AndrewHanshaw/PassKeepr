@@ -50,6 +50,11 @@ func importPass(from pkpassURL: URL) -> PassObject? {
     passObject.backgroundColor = parseColor(passJson["backgroundColor"] as? String) ?? 0xFFFFFF
     passObject.labelColor = parseColor(passJson["labelColor"] as? String) ?? 0x000000
 
+    // Extract associatedStoreIdentifiers
+    if let storeIds = passJson["associatedStoreIdentifiers"] as? [Int] {
+        passObject.associatedStoreIdentifiers = storeIds
+    }
+
     // Determine pass style and extract fields
     if let storeCard = passJson["storeCard"] as? [String: Any] {
         extractFields(from: storeCard, into: &passObject, resolver: resolver)

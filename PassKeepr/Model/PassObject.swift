@@ -50,6 +50,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var logoSymbolColor: UInt
     var thumbnailSymbolName: String
     var thumbnailSymbolColor: UInt
+    var associatedStoreIdentifiers: [Int]
 
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .data)
@@ -106,7 +107,8 @@ extension PassObject {
             logoSymbolName: "",
             logoSymbolColor: 0x000000,
             thumbnailSymbolName: "",
-            thumbnailSymbolColor: 0x000000
+            thumbnailSymbolColor: 0x000000,
+            associatedStoreIdentifiers: [6_740_440_736]
         )
     }
 
@@ -157,7 +159,8 @@ extension PassObject {
             logoSymbolName: logoSymbolName,
             logoSymbolColor: logoSymbolColor,
             thumbnailSymbolName: thumbnailSymbolName,
-            thumbnailSymbolColor: thumbnailSymbolColor
+            thumbnailSymbolColor: thumbnailSymbolColor,
+            associatedStoreIdentifiers: associatedStoreIdentifiers
         )
     }
 }
