@@ -1,16 +1,17 @@
 import Foundation
 import ZIPFoundation
 
-/// Import a .pkpass file and convert it to a PassObject
-/// Returns nil if the import fails
-func importPass(from pkpassURL: URL) -> PassObject? {
+/// Import a .pkpass file and convert it to a PassObject.
+/// Returns `(nil, false)` if the import fails.
+/// The `Bool` is `true` when the pass contains an NFC payload (which is not imported).
+func importPass(from pkpassURL: URL) -> (pass: PassObject?, hasNFC: Bool) {
     print("Starting import from: \(pkpassURL.path)")
     print("File exists: \(FileManager.default.fileExists(atPath: pkpassURL.path))")
 
     // Open the .pkpass file as a ZIP archive
     guard let archive = Archive(url: pkpassURL, accessMode: .read) else {
         print("Failed to open archive at: \(pkpassURL)")
-        return nil
+        return (nil, false)
     }
 
     print("Archive opened successfully")
@@ -20,7 +21,7 @@ func importPass(from pkpassURL: URL) -> PassObject? {
           let passJsonData = extractEntry(passJsonEntry, from: archive)
     else {
         print("Failed to extract pass.json")
-        return nil
+        return (nil, false)
     }
 
     print("Extracted pass.json (\(passJsonData.count) bytes)")
@@ -28,10 +29,14 @@ func importPass(from pkpassURL: URL) -> PassObject? {
     // Parse pass.json
     guard let passJson = try? JSONSerialization.jsonObject(with: passJsonData) as? [String: Any] else {
         print("Failed to parse pass.json")
-        return nil
+        return (nil, false)
     }
 
     print("Parsed pass.json successfully")
+
+    // Detect NFC — not imported, but we surface this to the caller
+    let hasNFC = passJson["nfc"] != nil
+    if hasNFC { print("NFC payload detected in pass — NFC data will not be imported") }
 
     // Parse localized strings and build a resolver for the user's preferred language
     let allStrings = parseStringsFiles(from: archive)
@@ -80,7 +85,7 @@ func importPass(from pkpassURL: URL) -> PassObject? {
     // Extract images
     extractImages(from: archive, into: &passObject)
 
-    return passObject
+    return (passObject, hasNFC)
 
     func extractEntry(_ entry: Entry, from archive: Archive) -> Data? {
         var data = Data()

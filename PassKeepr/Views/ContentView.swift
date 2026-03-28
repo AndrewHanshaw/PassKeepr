@@ -21,6 +21,7 @@ struct ContentView: View {
     @State var shouldPresentInfo = false
     @State var shouldPresentDeleteConfirmation = false
     @State var importedPassObject: PassObject?
+    @State private var shouldShowNFCAlert = false
 
     @StateObject private var dragState = DragState()
     @State private var dragProperties = DragProperties()
@@ -181,7 +182,10 @@ struct ContentView: View {
                 .onChange(of: importedPassURL) { _, newURL in
                     if let url = newURL {
                         // Import the .pkpass file and parse it
-                        if let importedPass = importPass(from: url) {
+                        let result = importPass(from: url)
+                        if let importedPass = result.pass {
+                            if result.hasNFC { shouldShowNFCAlert = true }
+
                             // Add the imported pass to modelData first
                             modelData.passObjects.append(importedPass)
                             modelData.encodePassObjects()
@@ -203,6 +207,11 @@ struct ContentView: View {
                 .sheet(item: $importedPassObject) { passObject in
                     if let index = modelData.passObjects.firstIndex(where: { $0.id == passObject.id }) {
                         EditPass(objectToEdit: $modelData.passObjects[index], isNewPass: false)
+                            .alert("NFC Pass Imported", isPresented: $shouldShowNFCAlert) {
+                                Button("OK", role: .cancel) {}
+                            } message: {
+                                Text("The imported pass contained NFC data. NFC functionality will not be included for this PassKeepr pass.")
+                            }
                     }
                 }
                 if modelData.passObjects.isEmpty {
