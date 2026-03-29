@@ -2,6 +2,7 @@ import PhotosUI
 import SwiftUI
 
 struct EditablePassCard: View {
+    @Environment(\.colorScheme) var colorScheme
     @Binding var passObject: PassObject
 
     var isSigningPass: Bool
@@ -13,36 +14,30 @@ struct EditablePassCard: View {
     @State private var isCustomizeStripImagePresented = false
     @State private var isCustomizeBarcodePresented = false
     @State private var isCustomizeQrCodePresented = false
-    @State private var placeholderColor = Color.black
+    @State private var passBackgroundBrightness: BackgroundBrightness = .normal
 
     var body: some View {
         ZStack {
             ZStack {
-                // Acts as a colored shadow for the passCard background, similar to the effect in the iOS add pass screen
-                EditablePassCardBackground(passObject: $passObject)
-                    .scaleEffect(0.9, anchor: .bottom)
-                    .opacity(0.3)
-                    .blur(radius: 8)
-
-                EditablePassCardBackground(passObject: $passObject)
+                EditablePassCardBackground(backgroundImage: passObject.backgroundImage, backgroundColor: passObject.backgroundColor, backgroundBrightness: passBackgroundBrightness)
 
                 VStack {
-                    EditablePassCardTopSection(placeholderColor: placeholderColor, disableButtons: isSigningPass, passObject: $passObject, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented)
+                    EditablePassCardTopSection(backgroundBrightness: passBackgroundBrightness, disableButtons: isSigningPass, passObject: $passObject, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented)
                         .frame(height: size.height * 0.09) // TODO: Determine the actual height (%) of this
                         .padding([.leading, .trailing], 12)
                         .padding(.top, 6)
 
                     if passObject.barcodeType != BarcodeType.code128 && passObject.barcodeType != BarcodeType.pdf417 && passObject.barcodeType != BarcodeType.qr && passObject.barcodeType != BarcodeType.none {
-                        StripImageBarcodeView(placeholderColor: placeholderColor, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
+                        StripImageBarcodeView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                             .padding(.top, 10)
                     } else {
                         if passObject.isCustomStripImageOn == true {
-                            CustomStripImage(placeholderColor: placeholderColor, disableButton: isSigningPass, passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
+                            CustomStripImage(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
                                 .frame(width: size.width)
                                 .padding(.top, 10)
                         } else {
                             HStack {
-                                PrimaryTextFieldGeneric(placeholderColor: placeholderColor, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                PrimaryTextFieldGeneric(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                                     .padding([.leading, .trailing], 10)
                                     .padding(.top, 14)
                                     .frame(maxWidth: size.width) // Must limit this width BEFORE applying .fixedSize, otherwise the parent view will expand if this child view becomes too wide
@@ -58,19 +53,19 @@ struct EditablePassCard: View {
                     HStack {
                         // These only apply when strip image is off?
                         // When strip image is on, the text is a little larger for some reason
-                        SecondaryTextField(placeholderColor: placeholderColor, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldOneLabel, text: $passObject.secondaryFieldOneText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                        SecondaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldOneLabel, text: $passObject.secondaryFieldOneText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
 
                         Spacer()
 
                         if passObject.isSecondaryFieldTwoOn {
-                            SecondaryTextField(placeholderColor: placeholderColor, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldTwoLabel, text: $passObject.secondaryFieldTwoText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                            SecondaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldTwoLabel, text: $passObject.secondaryFieldTwoText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                                 .layoutPriority(1)
                         }
 
                         if passObject.isSecondaryFieldThreeOn {
                             Spacer()
 
-                            SecondaryTextField(placeholderColor: placeholderColor, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldThreeLabel, text: $passObject.secondaryFieldThreeText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                            SecondaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldThreeLabel, text: $passObject.secondaryFieldThreeText, isStripImageOn: passObject.stripImage != Data() || passObject.isCustomStripImageOn, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                         }
                     }
                     .padding([.leading, .trailing], 10)
@@ -81,14 +76,14 @@ struct EditablePassCard: View {
                     Spacer()
 
                     if passObject.barcodeType == BarcodeType.qr {
-                        BuiltInQrCodeView(placeholderColor: placeholderColor, disableButton: isSigningPass, passObject: $passObject, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
+                        BuiltInQrCodeView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
                             .frame(height: passObject.altText == "" ? size.height * 0.27 : size.height * 0.29)
                             .sheet(isPresented: $isCustomizeQrCodePresented) {
                                 CustomizeQrCode(passObject: $passObject)
                                     .edgesIgnoringSafeArea(.bottom)
                             }
                     } else if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 {
-                        BuiltInBarcodeView(placeholderColor: placeholderColor, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
+                        BuiltInBarcodeView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                     }
                 }
                 .sheet(isPresented: $isCustomizeBackgroundImagePresented) {
@@ -141,7 +136,7 @@ struct EditablePassCard: View {
                 .edgesIgnoringSafeArea(.bottom)
         }
         .sheet(isPresented: $isCustomizeStripImagePresented) {
-            CustomizeStripImage(passObject: $passObject, placeholderColor: placeholderColor)
+            CustomizeStripImage(passObject: $passObject)
                 .edgesIgnoringSafeArea(.bottom)
         }
         .frame(maxWidth: .infinity)
@@ -169,18 +164,17 @@ struct EditablePassCard: View {
     }
 
     func determineBackgroundColor() {
-        let backgroundBrightness: CGFloat = ImageRenderer(content: EditablePassCardBackground(passObject: $passObject).frame(width: size.width, height: size.height)).uiImage!.averageBrightness()!
+        let backgroundBrightness: CGFloat = ImageRenderer(content: EditablePassCardBackground(backgroundImage: passObject.backgroundImage, backgroundColor: passObject.backgroundColor, backgroundBrightness: .normal).frame(width: size.width, height: size.height)).uiImage!.averageBrightness()!
 
         if backgroundBrightness < 0.2 {
-            placeholderColor = Color.gray
+            passBackgroundBrightness = .veryDark
         } else if backgroundBrightness > 0.2 && backgroundBrightness < 0.55 {
-            placeholderColor = Color.white
+            passBackgroundBrightness = .normal
         } else {
-            placeholderColor = Color.black
+            passBackgroundBrightness = .veryLight
         }
 
-//        print("Background brightness: \(backgroundBrightness)")
-//        print("myColor: \(placeholderColor)")
+        // print("Background brightness: \(backgroundBrightness)")
     }
 }
 

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct StripImageBarcodeView: View {
-    var placeholderColor: Color
+    var backgroundBrightness: BackgroundBrightness
     var disableButton: Bool
 
     @Binding var passObject: PassObject
@@ -15,7 +15,7 @@ struct StripImageBarcodeView: View {
                     Image(uiImage: UIImage(data: passObject.stripImage)!)
                         .resizable()
                 } else {
-                    InvalidBarcodeView(placeholderColor: placeholderColor, isEmpty: passObject.barcodeString == "")
+                    InvalidBarcodeView(backgroundBrightness: backgroundBrightness, isEmpty: passObject.barcodeString == "")
                 }
             }
             .overlay(alignment: .leading) {
@@ -52,5 +52,5 @@ struct StripImageBarcodeView: View {
 }
 
 #Preview {
-    StripImageBarcodeView(placeholderColor: Color.black, disableButton: false, passObject: .constant(MockModelData().passObjects[0]), isCustomizeBarcodePresented: .constant(true))
+    StripImageBarcodeView(backgroundBrightness: .normal, disableButton: false, passObject: .constant(MockModelData().passObjects[0]), isCustomizeBarcodePresented: .constant(true))
 }

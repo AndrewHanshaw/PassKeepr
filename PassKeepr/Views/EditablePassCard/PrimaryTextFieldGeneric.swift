@@ -3,7 +3,7 @@ import SwiftUI
 struct PrimaryTextFieldGeneric: View {
     @EnvironmentObject var modelData: ModelData
 
-    var placeholderColor: Color
+    var backgroundBrightness: BackgroundBrightness
     var disableButton: Bool
 
     @Binding var textLabel: String
@@ -37,21 +37,22 @@ struct PrimaryTextFieldGeneric: View {
                         .foregroundColor(textColor)
                         .disableAutocorrection(true)
                         .font(.system(size: 30))
+                        .lineLimit(nil)
                         .padding(0)
-                        .padding(.bottom, -6)
+                        .padding(.bottom, -4)
                     Spacer()
                 }
             } else {
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                    .foregroundColor(placeholderColor)
-                    .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
+                    .foregroundColor(backgroundBrightness.overwriteForegroundColor)
+                    .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
                     .aspectRatio(2, contentMode: .fit)
                 Text("Primary\nField")
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.34)
-                    .foregroundColor(placeholderColor)
-                    .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
+                    .foregroundColor(backgroundBrightness.overwriteForegroundColor)
+                    .opacity(backgroundBrightness.overwriteOpacity)
                     .padding(2)
             }
         }
@@ -98,5 +99,5 @@ struct PrimaryTextFieldGeneric: View {
 }
 
 #Preview {
-    PrimaryTextFieldGeneric(placeholderColor: Color.black, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
+    PrimaryTextFieldGeneric(backgroundBrightness: .normal, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
 }

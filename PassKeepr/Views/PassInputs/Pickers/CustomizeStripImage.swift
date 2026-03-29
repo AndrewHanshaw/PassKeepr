@@ -5,7 +5,6 @@ import SwiftUI
 struct CustomizeStripImage: View {
     @Environment(\.colorScheme) var colorScheme
 
-    var placeholderColor: Color
     @Binding var passObject: PassObject
     @State private var cropOffset: CGFloat = 0.0
     @State private var size: CGSize = CGSizeZero
@@ -19,8 +18,7 @@ struct CustomizeStripImage: View {
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
-    init(passObject: Binding<PassObject>, placeholderColor: Color) {
-        self.placeholderColor = placeholderColor
+    init(passObject: Binding<PassObject>) {
         _passObject = passObject
         _tempStrip = State(initialValue: UIImage(data: passObject.wrappedValue.stripImage))
     }
@@ -137,5 +135,5 @@ struct CustomizeStripImage: View {
 }
 
 #Preview {
-    CustomizeStripImage(passObject: .constant(MockModelData().passObjects[0]), placeholderColor: Color.black)
+    CustomizeStripImage(passObject: .constant(MockModelData().passObjects[0]))
 }

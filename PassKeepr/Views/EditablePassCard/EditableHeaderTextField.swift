@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct EditableHeaderTextField: View {
-    var placeholderColor: Color
+    var backgroundBrightness: BackgroundBrightness
     var disableButton: Bool
 
     @Binding var textLabel: String
@@ -52,13 +52,13 @@ struct EditableHeaderTextField: View {
                 } else {
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                        .foregroundColor(placeholderColor)
-                        .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
+                        .foregroundColor(backgroundBrightness.overwriteForegroundColor)
+                        .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
                         .frame(maxWidth: .infinity)
                     Text("Header Field")
                         .multilineTextAlignment(.center)
-                        .foregroundColor(placeholderColor)
-                        .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
+                        .foregroundColor(backgroundBrightness.overwriteForegroundColor)
+                        .opacity(backgroundBrightness.overwriteOpacity)
                 }
 
                 Button(action: {
@@ -86,5 +86,5 @@ struct EditableHeaderTextField: View {
 }
 
 #Preview {
-    EditableHeaderTextField(placeholderColor: Color.black, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
+    EditableHeaderTextField(backgroundBrightness: .normal, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
 }
