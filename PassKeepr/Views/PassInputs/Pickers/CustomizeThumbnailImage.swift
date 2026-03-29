@@ -6,10 +6,10 @@ import SwiftUI
 import SymbolPicker
 import Vision
 
-struct CustomizeLogoImage: View {
+struct CustomizeThumbnailImage: View {
     @Environment(\.colorScheme) var colorScheme
 
-    @State private var tempLogoImageType: ImageType
+    @State private var tempThumbnailImageType: ImageType
     @Binding var passObject: PassObject
     @State private var isTransparencyOn: Bool = false
     @State private var isPhotosPickerOn: Bool = false
@@ -20,44 +20,42 @@ struct CustomizeLogoImage: View {
     @State private var symbolColor: Color = .black
     @State private var isSymbolPickerOn = false
 
-    @State private var tempLogo: UIImage?
-    @State private var tempLogoNoBackground: UIImage?
+    @State private var tempThumbnail: UIImage?
+    @State private var tempThumbnailNoBackground: UIImage?
     @State private var isTransparencyAvailable: Bool = true
-
-    @State private var symbolSize: CGSize = .init(width: 1, height: 1)
 
     @State private var photoItem: PhotosPickerItem?
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     init(passObject: Binding<PassObject>) {
-        _tempLogoImageType = State(initialValue: passObject.wrappedValue.logoImageType)
+        _tempThumbnailImageType = State(initialValue: passObject.wrappedValue.thumbnailImageType)
         _passObject = passObject
-        _tempLogo = State(initialValue: UIImage(data: passObject.wrappedValue.logoImage))
-        _isTransparencyAvailable = State(initialValue: tempLogoNoBackground != nil)
-        _symbolName = State(initialValue: passObject.wrappedValue.logoSymbolName)
-        if passObject.wrappedValue.logoSymbolName != "" {
-            _symbolColor = State(initialValue: Color(hex: passObject.wrappedValue.logoSymbolColor))
+        _tempThumbnail = State(initialValue: UIImage(data: passObject.wrappedValue.thumbnailImage))
+        _isTransparencyAvailable = State(initialValue: false)
+        _symbolName = State(initialValue: passObject.wrappedValue.thumbnailSymbolName)
+        if passObject.wrappedValue.thumbnailSymbolName != "" {
+            _symbolColor = State(initialValue: Color(hex: passObject.wrappedValue.thumbnailSymbolColor))
         }
     }
 
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                if let logo = tempLogo, !isTransparencyOn {
+                if let thumbnail = tempThumbnail, !isTransparencyOn {
                     HStack {
                         Spacer()
-                        Image(uiImage: logo)
+                        Image(uiImage: thumbnail)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(maxHeight: 80)
                             .padding(20)
                         Spacer()
                     }
-                } else if let logoNoBg = tempLogoNoBackground, isTransparencyOn {
+                } else if let thumbnailNoBg = tempThumbnailNoBackground, isTransparencyOn {
                     HStack {
                         Spacer()
-                        Image(uiImage: logoNoBg)
+                        Image(uiImage: thumbnailNoBg)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(maxHeight: 80)
@@ -68,34 +66,35 @@ struct CustomizeLogoImage: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                            .frame(maxHeight: 80)
-                            .aspectRatio(3.2, contentMode: .fit)
+                            .frame(maxHeight: 120)
+                            .aspectRatio(1, contentMode: .fit)
                             .foregroundColor(Color.gray)
                             .opacity(0.5)
-                        Text("Logo Image")
+                        Text("Thumbnail\nImage")
                             .scaledToFit()
                             .foregroundColor(Color.gray)
                             .opacity(0.7)
+                            .multilineTextAlignment(.center)
                     }
                     .padding([.top, .bottom], 20)
                     .frame(maxWidth: .infinity, alignment: .center)
                 }
 
-                Picker("Logo type", selection: $tempLogoImageType) {
+                Picker("Thumbnail type", selection: $tempThumbnailImageType) {
                     ForEach(ImageType.allCases, id: \.self) { type in
                         Text(String(describing: type))
                     }
                 }
                 .pickerStyle(.segmented)
-                .onChange(of: tempLogoImageType) {
-                    tempLogo = nil
+                .onChange(of: tempThumbnailImageType) {
+                    tempThumbnail = nil
                 }
                 .padding(14)
                 .listSectionBackgroundModifier()
                 .onChange(of: emoji) {
                     print(emoji)
-                    tempLogoImageType = ImageType.emoji
-                    tempLogo = ImageRenderer(content:
+                    tempThumbnailImageType = ImageType.emoji
+                    tempThumbnail = ImageRenderer(content:
                         Text(emoji)
                             .padding(-30)
                             .scaledToFill()
@@ -108,17 +107,20 @@ struct CustomizeLogoImage: View {
                     SymbolPicker(symbol: $symbolName)
                 }
 
-                switch tempLogoImageType {
+                switch tempThumbnailImageType {
                 case .photo:
                     PhotosPicker(selection: $photoItem, matching: .any(of: [.images, .not(.videos)])) {
-                        Text(tempLogo == nil ? "Select a Logo Image" : "Change Logo Image")
+                        Text(tempThumbnail == nil ? "Select a Thumbnail Image" : "Change Thumbnail Image")
                             .foregroundColor(Color.white)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
                     .onChange(of: photoItem) {
                         Task {
                             if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                                tempLogo = UIImage(data: loaded)!
+                                var image = UIImage(data: loaded)!
+                                // Apply aspect ratio constraint even without background removal
+                                image = applyAspectRatioConstraint(to: image) ?? image
+                                tempThumbnail = image
                             } else {
                                 print("Failed")
                             }
@@ -138,7 +140,7 @@ struct CustomizeLogoImage: View {
                     Button {
                         isEmojiPickerOn = true
                     } label: {
-                        Text(tempLogo == nil ? "Select an Emoji" : "Change Emoji")
+                        Text(tempThumbnail == nil ? "Select an Emoji" : "Change Emoji")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
                     }
@@ -152,7 +154,7 @@ struct CustomizeLogoImage: View {
                     Button {
                         isSymbolPickerOn = true
                     } label: {
-                        Text(tempLogo == nil ? "Select a Symbol" : "Change Symbol")
+                        Text(tempThumbnail == nil ? "Select a Symbol" : "Change Symbol")
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
                     }
@@ -170,13 +172,13 @@ struct CustomizeLogoImage: View {
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("Logo Image")
+                    Text("Thumbnail Image")
                         .font(.system(size: 16, weight: .bold, design: .rounded))
                 }
 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save", systemImage: "checkmark") {
-                        updateLogoImage()
+                        updateThumbnailImage()
                     }
                     .toolbarConfirmButtonModifier()
                 }
@@ -191,9 +193,12 @@ struct CustomizeLogoImage: View {
             .photosPicker(isPresented: $isPhotosPickerOn, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
             .onChange(of: photoItem) {
                 Task {
-                    tempLogoImageType = ImageType.photo
+                    tempThumbnailImageType = ImageType.photo
                     if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                        tempLogo = UIImage(data: loaded)
+                        var image = UIImage(data: loaded)!
+                        // Apply aspect ratio constraint
+                        image = applyAspectRatioConstraint(to: image) ?? image
+                        tempThumbnail = image
                     } else {
                         print("Failed")
                     }
@@ -201,11 +206,17 @@ struct CustomizeLogoImage: View {
             }
             .padding()
             .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
-            .onChange(of: tempLogo) {
+            .onChange(of: tempThumbnail) {
                 Task {
-                    if let tempNoBg = removeBackground(image: tempLogo) {
-                        tempLogoNoBackground = tempNoBg
-                        isTransparencyAvailable = true
+                    // Check if Vision framework is available for background removal
+                    if #available(iOS 17, *) {
+                        if let tempNoBg = removeBackground(image: tempThumbnail) {
+                            tempThumbnailNoBackground = tempNoBg
+                            isTransparencyAvailable = true
+                        }
+                    } else {
+                        print("DEBUG: Background removal not available on this device/OS")
+                        isTransparencyAvailable = false
                     }
                     isTransparencyOn = false
                 }
@@ -217,45 +228,45 @@ struct CustomizeLogoImage: View {
                 renderSymbol()
             }
             .onAppear {
-                if passObject.logoSymbolName == "" {
+                if symbolName == "" {
                     symbolColor = colorScheme == .light ? .black : .white
                 }
             }
         }
     }
 
-    private func updateLogoImage() {
-        if tempLogoImageType == ImageType.none {
-            passObject.logoImage = Data()
-        } else if tempLogoImageType == ImageType.photo {
+    private func updateThumbnailImage() {
+        if tempThumbnailImageType == ImageType.none {
+            passObject.thumbnailImage = Data()
+        } else if tempThumbnailImageType == ImageType.photo {
             if isTransparencyOn {
-                if let logoNoBg = tempLogoNoBackground {
-                    passObject.logoImage = logoNoBg.pngData()!
+                if let thumbnailNoBg = tempThumbnailNoBackground {
+                    passObject.thumbnailImage = thumbnailNoBg.pngData()!
                 }
             } else {
-                if let logo = tempLogo {
-                    passObject.logoImage = logo.pngData()!
+                if let thumbnail = tempThumbnail {
+                    passObject.thumbnailImage = thumbnail.pngData()!
                 }
             }
-        } else if tempLogoImageType == ImageType.symbol {
-            passObject.logoSymbolColor = symbolColor.toHex()
-            if let logo = tempLogo {
-                passObject.logoImage = logo.pngData()!
+        } else if tempThumbnailImageType == ImageType.symbol {
+            passObject.thumbnailSymbolColor = symbolColor.toHex()
+            if let thumbnail = tempThumbnail {
+                passObject.thumbnailImage = thumbnail.pngData()!
             }
-        } else if tempLogoImageType == ImageType.emoji {
-            if let logo = tempLogo {
-                passObject.logoImage = logo.pngData()!
+        } else if tempThumbnailImageType == ImageType.emoji {
+            if let thumbnail = tempThumbnail {
+                passObject.thumbnailImage = thumbnail.pngData()!
             }
         }
-        passObject.logoImageType = tempLogoImageType
-        passObject.logoSymbolName = symbolName
-        passObject.logoSymbolColor = symbolColor.toHex()
+        passObject.thumbnailImageType = tempThumbnailImageType
+        passObject.thumbnailSymbolName = symbolName
+        passObject.thumbnailSymbolColor = symbolColor.toHex()
         presentationMode.wrappedValue.dismiss()
     }
 
     private func renderSymbol() {
         if symbolName != "" {
-            tempLogo = ImageRenderer(content:
+            tempThumbnail = ImageRenderer(content:
                 Image(systemName: symbolName)
                     .resizable()
                     .font(.system(size: 1000))
@@ -264,6 +275,35 @@ struct CustomizeLogoImage: View {
                     .foregroundStyle(symbolColor)).uiImage
         }
     }
+}
+
+private func applyAspectRatioConstraint(to image: UIImage, within rect: CGRect? = nil) -> UIImage? {
+    guard let cgImage = image.cgImage else { return nil }
+
+    let width = CGFloat(cgImage.width)
+    let height = CGFloat(cgImage.height)
+
+    let constraintRect = rect ?? CGRect(x: 0, y: 0, width: width, height: height)
+    let aspectRatio = constraintRect.width / constraintRect.height
+    let minRatio = 2.0 / 3.0 // 2:3 (tall)
+    let maxRatio = 3.0 / 2.0 // 3:2 (wide)
+
+    var finalRect = constraintRect
+
+    if aspectRatio > maxRatio {
+        // Too wide, crop width to 3:2
+        let newWidth = finalRect.height * maxRatio
+        finalRect.origin.x += (finalRect.width - newWidth) / 2
+        finalRect.size.width = newWidth
+    } else if aspectRatio < minRatio {
+        // Too tall, crop height to 2:3
+        let newHeight = finalRect.width / minRatio
+        finalRect.origin.y += (finalRect.height - newHeight) / 2
+        finalRect.size.height = newHeight
+    }
+
+    guard let croppedCGImage = cgImage.cropping(to: finalRect) else { return nil }
+    return UIImage(cgImage: croppedCGImage, scale: image.scale, orientation: image.imageOrientation)
 }
 
 private func createMask(from inputImage: CIImage) -> CIImage? {
@@ -277,7 +317,6 @@ private func createMask(from inputImage: CIImage) -> CIImage? {
             let mask = try result.generateScaledMaskForImage(forInstances: result.allInstances, from: handler)
             let ciImage = CIImage(cvPixelBuffer: mask)
 
-            // Apply Gaussian blur to the mask
             guard let blurFilter = CIFilter(name: "CIGaussianBlur") else {
                 return ciImage
             }
@@ -313,20 +352,17 @@ private func convertToUIImage(ciImage: CIImage, originalOrientation: UIImage.Ori
 }
 
 private func removeBackground(image: UIImage?) -> UIImage? {
-    // Store the original orientation
     if image == nil {
         return nil
     }
 
     let originalOrientation = image!.imageOrientation
 
-    // Create CIImage while preserving orientation properties
     guard var inputImage = CIImage(image: image!) else {
         print("Failed to create CIImage")
         return nil
     }
 
-    // Apply orientation transform if needed
     if let orientationProperty = inputImage.properties[kCGImagePropertyOrientation as String] as? UInt32 {
         inputImage = inputImage.oriented(CGImagePropertyOrientation(rawValue: orientationProperty)!)
     }
@@ -342,14 +378,11 @@ private func removeBackground(image: UIImage?) -> UIImage? {
 }
 
 private func cropToVisibleContent(image: UIImage) -> UIImage? {
-    // Convert UIImage to CGImage
     guard let cgImage = image.cgImage else { return nil }
 
-    // Get image dimensions
     let width = cgImage.width
     let height = cgImage.height
 
-    // Create bitmap context
     guard let context = CGContext(
         data: nil,
         width: width,
@@ -360,13 +393,10 @@ private func cropToVisibleContent(image: UIImage) -> UIImage? {
         bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
     ) else { return nil }
 
-    // Draw image in context
     context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
 
-    // Get image data
     guard let pixelData = context.data else { return nil }
 
-    // Find bounds of non-transparent pixels
     var minX = width
     var minY = height
     var maxX = 0
@@ -388,26 +418,22 @@ private func cropToVisibleContent(image: UIImage) -> UIImage? {
         }
     }
 
-    // Add padding
     let padding = 1
     minX = max(0, minX - padding)
     minY = max(0, minY - padding)
     maxX = min(width - 1, maxX + padding)
     maxY = min(height - 1, maxY + padding)
 
-    // Create cropping rectangle
-    let rect = CGRect(
+    let visibleRect = CGRect(
         x: minX,
         y: minY,
         width: maxX - minX + 1,
         height: maxY - minY + 1
     )
 
-    // Crop the image
-    guard let croppedCGImage = cgImage.cropping(to: rect) else { return nil }
-    return UIImage(cgImage: croppedCGImage, scale: image.scale, orientation: image.imageOrientation)
+    return applyAspectRatioConstraint(to: image, within: visibleRect)
 }
 
 #Preview {
-    CustomizeLogoImage(passObject: .constant(MockModelData().passObjects[0]))
+    CustomizeThumbnailImage(passObject: .constant(MockModelData().passObjects[0]))
 }

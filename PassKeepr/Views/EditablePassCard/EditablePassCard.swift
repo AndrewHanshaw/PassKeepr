@@ -12,6 +12,7 @@ struct EditablePassCard: View {
     @State private var isCustomizeLogoImagePresented = false
     @State private var isCustomizeBackgroundImagePresented = false
     @State private var isCustomizeStripImagePresented = false
+    @State private var isCustomizeThumbnailImagePresented = false
     @Binding var isCustomizeBarcodePresented: Bool
     @Binding var isCustomizeQrCodePresented: Bool
     @State private var passBackgroundBrightness: BackgroundBrightness = .normal
@@ -59,14 +60,16 @@ struct EditablePassCard: View {
                             HStack {
                                 PrimaryTextFieldGeneric(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                                     .padding([.leading, .trailing], 10)
-                                    .padding(.top, 14)
-                                    .frame(maxWidth: size.width) // Must limit this width BEFORE applying .fixedSize, otherwise the parent view will expand if this child view becomes too wide
+                                    .padding(.top, 12)
+                                    .frame(maxWidth: size.width, maxHeight: size.height * 0.1) // Must limit this width BEFORE applying .fixedSize, otherwise the parent view will expand if this child view becomes too wide
+                                    .lineLimit(nil)
                                     .fixedSize(horizontal: true, vertical: false)
                                 Spacer()
+                                ThumbnailImageView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented)
+                                    .padding(.trailing, 10)
                             }
                             .frame(width: size.width)
-                            .frame(maxHeight: size.height * 0.1)
-                            .padding(.bottom, 50)
+                            .frame(maxHeight: size.height * 0.2)
                         }
                     }
 
@@ -104,6 +107,10 @@ struct EditablePassCard: View {
                 }
                 .sheet(isPresented: $isCustomizeBackgroundImagePresented) {
                     CustomizeBackgroundImage(passObject: $passObject)
+                        .edgesIgnoringSafeArea(.bottom)
+                }
+                .sheet(isPresented: $isCustomizeThumbnailImagePresented) {
+                    CustomizeThumbnailImage(passObject: $passObject)
                         .edgesIgnoringSafeArea(.bottom)
                 }
             }

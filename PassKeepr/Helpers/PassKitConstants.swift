@@ -28,4 +28,10 @@ enum PassKitConstants {
         static let height: CGFloat = 50.0
         static let aspectRatio: CGFloat = width / height
     }
+
+    // Thumbnail image dimensions
+    enum ThumbnailImage {
+        static let width: CGFloat = 90.0
+        static let height: CGFloat = 90.0
+    }
 }
