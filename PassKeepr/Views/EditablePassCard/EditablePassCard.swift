@@ -57,19 +57,10 @@ struct EditablePassCard: View {
                                 .frame(width: size.width)
                                 .padding(.top, 10)
                         } else {
-                            HStack {
-                                PrimaryTextFieldGeneric(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
-                                    .padding([.leading, .trailing], 10)
-                                    .padding(.top, 12)
-                                    .frame(maxWidth: size.width, maxHeight: size.height * 0.1) // Must limit this width BEFORE applying .fixedSize, otherwise the parent view will expand if this child view becomes too wide
-                                    .lineLimit(nil)
-                                    .fixedSize(horizontal: true, vertical: false)
-                                Spacer()
-                                ThumbnailImageView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented)
-                                    .padding(.trailing, 10)
-                            }
-                            .frame(width: size.width)
-                            .frame(maxHeight: size.height * 0.2)
+                            PrimaryTextFieldGeneric(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, passObject: $passObject, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                .padding([.leading, .trailing], 10)
+                                .padding(.top, 12)
+                                .frame(maxWidth: size.width, maxHeight: size.height * 0.2)
                         }
                     }
 
