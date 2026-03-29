@@ -153,6 +153,10 @@ func generatePass(passObject: PassObject) -> URL? {
             }
         }
 
+        if passObject.thumbnailImage != Data() {
+            savePNGToDirectory(pngData: passObject.thumbnailImage, destinationDirectory: passDirectory, fileName: "thumbnail")
+        }
+
         if let pkpassDir = try zipDirectory(uuid: passObject.id) {
             return pkpassDir
         } else {

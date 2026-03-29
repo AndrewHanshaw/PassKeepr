@@ -21,6 +21,8 @@
 		BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */; };
 		BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869B2B95756500AC82E4 /* AztecView.swift */; };
 		BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869D2B957BD700AC82E4 /* GeneratePass.swift */; };
+		BA12A7312F66086800B55431 /* ThumbnailImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12A7302F66086800B55431 /* ThumbnailImageView.swift */; };
+		BA12A7332F66089600B55431 /* CustomizeThumbnailImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12A7322F66089600B55431 /* CustomizeThumbnailImage.swift */; };
 		BA1515B92CE2BC6900DB1799 /* MeasureViewSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1515B82CE2BC6900DB1799 /* MeasureViewSize.swift */; };
 		BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA15EC172B3CE75400078A17 /* AppIcon.swift */; };
 		BA17A9112D36155E00A8C992 /* KeyboardAware in Frameworks */ = {isa = PBXBuildFile; productRef = BA17A9102D36155E00A8C992 /* KeyboardAware */; };
@@ -145,6 +147,8 @@
 		BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendUIImage.swift; sourceTree = "<group>"; };
 		BA12869B2B95756500AC82E4 /* AztecView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AztecView.swift; sourceTree = "<group>"; };
 		BA12869D2B957BD700AC82E4 /* GeneratePass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePass.swift; sourceTree = "<group>"; };
+		BA12A7302F66086800B55431 /* ThumbnailImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailImageView.swift; sourceTree = "<group>"; };
+		BA12A7322F66089600B55431 /* CustomizeThumbnailImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeThumbnailImage.swift; sourceTree = "<group>"; };
 		BA1515B82CE2BC6900DB1799 /* MeasureViewSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureViewSize.swift; sourceTree = "<group>"; };
 		BA15A2C92CE0002800ECD183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BA15EC172B3CE75400078A17 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
@@ -336,6 +340,7 @@
 		BA0F32E72B9AC837007120B8 /* Pickers */ = {
 			isa = PBXGroup;
 			children = (
+				BA12A7322F66089600B55431 /* CustomizeThumbnailImage.swift */,
 				BA7F036C2E9ADB58004E9610 /* BarcodeTypePicker.swift */,
 				BA7A4A222B65AE3A006F06DF /* ColorInput.swift */,
 				BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */,
@@ -388,6 +393,7 @@
 		BAA53E1A2D0E5443004A175A /* EditablePassCard */ = {
 			isa = PBXGroup;
 			children = (
+				BA12A7302F66086800B55431 /* ThumbnailImageView.swift */,
 				BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */,
 				BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */,
 				BAA53E172D0E3AF5004A175A /* CustomizePassTextField.swift */,
@@ -684,9 +690,11 @@
 				BAE0C1552F5E3627001CC4DB /* InteractiveDismissDisabled.swift in Sources */,
 				3A02E73C2AF6EE1000383BC2 /* ContentView.swift in Sources */,
 				BAED06682D32158C00D6789E /* GetBarcodeFromImage.swift in Sources */,
+				BA12A7312F66086800B55431 /* ThumbnailImageView.swift in Sources */,
 				BA6DACF72D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift in Sources */,
 				BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */,
 				BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */,
+				BA12A7332F66089600B55431 /* CustomizeThumbnailImage.swift in Sources */,
 				BAE7B33E2D065DFF00DD0251 /* BuiltInBarcodeView.swift in Sources */,
 				BA0F98212CE2BA4800F76501 /* ExtendUInt.swift in Sources */,
 				BACDA8AB2D166477009C249C /* CustomStripImage.swift in Sources */,

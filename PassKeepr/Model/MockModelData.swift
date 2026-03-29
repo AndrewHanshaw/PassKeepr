@@ -31,7 +31,9 @@ private extension PassObject {
         stripImage: Data(),
         backgroundImage: Data(),
         logoImage: Data(),
-        logoImageType: LogoImageType.none,
+        logoImageType: ImageType.none,
+        thumbnailImage: Data(),
+        thumbnailImageType: ImageType.none,
         qrCodeCorrectionLevel: QrCodeCorrectionLevel.medium,
         qrCodeEncoding: QrCodeEncoding.ascii,
         altText: "",
@@ -56,7 +58,9 @@ private extension PassObject {
         secondaryFieldThreeText: "",
         isCustomStripImageOn: false,
         logoSymbolName: "info.circle",
-        logoSymbolColor: 0xFF00FF
+        logoSymbolColor: 0x0000FF,
+        thumbnailSymbolName: "info.circle",
+        thumbnailSymbolColor: 0x0000FF
     )
 
     static let preview2 = PassObject(
@@ -68,7 +72,9 @@ private extension PassObject {
         stripImage: Data(),
         backgroundImage: Data(),
         logoImage: Data(),
-        logoImageType: LogoImageType.none,
+        logoImageType: ImageType.none,
+        thumbnailImage: Data(),
+        thumbnailImageType: ImageType.none,
         qrCodeCorrectionLevel: QrCodeCorrectionLevel.medium,
         qrCodeEncoding: QrCodeEncoding.ascii,
         altText: "",
@@ -93,6 +99,8 @@ private extension PassObject {
         secondaryFieldThreeText: "",
         isCustomStripImageOn: false,
         logoSymbolName: "checkmark",
-        logoSymbolColor: 0x0000FF
+        logoSymbolColor: 0x0000FF,
+        thumbnailSymbolName: "checkmark",
+        thumbnailSymbolColor: 0x0000FF
     )
 }

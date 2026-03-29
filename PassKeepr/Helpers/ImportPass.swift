@@ -239,5 +239,12 @@ func importPass(from pkpassURL: URL) -> PassObject? {
         // Extract background image
         let bg = extractLargestVariant("background")
         passObject.backgroundImage = bg
+
+        // Extract thumbnail image
+        let thumbnail = extractLargestVariant("thumbnail")
+        if thumbnail != Data() {
+            passObject.thumbnailImage = thumbnail
+            passObject.thumbnailImageType = .photo
+        }
     }
 }

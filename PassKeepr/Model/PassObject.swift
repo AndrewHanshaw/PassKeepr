@@ -11,7 +11,9 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var stripImage: Data // PNG data for all passes that use the strip image (may be a barcode, picture, etc)
     var backgroundImage: Data // PNG data for all passes that use the background image
     var logoImage: Data // PNG data for all passes that use the logo image
-    var logoImageType: LogoImageType
+    var logoImageType: ImageType
+    var thumbnailImage: Data // PNG data for thumbnail image (90x90 points, aspect ratio 2:3 to 3:2)
+    var thumbnailImageType: ImageType
     var qrCodeCorrectionLevel: QrCodeCorrectionLevel
     var qrCodeEncoding: QrCodeEncoding
     var altText: String
@@ -38,6 +40,8 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var isCustomStripImageOn: Bool
     var logoSymbolName: String
     var logoSymbolColor: UInt
+    var thumbnailSymbolName: String
+    var thumbnailSymbolColor: UInt
 
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .data)
@@ -58,6 +62,8 @@ extension PassObject {
             backgroundImage: Data(),
             logoImage: Data(),
             logoImageType: .none,
+            thumbnailImage: Data(),
+            thumbnailImageType: .none,
             qrCodeCorrectionLevel: .medium,
             qrCodeEncoding: .ascii,
             altText: "",
@@ -82,7 +88,9 @@ extension PassObject {
             secondaryFieldThreeText: "",
             isCustomStripImageOn: false,
             logoSymbolName: "",
-            logoSymbolColor: 0x000000
+            logoSymbolColor: 0x000000,
+            thumbnailSymbolName: "",
+            thumbnailSymbolColor: 0x000000
         )
     }
 
@@ -97,6 +105,8 @@ extension PassObject {
             backgroundImage: backgroundImage,
             logoImage: logoImage,
             logoImageType: logoImageType,
+            thumbnailImage: thumbnailImage,
+            thumbnailImageType: thumbnailImageType,
             qrCodeCorrectionLevel: qrCodeCorrectionLevel,
             qrCodeEncoding: qrCodeEncoding,
             altText: altText,
@@ -121,7 +131,9 @@ extension PassObject {
             secondaryFieldThreeText: secondaryFieldThreeText,
             isCustomStripImageOn: isCustomStripImageOn,
             logoSymbolName: logoSymbolName,
-            logoSymbolColor: logoSymbolColor
+            logoSymbolColor: logoSymbolColor,
+            thumbnailSymbolName: thumbnailSymbolName,
+            thumbnailSymbolColor: thumbnailSymbolColor
         )
     }
 }
@@ -192,7 +204,7 @@ enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {
     var id: Self { self }
 }
 
-enum LogoImageType: Codable, CustomStringConvertible, CaseIterable {
+enum ImageType: Codable, CustomStringConvertible, CaseIterable {
     case photo
     case emoji
     case symbol
