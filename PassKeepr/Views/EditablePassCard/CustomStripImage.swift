@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CustomStripImage: View {
-    var placeholderColor: Color
+    var backgroundBrightness: BackgroundBrightness
     var disableButton: Bool
     @Binding var passObject: PassObject
     @Binding var isCustomizeStripImagePresented: Bool
@@ -24,12 +24,12 @@ struct CustomStripImage: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                            .foregroundColor(placeholderColor)
-                            .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
+                            .foregroundColor(backgroundBrightness.overwriteForegroundColor)
+                            .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
                         Text("Add a Strip Image")
                             .font(.system(size: 18))
-                            .foregroundColor(placeholderColor)
-                            .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
+                            .foregroundColor(backgroundBrightness.overwriteForegroundColor)
+                            .opacity(backgroundBrightness.overwriteOpacity)
                     }
                     .padding([.leading, .trailing], 10)
                 }
@@ -65,5 +65,5 @@ struct CustomStripImage: View {
 }
 
 #Preview {
-    CustomStripImage(placeholderColor: Color.black, disableButton: false, passObject: .constant(MockModelData().passObjects[0]), isCustomizeStripImagePresented: .constant(true))
+    CustomStripImage(backgroundBrightness: .normal, disableButton: false, passObject: .constant(MockModelData().passObjects[0]), isCustomizeStripImagePresented: .constant(true))
 }

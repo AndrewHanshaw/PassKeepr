@@ -89,7 +89,7 @@ struct CustomizeBarcode: View {
                                 EmptyView()
                             }
                         } else {
-                            InvalidBarcodeView(isEmpty: tempBarcodeData == "")
+                            InvalidBarcodeView(backgroundBrightness: .normal, isEmpty: tempBarcodeData == "")
                                 .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                         }
                     }

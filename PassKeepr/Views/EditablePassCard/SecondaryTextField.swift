@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SecondaryTextField: View {
-    var placeholderColor: Color
+    var backgroundBrightness: BackgroundBrightness
     var disableButton: Bool
 
     @Binding var textLabel: String
@@ -40,14 +40,14 @@ struct SecondaryTextField: View {
             } else {
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                    .foregroundColor(placeholderColor)
-                    .opacity(placeholderColor == Color.gray ? 0.5 : 0.3)
+                    .foregroundColor(backgroundBrightness.overwriteForegroundColor)
+                    .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
                     .aspectRatio(2, contentMode: .fit)
                 Text("Secondary\nField")
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.34)
-                    .foregroundColor(placeholderColor)
-                    .opacity(placeholderColor == Color.gray ? 0.7 : 0.4)
+                    .foregroundColor(backgroundBrightness.overwriteForegroundColor)
+                    .opacity(backgroundBrightness.overwriteOpacity)
                     .padding(2)
             }
         }
@@ -74,5 +74,5 @@ struct SecondaryTextField: View {
 }
 
 #Preview {
-    SecondaryTextField(placeholderColor: Color.black, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), isStripImageOn: true, textColor: .black, labelColor: .black)
+    SecondaryTextField(backgroundBrightness: .normal, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), isStripImageOn: true, textColor: .black, labelColor: .black)
 }

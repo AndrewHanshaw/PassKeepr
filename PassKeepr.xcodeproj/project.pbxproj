@@ -14,6 +14,7 @@
 		3A02E74B2AF6EE1B00383BC2 /* PassKeeprTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E74A2AF6EE1B00383BC2 /* PassKeeprTests.swift */; };
 		3A02E7552AF6EE1B00383BC2 /* PassKeeprUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7542AF6EE1B00383BC2 /* PassKeeprUITests.swift */; };
 		3A02E7572AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */; };
+		BA067E072F5937CA00F87B79 /* BackgroundBrightness.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA067E062F5937C900F87B79 /* BackgroundBrightness.swift */; };
 		BA0AF0A42F2EAA350001CCAE /* PkPassShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BA0AF09A2F2EAA350001CCAE /* PkPassShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BA0C54E42F6505B600DC2C7F /* PassKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0C54E32F6505B500DC2C7F /* PassKitConstants.swift */; };
 		BA0F98212CE2BA4800F76501 /* ExtendUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */; };
@@ -135,6 +136,7 @@
 		3A02E7502AF6EE1B00383BC2 /* PassKeeprUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PassKeeprUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A02E7542AF6EE1B00383BC2 /* PassKeeprUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprUITests.swift; sourceTree = "<group>"; };
 		3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BA067E062F5937C900F87B79 /* BackgroundBrightness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBrightness.swift; sourceTree = "<group>"; };
 		BA0AF09A2F2EAA350001CCAE /* PkPassShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PkPassShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA0AF0AD2F2EB3480001CCAE /* PassKeepr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PassKeepr.entitlements; sourceTree = "<group>"; };
 		BA0C54E32F6505B500DC2C7F /* PassKitConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKitConstants.swift; sourceTree = "<group>"; };
@@ -404,6 +406,7 @@
 		BABAADCF2B0A69950014C73B /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				BA067E062F5937C900F87B79 /* BackgroundBrightness.swift */,
 				BABAADD02B0A69950014C73B /* PassObject.swift */,
 				BABAADD12B0A69950014C73B /* ModelData.swift */,
 				BADD64672CA5021D00E8F0A0 /* MockModelData.swift */,
@@ -689,6 +692,7 @@
 				3A02E73A2AF6EE1000383BC2 /* PassKeeprApp.swift in Sources */,
 				BA409E422CF427160079193E /* EditablePassCard.swift in Sources */,
 				BAA53E182D0E3AF5004A175A /* CustomizePassTextField.swift in Sources */,
+				BA067E072F5937CA00F87B79 /* BackgroundBrightness.swift in Sources */,
 				BA428B842D49CF870024B8B1 /* EAN13View.swift in Sources */,
 				BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */,
 				BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */,
