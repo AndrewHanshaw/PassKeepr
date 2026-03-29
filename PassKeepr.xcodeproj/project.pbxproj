@@ -41,6 +41,8 @@
 		BA598E8E2D3609C900B06BAA /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA598E8D2D3609C900B06BAA /* About.swift */; };
 		BA5B292F2E80D69200DBD750 /* NoPassesToShow.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B292E2E80D69200DBD750 /* NoPassesToShow.swift */; };
 		BA5FBE9A2F2F07BB00C7AA2A /* ImportPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FBE992F2F07BB00C7AA2A /* ImportPass.swift */; };
+		BA65958F2F79BB350091BB29 /* VCardQrCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA65958E2F79BB350091BB29 /* VCardQrCode.swift */; };
+		BA6595912F79BB3D0091BB29 /* WifiQrCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6595902F79BB3D0091BB29 /* WifiQrCode.swift */; };
 		BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D4FE02B71C60400CB6ACA /* Code39View.swift */; };
 		BA6D6C682CE83628007D4C9A /* CustomizeLogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */; };
 		BA6DACF72D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6DACF62D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift */; };
@@ -168,6 +170,8 @@
 		BA598E8D2D3609C900B06BAA /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		BA5B292E2E80D69200DBD750 /* NoPassesToShow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoPassesToShow.swift; sourceTree = "<group>"; };
 		BA5FBE992F2F07BB00C7AA2A /* ImportPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPass.swift; sourceTree = "<group>"; };
+		BA65958E2F79BB350091BB29 /* VCardQrCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCardQrCode.swift; sourceTree = "<group>"; };
+		BA6595902F79BB3D0091BB29 /* WifiQrCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiQrCode.swift; sourceTree = "<group>"; };
 		BA6D4FE02B71C60400CB6ACA /* Code39View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code39View.swift; sourceTree = "<group>"; };
 		BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeLogoImage.swift; sourceTree = "<group>"; };
 		BA6DACF62D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendVNBarcodeSymbology.swift; sourceTree = "<group>"; };
@@ -342,6 +346,8 @@
 		BA0F32E72B9AC837007120B8 /* Pickers */ = {
 			isa = PBXGroup;
 			children = (
+				BA6595902F79BB3D0091BB29 /* WifiQrCode.swift */,
+				BA65958E2F79BB350091BB29 /* VCardQrCode.swift */,
 				BA12A7342F68EF2600B55431 /* AuxiliaryFieldSelection.swift */,
 				BA12A7322F66089600B55431 /* CustomizeThumbnailImage.swift */,
 				BA7F036C2E9ADB58004E9610 /* BarcodeTypePicker.swift */,
@@ -670,6 +676,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA6595912F79BB3D0091BB29 /* WifiQrCode.swift in Sources */,
 				BAA53E142D0E2E2C004A175A /* HeaderFieldSelection.swift in Sources */,
 				BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */,
 				BABAADD22B0A69950014C73B /* PassObject.swift in Sources */,
@@ -703,6 +710,7 @@
 				BA12A7372F68EF3000B55431 /* AuxiliaryTextField.swift in Sources */,
 				BACDA8AB2D166477009C249C /* CustomStripImage.swift in Sources */,
 				BA7F036D2E9ADB63004E9610 /* BarcodeTypePicker.swift in Sources */,
+				BA65958F2F79BB350091BB29 /* VCardQrCode.swift in Sources */,
 				BACDA8AD2D167646009C249C /* StripImageSelection.swift in Sources */,
 				BA5FBE9A2F2F07BB00C7AA2A /* ImportPass.swift in Sources */,
 				3A02E73A2AF6EE1000383BC2 /* PassKeeprApp.swift in Sources */,

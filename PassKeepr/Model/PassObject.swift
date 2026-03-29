@@ -16,6 +16,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var thumbnailImageType: ImageType
     var qrCodeCorrectionLevel: QrCodeCorrectionLevel
     var qrCodeEncoding: QrCodeEncoding
+    var qrCodeType: QrCodeType
     var altText: String
     var foregroundColor: UInt
     var backgroundColor: UInt
@@ -52,6 +53,23 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var thumbnailSymbolName: String
     var thumbnailSymbolColor: UInt
     var associatedStoreIdentifiers: [Int]
+    // WiFi QR Code
+    var wifiSSID: String
+    var wifiPassword: String
+    var wifiSecurity: WifiSecurity
+    var wifiIsHidden: Bool
+    // vCard QR Code
+    var vcardFirstName: String
+    var vcardLastName: String
+    var vcardCompany: String
+    var vcardPhone: String
+    var vcardEmail: String
+    var vcardURL: String
+    var vcardAddress: String
+    var vcardSocial: String
+    var vcardHasBirthday: Bool
+    var vcardBirthday: Date
+    var vcardCustomFields: [VCardCustomField]
 
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .data)
@@ -76,6 +94,7 @@ extension PassObject {
             thumbnailImageType: .none,
             qrCodeCorrectionLevel: .medium,
             qrCodeEncoding: .ascii,
+            qrCodeType: .standard,
             altText: "",
             foregroundColor: 0x000000,
             backgroundColor: 0xFFFFFF,
@@ -110,7 +129,22 @@ extension PassObject {
             logoSymbolColor: 0x000000,
             thumbnailSymbolName: "",
             thumbnailSymbolColor: 0x000000,
-            associatedStoreIdentifiers: [6_740_440_736]
+            associatedStoreIdentifiers: [6_740_440_736],
+            wifiSSID: "",
+            wifiPassword: "",
+            wifiSecurity: .wpa,
+            wifiIsHidden: false,
+            vcardFirstName: "",
+            vcardLastName: "",
+            vcardCompany: "",
+            vcardPhone: "",
+            vcardEmail: "",
+            vcardURL: "",
+            vcardAddress: "",
+            vcardSocial: "",
+            vcardHasBirthday: false,
+            vcardBirthday: Date(),
+            vcardCustomFields: []
         )
     }
 
@@ -129,6 +163,7 @@ extension PassObject {
             thumbnailImageType: thumbnailImageType,
             qrCodeCorrectionLevel: qrCodeCorrectionLevel,
             qrCodeEncoding: qrCodeEncoding,
+            qrCodeType: qrCodeType,
             altText: altText,
             foregroundColor: foregroundColor,
             backgroundColor: backgroundColor,
@@ -163,7 +198,22 @@ extension PassObject {
             logoSymbolColor: logoSymbolColor,
             thumbnailSymbolName: thumbnailSymbolName,
             thumbnailSymbolColor: thumbnailSymbolColor,
-            associatedStoreIdentifiers: associatedStoreIdentifiers
+            associatedStoreIdentifiers: associatedStoreIdentifiers,
+            wifiSSID: wifiSSID,
+            wifiPassword: wifiPassword,
+            wifiSecurity: wifiSecurity,
+            wifiIsHidden: wifiIsHidden,
+            vcardFirstName: vcardFirstName,
+            vcardLastName: vcardLastName,
+            vcardCompany: vcardCompany,
+            vcardPhone: vcardPhone,
+            vcardEmail: vcardEmail,
+            vcardURL: vcardURL,
+            vcardAddress: vcardAddress,
+            vcardSocial: vcardSocial,
+            vcardHasBirthday: vcardHasBirthday,
+            vcardBirthday: vcardBirthday,
+            vcardCustomFields: vcardCustomFields
         )
     }
 }
@@ -204,6 +254,40 @@ enum QrCodeEncoding: Codable, CustomStringConvertible, CaseIterable {
         case .unicode: return "Unicode"
         }
     }
+}
+
+enum QrCodeType: Codable, CustomStringConvertible, CaseIterable {
+    case standard
+    case wifi
+    case vcard
+
+    var description: String {
+        switch self {
+        case .standard: return "Standard"
+        case .wifi: return "Wi-Fi"
+        case .vcard: return "vCard"
+        }
+    }
+}
+
+enum WifiSecurity: String, Codable, CaseIterable, Hashable {
+    case none = "nopass"
+    case wep = "WEP"
+    case wpa = "WPA"
+
+    var displayName: String {
+        switch self {
+        case .none: return "None"
+        case .wep: return "WEP"
+        case .wpa: return "WPA/WPA2"
+        }
+    }
+}
+
+struct VCardCustomField: Identifiable, Equatable, Codable, Hashable {
+    var id = UUID()
+    var label: String = ""
+    var value: String = ""
 }
 
 enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {

@@ -36,6 +36,7 @@ private extension PassObject {
         thumbnailImageType: ImageType.none,
         qrCodeCorrectionLevel: QrCodeCorrectionLevel.medium,
         qrCodeEncoding: QrCodeEncoding.ascii,
+        qrCodeType: QrCodeType.standard,
         altText: "",
         foregroundColor: 0xFF00FF,
         backgroundColor: 0xFFFFFF,
@@ -70,7 +71,22 @@ private extension PassObject {
         logoSymbolColor: 0x0000FF,
         thumbnailSymbolName: "info.circle",
         thumbnailSymbolColor: 0x0000FF,
-        associatedStoreIdentifiers: [0]
+        associatedStoreIdentifiers: [0],
+        wifiSSID: "",
+        wifiPassword: "",
+        wifiSecurity: .wpa,
+        wifiIsHidden: false,
+        vcardFirstName: "",
+        vcardLastName: "",
+        vcardCompany: "",
+        vcardPhone: "",
+        vcardEmail: "",
+        vcardURL: "",
+        vcardAddress: "",
+        vcardSocial: "",
+        vcardHasBirthday: false,
+        vcardBirthday: Date(),
+        vcardCustomFields: []
     )
 
     static let preview2 = PassObject(
@@ -87,6 +103,7 @@ private extension PassObject {
         thumbnailImageType: ImageType.none,
         qrCodeCorrectionLevel: QrCodeCorrectionLevel.medium,
         qrCodeEncoding: QrCodeEncoding.ascii,
+        qrCodeType: QrCodeType.standard,
         altText: "",
         foregroundColor: 0xFF00FF,
         backgroundColor: 0xFFFFFF,
@@ -121,6 +138,21 @@ private extension PassObject {
         logoSymbolColor: 0x0000FF,
         thumbnailSymbolName: "checkmark",
         thumbnailSymbolColor: 0x0000FF,
-        associatedStoreIdentifiers: [0]
+        associatedStoreIdentifiers: [0],
+        wifiSSID: "",
+        wifiPassword: "",
+        wifiSecurity: .wpa,
+        wifiIsHidden: false,
+        vcardFirstName: "",
+        vcardLastName: "",
+        vcardCompany: "",
+        vcardPhone: "",
+        vcardEmail: "",
+        vcardURL: "",
+        vcardAddress: "",
+        vcardSocial: "",
+        vcardHasBirthday: false,
+        vcardBirthday: Date(),
+        vcardCustomFields: []
     )
 }
