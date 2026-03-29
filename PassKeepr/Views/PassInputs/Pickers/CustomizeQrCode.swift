@@ -15,6 +15,8 @@ struct CustomizeQrCode: View {
     @State private var tempBarcodeType: BarcodeType = .code128
     @State private var tempQrCodeCorrectionLevel: QrCodeCorrectionLevel = .quartile
     @State private var tempQrCodeEncoding: QrCodeEncoding = .ascii
+    @State private var tempQrCodeType: QrCodeType = .standard
+    @State private var tempPassObject: PassObject
 
     @State private var scannedCode = ""
     @State private var scannedBarcodeType: BarcodeType?
@@ -32,6 +34,26 @@ struct CustomizeQrCode: View {
         _tempAltText = State(initialValue: passObject.wrappedValue.altText)
         _tempQrCodeCorrectionLevel = State(initialValue: passObject.wrappedValue.qrCodeCorrectionLevel)
         _tempQrCodeEncoding = State(initialValue: passObject.wrappedValue.qrCodeEncoding)
+        _tempQrCodeType = State(initialValue: passObject.wrappedValue.qrCodeType)
+        _tempPassObject = State(initialValue: passObject.wrappedValue)
+    }
+
+    var currentQrString: String {
+        switch tempQrCodeType {
+        case .standard:
+            return tempQrCodeData
+        case .wifi:
+            guard !tempPassObject.wifiSSID.isEmpty else { return "" }
+            return WifiQrCode.formatWifi(from: tempPassObject)
+        case .vcard:
+            let hasContent = [
+                tempPassObject.vcardFirstName, tempPassObject.vcardLastName,
+                tempPassObject.vcardCompany, tempPassObject.vcardPhone,
+                tempPassObject.vcardEmail,
+            ].contains { !$0.isEmpty }
+            guard hasContent else { return "" }
+            return VCardQrCode.formatVCard(from: tempPassObject)
+        }
     }
 
     var body: some View {
@@ -39,8 +61,8 @@ struct CustomizeQrCode: View {
             ScrollView {
                 VStack(spacing: 20) {
                     Group {
-                        if tempQrCodeData != "" {
-                            QRCodeView(data: tempQrCodeData, correctionLevel: tempQrCodeCorrectionLevel, encoding: tempQrCodeEncoding).aspectRatio(1, contentMode: .fit)
+                        if currentQrString != "" {
+                            QRCodeView(data: currentQrString, correctionLevel: tempQrCodeCorrectionLevel, encoding: tempQrCodeEncoding).aspectRatio(1, contentMode: .fit)
                                 .onChange(of: tempQrCodeEncoding) {
                                     print("qr code encoding \(tempQrCodeEncoding)")
                                 }
@@ -122,7 +144,7 @@ struct CustomizeQrCode: View {
                                     if BarcodeType.qr != imageBarcode.barcodeType {
                                         showInvalidQrCodeAlert.toggle()
                                     } else {
-                                        tempQrCodeData = imageBarcode.payload
+                                        applyScannedCode(imageBarcode.payload)
                                     }
                                 } else {
                                     showInvalidQrCodeAlert.toggle()
@@ -136,16 +158,41 @@ struct CustomizeQrCode: View {
                         .font(.system(size: 20))
                         .foregroundColor(.secondary)
 
-                    LabeledContent {
-                        TextField("QR Code Data", text: $tempQrCodeData, axis: .vertical)
-                            .keyboardType(tempBarcodeType.keyboardType())
-                            .disableAutocorrection(true)
-                            .lineLimit(1 ... 20)
-                    } label: {
-                        Text("Data")
+                    HStack {
+                        Text("Type")
+                        Spacer()
+                        Picker("QR Code Type", selection: $tempQrCodeType) {
+                            ForEach(QrCodeType.allCases, id: \.self) { type in
+                                Text(String(describing: type))
+                            }
+                        }
+                        .accentColor(.secondary)
                     }
-                    .padding(16)
+                    .padding([.top, .bottom], 10)
+                    .padding(.trailing, 4)
+                    .padding(.leading, 12)
                     .listSectionBackgroundModifier()
+                    .onChange(of: tempQrCodeType) {
+                        tempQrCodeData = ""
+                    }
+
+                    switch tempQrCodeType {
+                    case .standard:
+                        LabeledContent {
+                            TextField("QR Code Data", text: $tempQrCodeData, axis: .vertical)
+                                .keyboardType(tempBarcodeType.keyboardType())
+                                .disableAutocorrection(true)
+                                .lineLimit(1 ... 20)
+                        } label: {
+                            Text("Data")
+                        }
+                        .padding(16)
+                        .listSectionBackgroundModifier()
+                    case .wifi:
+                        WifiQrCode(passObject: $tempPassObject)
+                    case .vcard:
+                        VCardQrCode(passObject: $tempPassObject)
+                    }
 
                     HStack {
                         Text("Correction Level")
@@ -165,22 +212,24 @@ struct CustomizeQrCode: View {
                         scannedBarcodeType = nil
                     }
 
-                    HStack {
-                        Text("Encoding")
-                        Spacer()
-                        Picker("Encoding", selection: $tempQrCodeEncoding) {
-                            ForEach(QrCodeEncoding.allCases, id: \.self) { encoding in
-                                Text(String(describing: encoding))
+                    if tempQrCodeType == .standard {
+                        HStack {
+                            Text("Encoding")
+                            Spacer()
+                            Picker("Encoding", selection: $tempQrCodeEncoding) {
+                                ForEach(QrCodeEncoding.allCases, id: \.self) { encoding in
+                                    Text(String(describing: encoding))
+                                }
                             }
+                            .accentColor(.secondary)
                         }
-                        .accentColor(.secondary)
-                    }
-                    .padding([.top, .bottom], 10)
-                    .padding(.trailing, 4)
-                    .padding(.leading, 12)
-                    .listSectionBackgroundModifier()
-                    .onChange(of: tempQrCodeEncoding) {
-                        scannedBarcodeType = nil
+                        .padding([.top, .bottom], 10)
+                        .padding(.trailing, 4)
+                        .padding(.leading, 12)
+                        .listSectionBackgroundModifier()
+                        .onChange(of: tempQrCodeEncoding) {
+                            scannedBarcodeType = nil
+                        }
                     }
 
                     LabeledContent {
@@ -204,9 +253,13 @@ struct CustomizeQrCode: View {
 
                     ToolbarItem(placement: .confirmationAction) {
                         Button("Save", systemImage: "checkmark") {
-                            passObject.barcodeString = tempQrCodeData
-                            passObject.qrCodeCorrectionLevel = tempQrCodeCorrectionLevel
-                            passObject.altText = tempAltText
+                            var saved = tempPassObject
+                            saved.barcodeString = currentQrString
+                            saved.qrCodeCorrectionLevel = tempQrCodeCorrectionLevel
+                            saved.qrCodeEncoding = tempQrCodeEncoding
+                            saved.qrCodeType = tempQrCodeType
+                            saved.altText = tempAltText
+                            passObject = saved
                             presentationMode.wrappedValue.dismiss()
                         }
                         .toolbarConfirmButtonModifier()
@@ -231,8 +284,26 @@ struct CustomizeQrCode: View {
                       dismissButton: .default(Text("OK")))
             }
             .onChange(of: scannedCode) {
-                tempQrCodeData = scannedCode
+                applyScannedCode(scannedCode)
             }
+        }
+    }
+
+    private func applyScannedCode(_ code: String) {
+        let upper = code.uppercased()
+        if upper.hasPrefix("WIFI:") {
+            tempQrCodeType = .wifi
+            let p = WifiQrCode.parseWifi(code)
+            tempPassObject.wifiSSID = p.ssid
+            tempPassObject.wifiPassword = p.password
+            tempPassObject.wifiSecurity = p.security
+            tempPassObject.wifiIsHidden = p.isHidden
+        } else if upper.contains("BEGIN:VCARD") {
+            tempQrCodeType = .vcard
+            VCardQrCode.applyParsed(code, to: &tempPassObject)
+        } else {
+            tempQrCodeType = .standard
+            tempQrCodeData = code
         }
     }
 }
