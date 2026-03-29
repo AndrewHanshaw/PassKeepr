@@ -227,13 +227,15 @@ struct ContentView: View {
 struct PassCardContainer: View {
     @Binding var passObject: PassObject
     @State private var shouldPresentEditPass = false
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         PassCard(passObject: passObject)
             .background(
                 PassCard(passObject: passObject)
-                    .scaleEffect(0.9, anchor: .bottom)
-                    .blur(radius: 10)
+                    .scaleEffect(0.95, anchor: .bottom)
+                    .blur(radius: 8)
+                    .opacity(colorScheme == .light ? 1.0 : 0.8)
                     .allowsHitTesting(false) // still safe to include
             )
             .onTapGesture {
