@@ -147,7 +147,7 @@ struct ContentView: View {
                             // It doesn't like the systemImage initializer for some reason. Doing something like `
                             Button(action: { shouldPresentAddPass.toggle() }) {
                                 Image(systemName: "plus")
-                                    .foregroundStyle(Color.white.opacity(0.7))
+                                    .foregroundStyle(Color(hex: 0xD5FED6))
                                 // Label("Add Pass", systemImage: "plus").labelStyle(.iconOnly) // This throws a warning too for some reason
                             }
                             .accessibilityLabel("Add Pass")
