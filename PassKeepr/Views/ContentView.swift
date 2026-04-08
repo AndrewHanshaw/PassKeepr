@@ -22,6 +22,8 @@ struct ContentView: View {
     @State var shouldPresentDeleteConfirmation = false
     @State var importedPassObject: PassObject?
     @State private var shouldShowNFCAlert = false
+    @State private var shouldShowImportErrorAlert = false
+    @State private var importErrorMessage = ""
 
     @StateObject private var dragState = DragState()
     @State private var dragProperties = DragProperties()
@@ -190,13 +192,11 @@ struct ContentView: View {
                             modelData.passObjects.append(importedPass)
                             modelData.encodePassObjects()
 
-                            // Find the binding for the newly added pass
-                            if let index = modelData.passObjects.firstIndex(where: { $0.id == importedPass.id }) {
-                                // Set importedPassObject to trigger the sheet with a proper binding
-                                importedPassObject = importedPass
-                            }
+                            // Set importedPassObject to trigger the sheet with a proper binding
+                            importedPassObject = importedPass
                         } else {
-                            // Could show an error alert here
+                            shouldShowImportErrorAlert = true
+                            importErrorMessage = "Failed to import pass file."
                         }
 
                         // Clean up the imported file
@@ -213,6 +213,11 @@ struct ContentView: View {
                                 Text("The imported pass contained NFC data. NFC functionality will not be included for this PassKeepr pass.")
                             }
                     }
+                }
+                .alert("Import Failed", isPresented: $shouldShowImportErrorAlert) {
+                    Button("OK", role: .cancel) {}
+                } message: {
+                    Text(importErrorMessage)
                 }
                 if modelData.passObjects.isEmpty {
                     NoPassesToShow()
