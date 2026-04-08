@@ -9,8 +9,11 @@ func importPass(from pkpassURL: URL) -> (pass: PassObject?, hasNFC: Bool) {
     print("File exists: \(FileManager.default.fileExists(atPath: pkpassURL.path))")
 
     // Open the .pkpass file as a ZIP archive
-    guard let archive = Archive(url: pkpassURL, accessMode: .read) else {
-        print("Failed to open archive at: \(pkpassURL)")
+    let archive: Archive
+    do {
+        archive = try Archive(url: pkpassURL, accessMode: .read)
+    } catch {
+        print("Failed to open archive at: \(pkpassURL): \(error)")
         return (nil, false)
     }
 
