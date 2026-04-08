@@ -30,7 +30,6 @@ struct EditPass: View {
 
     @FocusState private var isTextFieldFocused: Bool
 
-    @State private var showHelpPopover = false
     @State private var isWalletSupported = false
     @State private var showDiscardConfirmation = false
     @State private var isCustomizeBarcodePresented = false
@@ -183,7 +182,6 @@ struct EditPass: View {
         }
         .scrollDismissesKeyboard(.immediately)
         .onAppear {
-            showHelpPopover = modelData.tutorialStage == 1
             passSigner.isDataLoaded = false
             isWalletSupported = PKAddPassesViewController.canAddPasses()
         }
