@@ -20,54 +20,52 @@ struct ScannerView: View {
                     dataToScanFor: [.barcode(symbologies: [.qr, .code128, .upce, .ean13, .code39, .code93])]
                 )
             } else if !DataScannerViewController.isSupported {
-                VStack {
-                    Spacer()
+                VStack(alignment: .center) {
                     Text("This device doesn't support the DataScannerViewController")
-                    Spacer()
                 }
                 .background(Color(UIColor.secondarySystemBackground))
             } else {
-                VStack {
-                    Spacer()
+                VStack(alignment: .center) {
                     Text("Camera is not available")
-                    Spacer()
                 }
                 .background(Color(UIColor.secondarySystemBackground))
             }
-            VStack {
+            VStack(spacing: 20) {
                 var displayedString: String {
                     if tempScanData.isEmpty || (tempScanBarcodeType == nil) {
                         return "Tap a highlighted barcode to select it"
                     } else {
                         if let symbologyDescription = tempScanBarcodeType?.description {
-                            return "Scanned Data: \(tempScanData)\nType: \(symbologyDescription)"
+                            return "\(tempScanData)\n\(symbologyDescription)"
                         } else {
                             return "-"
                         }
                     }
                 }
 
-                Text(displayedString)
-                    .font(.system(size: 18))
-                    .multilineTextAlignment(.center)
-                    .padding()
-                    .background(Color(UIColor.systemBackground).opacity(0.8))
-                    .cornerRadius(8)
-
-                HStack {
-                    Spacer()
-                    Button("Insert") {
-                        scannedData = tempScanData
-                        scannedBarcodeType = tempScanBarcodeType
-                        showScanner.toggle()
-                    }
-                    .padding()
-                    .background(Color(UIColor.systemBackground).opacity(0.8))
-                    .cornerRadius(8)
-                    Spacer()
+                if #available(iOS 26.0, *) {
+                    Text(displayedString)
+                        .font(.system(size: 18))
+                        .multilineTextAlignment(.center)
+                        .padding()
+                        .glassEffect()
+                        .id(displayedString)
+                        .transition(.opacity)
+                        .animation(.smooth, value: displayedString)
+                } else {
+                    // Fallback on earlier versions
                 }
+
+                Button("Insert") {
+                    scannedData = tempScanData
+                    scannedBarcodeType = tempScanBarcodeType
+                    showScanner.toggle()
+                }
+                .font(.system(size: 18))
+                .controlSize(.large)
+                .glassProminentButtonStyleIfAvailable()
             }
-            .padding(.bottom, 40)
+            .padding(.bottom, 100)
         }
     }
 }
