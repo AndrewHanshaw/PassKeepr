@@ -162,7 +162,7 @@ struct EditPass: View {
                 .edgesIgnoringSafeArea(.bottom)
         }
         .interactiveDismissDisabled(isPassModified, attemptToDismiss: $attemptToDismiss)
-        .onChange(of: attemptToDismiss) { _ in
+        .onChange(of: attemptToDismiss) {
             if isPassModified {
                 showDiscardConfirmation = true
             } else {

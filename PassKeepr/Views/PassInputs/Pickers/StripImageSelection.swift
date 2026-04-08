@@ -14,19 +14,19 @@ struct StripImageSelection: View {
                 .padding(14)
                 .listSectionBackgroundModifier()
                 .disabled(disableControl || passObject.barcodeType == .qr)
-                .onChange(of: passObject.barcodeType) { newType in
-                    if newType == .qr {
+                .onChange(of: passObject.barcodeType) {
+                    if passObject.barcodeType == .qr {
                         passObject.isCustomStripImageOn = false
                     }
                 }
-                .onChange(of: passObject.isCustomStripImageOn) { isOn in
+                .onChange(of: passObject.isCustomStripImageOn) {
                     // When the strip image is on, the auxiliary fields share space with the secondary fields.
                     // If the strip image is on (either by the user turning it on or by importing a pass with a strip image)
                     // but there isn't any text for the first auxiliary field, turn the strip image back off
                     // This prevents the 'placeholder' for the first auxiliary field from being displayed
                     // Especially important for imported passes, since the placeholder will mess up the layout with the secondary fields
                     // So it sort of looks like the imported pass came in "wrong"
-                    if isOn && passObject.auxiliaryFieldOneText.isEmpty {
+                    if passObject.isCustomStripImageOn && passObject.auxiliaryFieldOneText.isEmpty {
                         passObject.isAuxiliaryFieldOneOn = false
                     }
                 }
