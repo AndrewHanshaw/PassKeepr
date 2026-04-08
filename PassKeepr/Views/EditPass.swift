@@ -91,12 +91,18 @@ struct EditPass: View {
                     Menu("Done", systemImage: "checkmark", content: {
                         Button("Save + Add to Wallet", image: ImageResource(name: "custom.wallet.pass.badge.plus", bundle: .main), action: {
                             let result = saveWithoutAddingToWallet()
-                            showAlert = !result.success
-                            alertMessage = result.errorMessage ?? ""
-                            if let pkpassDir = generatePass(passObject: tempObject) {
+                            if !result.success {
+                                hasEditPassButtonBeenPressed = false
+                                showAlert = true
+                                alertMessage = result.errorMessage ?? ""
+                            } else if let pkpassDir = generatePass(passObject: tempObject) {
                                 Task {
                                     passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: tempObject.id)
                                 }
+                            } else {
+                                hasEditPassButtonBeenPressed = false
+                                showAlert = true
+                                alertMessage = "Failed to generate pass file"
                             }
                         })
                         .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
@@ -107,9 +113,15 @@ struct EditPass: View {
                             }
                             let result = saveWithoutAddingToWallet()
                             if result.success {
-                                _ = generatePass(passObject: tempObject)
-                                presentationMode.wrappedValue.dismiss()
+                                if generatePass(passObject: tempObject) != nil {
+                                    presentationMode.wrappedValue.dismiss()
+                                } else {
+                                    hasEditPassButtonBeenPressed = false
+                                    showAlert = true
+                                    alertMessage = "Failed to generate pass file"
+                                }
                             } else {
+                                hasEditPassButtonBeenPressed = false
                                 alertMessage = result.errorMessage ?? ""
                                 showAlert = true
                             }

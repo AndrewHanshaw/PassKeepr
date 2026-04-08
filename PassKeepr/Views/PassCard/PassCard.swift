@@ -6,6 +6,8 @@ struct PassCard: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var size: CGSize = CGSizeZero
     @State private var passBackgroundBrightness: BackgroundBrightness = .normal
+    @State private var showAlert = false
+    @State private var alertMessage = ""
     var passObject: PassObject
 
     var body: some View {
@@ -159,7 +161,10 @@ struct PassCard: View {
                     modelData.passObjects.append(newPass)
                     modelData.encodePassObjects()
 
-                    _ = generatePass(passObject: newPass)
+                    if generatePass(passObject: newPass) == nil {
+                        alertMessage = "Failed to generate pass file"
+                        showAlert = true
+                    }
                 }) {
                     Label("Duplicate", systemImage: "rectangle.portrait.on.rectangle.portrait")
                 }
@@ -169,6 +174,9 @@ struct PassCard: View {
                 }) {
                     Label("Delete", systemImage: "trash")
                 }
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
             }
     }
 
