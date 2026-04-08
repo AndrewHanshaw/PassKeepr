@@ -46,7 +46,7 @@ struct CustomStripImage: View {
             Button(action: {
                 isCustomizeStripImagePresented.toggle()
             }) {
-                Image(systemName: "pencil.circle.fill")
+                Image("custom.photo.circle.fill")
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.green, .white)
                     .font(.system(size: 24))
