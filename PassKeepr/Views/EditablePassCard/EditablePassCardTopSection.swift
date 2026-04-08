@@ -37,6 +37,7 @@ struct EditablePassCardTopSection: View {
                     CustomizeLogoImage(passObject: $passObject)
                         .edgesIgnoringSafeArea(.bottom)
                 }
+                .zIndex(1)
 
                 Spacer()
 
