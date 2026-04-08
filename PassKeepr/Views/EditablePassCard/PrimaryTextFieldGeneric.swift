@@ -64,6 +64,10 @@ struct PrimaryTextFieldGeneric: View {
                     }
                 }
             }
+            .popover(isPresented: $isCustomizeTextPresented, arrowEdge: .leading) {
+                CustomizePassTextField(textLabel: $textLabel, text: $text)
+                    .presentationCompactAdaptation((.popover))
+            }
             .overlay(alignment: .bottomTrailing) {
                 Button(action: {
                     isCustomizeTextPresented.toggle()
@@ -103,11 +107,6 @@ struct PrimaryTextFieldGeneric: View {
         .onChange(of: showHelpPopover) {
             print("Popover was dismissed")
             modelData.tutorialStage += 1
-        }
-
-        .popover(isPresented: $isCustomizeTextPresented, arrowEdge: .leading) {
-            CustomizePassTextField(textLabel: $textLabel, text: $text)
-                .presentationCompactAdaptation((.popover))
         }
         .onAppear {
             showHelpPopover = modelData.tutorialStage == 0
