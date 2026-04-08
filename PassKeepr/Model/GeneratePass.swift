@@ -253,8 +253,11 @@ func zipDirectory(uuid: UUID) throws -> URL? {
     let passDirectory = URL.documentsDirectory.appending(path: "\(uuid.uuidString).pass")
     let pkpassDirectory = URL.documentsDirectory.appending(path: "\(uuid.uuidString).pkpass")
 
-    guard let archive = Archive(url: pkpassDirectory, accessMode: .create) else {
-        print("Unable to create zip file at path: \(pkpassDirectory.path)")
+    let archive: Archive
+    do {
+        archive = try Archive(url: pkpassDirectory, accessMode: .create)
+    } catch {
+        print("Unable to create zip file at path: \(pkpassDirectory.path): \(error)")
         return nil
     }
 
