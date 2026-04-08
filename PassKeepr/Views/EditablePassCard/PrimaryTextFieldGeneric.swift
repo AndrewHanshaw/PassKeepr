@@ -16,6 +16,8 @@ struct PrimaryTextFieldGeneric: View {
 
     @State private var textSize: CGSize = CGSizeZero
     @State private var isCustomizeTextPresented = false
+    @State private var isTutorialStage0Presented = false
+    @State private var isTutorialStage1Presented = false
 
     var body: some View {
         HStack {
@@ -54,6 +56,29 @@ struct PrimaryTextFieldGeneric: View {
                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                             .foregroundColor(backgroundBrightness.overwriteForegroundColor)
                             .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
+                            .popover(isPresented: $isTutorialStage1Presented, attachmentAnchor: .point(.bottom), arrowEdge: .top) {
+                                Group {
+                                    Text("Empty fields will not\nappear on the Pass\nwhen added to your Wallet")
+                                        .multilineTextAlignment(.center)
+                                    Button("Ok", action: {
+                                        isTutorialStage1Presented = false
+                                        modelData.tutorialStage += 1
+                                    })
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 5)
+                                    .accentColorProminentButtonStyleIfAvailable()
+                                }
+                                .fixedSize(horizontal: false, vertical: true)
+                                .popoverModifier()
+                                .presentationCompactAdaptation(.popover)
+                            }
+                            .onChange(of: isTutorialStage1Presented) { oldValue, newValue in
+                                if !newValue && oldValue && modelData.tutorialStage == 1 {
+                                    // Popover was dismissed by tapping outside (tutorialStage hasn't changed)
+                                    modelData.tutorialStage += 1
+                                }
+                            }
                         Text("Primary\nField")
                             .multilineTextAlignment(.center)
                             .minimumScaleFactor(0.34)
@@ -82,19 +107,28 @@ struct PrimaryTextFieldGeneric: View {
                 .buttonStyle(PlainButtonStyle())
                 .disabled(disableButton)
             }
-            .popover(isPresented: .constant(modelData.tutorialStage == 0), attachmentAnchor: .point(.bottomTrailing), arrowEdge: .top) {
+            .popover(isPresented: $isTutorialStage0Presented, attachmentAnchor: .point(.bottomTrailing), arrowEdge: .top) {
                 Group {
                     Text("Tap on icons\nto edit each field")
                         .multilineTextAlignment(.center)
-                    Button("Ok", action: { modelData.tutorialStage += 1 })
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .accentColorProminentButtonStyleIfAvailable()
+                    Button("Next", action: {
+                        isTutorialStage0Presented = false
+                        modelData.tutorialStage += 1
+                    })
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .accentColorProminentButtonStyleIfAvailable()
                 }
                 .fixedSize(horizontal: false, vertical: true)
                 .popoverModifier()
                 .presentationCompactAdaptation(.popover)
+            }
+            .onChange(of: isTutorialStage0Presented) { oldValue, newValue in
+                if !newValue && oldValue && modelData.tutorialStage == 0 {
+                    // Popover was dismissed by tapping outside (tutorialStage hasn't changed)
+                    modelData.tutorialStage += 1
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.trailing, 10)
@@ -103,6 +137,19 @@ struct PrimaryTextFieldGeneric: View {
                 .aspectRatio(1, contentMode: .fit)
                 .padding(4)
                 .padding(.trailing, 7)
+        }
+        .onChange(of: modelData.tutorialStage) { _, newValue in
+            isTutorialStage0Presented = false
+            isTutorialStage1Presented = false
+            guard newValue == 0 || newValue == 1 else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.65) {
+                isTutorialStage0Presented = (newValue == 0)
+                isTutorialStage1Presented = (newValue == 1)
+            }
+        }
+        .onAppear {
+            isTutorialStage0Presented = (modelData.tutorialStage == 0)
+            isTutorialStage1Presented = (modelData.tutorialStage == 1)
         }
     }
 }
