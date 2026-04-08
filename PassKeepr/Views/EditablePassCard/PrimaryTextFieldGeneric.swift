@@ -15,7 +15,6 @@ struct PrimaryTextFieldGeneric: View {
     var labelColor: Color
 
     @State private var textSize: CGSize = CGSizeZero
-    @State private var showHelpPopover = false
     @State private var isCustomizeTextPresented = false
 
     var body: some View {
@@ -83,16 +82,17 @@ struct PrimaryTextFieldGeneric: View {
                 .buttonStyle(PlainButtonStyle())
                 .disabled(disableButton)
             }
-            .popover(isPresented: $showHelpPopover, attachmentAnchor: .point(.bottomTrailing), arrowEdge: .top) {
+            .popover(isPresented: .constant(modelData.tutorialStage == 0), attachmentAnchor: .point(.bottomTrailing), arrowEdge: .top) {
                 Group {
                     Text("Tap on icons\nto edit each field")
                         .multilineTextAlignment(.center)
-                    Button("Ok", action: { showHelpPopover = false; print("popover 0 dismissed") })
+                    Button("Ok", action: { modelData.tutorialStage += 1 })
                         .foregroundColor(.white)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 5)
                         .accentColorProminentButtonStyleIfAvailable()
                 }
+                .fixedSize(horizontal: false, vertical: true)
                 .popoverModifier()
                 .presentationCompactAdaptation(.popover)
             }
@@ -103,13 +103,6 @@ struct PrimaryTextFieldGeneric: View {
                 .aspectRatio(1, contentMode: .fit)
                 .padding(4)
                 .padding(.trailing, 7)
-        }
-        .onChange(of: showHelpPopover) {
-            print("Popover was dismissed")
-            modelData.tutorialStage += 1
-        }
-        .onAppear {
-            showHelpPopover = modelData.tutorialStage == 0
         }
     }
 }
