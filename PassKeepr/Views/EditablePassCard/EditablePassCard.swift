@@ -48,6 +48,7 @@ struct EditablePassCard: View {
                         .padding([.leading, .trailing], 12)
                         .padding(.top, 6)
                         .padding(.bottom, 0)
+                        .zIndex(1)
 
                     Group {
                         if passObject.barcodeType != BarcodeType.code128 && passObject.barcodeType != BarcodeType.pdf417 && passObject.barcodeType != BarcodeType.qr && passObject.barcodeType != BarcodeType.none {
