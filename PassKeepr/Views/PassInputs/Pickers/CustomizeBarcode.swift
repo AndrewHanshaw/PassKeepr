@@ -8,7 +8,6 @@ struct CustomizeBarcode: View {
 
     @Binding var passObject: PassObject
     @State private var photoItem: PhotosPickerItem?
-    @State private var imageToScanForBarcodes: UIImage?
 
     @State private var tempBarcodeData = ""
     @State private var tempAltText = ""
@@ -162,17 +161,10 @@ struct CustomizeBarcode: View {
                     .listSectionBackgroundModifier()
                     .onChange(of: photoItem) {
                         Task {
-                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                                imageToScanForBarcodes = UIImage(data: loaded)!
-                            } else {
-                                print("Failed")
-                            }
-                        }
-                    }
-                    .onChange(of: imageToScanForBarcodes) {
-                        Task {
-                            if let imageToScanForBarcodes {
-                                if let imageBarcode = GetBarcodeFromImage(image: imageToScanForBarcodes) {
+                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
+                               let image = UIImage(data: loaded)
+                            {
+                                if let imageBarcode = GetBarcodeFromImage(image: image) {
                                     switch imageBarcode.barcodeType {
                                     case BarcodeType.code128, BarcodeType.code93, BarcodeType.code39, BarcodeType.upce, BarcodeType.pdf417, BarcodeType.ean13, BarcodeType.upca:
                                         tempBarcodeData = imageBarcode.payload
@@ -183,6 +175,8 @@ struct CustomizeBarcode: View {
                                 } else {
                                     activeAlert = .invalidBarcodeAlert
                                 }
+                            } else {
+                                activeAlert = .invalidBarcodeAlert
                             }
                         }
                     }

@@ -8,7 +8,6 @@ struct CustomizeQrCode: View {
 
     @Binding var passObject: PassObject
     @State private var photoItem: PhotosPickerItem?
-    @State private var imageToScanForQrCodes: UIImage?
 
     @State private var tempQrCodeData: String = ""
     @State private var tempAltText: String = ""
@@ -129,18 +128,9 @@ struct CustomizeQrCode: View {
                     .listSectionBackgroundModifier()
                     .onChange(of: photoItem) {
                         Task {
-                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                                imageToScanForQrCodes = UIImage(data: loaded)!
-                            } else {
-                                print("Failed")
-                            }
-                        }
-                    }
-                    .onChange(of: imageToScanForQrCodes) {
-                        Task {
-                            if let imageToScanForQrCodes {
-                                if let imageBarcode = GetBarcodeFromImage(image: imageToScanForQrCodes) {
-                                    // only allow scanning of qr codes
+                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
+                               let image = UIImage(data: loaded) {
+                                if let imageBarcode = GetBarcodeFromImage(image: image) {
                                     if BarcodeType.qr != imageBarcode.barcodeType {
                                         showInvalidQrCodeAlert.toggle()
                                     } else {
@@ -149,6 +139,8 @@ struct CustomizeQrCode: View {
                                 } else {
                                     showInvalidQrCodeAlert.toggle()
                                 }
+                            } else {
+                                showInvalidQrCodeAlert.toggle()
                             }
                         }
                     }
