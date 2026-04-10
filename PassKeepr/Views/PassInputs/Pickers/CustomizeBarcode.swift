@@ -88,8 +88,7 @@ struct CustomizeBarcode: View {
                                 EmptyView()
                             }
                         } else {
-                            InvalidBarcodeView(backgroundBrightness: .normal, isEmpty: tempBarcodeData == "")
-                                .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                            invalidBarcode
                         }
                     }
                     .padding(.bottom, 20)
@@ -340,6 +339,19 @@ struct CustomizeBarcode: View {
         default:
             break
         }
+    }
+
+    var invalidBarcode: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
+                .foregroundColor(Color.gray)
+                .opacity(0.5)
+            Text(tempBarcodeData == "" ? "Enter Barcode Data" : "Invalid Barcode Data")
+                .foregroundColor(Color.gray)
+                .opacity(0.7)
+        }
+        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
     }
 }
 
