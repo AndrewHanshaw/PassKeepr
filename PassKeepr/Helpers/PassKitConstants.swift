@@ -32,12 +32,12 @@ enum PassKitConstants {
     // Thumbnail image dimensions
     enum ThumbnailImage {
         static let width: CGFloat = 90.0
-        static let height: CGFloat = 90.0
+        static let height: CGFloat = width
     }
 
-    // Icon image dimensions
+    // Icon image dimensions. See https://developer.apple.com/design/human-interface-guidelines/wallet
     enum IconImage {
-        static let width: CGFloat = 29.0
-        static let height: CGFloat = 29.0
+        static let width: CGFloat = 38.0
+        static let height: CGFloat = width
     }
 }
