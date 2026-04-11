@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct BuiltInQrCodeView: View {
-    var backgroundBrightness: BackgroundBrightness
     var disableButton: Bool
 
     @Binding var passObject: PassObject
@@ -19,13 +18,13 @@ struct BuiltInQrCodeView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                            .foregroundColor(backgroundBrightness.overwriteForegroundColor)
-                            .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
+                            .foregroundColor(Color.gray)
+                            .opacity(0.7)
                             .padding(5)
                         Text("Enter\nQR Code\nData")
                             .multilineTextAlignment(.center)
-                            .foregroundColor(backgroundBrightness.overwriteForegroundColor)
-                            .opacity(backgroundBrightness.overwriteOpacity)
+                            .foregroundColor(Color.gray)
+                            .opacity(0.7)
                     }
                     .aspectRatio(1, contentMode: .fit)
                 }
@@ -63,5 +62,5 @@ struct BuiltInQrCodeView: View {
 }
 
 #Preview {
-    BuiltInQrCodeView(backgroundBrightness: .normal, disableButton: false, passObject: .constant(MockModelData().passObjects[0]), isCustomizeQrCodePresented: .constant(true))
+    BuiltInQrCodeView(disableButton: false, passObject: .constant(MockModelData().passObjects[0]), isCustomizeQrCodePresented: .constant(true))
 }

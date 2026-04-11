@@ -15,7 +15,7 @@ struct StripImageBarcodeView: View {
                     Image(uiImage: UIImage(data: passObject.stripImage)!)
                         .resizable()
                 } else {
-                    InvalidBarcodeView(backgroundBrightness: backgroundBrightness, isEmpty: passObject.barcodeString == "")
+                    InvalidBarcodeView(isEmpty: passObject.barcodeString == "")
                 }
             }
             .overlay(alignment: .leading) {
