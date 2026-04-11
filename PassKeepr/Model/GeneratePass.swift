@@ -175,7 +175,7 @@ func generatePass(passObject: PassObject) -> URL? {
 
         var barcodeFields: [String: Any] = [:]
 
-        if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 || passObject.barcodeType == BarcodeType.qr {
+        if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 || passObject.barcodeType == BarcodeType.qr, passObject.barcodeString != "" {
             if passObject.barcodeType == BarcodeType.code128 {
                 barcodeFields = [
                     "message": passObject.barcodeString,
