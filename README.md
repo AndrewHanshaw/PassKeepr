@@ -5,7 +5,7 @@
 # PassKeepr
 
 [![License](https://img.shields.io/badge/license-MIT-60A769)](./LICENSE.txt)
-![Version](https://img.shields.io/badge/version-1.02-389144)
+![Version](https://img.shields.io/badge/version-1.03-389144)
 
 </div>
 

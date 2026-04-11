@@ -1,3 +1,16 @@
+## [1.03] - 2026-04-10
+### Added
+- Support for Wi-Fi and VCard QR Codes
+- Support for thumbnail images
+- Support for importing existing Wallet passes
+    - Click the share button from a pass already saved to your Wallet, and PassKeepr will show up as a sharing option
+- Confirmation before discarding unsaved changes to Passes
+
+### Changed
+- Improved backend responsiveness
+- Improved accuracy of PassCard preview
+- UI Improvements throughout
+
 ## [1.02] - 2025-10-26
 
 ### Added
