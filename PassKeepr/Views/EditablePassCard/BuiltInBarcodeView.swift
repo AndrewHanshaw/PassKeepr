@@ -26,7 +26,7 @@ struct BuiltInBarcodeView: View {
                             .padding([.top, .leading, .trailing], 8)
                     }
                 } else {
-                    InvalidBarcodeView(backgroundBrightness: backgroundBrightness, isEmpty: passObject.barcodeString == "")
+                    InvalidBarcodeView(isEmpty: passObject.barcodeString == "")
                 }
 
                 if passObject.altText != "" {
