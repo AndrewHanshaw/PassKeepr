@@ -141,10 +141,8 @@ struct ContentView: View {
                 .toolbar {
                     if #available(iOS 26.0, *) {
                         ToolbarSpacer(.flexible, placement: .bottomBar)
-                    }
 
-                    ToolbarItem(placement: .bottomBar) {
-                        if #available(iOS 26.0, *) {
+                        ToolbarItem(placement: .bottomBar) {
                             // Have to do this instead of something like the commented out below because it will throw a UIViewAlertForUnsatisfiableConstraints warning.
                             // It doesn't like the systemImage initializer for some reason. Doing something like `
                             Button(action: { shouldPresentAddPass.toggle() }) {
@@ -158,19 +156,6 @@ struct ContentView: View {
 //                                shouldPresentAddPass.toggle()
 //                            }
                             .buttonStyle(GlassProminentButtonStyle())
-                        } else {
-                            HStack {
-                                Spacer()
-                                Button(role: .none,
-                                       action: { shouldPresentAddPass.toggle() },
-                                       label: {
-                                           Image(systemName: "plus.circle.fill")
-                                               .resizable()
-                                               .scaledToFit()
-                                               .frame(width: 50)
-                                       })
-                                       .labelStyle(.iconOnly)
-                            }
                         }
                     }
                 }
@@ -220,10 +205,32 @@ struct ContentView: View {
                     Text(importErrorMessage)
                 }
                 if modelData.passObjects.isEmpty {
-                    NoPassesToShow()
+                    if #available(iOS 26.0, *) {
+                        NoPassesToShow()
+                    } else {
+                        NoPassesToShow()
+                            .padding(.bottom, 38)
+                    }
                 }
             } // ZStack
         } // NavigationView
+        .overlay(alignment: .bottomTrailing) {
+            if #unavailable(iOS 26.0) {
+                Button(role: .none,
+                       action: { shouldPresentAddPass.toggle() },
+                       label: {
+                           Image(systemName: "plus.circle.fill")
+                               .resizable()
+                               .scaledToFit()
+                               .frame(width: 50)
+                               .symbolRenderingMode(.palette)
+                               .foregroundStyle(Color.white, Color.accentColor) // + color, circle color
+                       })
+                       .labelStyle(.iconOnly)
+                       .padding(.trailing, 30)
+                       .offset(x: 10, y: 10)
+            }
+        }
     }
 
     private func commitNewOrder() {
