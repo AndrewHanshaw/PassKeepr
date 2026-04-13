@@ -38,7 +38,7 @@ struct ContentView: View {
             ZStack {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: PADDING) {
-                        ForEach(dragState.orderIDs, id: \.self) { id in
+                        ForEach(dragState.orderIDs.filter { id in modelData.passObjects.contains(where: { $0.id == id }) }, id: \.self) { id in
                             // Resolve a binding into the real model by ID
                             if let bindingIndex = modelData.passObjects.firstIndex(where: {
                                 $0.id == id
