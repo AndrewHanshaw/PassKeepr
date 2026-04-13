@@ -267,6 +267,9 @@ func zipDirectory(uuid: UUID) throws -> URL? {
         try archive.addEntry(with: fileURL.lastPathComponent, relativeTo: fileURL.deletingLastPathComponent(), compressionMethod: .deflate)
     }
 
+    // Clean up the staging .pass directory — not needed after zipping
+    try? fileManager.removeItem(at: passDirectory)
+
     return pkpassDirectory
 }
 
