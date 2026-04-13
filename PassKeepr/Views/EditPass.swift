@@ -183,8 +183,8 @@ struct EditPass: View {
                 }
             } else {
                 let fileManager = FileManager.default
-                let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-                let destinationURL = documentsDirectory.appendingPathComponent("\(tempObject.id).pkpass")
+                let appSupportDirectory = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+                let destinationURL = appSupportDirectory.appendingPathComponent("\(tempObject.id).pkpass")
 
                 ActivityView(activityItems: [destinationURL]) {
                     presentationMode.wrappedValue.dismiss()
@@ -225,8 +225,8 @@ struct EditPass: View {
         if !isNewPass {
             do {
                 // Delete existing pass's directory altogether, we will regenerate from scratch
-                let passDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pass")
-                let pkPassDirectory = URL.documentsDirectory.appending(path: "\(objectToEdit.id.uuidString).pkpass")
+                let passDirectory = URL.applicationSupportDirectory.appending(path: "\(objectToEdit.id.uuidString).pass")
+                let pkPassDirectory = URL.applicationSupportDirectory.appending(path: "\(objectToEdit.id.uuidString).pkpass")
 
                 // Only try to remove if they exist
                 if FileManager.default.fileExists(atPath: passDirectory.path) {

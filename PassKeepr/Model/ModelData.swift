@@ -24,8 +24,8 @@ class ModelData: ObservableObject {
     }
 
     func load<T: Decodable>(_ filename: String) -> T? {
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let file = documentsDirectory.appendingPathComponent(filename)
+        let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let file = applicationSupportDirectory.appendingPathComponent(filename)
         let data: Data
 
         do {
@@ -43,10 +43,11 @@ class ModelData: ObservableObject {
     }
 
     func encode<T: Encodable>(_ filename: String, _ data: T) {
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let file = documentsDirectory.appendingPathComponent(filename)
+        let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let file = applicationSupportDirectory.appendingPathComponent(filename)
 
         do {
+            try FileManager.default.createDirectory(at: applicationSupportDirectory, withIntermediateDirectories: true)
             let encoder = JSONEncoder()
             encoder.outputFormatting = .prettyPrinted
             let encodedData = try encoder.encode(data)
@@ -70,8 +71,8 @@ class ModelData: ObservableObject {
     }
 
     func deleteDataFile() {
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let fileURL = documentsDirectory.appendingPathComponent(filename)
+        let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let fileURL = applicationSupportDirectory.appendingPathComponent(filename)
 
         do {
             if FileManager.default.fileExists(atPath: fileURL.path) {
