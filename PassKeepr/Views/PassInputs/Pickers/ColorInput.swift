@@ -1,52 +1,32 @@
 import SwiftUI
 
 struct ColorInput: View {
-    @Environment(\.colorScheme) var colorScheme
-
     @Binding var pass: PassObject
 
     var disableControl: Bool
 
-    @State private var backgroundColor: Color = .black
-    @State private var foregroundColor: Color = .black
-    @State private var labelColor: Color = .black
-
     var body: some View {
         VStack(spacing: 12) {
             if pass.backgroundImage == Data() {
-                ColorPicker("Background Color", selection: $backgroundColor)
-                    .onChange(of: backgroundColor) {
-                        pass.backgroundColor = backgroundColor.toHex()
-                    }
+                ColorPicker("Background Color", selection: Color.binding(from: $pass.backgroundColor))
                     .padding([.top, .bottom], 16)
                     .overlay(Divider(), alignment: .bottom)
                     .padding([.leading, .trailing], 16)
                     .disabled(disableControl)
 
                 // Text color is forced to white when there is a background image
-                ColorPicker("Text Color", selection: $foregroundColor)
-                    .onChange(of: foregroundColor) {
-                        pass.foregroundColor = foregroundColor.toHex()
-                    }
+                ColorPicker("Text Color", selection: Color.binding(from: $pass.foregroundColor))
                     .padding([.bottom], 16)
                     .overlay(Divider(), alignment: .bottom)
                     .padding([.leading, .trailing], 16)
                     .disabled(disableControl)
             }
-            ColorPicker("Label Color", selection: $labelColor)
-                .onChange(of: labelColor) {
-                    pass.labelColor = labelColor.toHex()
-                }
+            ColorPicker("Label Color", selection: Color.binding(from: $pass.labelColor))
                 .padding([.leading, .trailing, .bottom], 16)
                 .padding(.top, pass.backgroundImage == Data() ? 0 : 16) // Need to add top padding only when the other two pickers are not shown
                 .disabled(disableControl)
         }
         .listSectionBackgroundModifier()
-        .onAppear {
-            backgroundColor = Color(hex: pass.backgroundColor)
-            foregroundColor = Color(hex: pass.foregroundColor)
-            labelColor = Color(hex: pass.labelColor)
-        }
     }
 }
 
