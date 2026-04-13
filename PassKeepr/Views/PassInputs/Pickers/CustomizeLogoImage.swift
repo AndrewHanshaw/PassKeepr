@@ -159,7 +159,7 @@ struct CustomizeLogoImage: View {
                     .foregroundColor(Color.white)
                     .accentColorProminentButtonStyleIfAvailable()
 
-                    ColorPicker("Symbol Color", selection: $symbolColor)
+                    ColorPicker("Symbol Color", selection: $symbolColor, supportsOpacity: false)
                         .padding(16)
                         .listSectionBackgroundModifier()
                 case .none:
