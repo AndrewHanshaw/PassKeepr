@@ -150,8 +150,8 @@ struct PassCard: View {
             )
             .contextMenu {
                 let fileManager = FileManager.default
-                let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-                let destinationURL = documentsDirectory.appendingPathComponent("\(passObject.id).pkpass")
+                let appSupportDirectory = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+                let destinationURL = appSupportDirectory.appendingPathComponent("\(passObject.id).pkpass")
                 ShareLink(item: destinationURL) {
                     Label("Share", systemImage: "square.and.arrow.up")
                 }

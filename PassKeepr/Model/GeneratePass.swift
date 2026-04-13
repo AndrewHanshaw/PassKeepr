@@ -107,7 +107,7 @@ let requiredFields: [String: Any] = [
 // Initializes a new PassKit pass for the given pass
 func generatePass(passObject: PassObject) -> URL? {
     let fileManager = FileManager.default
-    let passDirectory = URL.documentsDirectory.appending(path: "\(passObject.id.uuidString).pass")
+    let passDirectory = URL.applicationSupportDirectory.appending(path: "\(passObject.id.uuidString).pass")
 
     do {
         // Create the directory for the pass
@@ -250,8 +250,8 @@ func generatePass(passObject: PassObject) -> URL? {
 
 func zipDirectory(uuid: UUID) throws -> URL? {
     let fileManager = FileManager()
-    let passDirectory = URL.documentsDirectory.appending(path: "\(uuid.uuidString).pass")
-    let pkpassDirectory = URL.documentsDirectory.appending(path: "\(uuid.uuidString).pkpass")
+    let passDirectory = URL.applicationSupportDirectory.appending(path: "\(uuid.uuidString).pass")
+    let pkpassDirectory = URL.applicationSupportDirectory.appending(path: "\(uuid.uuidString).pkpass")
 
     let archive: Archive
     do {
