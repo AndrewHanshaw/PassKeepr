@@ -72,7 +72,6 @@
 		BACDA8AB2D166477009C249C /* CustomStripImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AA2D166477009C249C /* CustomStripImage.swift */; };
 		BACDA8AD2D167646009C249C /* StripImageSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AC2D167646009C249C /* StripImageSelection.swift */; };
 		BACDA8AF2D167704009C249C /* CustomizeStripImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AE2D167704009C249C /* CustomizeStripImage.swift */; };
-		BACDA8B12D1692C2009C249C /* OffsetCroppedStripImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8B02D1692C2009C249C /* OffsetCroppedStripImage.swift */; };
 		BAD0D7102D15130C0058054E /* SecondaryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD0D70F2D15130C0058054E /* SecondaryTextField.swift */; };
 		BAD0D7122D1528350058054E /* SecondaryFieldSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD0D7112D1528350058054E /* SecondaryFieldSelection.swift */; };
 		BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD64672CA5021D00E8F0A0 /* MockModelData.swift */; };
@@ -200,7 +199,6 @@
 		BACDA8AA2D166477009C249C /* CustomStripImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStripImage.swift; sourceTree = "<group>"; };
 		BACDA8AC2D167646009C249C /* StripImageSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripImageSelection.swift; sourceTree = "<group>"; };
 		BACDA8AE2D167704009C249C /* CustomizeStripImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeStripImage.swift; sourceTree = "<group>"; };
-		BACDA8B02D1692C2009C249C /* OffsetCroppedStripImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetCroppedStripImage.swift; sourceTree = "<group>"; };
 		BAD0D70F2D15130C0058054E /* SecondaryTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryTextField.swift; sourceTree = "<group>"; };
 		BAD0D7112D1528350058054E /* SecondaryFieldSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryFieldSelection.swift; sourceTree = "<group>"; };
 		BADD64672CA5021D00E8F0A0 /* MockModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockModelData.swift; sourceTree = "<group>"; };
@@ -360,7 +358,6 @@
 				BAA53E132D0E2E2C004A175A /* HeaderFieldSelection.swift */,
 				BAD0D7112D1528350058054E /* SecondaryFieldSelection.swift */,
 				BACDA8AC2D167646009C249C /* StripImageSelection.swift */,
-				BACDA8B02D1692C2009C249C /* OffsetCroppedStripImage.swift */,
 			);
 			path = Pickers;
 			sourceTree = "<group>";
@@ -693,7 +690,6 @@
 				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
 				BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */,
 				BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */,
-				BACDA8B12D1692C2009C249C /* OffsetCroppedStripImage.swift in Sources */,
 				BA25D8972B76E8300044E423 /* Code93View.swift in Sources */,
 				BAF0FB772D29CCED00948089 /* PassCard.swift in Sources */,
 				BA6D6C682CE83628007D4C9A /* CustomizeLogoImage.swift in Sources */,
