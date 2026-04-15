@@ -2,3 +2,4 @@
 .Trashes
 build/
 xcuserdata/
+.vscode/
