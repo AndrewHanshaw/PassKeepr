@@ -3,6 +3,7 @@ import Foundation
 class pkPassSigner: NSObject, ObservableObject, URLSessionDelegate {
     @Published var isDataLoaded: Bool = false
     @Published var fileURL: URL? = nil
+    @Published var uploadErrorMessage: String? = nil
 
     func uploadPKPassFile(fileURL: URL, passUuid: UUID) {
         var url = URL(string: "https://pk-server-gules.vercel.app/sign")
@@ -74,9 +75,12 @@ class pkPassSigner: NSObject, ObservableObject, URLSessionDelegate {
                         }
                     }
                 } else {
+                    let statusCode = (response as? HTTPURLResponse)?.statusCode
+                    let statusDescription = statusCode.map { "Status code \($0)" } ?? "Unknown error"
                     print("Upload failed with response: \(String(describing: response))")
                     DispatchQueue.main.async {
                         self.isDataLoaded = false
+                        self.uploadErrorMessage = "The signing server rejected the request (\(statusDescription))."
                     }
                 }
             }
