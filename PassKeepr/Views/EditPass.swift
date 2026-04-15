@@ -211,6 +211,14 @@ struct EditPass: View {
                 print(passSigner.isDataLoaded)
             }
         }
+        .onChange(of: passSigner.uploadErrorMessage) {
+            if let message = passSigner.uploadErrorMessage {
+                alertMessage = message
+                showAlert = true
+                hasEditPassButtonBeenPressed = false
+                passSigner.uploadErrorMessage = nil
+            }
+        }
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Failed to Update Pass"),
                   message: Text(alertMessage),
