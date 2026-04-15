@@ -112,7 +112,7 @@ struct CustomizeBackgroundImage: View {
                     Button("Save", systemImage: "checkmark") {
                         if let background = tempBackground {
                             // Store the largest (3x) variant so imports/exports can downscale as needed
-                            passObject.backgroundImage = background.resize(targetSize: CGSize(width: PassKitConstants.BackgroundImage.width * 3, height: PassKitConstants.BackgroundImage.height * 3))!.pngData()!
+                            passObject.backgroundImage = background.pngData() ?? Data()
 
                             passObject.stripImage = Data()
                         }

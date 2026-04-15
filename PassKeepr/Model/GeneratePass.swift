@@ -218,7 +218,7 @@ func generatePass(passObject: PassObject) -> URL? {
             if passObject.backgroundImage != Data() {
                 print("PassObject has background image and strip image. Not saving strip image")
             } else {
-                saveImageVariants(from: passObject.stripImage, name: "strip", passDirectory: passDirectory, maxWidth: PassKitConstants.StripImage.width, maxHeight: PassKitConstants.StripImage.height)
+                saveSingleScaleImage(from: passObject.stripImage, name: "strip", passDirectory: passDirectory, maxWidth: PassKitConstants.StripImage.width, maxHeight: PassKitConstants.StripImage.height)
             }
         }
 
@@ -226,7 +226,7 @@ func generatePass(passObject: PassObject) -> URL? {
             if passStyleString != "eventTicket" {
                 print("PassObject should have background image but is not of style 'eventTicket'")
             }
-            saveImageVariants(from: passObject.backgroundImage, name: "background", passDirectory: passDirectory, maxWidth: PassKitConstants.BackgroundImage.width, maxHeight: PassKitConstants.BackgroundImage.height)
+            saveSingleScaleImage(from: passObject.backgroundImage, name: "background", passDirectory: passDirectory, maxWidth: PassKitConstants.BackgroundImage.width, maxHeight: PassKitConstants.BackgroundImage.height)
         }
 
         if passObject.logoImage != Data() {
@@ -381,6 +381,28 @@ func encodeAuxiliaryFields(passObject: PassObject) -> [String: Any] {
     ]
 
     return auxiliaryFields
+}
+
+// Saves an image as a single 1x PNG, downscaling to fit within the given max dimensions if necessary
+func saveSingleScaleImage(from data: Data, name: String, passDirectory: URL, maxWidth: CGFloat, maxHeight: CGFloat) {
+    guard let ui = UIImage(data: data), let cgImage = ui.cgImage else {
+        savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: name)
+        return
+    }
+
+    let srcW = CGFloat(cgImage.width)
+    let srcH = CGFloat(cgImage.height)
+
+    if srcW <= maxWidth, srcH <= maxHeight {
+        savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: name)
+    } else {
+        let scale = min(maxWidth / srcW, maxHeight / srcH)
+        let targetW = max(1, Int((srcW * scale).rounded()))
+        let targetH = max(1, Int((srcH * scale).rounded()))
+        if let resized = ui.resize(targetSize: CGSize(width: targetW, height: targetH))?.pngData() {
+            savePNGToDirectory(pngData: resized, destinationDirectory: passDirectory, fileName: name)
+        }
+    }
 }
 
 func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: String) {
