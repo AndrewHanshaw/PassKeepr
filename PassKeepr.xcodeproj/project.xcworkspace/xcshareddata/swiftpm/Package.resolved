@@ -1,5 +1,5 @@
 {
-  "originHash" : "679acd0ff864721acfc49c347b7f81e1ba51787c1616a85eff13b7122a2ed74d",
+  "originHash" : "0133118d31de2af78f2d27aed24ad89620d0b096479a11957ee32e82162ce22e",
   "pins" : [
     {
       "identity" : "keyboardawareswiftui",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "c065ed4c6325054eff4d12d28d738a0f542e80ee",
         "version" : "1.2.6"
+      }
+    },
+    {
+      "identity" : "swiftycrop",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AndrewHanshaw/SwiftyCrop/",
+      "state" : {
+        "branch" : "toolbar",
+        "revision" : "29f9da77d280aebaac928218b4ec199f7b045d10"
       }
     },
     {

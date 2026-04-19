@@ -162,3 +162,17 @@ extension View {
         modifier(PopoverModifier())
     }
 }
+
+extension View {
+    @ViewBuilder
+    func sheetOrFullScreenCover<Item: Identifiable, Content: View>(
+        item: Binding<Item?>,
+        @ViewBuilder content: @escaping (Item) -> Content
+    ) -> some View {
+        if #available(iOS 26.0, *) {
+            self.sheet(item: item, content: content)
+        } else {
+            self.fullScreenCover(item: item, content: content)
+        }
+    }
+}

@@ -3,6 +3,7 @@ import CoreImage
 import CoreImage.CIFilterBuiltins
 import MCEmojiPicker
 import SwiftUI
+import SwiftyCrop
 import SymbolPicker
 import Vision
 
@@ -27,6 +28,7 @@ struct CustomizeLogoImage: View {
     @State private var symbolSize: CGSize = .init(width: 1, height: 1)
 
     @State private var photoItem: PhotosPickerItem?
+    @State private var imageForCrop: IdentifiableImage?
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
@@ -117,8 +119,10 @@ struct CustomizeLogoImage: View {
                     }
                     .onChange(of: photoItem) {
                         Task {
-                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                                tempLogo = UIImage(data: loaded)!
+                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
+                               let image = UIImage(data: loaded)
+                            {
+                                imageForCrop = IdentifiableImage(image: image)
                             } else {
                                 print("Failed")
                             }
@@ -192,8 +196,10 @@ struct CustomizeLogoImage: View {
             .onChange(of: photoItem) {
                 Task {
                     tempLogoImageType = ImageType.photo
-                    if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                        tempLogo = UIImage(data: loaded)
+                    if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
+                       let image = UIImage(data: loaded)
+                    {
+                        imageForCrop = IdentifiableImage(image: image)
                     } else {
                         print("Failed")
                     }
@@ -220,6 +226,24 @@ struct CustomizeLogoImage: View {
                 if passObject.logoSymbolName == "" {
                     symbolColor = colorScheme == .light ? .black : .white
                 }
+            }
+        }
+        .sheetOrFullScreenCover(item: $imageForCrop) { item in
+            SwiftyCropView(
+                imageToCrop: item.image,
+                maskShape: .rectangle,
+                configuration: SwiftyCropConfiguration(
+                    rectAspectRatio: PassKitConstants.LogoImage.aspectRatio,
+                    allowAspectRatioResizing: true,
+                    minAspectRatio: PassKitConstants.LogoImage.aspectRatio, // skinniest
+                    maxAspectRatio: PassKitConstants.LogoImage.width / 10, // widest
+                    fonts: SwiftyCropConfiguration.Fonts(
+                        interactionInstructions: Font.system(size: 16, weight: .bold, design: .rounded)
+                    ),
+                    colors: .appColors(colorScheme: colorScheme)
+                )
+            ) { croppedImage in
+                tempLogo = croppedImage
             }
         }
     }
