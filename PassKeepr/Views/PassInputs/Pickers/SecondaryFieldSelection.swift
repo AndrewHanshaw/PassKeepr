@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct SecondaryFieldSelection: View {
-    @Environment(\.colorScheme) var colorScheme
-
     @Binding var passObject: PassObject
 
     var disableControl: Bool

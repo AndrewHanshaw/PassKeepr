@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct BarcodeTypePicker: View {
-    @Environment(\.colorScheme) var colorScheme
-
     @Binding var pass: PassObject
 
     var disableControl: Bool
