@@ -3,6 +3,7 @@ import CoreImage
 import CoreImage.CIFilterBuiltins
 import MCEmojiPicker
 import SwiftUI
+import SwiftyCrop
 import SymbolPicker
 import Vision
 
@@ -12,7 +13,6 @@ struct CustomizeThumbnailImage: View {
     @State private var tempThumbnailImageType: ImageType
     @Binding var passObject: PassObject
     @State private var isTransparencyOn: Bool = false
-    @State private var isPhotosPickerOn: Bool = false
     @State private var isEmojiPickerOn: Bool = false
     @State private var emoji: String = ""
 
@@ -25,6 +25,7 @@ struct CustomizeThumbnailImage: View {
     @State private var isTransparencyAvailable: Bool = true
 
     @State private var photoItem: PhotosPickerItem?
+    @State private var imageForCrop: IdentifiableImage?
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
@@ -116,11 +117,10 @@ struct CustomizeThumbnailImage: View {
                     }
                     .onChange(of: photoItem) {
                         Task {
-                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                                var image = UIImage(data: loaded)!
-                                // Apply aspect ratio constraint even without background removal
-                                image = applyAspectRatioConstraint(to: image) ?? image
-                                tempThumbnail = image
+                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
+                               let image = UIImage(data: loaded)
+                            {
+                                imageForCrop = IdentifiableImage(image: image)
                             } else {
                                 print("Failed")
                             }
@@ -190,20 +190,6 @@ struct CustomizeThumbnailImage: View {
                     .toolbarCancelButtonModifier()
                 }
             }
-            .photosPicker(isPresented: $isPhotosPickerOn, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
-            .onChange(of: photoItem) {
-                Task {
-                    tempThumbnailImageType = ImageType.photo
-                    if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                        var image = UIImage(data: loaded)!
-                        // Apply aspect ratio constraint
-                        image = applyAspectRatioConstraint(to: image) ?? image
-                        tempThumbnail = image
-                    } else {
-                        print("Failed")
-                    }
-                }
-            }
             .padding()
             .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
             .onChange(of: tempThumbnail) {
@@ -232,6 +218,25 @@ struct CustomizeThumbnailImage: View {
                     symbolColor = colorScheme == .light ? .black : .white
                 }
             }
+        }
+        .sheetOrFullScreenCover(item: $imageForCrop) { item in
+            SwiftyCropView(
+                imageToCrop: item.image,
+                maskShape: .rectangle,
+                configuration: SwiftyCropConfiguration(
+                    rectAspectRatio: 1.0,
+                    allowAspectRatioResizing: true,
+                    minAspectRatio: 2.0 / 3.0,
+                    maxAspectRatio: 3.0 / 2.0,
+                    fonts: SwiftyCropConfiguration.Fonts(
+                        interactionInstructions: Font.system(size: 16, weight: .bold, design: .rounded)
+                    ),
+                    colors: .appColors(colorScheme: colorScheme)
+                )
+            ) { croppedImage in
+                tempThumbnail = croppedImage
+            }
+            .interactiveDismissDisabled()
         }
     }
 

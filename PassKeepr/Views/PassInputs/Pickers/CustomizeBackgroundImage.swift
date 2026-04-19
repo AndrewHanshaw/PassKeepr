@@ -1,6 +1,7 @@
 import _PhotosUI_SwiftUI
 import CoreImage
 import SwiftUI
+import SwiftyCrop
 
 struct CustomizeBackgroundImage: View {
     @Environment(\.colorScheme) var colorScheme
@@ -10,6 +11,7 @@ struct CustomizeBackgroundImage: View {
     @State private var tempBackground: UIImage?
 
     @State private var photoItem: PhotosPickerItem?
+    @State private var imageForCrop: IdentifiableImage?
 
     @State private var showAlert: Bool = false
     private let alertTitleText = "Background Image"
@@ -59,14 +61,15 @@ struct CustomizeBackgroundImage: View {
                     }
                     .onChange(of: photoItem) {
                         Task {
-                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                                tempBackground = UIImage(data: loaded)!
+                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
+                               let image = UIImage(data: loaded)
+                            {
+                                imageForCrop = IdentifiableImage(image: image)
                             } else {
                                 print("Failed")
                             }
                         }
                     }
-
                     HStack {
                         Spacer()
                         Image(systemName: "info.circle")
@@ -133,6 +136,21 @@ struct CustomizeBackgroundImage: View {
                     // Force white text when a background color is set
                     passObject.foregroundColor = Color.white.toHex()
                 }
+            }
+        }
+        .sheetOrFullScreenCover(item: $imageForCrop) { item in
+            SwiftyCropView(
+                imageToCrop: item.image,
+                maskShape: .rectangle,
+                configuration: SwiftyCropConfiguration(
+                    rectAspectRatio: PassKitConstants.passAspectRatio,
+                    fonts: SwiftyCropConfiguration.Fonts(
+                        interactionInstructions: Font.system(size: 16, weight: .bold, design: .rounded)
+                    ),
+                    colors: .appColors(colorScheme: colorScheme)
+                )
+            ) { croppedImage in
+                tempBackground = croppedImage
             }
         }
     }

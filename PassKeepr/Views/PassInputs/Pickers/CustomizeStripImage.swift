@@ -1,5 +1,6 @@
 import _PhotosUI_SwiftUI
 import SwiftUI
+import SwiftyCrop
 
 struct CustomizeStripImage: View {
     @Environment(\.colorScheme) var colorScheme
@@ -8,6 +9,7 @@ struct CustomizeStripImage: View {
     @State private var tempStrip: UIImage?
 
     @State private var photoItem: PhotosPickerItem?
+    @State private var imageForCrop: IdentifiableImage?
 
     @State private var showAlert: Bool = false
 
@@ -55,10 +57,10 @@ struct CustomizeStripImage: View {
                 }
                 .onChange(of: photoItem) {
                     Task {
-                        if let loaded = try? await photoItem?.loadTransferable(type: Data.self) {
-                            var image = UIImage(data: loaded)!
-                            image = cropToStripAspectRatio(image) ?? image
-                            tempStrip = image
+                        if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
+                           let image = UIImage(data: loaded)
+                        {
+                            imageForCrop = IdentifiableImage(image: image)
                         } else {
                             print("Failed")
                         }
@@ -90,10 +92,8 @@ struct CustomizeStripImage: View {
 
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save", systemImage: "checkmark") {
-                        if let strip = tempStrip,
-                           let cropped = cropToStripAspectRatio(strip)
-                        {
-                            passObject.stripImage = cropped.pngData() ?? Data()
+                        if let strip = tempStrip {
+                            passObject.stripImage = strip.pngData() ?? Data()
                             // Remove background image (incompatible with strip image)
                             passObject.backgroundImage = Data()
                         }
@@ -110,31 +110,24 @@ struct CustomizeStripImage: View {
                 }
             }
         }
+        .sheetOrFullScreenCover(item: $imageForCrop) { item in
+            SwiftyCropView(
+                imageToCrop: item.image,
+                maskShape: .rectangle,
+                configuration: SwiftyCropConfiguration(
+                    rectAspectRatio: PassKitConstants.StripImage.aspectRatio,
+                    fonts: SwiftyCropConfiguration.Fonts(
+                        interactionInstructions: Font.system(size: 16, weight: .bold, design: .rounded)
+                    ),
+                    colors: .appColors(colorScheme: colorScheme)
+                )
+            ) { croppedImage in
+                tempStrip = croppedImage
+            }
+        }
     }
 }
 
 #Preview {
     CustomizeStripImage(passObject: .constant(MockModelData().passObjects[0]))
-}
-
-private func cropToStripAspectRatio(_ image: UIImage) -> UIImage? {
-    guard let cgImage = image.cgImage else { return nil }
-
-    let srcW = CGFloat(cgImage.width)
-    let srcH = CGFloat(cgImage.height)
-    let targetAspect = PassKitConstants.StripImage.aspectRatio
-
-    let cropRect: CGRect
-    if srcW / srcH > targetAspect {
-        // Image is wider than target: crop width, center horizontally
-        let cropW = srcH * targetAspect
-        cropRect = CGRect(x: (srcW - cropW) / 2, y: 0, width: cropW, height: srcH)
-    } else {
-        // Image is taller than target: crop height, center vertically
-        let cropH = srcW / targetAspect
-        cropRect = CGRect(x: 0, y: (srcH - cropH) / 2, width: srcW, height: cropH)
-    }
-
-    guard let cropped = cgImage.cropping(to: cropRect) else { return nil }
-    return UIImage(cgImage: cropped, scale: image.scale, orientation: image.imageOrientation)
 }

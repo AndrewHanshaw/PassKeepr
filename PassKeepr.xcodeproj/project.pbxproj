@@ -14,6 +14,9 @@
 		3A02E74B2AF6EE1B00383BC2 /* PassKeeprTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E74A2AF6EE1B00383BC2 /* PassKeeprTests.swift */; };
 		3A02E7552AF6EE1B00383BC2 /* PassKeeprUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7542AF6EE1B00383BC2 /* PassKeeprUITests.swift */; };
 		3A02E7572AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */; };
+		BA046B092F956D92005C6BA3 /* SwiftyCrop in Frameworks */ = {isa = PBXBuildFile; productRef = BA046B082F956D92005C6BA3 /* SwiftyCrop */; };
+		BA046B272F958FA8005C6BA3 /* IdentifiableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA046B262F958FA8005C6BA3 /* IdentifiableImage.swift */; };
+		BA046B292F95934A005C6BA3 /* SwiftyCropConfiguration+AppStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA046B282F95934A005C6BA3 /* SwiftyCropConfiguration+AppStyle.swift */; };
 		BA067E072F5937CA00F87B79 /* BackgroundBrightness.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA067E062F5937C900F87B79 /* BackgroundBrightness.swift */; };
 		BA0AF0A42F2EAA350001CCAE /* PkPassShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = BA0AF09A2F2EAA350001CCAE /* PkPassShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		BA0C54E42F6505B600DC2C7F /* PassKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0C54E32F6505B500DC2C7F /* PassKitConstants.swift */; };
@@ -141,6 +144,8 @@
 		3A02E7502AF6EE1B00383BC2 /* PassKeeprUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PassKeeprUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A02E7542AF6EE1B00383BC2 /* PassKeeprUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprUITests.swift; sourceTree = "<group>"; };
 		3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BA046B262F958FA8005C6BA3 /* IdentifiableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableImage.swift; sourceTree = "<group>"; };
+		BA046B282F95934A005C6BA3 /* SwiftyCropConfiguration+AppStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftyCropConfiguration+AppStyle.swift"; sourceTree = "<group>"; };
 		BA067E062F5937C900F87B79 /* BackgroundBrightness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBrightness.swift; sourceTree = "<group>"; };
 		BA0AF09A2F2EAA350001CCAE /* PkPassShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PkPassShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA0AF0AD2F2EB3480001CCAE /* PassKeepr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PassKeepr.entitlements; sourceTree = "<group>"; };
@@ -239,6 +244,7 @@
 				BA8D50C42D30C8F5009617C1 /* SymbolPicker in Frameworks */,
 				BAF456BF2F5C083D000BE9A4 /* MCEmojiPicker in Frameworks */,
 				BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */,
+				BA046B092F956D92005C6BA3 /* SwiftyCrop in Frameworks */,
 				BA17A9112D36155E00A8C992 /* KeyboardAware in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,6 +464,8 @@
 		BABAADDC2B0AB8150014C73B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BA046B282F95934A005C6BA3 /* SwiftyCropConfiguration+AppStyle.swift */,
+				BA046B262F958FA8005C6BA3 /* IdentifiableImage.swift */,
 				BAE0C1542F5E3627001CC4DB /* InteractiveDismissDisabled.swift */,
 				BA0C54E32F6505B500DC2C7F /* PassKitConstants.swift */,
 				BA5FBE992F2F07BB00C7AA2A /* ImportPass.swift */,
@@ -517,6 +525,7 @@
 				BA8D50C32D30C8F5009617C1 /* SymbolPicker */,
 				BA17A9102D36155E00A8C992 /* KeyboardAware */,
 				BAF456BE2F5C083D000BE9A4 /* MCEmojiPicker */,
+				BA046B082F956D92005C6BA3 /* SwiftyCrop */,
 			);
 			productName = PassKeepr;
 			productReference = 3A02E7362AF6EE1000383BC2 /* PassKeepr.app */;
@@ -620,6 +629,7 @@
 				BA8D50C22D30C8F5009617C1 /* XCRemoteSwiftPackageReference "SymbolPicker" */,
 				BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */,
 				BAF456BD2F5C083D000BE9A4 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
+				BA046B072F956D92005C6BA3 /* XCRemoteSwiftPackageReference "SwiftyCrop" */,
 			);
 			productRefGroup = 3A02E7372AF6EE1000383BC2 /* Products */;
 			projectDirPath = "";
@@ -676,6 +686,7 @@
 				BA6595912F79BB3D0091BB29 /* WifiQrCode.swift in Sources */,
 				BAA53E142D0E2E2C004A175A /* HeaderFieldSelection.swift in Sources */,
 				BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */,
+				BA046B292F95934A005C6BA3 /* SwiftyCropConfiguration+AppStyle.swift in Sources */,
 				BABAADD22B0A69950014C73B /* PassObject.swift in Sources */,
 				BA885AE82CF2A01C0084FC25 /* TextFieldDynamicWidth.swift in Sources */,
 				BAE2D4552B80F2B600CC7BE2 /* ExtendBarcodeType.swift in Sources */,
@@ -702,6 +713,7 @@
 				BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */,
 				BA12A7332F66089600B55431 /* CustomizeThumbnailImage.swift in Sources */,
 				BAE7B33E2D065DFF00DD0251 /* BuiltInBarcodeView.swift in Sources */,
+				BA046B272F958FA8005C6BA3 /* IdentifiableImage.swift in Sources */,
 				BA0F98212CE2BA4800F76501 /* ExtendUInt.swift in Sources */,
 				BA12A7372F68EF3000B55431 /* AuxiliaryTextField.swift in Sources */,
 				BACDA8AB2D166477009C249C /* CustomStripImage.swift in Sources */,
@@ -1170,6 +1182,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BA046B072F956D92005C6BA3 /* XCRemoteSwiftPackageReference "SwiftyCrop" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AndrewHanshaw/SwiftyCrop/";
+			requirement = {
+				branch = toolbar;
+				kind = branch;
+			};
+		};
 		BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ralfebert/KeyboardAwareSwiftUI";
@@ -1205,6 +1225,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BA046B082F956D92005C6BA3 /* SwiftyCrop */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA046B072F956D92005C6BA3 /* XCRemoteSwiftPackageReference "SwiftyCrop" */;
+			productName = SwiftyCrop;
+		};
 		BA17A9102D36155E00A8C992 /* KeyboardAware */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */;
