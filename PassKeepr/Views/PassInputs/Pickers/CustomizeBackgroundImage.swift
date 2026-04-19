@@ -118,6 +118,22 @@ struct CustomizeBackgroundImage: View {
                             passObject.backgroundImage = background.pngData() ?? Data()
 
                             passObject.stripImage = Data()
+
+                            // Center-crop existing thumbnail to 1:1 to match background image pass layout
+                            if passObject.thumbnailImage != Data(), let thumbUI = UIImage(data: passObject.thumbnailImage), let cgThumb = thumbUI.cgImage {
+                                let pixelW = CGFloat(cgThumb.width)
+                                let pixelH = CGFloat(cgThumb.height)
+                                let side = min(pixelW, pixelH)
+                                let cropRect = CGRect(
+                                    x: (pixelW - side) / 2,
+                                    y: (pixelH - side) / 2,
+                                    width: side,
+                                    height: side
+                                )
+                                if let cropped = cgThumb.cropping(to: cropRect) {
+                                    passObject.thumbnailImage = UIImage(cgImage: cropped, scale: thumbUI.scale, orientation: thumbUI.imageOrientation).pngData() ?? passObject.thumbnailImage
+                                }
+                            }
                         }
                         presentationMode.wrappedValue.dismiss()
                     }
