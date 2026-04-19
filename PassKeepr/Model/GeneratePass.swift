@@ -233,7 +233,7 @@ func generatePass(passObject: PassObject) -> URL? {
             saveImageVariants(from: passObject.logoImage, name: "logo", passDirectory: passDirectory, maxWidth: PassKitConstants.LogoImage.width, maxHeight: PassKitConstants.LogoImage.height)
         }
 
-        if passObject.thumbnailImage != Data(), passStyleString == "generic" {
+        if passObject.thumbnailImage != Data(), passStyleString == "generic" || passStyleString == "eventTicket" {
             saveImageVariants(from: passObject.thumbnailImage, name: "thumbnail", passDirectory: passDirectory, maxWidth: PassKitConstants.ThumbnailImage.width, maxHeight: PassKitConstants.ThumbnailImage.height)
         }
 
