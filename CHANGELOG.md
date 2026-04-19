@@ -5,6 +5,7 @@
 - Support for importing existing Wallet passes
     - Click the share button from a pass already saved to your Wallet, and PassKeepr will show up as a sharing option
 - Confirmation before discarding unsaved changes to Passes
+- The ability to pan, crop, resize, and adjust the aspect ratio of images before saving them
 
 ### Changed
 - Improved backend responsiveness
