@@ -225,7 +225,7 @@ struct CustomizeThumbnailImage: View {
                 maskShape: .rectangle,
                 configuration: SwiftyCropConfiguration(
                     rectAspectRatio: 1.0,
-                    allowAspectRatioResizing: true,
+                    allowAspectRatioResizing: passObject.backgroundImage == Data(),
                     minAspectRatio: 2.0 / 3.0,
                     maxAspectRatio: 3.0 / 2.0,
                     fonts: SwiftyCropConfiguration.Fonts(
