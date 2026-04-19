@@ -249,7 +249,6 @@ struct ContentView: View {
 struct PassCardContainer: View {
     @Binding var passObject: PassObject
     @State private var shouldPresentEditPass = false
-    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
         PassCard(passObject: passObject)

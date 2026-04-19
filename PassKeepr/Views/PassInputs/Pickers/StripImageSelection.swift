@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct StripImageSelection: View {
-    @Environment(\.colorScheme) var colorScheme
-
     @Binding var passObject: PassObject
 
     var disableControl: Bool
