@@ -71,8 +71,103 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var vcardBirthday: Date
     var vcardCustomFields: [VCardCustomField]
 
+    enum CodingKeys: String, CodingKey {
+        case id, passIcon, barcodeString, barcodeType, barcodeBorder
+        case stripImage, backgroundImage, logoImage, logoImageType
+        case thumbnailImage, thumbnailImageType
+        case qrCodeCorrectionLevel, qrCodeEncoding, qrCodeType
+        case altText, foregroundColor, backgroundColor, labelColor, description
+        case headerFieldOneLabel, headerFieldOneText, isHeaderFieldTwoOn, headerFieldTwoLabel, headerFieldTwoText
+        case primaryFieldLabel, primaryFieldText
+        case secondaryFieldOneLabel, secondaryFieldOneText
+        case isSecondaryFieldTwoOn, secondaryFieldTwoLabel, secondaryFieldTwoText
+        case isSecondaryFieldThreeOn, secondaryFieldThreeLabel, secondaryFieldThreeText
+        case isAuxiliaryFieldOneOn, auxiliaryFieldOneLabel, auxiliaryFieldOneText
+        case isAuxiliaryFieldTwoOn, auxiliaryFieldTwoLabel, auxiliaryFieldTwoText
+        case isAuxiliaryFieldThreeOn, auxiliaryFieldThreeLabel, auxiliaryFieldThreeText
+        case isCustomStripImageOn
+        case logoSymbolName, logoSymbolColor
+        case thumbnailSymbolName, thumbnailSymbolColor
+        case associatedStoreIdentifiers
+        case wifiSSID, wifiPassword, wifiSecurity, wifiIsHidden
+        case vcardFirstName, vcardLastName, vcardCompany, vcardPhone, vcardEmail
+        case vcardURL, vcardAddress, vcardSocial, vcardHasBirthday, vcardBirthday, vcardCustomFields
+    }
+
     static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .data)
+    }
+}
+
+extension PassObject {
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultIcon = (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
+
+        id = try c.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        passIcon = try c.decodeIfPresent(Data.self, forKey: .passIcon) ?? defaultIcon
+        barcodeString = try c.decodeIfPresent(String.self, forKey: .barcodeString) ?? ""
+        barcodeType = try c.decodeIfPresent(BarcodeType.self, forKey: .barcodeType) ?? .none
+        barcodeBorder = try c.decodeIfPresent(Double.self, forKey: .barcodeBorder) ?? 0
+        stripImage = try c.decodeIfPresent(Data.self, forKey: .stripImage) ?? Data()
+        backgroundImage = try c.decodeIfPresent(Data.self, forKey: .backgroundImage) ?? Data()
+        logoImage = try c.decodeIfPresent(Data.self, forKey: .logoImage) ?? Data()
+        logoImageType = try c.decodeIfPresent(ImageType.self, forKey: .logoImageType) ?? .none
+        thumbnailImage = try c.decodeIfPresent(Data.self, forKey: .thumbnailImage) ?? Data()
+        thumbnailImageType = try c.decodeIfPresent(ImageType.self, forKey: .thumbnailImageType) ?? .none
+        qrCodeCorrectionLevel = try c.decodeIfPresent(QrCodeCorrectionLevel.self, forKey: .qrCodeCorrectionLevel) ?? .medium
+        qrCodeEncoding = try c.decodeIfPresent(QrCodeEncoding.self, forKey: .qrCodeEncoding) ?? .ascii
+        qrCodeType = try c.decodeIfPresent(QrCodeType.self, forKey: .qrCodeType) ?? .standard
+        altText = try c.decodeIfPresent(String.self, forKey: .altText) ?? ""
+        foregroundColor = try c.decodeIfPresent(UInt.self, forKey: .foregroundColor) ?? 0x000000
+        backgroundColor = try c.decodeIfPresent(UInt.self, forKey: .backgroundColor) ?? 0xFFFFFF
+        labelColor = try c.decodeIfPresent(UInt.self, forKey: .labelColor) ?? 0x000000
+        description = try c.decodeIfPresent(String.self, forKey: .description) ?? PassObject.defaultDescription
+        headerFieldOneLabel = try c.decodeIfPresent(String.self, forKey: .headerFieldOneLabel) ?? ""
+        headerFieldOneText = try c.decodeIfPresent(String.self, forKey: .headerFieldOneText) ?? ""
+        isHeaderFieldTwoOn = try c.decodeIfPresent(Bool.self, forKey: .isHeaderFieldTwoOn) ?? false
+        headerFieldTwoLabel = try c.decodeIfPresent(String.self, forKey: .headerFieldTwoLabel) ?? ""
+        headerFieldTwoText = try c.decodeIfPresent(String.self, forKey: .headerFieldTwoText) ?? ""
+        primaryFieldLabel = try c.decodeIfPresent(String.self, forKey: .primaryFieldLabel) ?? ""
+        primaryFieldText = try c.decodeIfPresent(String.self, forKey: .primaryFieldText) ?? ""
+        secondaryFieldOneLabel = try c.decodeIfPresent(String.self, forKey: .secondaryFieldOneLabel) ?? ""
+        secondaryFieldOneText = try c.decodeIfPresent(String.self, forKey: .secondaryFieldOneText) ?? ""
+        isSecondaryFieldTwoOn = try c.decodeIfPresent(Bool.self, forKey: .isSecondaryFieldTwoOn) ?? false
+        secondaryFieldTwoLabel = try c.decodeIfPresent(String.self, forKey: .secondaryFieldTwoLabel) ?? ""
+        secondaryFieldTwoText = try c.decodeIfPresent(String.self, forKey: .secondaryFieldTwoText) ?? ""
+        isSecondaryFieldThreeOn = try c.decodeIfPresent(Bool.self, forKey: .isSecondaryFieldThreeOn) ?? false
+        secondaryFieldThreeLabel = try c.decodeIfPresent(String.self, forKey: .secondaryFieldThreeLabel) ?? ""
+        secondaryFieldThreeText = try c.decodeIfPresent(String.self, forKey: .secondaryFieldThreeText) ?? ""
+        isAuxiliaryFieldOneOn = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldOneOn) ?? true
+        auxiliaryFieldOneLabel = try c.decodeIfPresent(String.self, forKey: .auxiliaryFieldOneLabel) ?? ""
+        auxiliaryFieldOneText = try c.decodeIfPresent(String.self, forKey: .auxiliaryFieldOneText) ?? ""
+        isAuxiliaryFieldTwoOn = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldTwoOn) ?? false
+        auxiliaryFieldTwoLabel = try c.decodeIfPresent(String.self, forKey: .auxiliaryFieldTwoLabel) ?? ""
+        auxiliaryFieldTwoText = try c.decodeIfPresent(String.self, forKey: .auxiliaryFieldTwoText) ?? ""
+        isAuxiliaryFieldThreeOn = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldThreeOn) ?? false
+        auxiliaryFieldThreeLabel = try c.decodeIfPresent(String.self, forKey: .auxiliaryFieldThreeLabel) ?? ""
+        auxiliaryFieldThreeText = try c.decodeIfPresent(String.self, forKey: .auxiliaryFieldThreeText) ?? ""
+        isCustomStripImageOn = try c.decodeIfPresent(Bool.self, forKey: .isCustomStripImageOn) ?? false
+        logoSymbolName = try c.decodeIfPresent(String.self, forKey: .logoSymbolName) ?? ""
+        logoSymbolColor = try c.decodeIfPresent(UInt.self, forKey: .logoSymbolColor) ?? 0x000000
+        thumbnailSymbolName = try c.decodeIfPresent(String.self, forKey: .thumbnailSymbolName) ?? ""
+        thumbnailSymbolColor = try c.decodeIfPresent(UInt.self, forKey: .thumbnailSymbolColor) ?? 0x000000
+        associatedStoreIdentifiers = try c.decodeIfPresent([Int].self, forKey: .associatedStoreIdentifiers) ?? [6_740_440_736]
+        wifiSSID = try c.decodeIfPresent(String.self, forKey: .wifiSSID) ?? ""
+        wifiPassword = try c.decodeIfPresent(String.self, forKey: .wifiPassword) ?? ""
+        wifiSecurity = try c.decodeIfPresent(WifiSecurity.self, forKey: .wifiSecurity) ?? .wpa
+        wifiIsHidden = try c.decodeIfPresent(Bool.self, forKey: .wifiIsHidden) ?? false
+        vcardFirstName = try c.decodeIfPresent(String.self, forKey: .vcardFirstName) ?? ""
+        vcardLastName = try c.decodeIfPresent(String.self, forKey: .vcardLastName) ?? ""
+        vcardCompany = try c.decodeIfPresent(String.self, forKey: .vcardCompany) ?? ""
+        vcardPhone = try c.decodeIfPresent(String.self, forKey: .vcardPhone) ?? ""
+        vcardEmail = try c.decodeIfPresent(String.self, forKey: .vcardEmail) ?? ""
+        vcardURL = try c.decodeIfPresent(String.self, forKey: .vcardURL) ?? ""
+        vcardAddress = try c.decodeIfPresent(String.self, forKey: .vcardAddress) ?? ""
+        vcardSocial = try c.decodeIfPresent(String.self, forKey: .vcardSocial) ?? ""
+        vcardHasBirthday = try c.decodeIfPresent(Bool.self, forKey: .vcardHasBirthday) ?? false
+        vcardBirthday = try c.decodeIfPresent(Date.self, forKey: .vcardBirthday) ?? Date()
+        vcardCustomFields = try c.decodeIfPresent([VCardCustomField].self, forKey: .vcardCustomFields) ?? []
     }
 }
 
