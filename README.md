@@ -9,11 +9,15 @@
 
 </div>
 
-PassKeepr is an open-source app built using SwiftUI to create, edit, and manage custom Apple Wallet passes (`.pkpass` files)
+PassKeepr is an open-source iOS app built using SwiftUI to create, edit, and manage custom Apple Wallet passes (`.pkpass` files)
+
+## Download
+
+PassKeepr is available on the App Store! [Get the latest version here (iOS only)](https://apps.apple.com/us/app/passkeepr/id6740440736)
 
 ## Features
 
-See [CHANGELOG.md](./CHANGELOG.md) for supported features and associated versions
+See [CHANGELOG.md](./CHANGELOG.md) for supported features and the versions they were released with
 
 ## Planned Work
 * Support rendering custom text and/or other information (custom rendered QR code, icons, etc) into the strip image
