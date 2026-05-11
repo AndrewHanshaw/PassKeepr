@@ -77,6 +77,7 @@
 		BACDA8AF2D167704009C249C /* CustomizeStripImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACDA8AE2D167704009C249C /* CustomizeStripImage.swift */; };
 		BAD0D7102D15130C0058054E /* SecondaryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD0D70F2D15130C0058054E /* SecondaryTextField.swift */; };
 		BAD0D7122D1528350058054E /* SecondaryFieldSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD0D7112D1528350058054E /* SecondaryFieldSelection.swift */; };
+		BAD2CD472FB164CA0050E14B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = BAD2CD462FB164CA0050E14B /* Localizable.xcstrings */; };
 		BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BADD64672CA5021D00E8F0A0 /* MockModelData.swift */; };
 		BAE0C1552F5E3627001CC4DB /* InteractiveDismissDisabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE0C1542F5E3627001CC4DB /* InteractiveDismissDisabled.swift */; };
 		BAE2D4552B80F2B600CC7BE2 /* ExtendBarcodeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE2D4542B80F2B600CC7BE2 /* ExtendBarcodeType.swift */; };
@@ -206,6 +207,7 @@
 		BACDA8AE2D167704009C249C /* CustomizeStripImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeStripImage.swift; sourceTree = "<group>"; };
 		BAD0D70F2D15130C0058054E /* SecondaryTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryTextField.swift; sourceTree = "<group>"; };
 		BAD0D7112D1528350058054E /* SecondaryFieldSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryFieldSelection.swift; sourceTree = "<group>"; };
+		BAD2CD462FB164CA0050E14B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		BADD64672CA5021D00E8F0A0 /* MockModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockModelData.swift; sourceTree = "<group>"; };
 		BAE0C1542F5E3627001CC4DB /* InteractiveDismissDisabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveDismissDisabled.swift; sourceTree = "<group>"; };
 		BAE2D4542B80F2B600CC7BE2 /* ExtendBarcodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendBarcodeType.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				3A02E7392AF6EE1000383BC2 /* PassKeeprApp.swift */,
 				3A02E73D2AF6EE1A00383BC2 /* Assets.xcassets */,
 				3A02E73F2AF6EE1A00383BC2 /* Preview Content */,
+				BAD2CD462FB164CA0050E14B /* Localizable.xcstrings */,
 			);
 			path = PassKeepr;
 			sourceTree = "<group>";
@@ -649,6 +652,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A02E7412AF6EE1A00383BC2 /* Preview Assets.xcassets in Resources */,
+				BAD2CD472FB164CA0050E14B /* Localizable.xcstrings in Resources */,
 				BA6DACF92D3961D800C2FD90 /* DefaultPassIcon.png in Resources */,
 				3A02E73E2AF6EE1A00383BC2 /* Assets.xcassets in Resources */,
 				BAC150E82E0DD52400249287 /* passkeepr.icon in Resources */,
@@ -865,6 +869,7 @@
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -923,6 +928,7 @@
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
