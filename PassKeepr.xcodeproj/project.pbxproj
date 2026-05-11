@@ -29,7 +29,6 @@
 		BA12A7352F68EF2600B55431 /* AuxiliaryFieldSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12A7342F68EF2600B55431 /* AuxiliaryFieldSelection.swift */; };
 		BA12A7372F68EF3000B55431 /* AuxiliaryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12A7362F68EF3000B55431 /* AuxiliaryTextField.swift */; };
 		BA1515B92CE2BC6900DB1799 /* MeasureViewSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1515B82CE2BC6900DB1799 /* MeasureViewSize.swift */; };
-		BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA15EC172B3CE75400078A17 /* AppIcon.swift */; };
 		BA17A9112D36155E00A8C992 /* KeyboardAware in Frameworks */ = {isa = PBXBuildFile; productRef = BA17A9102D36155E00A8C992 /* KeyboardAware */; };
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
 		BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */ = {isa = PBXBuildFile; fileRef = BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */; };
@@ -161,7 +160,6 @@
 		BA12A7362F68EF3000B55431 /* AuxiliaryTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuxiliaryTextField.swift; sourceTree = "<group>"; };
 		BA1515B82CE2BC6900DB1799 /* MeasureViewSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureViewSize.swift; sourceTree = "<group>"; };
 		BA15A2C92CE0002800ECD183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		BA15EC172B3CE75400078A17 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 		BA1BACD32B463FCD00F86890 /* EditPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPass.swift; sourceTree = "<group>"; };
 		BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OneDimensionalBarcodeFilter.metal; sourceTree = "<group>"; };
 		BA25D8962B76E8300044E423 /* Code93View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code93View.swift; sourceTree = "<group>"; };
@@ -303,7 +301,6 @@
 				BA0AF0AD2F2EB3480001CCAE /* PassKeepr.entitlements */,
 				BA15A2C92CE0002800ECD183 /* Info.plist */,
 				BA7C075C2B6C8B1200F09154 /* BarcodeGenerators */,
-				BAE53CDD2B3CE5260080FFFD /* Icon */,
 				BABAADDC2B0AB8150014C73B /* Helpers */,
 				BABAADDB2B0A6C190014C73B /* Views */,
 				BABAADD42B0A6BAA0014C73B /* Resources */,
@@ -485,14 +482,6 @@
 				BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		BAE53CDD2B3CE5260080FFFD /* Icon */ = {
-			isa = PBXGroup;
-			children = (
-				BA15EC172B3CE75400078A17 /* AppIcon.swift */,
-			);
-			path = Icon;
 			sourceTree = "<group>";
 		};
 		BAF0FB712D28D09200948089 /* PassCard */ = {
@@ -696,7 +685,6 @@
 				BAE2D4552B80F2B600CC7BE2 /* ExtendBarcodeType.swift in Sources */,
 				BA12A7352F68EF2600B55431 /* AuxiliaryFieldSelection.swift in Sources */,
 				BAF5EF932D094FCE00259BEA /* BuiltInQrCodeView.swift in Sources */,
-				BA15EC182B3CE75400078A17 /* AppIcon.swift in Sources */,
 				BABAADD32B0A69950014C73B /* ModelData.swift in Sources */,
 				BA7A4A212B65ABE9006F06DF /* CodeScanner.swift in Sources */,
 				BAF5EF952D09542200259BEA /* CustomizeQrCode.swift in Sources */,
