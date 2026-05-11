@@ -60,7 +60,7 @@ struct PrimaryTextFieldGeneric: View {
                                 Group {
                                     Text("Empty fields will not\nappear on the Pass\nwhen added to your Wallet")
                                         .multilineTextAlignment(.center)
-                                    Button("Ok", action: {
+                                    Button("OK", action: {
                                         isTutorialStage1Presented = false
                                         modelData.tutorialStage += 1
                                     })

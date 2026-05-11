@@ -225,7 +225,7 @@ struct CustomizeQrCode: View {
                     }
 
                     LabeledContent {
-                        TextField("Alt text", text: $tempAltText)
+                        TextField("Alt Text", text: $tempAltText)
                             .disableAutocorrection(true)
                     } label: {
                         Text("Text")
