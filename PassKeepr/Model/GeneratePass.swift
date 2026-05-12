@@ -134,7 +134,7 @@ func generatePass(passObject: PassObject) -> URL? {
         // A primary field with a strip image *is* strictly allowed by PassKit, however it looks horrible, so I'm just disabling it for now to avoid having to even think about it
         if !shouldStripImageBeAddedToPass(passObject: passObject) && !passObject.isCustomStripImageOn {
             let primaryFields: [String: Any] = [
-                "key": passObject.primaryFieldLabel,
+                "key": "primary",
                 "label": passObject.primaryFieldLabel,
                 "value": passObject.primaryFieldText,
             ]
@@ -278,7 +278,7 @@ func encodeHeaderFields(passObject: PassObject) -> [String: Any] {
 
     if passObject.headerFieldOneLabel != "" || passObject.headerFieldOneText != "" {
         let headerField1: [String: Any] = [
-            "key": passObject.headerFieldOneLabel,
+            "key": "header1",
             "label": passObject.headerFieldOneLabel,
             "value": passObject.headerFieldOneText,
         ]
@@ -288,7 +288,7 @@ func encodeHeaderFields(passObject: PassObject) -> [String: Any] {
 
     if passObject.isHeaderFieldTwoOn == true {
         let headerField2: [String: Any] = [
-            "key": passObject.headerFieldTwoLabel,
+            "key": "header2",
             "label": passObject.headerFieldTwoLabel,
             "value": passObject.headerFieldTwoText,
         ]
@@ -308,7 +308,7 @@ func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
 
     if passObject.secondaryFieldOneLabel != "", passObject.secondaryFieldOneText != "" {
         let secondaryField1: [String: Any] = [
-            "key": passObject.secondaryFieldOneLabel,
+            "key": "secondary1",
             "label": passObject.secondaryFieldOneLabel,
             "value": passObject.secondaryFieldOneText,
         ]
@@ -318,7 +318,7 @@ func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
 
     if passObject.isSecondaryFieldTwoOn == true {
         let secondaryField2: [String: Any] = [
-            "key": passObject.secondaryFieldTwoLabel,
+            "key": "secondary2",
             "label": passObject.secondaryFieldTwoLabel,
             "value": passObject.secondaryFieldTwoText,
         ]
@@ -328,7 +328,7 @@ func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
 
     if passObject.isSecondaryFieldThreeOn == true {
         let secondaryField3: [String: Any] = [
-            "key": passObject.secondaryFieldThreeLabel,
+            "key": "secondary3",
             "label": passObject.secondaryFieldThreeLabel,
             "value": passObject.secondaryFieldThreeText,
         ]
@@ -348,7 +348,7 @@ func encodeAuxiliaryFields(passObject: PassObject) -> [String: Any] {
 
     if passObject.auxiliaryFieldOneLabel != "", passObject.auxiliaryFieldOneText != "" {
         let auxiliaryField1: [String: Any] = [
-            "key": passObject.auxiliaryFieldOneLabel,
+            "key": "auxiliary1",
             "label": passObject.auxiliaryFieldOneLabel,
             "value": passObject.auxiliaryFieldOneText,
         ]
@@ -358,7 +358,7 @@ func encodeAuxiliaryFields(passObject: PassObject) -> [String: Any] {
 
     if passObject.isAuxiliaryFieldTwoOn == true {
         let auxiliaryField2: [String: Any] = [
-            "key": passObject.auxiliaryFieldTwoLabel,
+            "key": "auxiliary2",
             "label": passObject.auxiliaryFieldTwoLabel,
             "value": passObject.auxiliaryFieldTwoText,
         ]
@@ -368,7 +368,7 @@ func encodeAuxiliaryFields(passObject: PassObject) -> [String: Any] {
 
     if passObject.isAuxiliaryFieldThreeOn == true {
         let auxiliaryField3: [String: Any] = [
-            "key": passObject.auxiliaryFieldThreeLabel,
+            "key": "auxiliary3",
             "label": passObject.auxiliaryFieldThreeLabel,
             "value": passObject.auxiliaryFieldThreeText,
         ]
