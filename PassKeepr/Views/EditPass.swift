@@ -230,23 +230,24 @@ struct EditPass: View {
         hasEditPassButtonBeenPressed = true
         objectToEdit = tempObject
 
-        if !isNewPass {
-            do {
-                // Delete existing pass's directory altogether, we will regenerate from scratch
-                let passDirectory = URL.applicationSupportDirectory.appending(path: "\(objectToEdit.id.uuidString).pass")
-                let pkPassDirectory = URL.applicationSupportDirectory.appending(path: "\(objectToEdit.id.uuidString).pkpass")
+        do {
+            // Delete existing pass files if present so we can regenerate from scratch.
+            // This must happen regardless of isNewPass — if the user declines the wallet
+            // prompt and tries again, the .pkpass from the previous attempt still exists.
+            let passDirectory = URL.applicationSupportDirectory.appending(path: "\(objectToEdit.id.uuidString).pass")
+            let pkPassDirectory = URL.applicationSupportDirectory.appending(path: "\(objectToEdit.id.uuidString).pkpass")
 
-                // Only try to remove if they exist
-                if FileManager.default.fileExists(atPath: passDirectory.path) {
-                    try FileManager.default.removeItem(at: passDirectory)
-                }
-                if FileManager.default.fileExists(atPath: pkPassDirectory.path) {
-                    try FileManager.default.removeItem(at: pkPassDirectory)
-                }
-            } catch {
-                return (false, "Deleting existing pass data was unsuccessful: \(error.localizedDescription)")
+            if FileManager.default.fileExists(atPath: passDirectory.path) {
+                try FileManager.default.removeItem(at: passDirectory)
             }
-        } else {
+            if FileManager.default.fileExists(atPath: pkPassDirectory.path) {
+                try FileManager.default.removeItem(at: pkPassDirectory)
+            }
+        } catch {
+            return (false, "Deleting existing pass data was unsuccessful: \(error.localizedDescription)")
+        }
+
+        if isNewPass && !modelData.passObjects.contains(where: { $0.id == objectToEdit.id }) {
             modelData.passObjects.append(objectToEdit)
         }
 
