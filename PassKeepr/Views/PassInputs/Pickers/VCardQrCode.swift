@@ -89,7 +89,7 @@ struct VCardQrCode: View {
             .listSectionBackgroundModifier()
 
             LabeledContent {
-                TextField("@handle or URL", text: $passObject.vcardSocial)
+                TextField("Handle or URL", text: $passObject.vcardSocial)
                     .disableAutocorrection(true)
                     .textInputAutocapitalization(.never)
             } label: {
