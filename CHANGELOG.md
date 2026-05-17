@@ -1,4 +1,10 @@
+## [1.04] - 2026-05-17
+
+### Fixed
+- A bug that caused a crash when generating passes containing non-unique labels on text fields
+
 ## [1.03] - 2026-04-10
+
 ### Added
 - Support for Wi-Fi and VCard QR Codes
 - Support for thumbnail images
