@@ -238,7 +238,7 @@ struct CustomizeBarcode: View {
 
                     if tempBarcodeType == BarcodeType.code128 || tempBarcodeType == BarcodeType.pdf417 {
                         LabeledContent {
-                            TextField("Alt text", text: $tempAltText)
+                            TextField("Alt Text", text: $tempAltText)
                                 .disableAutocorrection(true)
                         } label: {
                             Text("Alt Text")

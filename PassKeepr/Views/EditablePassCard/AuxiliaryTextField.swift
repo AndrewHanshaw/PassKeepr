@@ -43,14 +43,14 @@ struct AuxiliaryTextField: View {
                         .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                         .foregroundColor(backgroundBrightness.overwriteForegroundColor)
                         .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
-                        .aspectRatio(2, contentMode: .fit)
-                    Text("Auxiliary\nField")
+                    Text("Auxiliary Field")
                         .multilineTextAlignment(.center)
                         .minimumScaleFactor(0.34)
                         .foregroundColor(backgroundBrightness.overwriteForegroundColor)
                         .opacity(backgroundBrightness.overwriteOpacity)
                         .padding(2)
                 }
+                .frame(maxWidth: 80, maxHeight: .infinity)
             }
         }
         .overlay(alignment: .bottomTrailing) {

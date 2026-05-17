@@ -42,10 +42,12 @@ struct ThumbnailImageView: View {
                 .stroke(style: StrokeStyle(lineWidth: 2, dash: [6, 4]))
                 .foregroundColor(backgroundBrightness.overwriteForegroundColor)
                 .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
-            Text("Thumbnail\nImage")
-                .font(.system(size: 14))
+            Text("Thumbnail Image")
+                .multilineTextAlignment(.center)
+                .minimumScaleFactor(0.34)
                 .foregroundColor(backgroundBrightness.overwriteForegroundColor)
                 .opacity(backgroundBrightness.overwriteOpacity)
+                .padding(2)
         }
     }
 }

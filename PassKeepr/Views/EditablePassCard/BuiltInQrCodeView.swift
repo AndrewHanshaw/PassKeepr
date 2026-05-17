@@ -21,7 +21,7 @@ struct BuiltInQrCodeView: View {
                             .foregroundColor(Color.gray)
                             .opacity(0.7)
                             .padding(5)
-                        Text("Enter\nQR Code\nData")
+                        Text("Enter QR Code Data")
                             .multilineTextAlignment(.center)
                             .foregroundColor(Color.gray)
                             .opacity(0.7)

@@ -79,7 +79,7 @@ struct PrimaryTextFieldGeneric: View {
                                     modelData.tutorialStage += 1
                                 }
                             }
-                        Text("Primary\nField")
+                        Text("Primary Field")
                             .multilineTextAlignment(.center)
                             .minimumScaleFactor(0.34)
                             .foregroundColor(backgroundBrightness.overwriteForegroundColor)

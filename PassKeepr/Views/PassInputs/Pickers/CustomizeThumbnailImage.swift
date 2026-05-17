@@ -68,16 +68,16 @@ struct CustomizeThumbnailImage: View {
                         RoundedRectangle(cornerRadius: 5)
                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                             .frame(maxHeight: 120)
-                            .aspectRatio(1, contentMode: .fit)
                             .foregroundColor(Color.gray)
                             .opacity(0.5)
-                        Text("Thumbnail\nImage")
-                            .scaledToFit()
+                        Text("Thumbnail Image")
+                            .multilineTextAlignment(.center)
+                            .minimumScaleFactor(0.34)
                             .foregroundColor(Color.gray)
                             .opacity(0.7)
-                            .multilineTextAlignment(.center)
+                            .padding(2)
                     }
-                    .padding([.top, .bottom], 20)
+                    .aspectRatio(1, contentMode: .fit)
                     .frame(maxWidth: .infinity, alignment: .center)
                 }
 
