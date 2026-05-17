@@ -1,7 +1,354 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "About PassKeepr" : {
 
+    },
+    "Add a Background Image" : {
+
+    },
+    "Add a Strip Image" : {
+
+    },
+    "Add Custom Field" : {
+
+    },
+    "Add Pass" : {
+
+    },
+    "Additional Auxiliary Field" : {
+
+    },
+    "Additional Header Field" : {
+
+    },
+    "Additional Secondary Field" : {
+
+    },
+    "Address" : {
+
+    },
+    "Alt Text" : {
+
+    },
+    "Are you sure you want to discard your changes?" : {
+
+    },
+    "Auxiliary Field" : {
+
+    },
+    "Background Color" : {
+
+    },
+    "Background Image" : {
+
+    },
+    "Barcode Data" : {
+
+    },
+    "Barcode Type" : {
+
+    },
+    "Birthday" : {
+
+    },
+    "Border" : {
+
+    },
+    "Camera is not available" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Change Background Image" : {
+
+    },
+    "Change Emoji" : {
+
+    },
+    "Change Logo Image" : {
+
+    },
+    "Change Strip Image" : {
+
+    },
+    "Change Symbol" : {
+
+    },
+    "Change Thumbnail Image" : {
+
+    },
+    "Company" : {
+
+    },
+    "Correction Level" : {
+
+    },
+    "Created by Drew Hanshaw" : {
+
+    },
+    "Customize Barcode" : {
+
+    },
+    "Customize QR Code" : {
+
+    },
+    "Data" : {
+
+    },
+    "Date" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Delete All Passes" : {
+
+    },
+    "Delete All Passes?" : {
+
+    },
+    "Discard Changes" : {
+
+    },
+    "Done" : {
+
+    },
+    "Duplicate" : {
+
+    },
+    "Email" : {
+
+    },
+    "Empty fields will not\nappear on the Pass\nwhen added to your Wallet" : {
+
+    },
+    "Encoding" : {
+
+    },
+    "Enter Barcode Data" : {
+
+    },
+    "Enter QR Code Data" : {
+
+    },
+    "Error" : {
+
+    },
+    "Failed to Update Pass" : {
+
+    },
+    "First" : {
+
+    },
+    "First Name" : {
+
+    },
+    "Follow me on" : {
+
+    },
+    "Get Barcode from Image" : {
+
+    },
+    "Get QR Code from Image" : {
+
+    },
+    "Handle or URL" : {
+
+    },
+    "Header Field" : {
+
+    },
+    "Hidden Network" : {
+
+    },
+    "https://..." : {
+
+    },
+    "Import Failed" : {
+
+    },
+    "Insert" : {
+
+    },
+    "Invalid Barcode Data" : {
+
+    },
+    "Label" : {
+
+    },
+    "Label Color" : {
+
+    },
+    "Last" : {
+
+    },
+    "Last Name" : {
+
+    },
+    "Logo Image" : {
+
+    },
+    "Logo type" : {
+
+    },
+    "My Passes" : {
+
+    },
+    "Network Name" : {
+
+    },
+    "Next" : {
+
+    },
+    "NFC Pass Imported" : {
+
+    },
+    "No Valid Barcode Detected" : {
+
+    },
+    "No Valid QR Code Detected" : {
+
+    },
+    "OK" : {
+
+    },
+    "Or:" : {
+
+    },
+    "PassKeepr" : {
+
+    },
+    "Password" : {
+
+    },
+    "Phone" : {
+
+    },
+    "Please select an image containing a valid barcode" : {
+
+    },
+    "Please select an image containing a valid QR code" : {
+
+    },
+    "Primary Field" : {
+
+    },
+    "QR Code Data" : {
+
+    },
+    "QR Code Type" : {
+
+    },
+    "Remove Background Image" : {
+
+    },
+    "Remove Strip Image" : {
+
+    },
+    "Save" : {
+
+    },
+    "Save + Add to Wallet" : {
+
+    },
+    "Scan Existing Barcode" : {
+
+    },
+    "Scan Existing QR Code" : {
+
+    },
+    "Secondary and auxiliary fields are limited to 4 combined when a strip image is used." : {
+
+    },
+    "Secondary Field" : {
+
+    },
+    "Security" : {
+
+    },
+    "Select a Background Image" : {
+
+    },
+    "Select a Logo Image" : {
+
+    },
+    "Select a Strip Image" : {
+
+    },
+    "Select a Symbol" : {
+
+    },
+    "Select a Thumbnail Image" : {
+
+    },
+    "Select an Emoji" : {
+
+    },
+    "Share" : {
+
+    },
+    "Signing Pass…" : {
+
+    },
+    "Social" : {
+
+    },
+    "SSID" : {
+
+    },
+    "Strip Image" : {
+
+    },
+    "Strip images are not compatible with QR codes" : {
+
+    },
+    "Symbol Color" : {
+
+    },
+    "Tap on icons\nto edit each field" : {
+
+    },
+    "Text" : {
+
+    },
+    "Text Color" : {
+
+    },
+    "The imported pass contained NFC data. NFC functionality will not be included for this PassKeepr pass." : {
+
+    },
+    "This action cannot be undone." : {
+
+    },
+    "This device doesn't support the DataScannerViewController" : {
+
+    },
+    "Thumbnail Image" : {
+
+    },
+    "Thumbnail type" : {
+
+    },
+    "Transparent background" : {
+
+    },
+    "Type" : {
+
+    },
+    "URL" : {
+
+    },
+    "Use the ＋ Button to Add a Pass" : {
+
+    },
+    "Value" : {
+
+    },
+    "Version %@" : {
+
+    }
   },
   "version" : "1.2"
 }
