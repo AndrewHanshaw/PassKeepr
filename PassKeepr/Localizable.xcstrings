@@ -2,352 +2,1164 @@
   "sourceLanguage" : "en",
   "strings" : {
     "About PassKeepr" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "О приложении PassKeepr"
+          }
+        }
+      }
     },
     "Add a Background Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить фоновое изображение"
+          }
+        }
+      }
     },
     "Add a Strip Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить баннер"
+          }
+        }
+      }
     },
     "Add Custom Field" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить свое поле"
+          }
+        }
+      }
     },
     "Add Pass" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить карту"
+          }
+        }
+      }
     },
     "Additional Auxiliary Field" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доп. вспомогательное поле"
+          }
+        }
+      }
     },
     "Additional Header Field" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доп. поле заголовка"
+          }
+        }
+      }
     },
     "Additional Secondary Field" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доп. второстепенное поле"
+          }
+        }
+      }
     },
     "Address" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Адрес"
+          }
+        }
+      }
     },
     "Alt Text" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Альт. текст"
+          }
+        }
+      }
     },
     "Are you sure you want to discard your changes?" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы уверены, что хотите отменить изменения?"
+          }
+        }
+      }
     },
     "Auxiliary Field" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вспомогательное поле"
+          }
+        }
+      }
     },
     "Background Color" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цвет фона"
+          }
+        }
+      }
     },
     "Background Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фоновое изображение"
+          }
+        }
+      }
     },
     "Barcode Data" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Данные штрихкода"
+          }
+        }
+      }
     },
     "Barcode Type" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип штрихкода"
+          }
+        }
+      }
     },
     "Birthday" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "День рождения"
+          }
+        }
+      }
     },
     "Border" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Рамка"
+          }
+        }
+      }
     },
     "Camera is not available" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Камера недоступна"
+          }
+        }
+      }
     },
     "Cancel" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отмена"
+          }
+        }
+      }
     },
     "Change Background Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить фоновое изображение"
+          }
+        }
+      }
     },
     "Change Emoji" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить эмодзи"
+          }
+        }
+      }
     },
     "Change Logo Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить логотип"
+          }
+        }
+      }
     },
     "Change Strip Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить баннер"
+          }
+        }
+      }
     },
     "Change Symbol" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить символ"
+          }
+        }
+      }
     },
     "Change Thumbnail Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить миниатюру"
+          }
+        }
+      }
     },
     "Company" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Компания"
+          }
+        }
+      }
     },
     "Correction Level" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уровень коррекции"
+          }
+        }
+      }
     },
     "Created by Drew Hanshaw" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создано Drew Hanshaw"
+          }
+        }
+      }
     },
     "Customize Barcode" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настроить штрихкод"
+          }
+        }
+      }
     },
     "Customize QR Code" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Настроить QR-код"
+          }
+        }
+      }
     },
     "Data" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Данные"
+          }
+        }
+      }
     },
     "Date" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата"
+          }
+        }
+      }
     },
     "Delete" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить"
+          }
+        }
+      }
     },
     "Delete All Passes" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить все карты"
+          }
+        }
+      }
     },
     "Delete All Passes?" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить все карты?"
+          }
+        }
+      }
     },
     "Discard Changes" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сбросить изменения"
+          }
+        }
+      }
     },
     "Done" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        }
+      }
     },
     "Duplicate" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дублировать"
+          }
+        }
+      }
     },
     "Email" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email"
+          }
+        }
+      }
     },
     "Empty fields will not\nappear on the Pass\nwhen added to your Wallet" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пустые поля не будут\nотображаться в карте,\nкогда она будет добавлена в Wallet"
+          }
+        }
+      }
     },
     "Encoding" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кодировка"
+          }
+        }
+      }
     },
     "Enter Barcode Data" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите данные штрихкода"
+          }
+        }
+      }
     },
     "Enter QR Code Data" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите данные QR-кода"
+          }
+        }
+      }
     },
     "Error" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка"
+          }
+        }
+      }
     },
     "Failed to Update Pass" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось обновить карту"
+          }
+        }
+      }
     },
     "First" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя"
+          }
+        }
+      }
     },
     "First Name" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя"
+          }
+        }
+      }
     },
     "Follow me on" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подпишись на меня в"
+          }
+        }
+      }
     },
     "Get Barcode from Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканировать штрихкод с фото"
+          }
+        }
+      }
     },
     "Get QR Code from Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканировать QR-код с фото"
+          }
+        }
+      }
     },
     "Handle or URL" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Юзернейм или URL"
+          }
+        }
+      }
     },
     "Header Field" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поле заголовка"
+          }
+        }
+      }
     },
     "Hidden Network" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрытая сеть"
+          }
+        }
+      }
     },
     "https://..." : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://..."
+          }
+        }
+      }
     },
     "Import Failed" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка импорта"
+          }
+        }
+      }
     },
     "Insert" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вставить"
+          }
+        }
+      }
     },
     "Invalid Barcode Data" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неверные данные штрихкода"
+          }
+        }
+      }
     },
     "Label" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Метка"
+          }
+        }
+      }
     },
     "Label Color" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цвет метки"
+          }
+        }
+      }
     },
     "Last" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фамилия"
+          }
+        }
+      }
     },
     "Last Name" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фамилия"
+          }
+        }
+      }
     },
     "Logo Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Логотип"
+          }
+        }
+      }
     },
     "Logo type" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип логотипа"
+          }
+        }
+      }
     },
     "My Passes" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мои карты"
+          }
+        }
+      }
     },
     "Network Name" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Название сети"
+          }
+        }
+      }
     },
     "Next" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Далее"
+          }
+        }
+      }
     },
     "NFC Pass Imported" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NFC-карта импортирована"
+          }
+        }
+      }
     },
     "No Valid Barcode Detected" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Штрихкод не обнаружен"
+          }
+        }
+      }
     },
     "No Valid QR Code Detected" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "QR-код не обнаружен"
+          }
+        }
+      }
     },
     "OK" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ок"
+          }
+        }
+      }
     },
     "Or:" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Или:"
+          }
+        }
+      }
     },
     "PassKeepr" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PassKeepr"
+          }
+        }
+      }
     },
     "Password" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль"
+          }
+        }
+      }
     },
     "Phone" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Телефон"
+          }
+        }
+      }
     },
     "Please select an image containing a valid barcode" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пожалуйста, выберите изображение с корректным штрихкодом"
+          }
+        }
+      }
     },
     "Please select an image containing a valid QR code" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пожалуйста, выберите изображение с корректным QR-кодом"
+          }
+        }
+      }
     },
     "Primary Field" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Основное поле"
+          }
+        }
+      }
     },
     "QR Code Data" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Данные QR-кода"
+          }
+        }
+      }
     },
     "QR Code Type" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип QR-кода"
+          }
+        }
+      }
     },
     "Remove Background Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить фоновое изображение"
+          }
+        }
+      }
     },
     "Remove Strip Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить баннер"
+          }
+        }
+      }
     },
     "Save" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
+          }
+        }
+      }
     },
     "Save + Add to Wallet" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить и добавить в Wallet"
+          }
+        }
+      }
     },
     "Scan Existing Barcode" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканировать штрихкод"
+          }
+        }
+      }
     },
     "Scan Existing QR Code" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканировать QR-код"
+          }
+        }
+      }
     },
     "Secondary and auxiliary fields are limited to 4 combined when a strip image is used." : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Количество дополнительных и вспомогательных полей ограничено четырьмя при использовании баннера."
+          }
+        }
+      }
     },
     "Secondary Field" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дополнительное поле"
+          }
+        }
+      }
     },
     "Security" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Безопасность"
+          }
+        }
+      }
     },
     "Select a Background Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать фоновое изображение"
+          }
+        }
+      }
     },
     "Select a Logo Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать логотип"
+          }
+        }
+      }
     },
     "Select a Strip Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать баннер"
+          }
+        }
+      }
     },
     "Select a Symbol" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать символ"
+          }
+        }
+      }
     },
     "Select a Thumbnail Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите миниатюру"
+          }
+        }
+      }
     },
     "Select an Emoji" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать эмодзи"
+          }
+        }
+      }
     },
     "Share" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поделиться"
+          }
+        }
+      }
     },
     "Signing Pass…" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подпись карты…"
+          }
+        }
+      }
     },
     "Social" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Соцсети"
+          }
+        }
+      }
     },
     "SSID" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SSID"
+          }
+        }
+      }
     },
     "Strip Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изображение-баннер"
+          }
+        }
+      }
     },
     "Strip images are not compatible with QR codes" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Баннеры несовместимы с QR-кодами"
+          }
+        }
+      }
     },
     "Symbol Color" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цвет символа"
+          }
+        }
+      }
     },
     "Tap on icons\nto edit each field" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите на иконку,\nчтобы изменить поле"
+          }
+        }
+      }
     },
     "Text" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Текст"
+          }
+        }
+      }
     },
     "Text Color" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цвет текста"
+          }
+        }
+      }
     },
     "The imported pass contained NFC data. NFC functionality will not be included for this PassKeepr pass." : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Импортированная карта содержит данные NFC. Функциональность NFC не будет поддерживаться в этой карте PassKeepr."
+          }
+        }
+      }
     },
     "This action cannot be undone." : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это действие нельзя отменить."
+          }
+        }
+      }
     },
     "This device doesn't support the DataScannerViewController" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Это устройство не поддерживает DataScannerViewController"
+          }
+        }
+      }
     },
     "Thumbnail Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Миниатюра"
+          }
+        }
+      }
     },
     "Thumbnail type" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип миниатюры"
+          }
+        }
+      }
     },
     "Transparent background" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прозрачный фон"
+          }
+        }
+      }
     },
     "Type" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип"
+          }
+        }
+      }
     },
     "URL" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL"
+          }
+        }
+      }
     },
     "Use the ＋ Button to Add a Pass" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Используйте кнопку ＋, чтобы добавить карту"
+          }
+        }
+      }
     },
     "Value" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Значение"
+          }
+        }
+      }
     },
     "Version %@" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версия %@"
+          }
+        }
+      }
     }
   },
   "version" : "1.2"
