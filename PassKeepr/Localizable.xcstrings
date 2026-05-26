@@ -936,7 +936,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Выберите миниатюру"
+            "value" : "Выбрать миниатюру"
           }
         }
       }
@@ -966,7 +966,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Подпись карты…"
+            "value" : "Подписание карты…"
           }
         }
       }
