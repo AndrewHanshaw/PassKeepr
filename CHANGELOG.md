@@ -1,3 +1,8 @@
+## [1.05] - 2026-06-05
+
+### Added
+- Russian language support
+
 ## [1.04] - 2026-05-17
 
 ### Fixed
