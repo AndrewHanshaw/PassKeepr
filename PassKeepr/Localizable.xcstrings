@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lld" : {
+
+    },
     "About PassKeepr" : {
       "localizations" : {
         "ru" : {
@@ -721,6 +724,16 @@
         }
       }
     },
+    "Pass Group" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Группа карт"
+          }
+        }
+      }
+    },
     "PassKeepr" : {
       "localizations" : {
         "ru" : {
@@ -1057,6 +1070,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Импортированная карта содержит данные NFC. Функциональность NFC не будет поддерживаться в этой карте PassKeepr."
+          }
+        }
+      }
+    },
+    "The Pass Group is used to separate passes once added to Wallet." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Группа карт используется для разделения карт после добавления в Wallet."
           }
         }
       }

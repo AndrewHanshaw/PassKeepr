@@ -14,6 +14,7 @@
 		3A02E74B2AF6EE1B00383BC2 /* PassKeeprTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E74A2AF6EE1B00383BC2 /* PassKeeprTests.swift */; };
 		3A02E7552AF6EE1B00383BC2 /* PassKeeprUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7542AF6EE1B00383BC2 /* PassKeeprUITests.swift */; };
 		3A02E7572AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */; };
+		BA0018C82FD6658700B617FE /* PassGroupPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0018C72FD6658700B617FE /* PassGroupPicker.swift */; };
 		BA046B092F956D92005C6BA3 /* SwiftyCrop in Frameworks */ = {isa = PBXBuildFile; productRef = BA046B082F956D92005C6BA3 /* SwiftyCrop */; };
 		BA046B272F958FA8005C6BA3 /* IdentifiableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA046B262F958FA8005C6BA3 /* IdentifiableImage.swift */; };
 		BA046B292F95934A005C6BA3 /* SwiftyCropConfiguration+AppStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA046B282F95934A005C6BA3 /* SwiftyCropConfiguration+AppStyle.swift */; };
@@ -143,6 +144,7 @@
 		3A02E7502AF6EE1B00383BC2 /* PassKeeprUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PassKeeprUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A02E7542AF6EE1B00383BC2 /* PassKeeprUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprUITests.swift; sourceTree = "<group>"; };
 		3A02E7562AF6EE1B00383BC2 /* PassKeeprUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKeeprUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BA0018C72FD6658700B617FE /* PassGroupPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassGroupPicker.swift; sourceTree = "<group>"; };
 		BA046B262F958FA8005C6BA3 /* IdentifiableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableImage.swift; sourceTree = "<group>"; };
 		BA046B282F95934A005C6BA3 /* SwiftyCropConfiguration+AppStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftyCropConfiguration+AppStyle.swift"; sourceTree = "<group>"; };
 		BA067E062F5937C900F87B79 /* BackgroundBrightness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundBrightness.swift; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 		BA0F32E72B9AC837007120B8 /* Pickers */ = {
 			isa = PBXGroup;
 			children = (
+				BA0018C72FD6658700B617FE /* PassGroupPicker.swift */,
 				BA6595902F79BB3D0091BB29 /* WifiQrCode.swift */,
 				BA65958E2F79BB350091BB29 /* VCardQrCode.swift */,
 				BA12A7342F68EF2600B55431 /* AuxiliaryFieldSelection.swift */,
@@ -699,6 +702,7 @@
 				BA12A7312F66086800B55431 /* ThumbnailImageView.swift in Sources */,
 				BA6DACF72D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift in Sources */,
 				BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */,
+				BA0018C82FD6658700B617FE /* PassGroupPicker.swift in Sources */,
 				BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */,
 				BA12A7332F66089600B55431 /* CustomizeThumbnailImage.swift in Sources */,
 				BAE7B33E2D065DFF00DD0251 /* BuiltInBarcodeView.swift in Sources */,

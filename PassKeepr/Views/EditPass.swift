@@ -68,6 +68,8 @@ struct EditPass: View {
                     if (tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr) && tempObject.backgroundImage == Data() {
                         StripImageSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
                     }
+
+                    PassGroupPicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
                 }
                 .padding()
             }
