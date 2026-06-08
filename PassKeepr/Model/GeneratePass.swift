@@ -101,7 +101,6 @@ let requiredFields: [String: Any] = [
     "formatVersion": 1,
     "teamIdentifier": "NZDS56Z4Q9",
     "organizationName": "PassKeepr",
-    "passTypeIdentifier": "pass.com.hanshaw.passKeepr",
 ]
 
 // Initializes a new PassKit pass for the given pass
@@ -119,6 +118,7 @@ func generatePass(passObject: PassObject) -> URL? {
 
         // Add the required data to the pass
         var passData: [String: Any] = requiredFields
+        passData["passTypeIdentifier"] = "pass.com.hanshaw.passKeepr.\(passObject.group)"
         passData.merge(["description": passObject.description]) { _, _ in }
         passData.merge(["serialNumber": passObject.id.uuidString]) { _, _ in }
         passData.merge(["foregroundColor": passObject.foregroundColor.toRGBString()]) { _, _ in }
