@@ -24,6 +24,7 @@ class MockModelData: ModelData {
 private extension PassObject {
     static let preview1 = PassObject(
         id: UUID(),
+        group: 2,
         passIcon: (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data(),
         barcodeString: "1234",
         barcodeType: BarcodeType.code128,
@@ -91,6 +92,7 @@ private extension PassObject {
 
     static let preview2 = PassObject(
         id: UUID(),
+        group: 1,
         passIcon: (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data(),
         barcodeString: "1234",
         barcodeType: BarcodeType.code128,

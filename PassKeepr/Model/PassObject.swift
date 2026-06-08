@@ -4,6 +4,7 @@ import SwiftUI
 struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     static let defaultDescription: String = "PassKeepr Pass"
     var id: UUID
+    var group: Int
     var passIcon: Data
     var barcodeString: String
     var barcodeType: BarcodeType
@@ -72,7 +73,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var vcardCustomFields: [VCardCustomField]
 
     enum CodingKeys: String, CodingKey {
-        case id, passIcon, barcodeString, barcodeType, barcodeBorder
+        case id, group, passIcon, barcodeString, barcodeType, barcodeBorder
         case stripImage, backgroundImage, logoImage, logoImageType
         case thumbnailImage, thumbnailImageType
         case qrCodeCorrectionLevel, qrCodeEncoding, qrCodeType
@@ -105,6 +106,7 @@ extension PassObject {
         let defaultIcon = (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
 
         id = try c.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        group = try c.decodeIfPresent(Int.self, forKey: .group) ?? 1
         passIcon = try c.decodeIfPresent(Data.self, forKey: .passIcon) ?? defaultIcon
         barcodeString = try c.decodeIfPresent(String.self, forKey: .barcodeString) ?? ""
         barcodeType = try c.decodeIfPresent(BarcodeType.self, forKey: .barcodeType) ?? .none
@@ -177,6 +179,7 @@ extension PassObject {
 
         self.init(
             id: UUID(),
+            group: 1,
             passIcon: defaultIcon,
             barcodeString: "",
             barcodeType: .none,
@@ -246,6 +249,7 @@ extension PassObject {
     func duplicate() -> PassObject {
         PassObject(
             id: UUID(),
+            group: 1,
             passIcon: passIcon,
             barcodeString: barcodeString,
             barcodeType: barcodeType,
