@@ -230,7 +230,15 @@ func generatePass(passObject: PassObject) -> URL? {
         }
 
         if passObject.logoImage != Data() {
-            saveImageVariants(from: passObject.logoImage, name: "logo", passDirectory: passDirectory, maxWidth: PassKitConstants.LogoImage.width, maxHeight: PassKitConstants.LogoImage.height)
+            // Bake the logo tab styling into the exported logo.png so it renders in real Apple Wallet
+            // (which has no native logo-background field) as a single styled logo.
+            var logoData = passObject.logoImage
+            if let rendered = renderedLogoImage(for: passObject), passObject.isLogoBackgroundOn,
+               let renderedData = rendered.pngData()
+            {
+                logoData = renderedData
+            }
+            saveImageVariants(from: logoData, name: "logo", passDirectory: passDirectory, maxWidth: PassKitConstants.LogoImage.width, maxHeight: PassKitConstants.LogoImage.height)
         }
 
         if passObject.thumbnailImage != Data(), passStyleString == "generic" || passStyleString == "eventTicket" {

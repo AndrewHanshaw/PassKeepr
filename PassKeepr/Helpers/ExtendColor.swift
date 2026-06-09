@@ -61,6 +61,15 @@ extension Color {
 }
 
 extension UIColor {
+    convenience init(hex: UInt, alpha: CGFloat = 1.0) {
+        self.init(
+            red: CGFloat((hex >> 16) & 0xFF) / 255,
+            green: CGFloat((hex >> 8) & 0xFF) / 255,
+            blue: CGFloat(hex & 0xFF) / 255,
+            alpha: alpha
+        )
+    }
+
     // Convert to the same packed 0xRRGGBB UInt representation used for the pass colours.
     func toUInt() -> UInt {
         var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0

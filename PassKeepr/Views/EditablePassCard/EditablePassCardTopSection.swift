@@ -53,17 +53,18 @@ struct EditablePassCardTopSection: View {
 
     @ViewBuilder
     private var logoImage: some View {
-        // Small logo images can be rendered at their native size. Anything larger needs to be shrunk down
-        if let uiImage = UIImage(data: passObject.logoImage),
-           uiImage.size.width < PassKitConstants.LogoImage.width && uiImage.size.height < PassKitConstants.LogoImage.height
-        {
-            Image(uiImage: uiImage)
-                .frame(alignment: .center)
-        } else if let uiImage = UIImage(data: passObject.logoImage) {
-            Image(uiImage: uiImage)
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: 140, alignment: .center)
+        // renderedLogoImage bakes the logo-to-background transition (when enabled) so the preview
+        // matches the exported pass. Small logos render at native size; larger ones are shrunk down.
+        if let uiImage = renderedLogoImage(for: passObject) {
+            if uiImage.size.width < PassKitConstants.LogoImage.width && uiImage.size.height < PassKitConstants.LogoImage.height {
+                Image(uiImage: uiImage)
+                    .frame(alignment: .center)
+            } else {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: 140, alignment: .center)
+            }
         }
     }
 
