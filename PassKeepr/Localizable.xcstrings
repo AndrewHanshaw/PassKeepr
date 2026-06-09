@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "✎ Rename" : {
+
+    },
     "About PassKeepr" : {
       "localizations" : {
         "ru" : {
@@ -270,6 +273,9 @@
           }
         }
       }
+    },
+    "Copy an image first, then try again." : {
+
     },
     "Correction Level" : {
       "localizations" : {
@@ -631,6 +637,9 @@
         }
       }
     },
+    "Logo Shadow Color" : {
+
+    },
     "Logo type" : {
       "localizations" : {
         "ru" : {
@@ -681,6 +690,9 @@
         }
       }
     },
+    "No image on the clipboard" : {
+
+    },
     "No Valid Barcode Detected" : {
       "localizations" : {
         "ru" : {
@@ -721,6 +733,9 @@
         }
       }
     },
+    "Pass name" : {
+
+    },
     "PassKeepr" : {
       "localizations" : {
         "ru" : {
@@ -740,6 +755,12 @@
           }
         }
       }
+    },
+    "Paste Image from Clipboard" : {
+
+    },
+    "Paste New Image" : {
+
     },
     "Phone" : {
       "localizations" : {
@@ -860,6 +881,9 @@
           }
         }
       }
+    },
+    "Search for Logo" : {
+
     },
     "Secondary and auxiliary fields are limited to 4 combined when a strip image is used." : {
       "localizations" : {

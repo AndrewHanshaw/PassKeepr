@@ -6,9 +6,9 @@ struct PassCardTopSection: View {
 
     var body: some View {
         HStack {
-            if passObject.logoImage != Data() {
+            if passObject.logoImage != Data(), let logo = renderedLogoImage(for: passObject) {
                 VStack {
-                    Image(uiImage: UIImage(data: passObject.logoImage)!)
+                    Image(uiImage: logo)
                         .resizable()
                         .scaledToFit()
                         .frame(maxHeight: 30)

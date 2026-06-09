@@ -103,4 +103,169 @@ extension UIImage {
 
         return (0.299 * red) + (0.587 * green) + (0.114 * blue)
     }
+
+    // Draws self into a fixed-size RGBA8 (premultipliedLast) buffer and returns the raw pixels.
+    // The image is scaled to fit within maxDimension to keep the per-pixel scans cheap.
+    private func rgbaPixels(maxDimension: Int = 50) -> (pixels: [UInt8], width: Int, height: Int)? {
+        guard let cgImage = cgImage else { return nil }
+
+        let srcW = cgImage.width
+        let srcH = cgImage.height
+        guard srcW > 0, srcH > 0 else { return nil }
+
+        let scale = min(1.0, CGFloat(maxDimension) / CGFloat(max(srcW, srcH)))
+        let width = max(1, Int((CGFloat(srcW) * scale).rounded()))
+        let height = max(1, Int((CGFloat(srcH) * scale).rounded()))
+
+        var pixels = [UInt8](repeating: 0, count: width * height * 4)
+        guard let context = CGContext(
+            data: &pixels,
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bytesPerRow: width * 4,
+            space: CGColorSpaceCreateDeviceRGB(),
+            bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else { return nil }
+
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
+        return (pixels, width, height)
+    }
+
+    // Quantizes a colour to a 5-bits-per-channel bucket key so similar shades group together
+    private static func bucketKey(r: UInt8, g: UInt8, b: UInt8) -> Int {
+        (Int(r) >> 3) << 10 | (Int(g) >> 3) << 5 | (Int(b) >> 3)
+    }
+
+    private static func color(fromBucketKey key: Int) -> UIColor {
+        // Reconstruct the colour from the centre of each 5-bit bucket
+        let r = ((key >> 10) & 0x1F) << 3 | 0x04
+        let g = ((key >> 5) & 0x1F) << 3 | 0x04
+        let b = (key & 0x1F) << 3 | 0x04
+        return UIColor(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: 1)
+    }
+
+    private static func bucketKey(of color: UIColor) -> Int {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        color.getRed(&r, green: &g, blue: &b, alpha: &a)
+        return bucketKey(r: UInt8((max(0, min(1, r)) * 255).rounded()),
+                         g: UInt8((max(0, min(1, g)) * 255).rounded()),
+                         b: UInt8((max(0, min(1, b)) * 255).rounded()))
+    }
+
+    // The most common (modal) colour in the image, ignoring transparent pixels. Unlike averageColor
+    // (which averages everything into mud), this returns the dominant hue. An optional colour can be
+    // excluded so a logo framed in white (where white is the most common colour and also the edge
+    // colour) still yields its real brand colour as the dominant — falling back to the overall most
+    // common only if nothing else is present.
+    func dominantColor(excluding excluded: UIColor? = nil) -> UIColor? {
+        guard let (pixels, width, height) = rgbaPixels() else { return nil }
+
+        var histogram: [Int: Int] = [:]
+        for y in 0 ..< height {
+            for x in 0 ..< width {
+                let i = (width * y + x) * 4
+                if pixels[i + 3] < 128 { continue } // skip (semi-)transparent pixels
+                histogram[UIImage.bucketKey(r: pixels[i], g: pixels[i + 1], b: pixels[i + 2]), default: 0] += 1
+            }
+        }
+        guard !histogram.isEmpty else { return nil }
+
+        let excludedKey = excluded.map { UIImage.bucketKey(of: $0) }
+        let best = histogram.filter { $0.key != excludedKey }.max(by: { $0.value < $1.value })?.key
+            ?? histogram.max(by: { $0.value < $1.value })?.key
+        return best.map { UIImage.color(fromBucketKey: $0) }
+    }
+
+    // The most common colour along the outer ring of pixels (top/bottom rows, left/right columns).
+    // `isOpaque` reports whether that ring was mostly opaque — a transparent ring means the logo
+    // already floats cleanly, so it has no solid edge/background colour.
+    func edgeColor() -> (color: UIColor, isOpaque: Bool)? {
+        guard let (pixels, width, height) = rgbaPixels() else { return nil }
+
+        var histogram: [Int: Int] = [:]
+        var opaqueCount = 0
+        var sampleCount = 0
+
+        func sample(_ x: Int, _ y: Int) {
+            let i = (width * y + x) * 4
+            sampleCount += 1
+            if pixels[i + 3] < 128 { return }
+            opaqueCount += 1
+            histogram[UIImage.bucketKey(r: pixels[i], g: pixels[i + 1], b: pixels[i + 2]), default: 0] += 1
+        }
+
+        for x in 0 ..< width {
+            sample(x, 0)
+            sample(x, height - 1)
+        }
+        for y in 0 ..< height {
+            sample(0, y)
+            sample(width - 1, y)
+        }
+
+        guard sampleCount > 0, let best = histogram.max(by: { $0.value < $1.value })?.key else { return nil }
+        let isOpaque = Double(opaqueCount) / Double(sampleCount) > 0.75
+        return (UIImage.color(fromBucketKey: best), isOpaque)
+    }
+
+    // Most common colours of the left-most and right-most columns of the image. Voting only over the
+    // vertical sides (rather than the whole outer ring) avoids being dominated by white top/bottom
+    // margins — these are exactly the edges that get extended when padding the logo's width.
+    // `isOpaque` reports whether those side columns are mostly opaque.
+    func sideEdgeColors() -> (left: UIColor, right: UIColor, isOpaque: Bool)? {
+        guard let (pixels, width, height) = rgbaPixels() else { return nil }
+
+        func modalColor(xRange: Range<Int>) -> (color: UIColor?, opaque: Int, total: Int) {
+            var histogram: [Int: Int] = [:]
+            var opaque = 0
+            var total = 0
+            for x in xRange {
+                for y in 0 ..< height {
+                    let i = (width * y + x) * 4
+                    total += 1
+                    if pixels[i + 3] < 128 { continue }
+                    opaque += 1
+                    histogram[UIImage.bucketKey(r: pixels[i], g: pixels[i + 1], b: pixels[i + 2]), default: 0] += 1
+                }
+            }
+            return (histogram.max(by: { $0.value < $1.value }).map { UIImage.color(fromBucketKey: $0.key) }, opaque, total)
+        }
+
+        let band = max(1, width / 10) // sample the outer ~10% of columns on each side for robustness
+        let left = modalColor(xRange: 0 ..< band)
+        let right = modalColor(xRange: (width - band) ..< width)
+
+        guard let leftColor = left.color, let rightColor = right.color else { return nil }
+        let totalSamples = left.total + right.total
+        let isOpaque = totalSamples > 0 && Double(left.opaque + right.opaque) / Double(totalSamples) > 0.75
+        return (leftColor, rightColor, isOpaque)
+    }
+
+    // Pads the image out to the given width/height aspect ratio by adding bars on the left and
+    // right, centering the original. This lets a square or tall logo fit fully inside the wider
+    // logo crop rectangle instead of having its top/bottom cropped off. Each bar is filled with the
+    // colour of the side it extends, so the bars blend into the logo's actual edges. Returns self
+    // unchanged if the image is already wide enough.
+    func paddedToAspectRatio(_ aspectRatio: CGFloat, leftFill: UIColor, rightFill: UIColor) -> UIImage {
+        let w = size.width
+        let h = size.height
+        guard w > 0, h > 0, aspectRatio > 0, w / h < aspectRatio else { return self }
+
+        let canvas = CGSize(width: h * aspectRatio, height: h)
+        let barWidth = (canvas.width - w) / 2
+        let format = UIGraphicsImageRendererFormat.default()
+        format.opaque = false
+        format.scale = scale
+
+        let renderer = UIGraphicsImageRenderer(size: canvas, format: format)
+        return renderer.image { ctx in
+            // Overlap each bar 1pt under the image to avoid a hairline gap from rounding
+            leftFill.setFill()
+            ctx.fill(CGRect(x: 0, y: 0, width: barWidth + 1, height: canvas.height))
+            rightFill.setFill()
+            ctx.fill(CGRect(x: canvas.width - barWidth - 1, y: 0, width: barWidth + 1, height: canvas.height))
+            draw(in: CGRect(x: barWidth, y: 0, width: w, height: h))
+        }
+    }
 }

@@ -82,7 +82,8 @@ struct CustomizeThumbnailImage: View {
                 }
 
                 Picker("Thumbnail type", selection: $tempThumbnailImageType) {
-                    ForEach(ImageType.allCases, id: \.self) { type in
+                    // Clipboard is a logo-only source for now
+                    ForEach(ImageType.allCases.filter { $0 != .clipboard }, id: \.self) { type in
                         Text(String(describing: type))
                     }
                 }
@@ -164,7 +165,8 @@ struct CustomizeThumbnailImage: View {
                     ColorPicker("Symbol Color", selection: $symbolColor, supportsOpacity: false)
                         .padding(16)
                         .listSectionBackgroundModifier()
-                case .none:
+                case .clipboard, .none:
+                    // Clipboard isn't offered for thumbnails (filtered out of the picker above)
                     EmptyView()
                 }
 

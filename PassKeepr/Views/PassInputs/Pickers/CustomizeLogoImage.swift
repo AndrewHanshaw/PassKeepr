@@ -29,6 +29,7 @@ struct CustomizeLogoImage: View {
 
     @State private var photoItem: PhotosPickerItem?
     @State private var imageForCrop: IdentifiableImage?
+    @State private var isClipboardEmptyAlertShown: Bool = false
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
@@ -122,13 +123,36 @@ struct CustomizeLogoImage: View {
                             if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
                                let image = UIImage(data: loaded)
                             {
-                                imageForCrop = IdentifiableImage(image: image)
+                                imageForCrop = IdentifiableImage(image: paddedImageForCrop(image))
                             } else {
                                 print("Failed")
                             }
                         }
                     }
                     .padding([.top, .bottom], 12)
+                    .accentColorProminentButtonStyleIfAvailable()
+
+                    Toggle(isOn: $isTransparencyOn) {
+                        Text("Transparent background")
+                            .opacity(isTransparencyAvailable ? 1 : 0.2)
+                    }
+                    .disabled(!isTransparencyAvailable)
+                    .padding(14)
+                    .listSectionBackgroundModifier()
+                case .clipboard:
+                    Button {
+                        // Paste an image off the system clipboard and send it through the same crop flow
+                        if let image = UIPasteboard.general.image {
+                            imageForCrop = IdentifiableImage(image: paddedImageForCrop(image))
+                        } else {
+                            isClipboardEmptyAlertShown = true
+                        }
+                    } label: {
+                        Text(tempLogo == nil ? "Paste Image from Clipboard" : "Paste New Image")
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
+                    }
+                    .foregroundColor(.white)
                     .accentColorProminentButtonStyleIfAvailable()
 
                     Toggle(isOn: $isTransparencyOn) {
@@ -199,7 +223,7 @@ struct CustomizeLogoImage: View {
                     if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
                        let image = UIImage(data: loaded)
                     {
-                        imageForCrop = IdentifiableImage(image: image)
+                        imageForCrop = IdentifiableImage(image: paddedImageForCrop(image))
                     } else {
                         print("Failed")
                     }
@@ -207,6 +231,11 @@ struct CustomizeLogoImage: View {
             }
             .padding()
             .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
+            .alert("No image on the clipboard", isPresented: $isClipboardEmptyAlertShown) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Copy an image first, then try again.")
+            }
             .onChange(of: tempLogo) {
                 Task {
                     if let tempNoBg = removeBackground(image: tempLogo) {
@@ -248,10 +277,23 @@ struct CustomizeLogoImage: View {
         }
     }
 
+    // Pads a freshly selected photo out to the logo aspect ratio using its own edge colour, so a
+    // square or tall logo fits fully inside the (wide) crop rectangle rather than getting its
+    // top/bottom cropped off. Transparent-edged logos are padded with clear instead of a colour.
+    private func paddedImageForCrop(_ image: UIImage) -> UIImage {
+        // Pad each side with that side's own edge colour. For transparent-edged logos, pad with
+        // clear so the logo stays floating rather than gaining solid colour bars.
+        let sides = image.sideEdgeColors()
+        let leftFill: UIColor = (sides?.isOpaque == true) ? sides!.left : .clear
+        let rightFill: UIColor = (sides?.isOpaque == true) ? sides!.right : .clear
+        return image.paddedToAspectRatio(PassKitConstants.LogoImage.aspectRatio, leftFill: leftFill, rightFill: rightFill)
+    }
+
     private func updateLogoImage() {
         if tempLogoImageType == ImageType.none {
             passObject.logoImage = Data()
-        } else if tempLogoImageType == ImageType.photo {
+        } else if tempLogoImageType == ImageType.photo || tempLogoImageType == ImageType.clipboard {
+            // A clipboard image is just a photo from a different source, so it saves the same way
             if isTransparencyOn {
                 if let logoNoBg = tempLogoNoBackground {
                     passObject.logoImage = logoNoBg.pngData()!
@@ -274,6 +316,10 @@ struct CustomizeLogoImage: View {
         passObject.logoImageType = tempLogoImageType
         passObject.logoSymbolName = symbolName
         passObject.logoSymbolColor = symbolColor.toHex()
+
+        // Auto-derive the pass colour scheme from the new logo (no-op if colours aren't at defaults)
+        applyColorsFromLogo(to: &passObject)
+
         presentationMode.wrappedValue.dismiss()
     }
 

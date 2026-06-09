@@ -5,6 +5,7 @@ struct EditPass: View {
     @EnvironmentObject var modelData: ModelData
     @EnvironmentObject var passSigner: pkPassSigner
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.openURL) private var openURL
 
     // Pass object passed into this view.
     // We want to update this object when the save button is pressed
@@ -34,6 +35,8 @@ struct EditPass: View {
     @State private var showDiscardConfirmation = false
     @State private var isCustomizeBarcodePresented = false
     @State private var isCustomizeQrCodePresented = false
+    @State private var isRenaming = false
+    @FocusState private var isRenameFieldFocused: Bool
 
     // On init, set the temp object owned by this view equal to the
     // one passed in via @Binding
@@ -85,6 +88,38 @@ struct EditPass: View {
             .ignoresSafeArea(edges: .top)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle($tempObject.description)
+            .toolbarTitleMenu {
+                // Custom button so the label can carry a (unicode) pencil — RenameButton() renders no
+                // icon inside a custom toolbarTitleMenu. Tapping turns the title into an inline field.
+                Button {
+                    isRenaming = true
+                } label: {
+                    Text("\u{270E} Rename")
+                }
+                Button("Search for Logo", systemImage: "magnifyingglass") {
+                    let query = tempObject.description.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+                    if let url = URL(string: "https://www.logo.dev/search?q=\(query)") {
+                        openURL(url)
+                    }
+                }
+            }
+            .toolbar {
+                // While renaming, the centred title becomes an inline text field (no popup)
+                if isRenaming {
+                    ToolbarItem(placement: .principal) {
+                        TextField("Pass name", text: $tempObject.description)
+                            .focused($isRenameFieldFocused)
+                            .multilineTextAlignment(.center)
+                            .frame(minWidth: 140)
+                            .submitLabel(.done)
+                            .onSubmit { isRenaming = false }
+                            .onAppear { isRenameFieldFocused = true }
+                            .onChange(of: isRenameFieldFocused) {
+                                if !isRenameFieldFocused { isRenaming = false }
+                            }
+                    }
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     // This weird initializer for Menu is the only way I could find to get it to apply the GlassProminentButtonStyle on iOS 26

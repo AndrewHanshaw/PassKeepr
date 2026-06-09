@@ -21,12 +21,35 @@ struct ColorInput: View {
                     .padding([.leading, .trailing], 16)
                     .disabled(disableControl)
             }
+
+            // The logo's edge/background colour, auto-derived from the logo and used to style the
+            // logo tab (its right/bottom border). Editable here.
+            if pass.isLogoBackgroundOn {
+                ColorPicker("Logo Shadow Color", selection: Color.binding(from: $pass.logoBackgroundColor), supportsOpacity: false)
+                    .padding(.bottom, 16)
+                    .padding(.top, pass.backgroundImage == Data() ? 0 : 16)
+                    .overlay(Divider(), alignment: .bottom)
+                    .padding([.leading, .trailing], 16)
+                    .disabled(disableControl)
+            }
+
             ColorPicker("Label Color", selection: Color.binding(from: $pass.labelColor), supportsOpacity: false)
                 .padding([.leading, .trailing, .bottom], 16)
-                .padding(.top, pass.backgroundImage == Data() ? 0 : 16) // Need to add top padding only when the other two pickers are not shown
+                .padding(.top, pass.backgroundImage == Data() || pass.isLogoBackgroundOn ? 0 : 16) // Need to add top padding only when no picker is shown above
                 .disabled(disableControl)
         }
         .listSectionBackgroundModifier()
+        .onChange(of: pass.backgroundColor) {
+            // Keep text legible: if a text/label colour no longer has enough contrast against the
+            // new background, flip it to black or white. Colours that are still legible are left as-is.
+            let minContrast = 4.5 // WCAG AA for normal text
+            if Color.contrastRatio(pass.foregroundColor, pass.backgroundColor) < minContrast {
+                pass.foregroundColor = Color.legibleTextColor(onBackground: pass.backgroundColor)
+            }
+            if Color.contrastRatio(pass.labelColor, pass.backgroundColor) < minContrast {
+                pass.labelColor = Color.legibleTextColor(onBackground: pass.backgroundColor)
+            }
+        }
     }
 }
 
