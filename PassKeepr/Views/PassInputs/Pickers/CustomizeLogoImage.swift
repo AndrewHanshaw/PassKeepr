@@ -286,6 +286,10 @@ struct CustomizeLogoImage: View {
         passObject.logoImageType = tempLogoImageType
         passObject.logoSymbolName = symbolName
         passObject.logoSymbolColor = symbolColor.toHex()
+
+        // Auto-derive the pass colour scheme from the new logo (no-op if colours aren't at defaults)
+        applyColorsFromLogo(to: &passObject)
+
         presentationMode.wrappedValue.dismiss()
     }
 

@@ -145,6 +145,70 @@ extension UIImage {
         return UIColor(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: 1)
     }
 
+    private static func bucketKey(of color: UIColor) -> Int {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        color.getRed(&r, green: &g, blue: &b, alpha: &a)
+        return bucketKey(r: UInt8((max(0, min(1, r)) * 255).rounded()),
+                         g: UInt8((max(0, min(1, g)) * 255).rounded()),
+                         b: UInt8((max(0, min(1, b)) * 255).rounded()))
+    }
+
+    // The most common (modal) colour in the image, ignoring transparent pixels. Unlike averageColor
+    // (which averages everything into mud), this returns the dominant hue. An optional colour can be
+    // excluded so a logo framed in white (where white is the most common colour and also the edge
+    // colour) still yields its real brand colour as the dominant — falling back to the overall most
+    // common only if nothing else is present.
+    func dominantColor(excluding excluded: UIColor? = nil) -> UIColor? {
+        guard let (pixels, width, height) = rgbaPixels() else { return nil }
+
+        var histogram: [Int: Int] = [:]
+        for y in 0 ..< height {
+            for x in 0 ..< width {
+                let i = (width * y + x) * 4
+                if pixels[i + 3] < 128 { continue } // skip (semi-)transparent pixels
+                histogram[UIImage.bucketKey(r: pixels[i], g: pixels[i + 1], b: pixels[i + 2]), default: 0] += 1
+            }
+        }
+        guard !histogram.isEmpty else { return nil }
+
+        let excludedKey = excluded.map { UIImage.bucketKey(of: $0) }
+        let best = histogram.filter { $0.key != excludedKey }.max(by: { $0.value < $1.value })?.key
+            ?? histogram.max(by: { $0.value < $1.value })?.key
+        return best.map { UIImage.color(fromBucketKey: $0) }
+    }
+
+    // The most common colour along the outer ring of pixels (top/bottom rows, left/right columns).
+    // `isOpaque` reports whether that ring was mostly opaque — a transparent ring means the logo
+    // already floats cleanly, so it has no solid edge/background colour.
+    func edgeColor() -> (color: UIColor, isOpaque: Bool)? {
+        guard let (pixels, width, height) = rgbaPixels() else { return nil }
+
+        var histogram: [Int: Int] = [:]
+        var opaqueCount = 0
+        var sampleCount = 0
+
+        func sample(_ x: Int, _ y: Int) {
+            let i = (width * y + x) * 4
+            sampleCount += 1
+            if pixels[i + 3] < 128 { return }
+            opaqueCount += 1
+            histogram[UIImage.bucketKey(r: pixels[i], g: pixels[i + 1], b: pixels[i + 2]), default: 0] += 1
+        }
+
+        for x in 0 ..< width {
+            sample(x, 0)
+            sample(x, height - 1)
+        }
+        for y in 0 ..< height {
+            sample(0, y)
+            sample(width - 1, y)
+        }
+
+        guard sampleCount > 0, let best = histogram.max(by: { $0.value < $1.value })?.key else { return nil }
+        let isOpaque = Double(opaqueCount) / Double(sampleCount) > 0.75
+        return (UIImage.color(fromBucketKey: best), isOpaque)
+    }
+
     // Most common colours of the left-most and right-most columns of the image. Voting only over the
     // vertical sides (rather than the whole outer ring) avoids being dominated by white top/bottom
     // margins — these are exactly the edges that get extended when padding the logo's width.

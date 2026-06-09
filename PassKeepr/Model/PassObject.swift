@@ -21,6 +21,8 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var foregroundColor: UInt
     var backgroundColor: UInt
     var labelColor: UInt
+    var logoBackgroundColor: UInt // The logo's edge/background colour (used to style the logo tab)
+    var isLogoBackgroundOn: Bool // Whether the logo has a solid background to style as a tab
     var description: String
     var headerFieldOneLabel: String
     var headerFieldOneText: String
@@ -76,7 +78,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
         case stripImage, backgroundImage, logoImage, logoImageType
         case thumbnailImage, thumbnailImageType
         case qrCodeCorrectionLevel, qrCodeEncoding, qrCodeType
-        case altText, foregroundColor, backgroundColor, labelColor, description
+        case altText, foregroundColor, backgroundColor, labelColor, logoBackgroundColor, isLogoBackgroundOn, description
         case headerFieldOneLabel, headerFieldOneText, isHeaderFieldTwoOn, headerFieldTwoLabel, headerFieldTwoText
         case primaryFieldLabel, primaryFieldText
         case secondaryFieldOneLabel, secondaryFieldOneText
@@ -122,6 +124,8 @@ extension PassObject {
         foregroundColor = try c.decodeIfPresent(UInt.self, forKey: .foregroundColor) ?? 0x000000
         backgroundColor = try c.decodeIfPresent(UInt.self, forKey: .backgroundColor) ?? 0xFFFFFF
         labelColor = try c.decodeIfPresent(UInt.self, forKey: .labelColor) ?? 0x000000
+        logoBackgroundColor = try c.decodeIfPresent(UInt.self, forKey: .logoBackgroundColor) ?? 0xFFFFFF
+        isLogoBackgroundOn = try c.decodeIfPresent(Bool.self, forKey: .isLogoBackgroundOn) ?? false
         description = try c.decodeIfPresent(String.self, forKey: .description) ?? PassObject.defaultDescription
         headerFieldOneLabel = try c.decodeIfPresent(String.self, forKey: .headerFieldOneLabel) ?? ""
         headerFieldOneText = try c.decodeIfPresent(String.self, forKey: .headerFieldOneText) ?? ""
@@ -194,6 +198,8 @@ extension PassObject {
             foregroundColor: 0x000000,
             backgroundColor: 0xFFFFFF,
             labelColor: 0x000000,
+            logoBackgroundColor: 0xFFFFFF,
+            isLogoBackgroundOn: false,
             description: PassObject.defaultDescription,
             headerFieldOneLabel: "",
             headerFieldOneText: "",
@@ -263,6 +269,8 @@ extension PassObject {
             foregroundColor: foregroundColor,
             backgroundColor: backgroundColor,
             labelColor: labelColor,
+            logoBackgroundColor: logoBackgroundColor,
+            isLogoBackgroundOn: isLogoBackgroundOn,
             description: description,
             headerFieldOneLabel: headerFieldOneLabel,
             headerFieldOneText: headerFieldOneText,

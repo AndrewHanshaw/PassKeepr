@@ -59,3 +59,15 @@ extension Color {
         return (lighter + 0.05) / (darker + 0.05)
     }
 }
+
+extension UIColor {
+    // Convert to the same packed 0xRRGGBB UInt representation used for the pass colours.
+    func toUInt() -> UInt {
+        var red: CGFloat = 0, green: CGFloat = 0, blue: CGFloat = 0, alpha: CGFloat = 0
+        getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        let r = UInt((max(0, min(1, red)) * 255).rounded())
+        let g = UInt((max(0, min(1, green)) * 255).rounded())
+        let b = UInt((max(0, min(1, blue)) * 255).rounded())
+        return (r << 16) + (g << 8) + b
+    }
+}
