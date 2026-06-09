@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "✎ Rename" : {
+
+    },
     "About PassKeepr" : {
       "localizations" : {
         "ru" : {
@@ -730,6 +733,9 @@
         }
       }
     },
+    "Pass name" : {
+
+    },
     "PassKeepr" : {
       "localizations" : {
         "ru" : {
@@ -875,6 +881,9 @@
           }
         }
       }
+    },
+    "Search for Logo" : {
+
     },
     "Secondary and auxiliary fields are limited to 4 combined when a strip image is used." : {
       "localizations" : {
