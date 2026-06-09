@@ -122,7 +122,7 @@ struct CustomizeLogoImage: View {
                             if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
                                let image = UIImage(data: loaded)
                             {
-                                imageForCrop = IdentifiableImage(image: image)
+                                imageForCrop = IdentifiableImage(image: paddedImageForCrop(image))
                             } else {
                                 print("Failed")
                             }
@@ -199,7 +199,7 @@ struct CustomizeLogoImage: View {
                     if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
                        let image = UIImage(data: loaded)
                     {
-                        imageForCrop = IdentifiableImage(image: image)
+                        imageForCrop = IdentifiableImage(image: paddedImageForCrop(image))
                     } else {
                         print("Failed")
                     }
@@ -246,6 +246,18 @@ struct CustomizeLogoImage: View {
                 tempLogo = croppedImage
             }
         }
+    }
+
+    // Pads a freshly selected photo out to the logo aspect ratio using its own edge colour, so a
+    // square or tall logo fits fully inside the (wide) crop rectangle rather than getting its
+    // top/bottom cropped off. Transparent-edged logos are padded with clear instead of a colour.
+    private func paddedImageForCrop(_ image: UIImage) -> UIImage {
+        // Pad each side with that side's own edge colour. For transparent-edged logos, pad with
+        // clear so the logo stays floating rather than gaining solid colour bars.
+        let sides = image.sideEdgeColors()
+        let leftFill: UIColor = (sides?.isOpaque == true) ? sides!.left : .clear
+        let rightFill: UIColor = (sides?.isOpaque == true) ? sides!.right : .clear
+        return image.paddedToAspectRatio(PassKitConstants.LogoImage.aspectRatio, leftFill: leftFill, rightFill: rightFill)
     }
 
     private func updateLogoImage() {
