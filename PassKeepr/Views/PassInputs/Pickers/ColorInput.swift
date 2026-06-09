@@ -27,6 +27,17 @@ struct ColorInput: View {
                 .disabled(disableControl)
         }
         .listSectionBackgroundModifier()
+        .onChange(of: pass.backgroundColor) {
+            // Keep text legible: if a text/label colour no longer has enough contrast against the
+            // new background, flip it to black or white. Colours that are still legible are left as-is.
+            let minContrast = 4.5 // WCAG AA for normal text
+            if Color.contrastRatio(pass.foregroundColor, pass.backgroundColor) < minContrast {
+                pass.foregroundColor = Color.legibleTextColor(onBackground: pass.backgroundColor)
+            }
+            if Color.contrastRatio(pass.labelColor, pass.backgroundColor) < minContrast {
+                pass.labelColor = Color.legibleTextColor(onBackground: pass.backgroundColor)
+            }
+        }
     }
 }
 
