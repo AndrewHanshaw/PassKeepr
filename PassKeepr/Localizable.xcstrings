@@ -271,6 +271,9 @@
         }
       }
     },
+    "Copy an image first, then try again." : {
+
+    },
     "Correction Level" : {
       "localizations" : {
         "ru" : {
@@ -621,9 +624,6 @@
         }
       }
     },
-    "Logo Shadow Color" : {
-
-    },
     "Logo Image" : {
       "localizations" : {
         "ru" : {
@@ -633,6 +633,9 @@
           }
         }
       }
+    },
+    "Logo Shadow Color" : {
+
     },
     "Logo type" : {
       "localizations" : {
@@ -683,6 +686,9 @@
           }
         }
       }
+    },
+    "No image on the clipboard" : {
+
     },
     "No Valid Barcode Detected" : {
       "localizations" : {
@@ -743,6 +749,12 @@
           }
         }
       }
+    },
+    "Paste Image from Clipboard" : {
+
+    },
+    "Paste New Image" : {
+
     },
     "Phone" : {
       "localizations" : {

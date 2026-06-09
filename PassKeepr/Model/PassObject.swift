@@ -423,6 +423,7 @@ enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {
 
 enum ImageType: Codable, CustomStringConvertible, CaseIterable {
     case photo
+    case clipboard
     case emoji
     case symbol
     case none
@@ -430,6 +431,7 @@ enum ImageType: Codable, CustomStringConvertible, CaseIterable {
     var description: String {
         switch self {
         case .photo: return "Photo"
+        case .clipboard: return "Clipboard"
         case .emoji: return "Emoji"
         case .symbol: return "Symbol"
         case .none: return "None"

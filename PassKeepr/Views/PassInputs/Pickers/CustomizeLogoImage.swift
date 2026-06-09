@@ -29,6 +29,7 @@ struct CustomizeLogoImage: View {
 
     @State private var photoItem: PhotosPickerItem?
     @State private var imageForCrop: IdentifiableImage?
+    @State private var isClipboardEmptyAlertShown: Bool = false
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
@@ -138,6 +139,29 @@ struct CustomizeLogoImage: View {
                     .disabled(!isTransparencyAvailable)
                     .padding(14)
                     .listSectionBackgroundModifier()
+                case .clipboard:
+                    Button {
+                        // Paste an image off the system clipboard and send it through the same crop flow
+                        if let image = UIPasteboard.general.image {
+                            imageForCrop = IdentifiableImage(image: paddedImageForCrop(image))
+                        } else {
+                            isClipboardEmptyAlertShown = true
+                        }
+                    } label: {
+                        Text(tempLogo == nil ? "Paste Image from Clipboard" : "Paste New Image")
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
+                    }
+                    .foregroundColor(.white)
+                    .accentColorProminentButtonStyleIfAvailable()
+
+                    Toggle(isOn: $isTransparencyOn) {
+                        Text("Transparent background")
+                            .opacity(isTransparencyAvailable ? 1 : 0.2)
+                    }
+                    .disabled(!isTransparencyAvailable)
+                    .padding(14)
+                    .listSectionBackgroundModifier()
                 case .emoji:
                     Button {
                         isEmojiPickerOn = true
@@ -207,6 +231,11 @@ struct CustomizeLogoImage: View {
             }
             .padding()
             .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
+            .alert("No image on the clipboard", isPresented: $isClipboardEmptyAlertShown) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text("Copy an image first, then try again.")
+            }
             .onChange(of: tempLogo) {
                 Task {
                     if let tempNoBg = removeBackground(image: tempLogo) {
@@ -263,7 +292,8 @@ struct CustomizeLogoImage: View {
     private func updateLogoImage() {
         if tempLogoImageType == ImageType.none {
             passObject.logoImage = Data()
-        } else if tempLogoImageType == ImageType.photo {
+        } else if tempLogoImageType == ImageType.photo || tempLogoImageType == ImageType.clipboard {
+            // A clipboard image is just a photo from a different source, so it saves the same way
             if isTransparencyOn {
                 if let logoNoBg = tempLogoNoBackground {
                     passObject.logoImage = logoNoBg.pngData()!
