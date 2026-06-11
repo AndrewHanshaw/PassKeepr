@@ -1,3 +1,17 @@
+## [1.06] - 2026-06-11
+
+### Added
+- An option to select Pass Group when customizing a Pass. The Pass Group can be used to group (or separate) passes once added to Wallet.
+- An option to select an expiration date when customizing a Pass.
+- An option to select a location alert when customizing a Pass. A notification with the alert text will be shwon when near the selected location(s) for the pass.
+- The ability to capture photos with the Camera when customizing various Pass images.
+
+### Fixed
+- Bug causing QR Code Encoding to not apply to saved Passes.
+- Crash when using non UTF-8 characters in QR codes.
+- Issue when cropping logo images where only rectangles with wide aspect ratios were allowed.
+- Bug causing additional secondary/auxiliary fields to not appear at the previewed location when generated as a Wallet pass.
+
 ## [1.05] - 2026-06-05
 
 ### Added
