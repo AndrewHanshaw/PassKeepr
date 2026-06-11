@@ -235,7 +235,7 @@ struct CustomizeLogoImage: View {
                 configuration: SwiftyCropConfiguration(
                     rectAspectRatio: PassKitConstants.LogoImage.aspectRatio,
                     allowAspectRatioResizing: true,
-                    minAspectRatio: PassKitConstants.LogoImage.aspectRatio, // skinniest
+                    minAspectRatio: 0.9, // skinniest (slightly skinnier than square)
                     maxAspectRatio: PassKitConstants.LogoImage.width / 10, // widest
                     fonts: SwiftyCropConfiguration.Fonts(
                         interactionInstructions: Font.system(size: 16, weight: .bold, design: .rounded)
