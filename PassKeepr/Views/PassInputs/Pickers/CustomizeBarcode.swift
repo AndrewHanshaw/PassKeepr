@@ -186,35 +186,42 @@ struct CustomizeBarcode: View {
                         .foregroundColor(.secondary)
 
                     VStack {
-                        HStack {
+                        HStack(spacing: 0) {
                             Text("Barcode Type")
-                            Spacer()
-                            Picker("Barcode Type", selection: $tempBarcodeType) {
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            // Using picker here causes the "code 128" item to be 2 lines.
+                            // lineLimit and fixedSize somewhat fix it but it still flickers when selecing that option
+                            // To fix this, just recreate the Picker style manually
+                            Menu {
                                 ForEach(BarcodeType.allCases, id: \.self) { type in
                                     if type != BarcodeType.qr && type != BarcodeType.none {
-                                        Text(String(describing: type))
-                                            .frame(maxWidth: 60)
+                                        Button(String(describing: type)) {
+                                            tempBarcodeType = type
+                                        }
                                     }
                                 }
+                            } label: {
+                                HStack(spacing: 4) {
+                                    Text(String(describing: tempBarcodeType))
+                                    Image(systemName: "chevron.up.chevron.down")
+                                        .font(.system(size: 13, weight: .medium))
+                                }
+                                .foregroundColor(.secondary)
                             }
-                            .accentColor(.secondary)
-                            .padding(.trailing, 12)
+                            .padding(6)
+
+                            Button(
+                                action: {
+                                    activeAlert = .barcodeInfoAlert
+                                },
+                                label: {
+                                    Image(systemName: "info.circle")
+                                        .foregroundColor(.secondary)
+                                }
+                            )
+                            .buttonStyle(PlainButtonStyle())
+                            .padding(.trailing, 6)
                         }
-                        .overlay(
-                            HStack {
-                                Spacer()
-                                Button(
-                                    action: {
-                                        activeAlert = .barcodeInfoAlert
-                                    },
-                                    label: {
-                                        Image(systemName: "info.circle")
-                                            .foregroundColor(.secondary)
-                                    }
-                                )
-                                .buttonStyle(PlainButtonStyle())
-                            }
-                        )
                         .layoutPriority(1)
                         .padding(.top, 14)
                         .padding(.bottom, 7)
