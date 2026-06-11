@@ -32,7 +32,10 @@ struct CustomizeQrCode: View {
         _tempQrCodeData = State(initialValue: passObject.wrappedValue.barcodeString)
         _tempAltText = State(initialValue: passObject.wrappedValue.altText)
         _tempQrCodeCorrectionLevel = State(initialValue: passObject.wrappedValue.qrCodeCorrectionLevel)
-        _tempQrCodeEncoding = State(initialValue: passObject.wrappedValue.qrCodeEncoding)
+        let savedEncoding = passObject.wrappedValue.qrCodeEncoding
+        let savedString = passObject.wrappedValue.barcodeString
+        let validEncoding = savedEncoding.isCompatible(with: savedString) ? savedEncoding : QrCodeEncoding.minimumEncoding(for: savedString)
+        _tempQrCodeEncoding = State(initialValue: validEncoding)
         _tempQrCodeType = State(initialValue: passObject.wrappedValue.qrCodeType)
         _tempPassObject = State(initialValue: passObject.wrappedValue)
     }
@@ -129,7 +132,8 @@ struct CustomizeQrCode: View {
                     .onChange(of: photoItem) {
                         Task {
                             if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
-                               let image = UIImage(data: loaded) {
+                               let image = UIImage(data: loaded)
+                            {
                                 if let imageBarcode = GetBarcodeFromImage(image: image) {
                                     if BarcodeType.qr != imageBarcode.barcodeType {
                                         showInvalidQrCodeAlert.toggle()
@@ -211,6 +215,7 @@ struct CustomizeQrCode: View {
                             Picker("Encoding", selection: $tempQrCodeEncoding) {
                                 ForEach(QrCodeEncoding.allCases, id: \.self) { encoding in
                                     Text(String(describing: encoding))
+                                        .selectionDisabled(!encoding.isCompatible(with: currentQrString))
                                 }
                             }
                             .accentColor(.secondary)
@@ -221,6 +226,11 @@ struct CustomizeQrCode: View {
                         .listSectionBackgroundModifier()
                         .onChange(of: tempQrCodeEncoding) {
                             scannedBarcodeType = nil
+                        }
+                        .onChange(of: currentQrString) {
+                            if !tempQrCodeEncoding.isCompatible(with: currentQrString) {
+                                tempQrCodeEncoding = QrCodeEncoding.minimumEncoding(for: currentQrString)
+                            }
                         }
                     }
 
@@ -248,7 +258,9 @@ struct CustomizeQrCode: View {
                             var saved = tempPassObject
                             saved.barcodeString = currentQrString
                             saved.qrCodeCorrectionLevel = tempQrCodeCorrectionLevel
-                            saved.qrCodeEncoding = tempQrCodeEncoding
+                            let minimum = QrCodeEncoding.minimumEncoding(for: currentQrString)
+                            let effectiveEncoding = tempQrCodeEncoding.isCompatible(with: currentQrString) ? tempQrCodeEncoding : minimum
+                            saved.qrCodeEncoding = effectiveEncoding
                             saved.qrCodeType = tempQrCodeType
                             saved.altText = tempAltText
                             passObject = saved

@@ -342,6 +342,24 @@ enum QrCodeEncoding: Codable, CustomStringConvertible, CaseIterable {
         }
     }
 
+    var ianaEncodingName: String {
+        switch self {
+        case .ascii: return "us-ascii"
+        case .utf8: return "utf-8"
+        case .unicode: return "utf-16"
+        }
+    }
+
+    func isCompatible(with string: String) -> Bool {
+        string.data(using: toStringEncoding()) != nil
+    }
+
+    static func minimumEncoding(for string: String) -> QrCodeEncoding {
+        if string.data(using: .ascii) != nil { return .ascii }
+        if string.data(using: .utf8) != nil { return .utf8 }
+        return .unicode
+    }
+
     var description: String {
         switch self {
         case .ascii: return "ASCII"

@@ -189,10 +189,13 @@ func generatePass(passObject: PassObject) -> URL? {
                     "messageEncoding": "iso-8859-1",
                 ]
             } else if passObject.barcodeType == BarcodeType.qr {
+                let safeEncoding = passObject.qrCodeEncoding.isCompatible(with: passObject.barcodeString)
+                    ? passObject.qrCodeEncoding
+                    : QrCodeEncoding.minimumEncoding(for: passObject.barcodeString)
                 barcodeFields = [
                     "message": passObject.barcodeString,
                     "format": "PKBarcodeFormatQR",
-                    "messageEncoding": "iso-8859-1",
+                    "messageEncoding": safeEncoding.ianaEncodingName,
                 ]
             }
 
