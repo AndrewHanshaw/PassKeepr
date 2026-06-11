@@ -47,16 +47,20 @@ struct ContentView: View {
                                     .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fill)
                                     .opacity(dragProperties.draggedID == id ? 0.001 : 1.0)
                                     .onDrag {
-//                                      print("onDrag started for: \(passObject.id.uuidString)")
+//                                        print("onDrag started for: \(passObject.id.uuidString)")
 
-                                        // Check if this is a spurious drag call after a recent drop. Bug introduced in iOS 18 where onDrag is called an additional time after dropping the item
+                                        // Check if this is a spurious drag call after a recent drop.
+                                        // Bug introduced in iOS 18, where onDrag is called an additional time after dropping the item.
+                                        // Fixed in iOS 27
                                         if #available(iOS 18.0, *) {
-                                            if let lastDropTime = lastDragEnded,
-                                               lastDraggedID == id,
-                                               Date().timeIntervalSince(lastDropTime) < 1.3
-                                            {
-//                                              print("Ignoring spurious drag call - too soon after last drop")
-                                                return NSItemProvider()
+                                            if #unavailable(iOS 27.0) {
+                                                if let lastDropTime = lastDragEnded,
+                                                   lastDraggedID == id,
+                                                   Date().timeIntervalSince(lastDropTime) < 1.3
+                                                {
+                                                    // print("Ignoring spurious drag call - too soon after last drop")
+                                                    return NSItemProvider()
+                                                }
                                             }
                                         }
 
