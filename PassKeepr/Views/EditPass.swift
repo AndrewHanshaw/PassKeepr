@@ -216,6 +216,21 @@ struct EditPass: View {
 
     func saveWithoutAddingToWallet() -> (success: Bool, errorMessage: String?) {
         hasEditPassButtonBeenPressed = true
+
+        // If the group changed, remove the old Wallet pass before saving the new group
+        let oldGroup = objectToEdit.group
+        let newGroup = tempObject.group
+        if newGroup != oldGroup {
+            let passLibrary = PKPassLibrary()
+            if PKPassLibrary.isPassLibraryAvailable() {
+                let oldPassTypeIdentifier = "pass.com.hanshaw.passKeepr.\(oldGroup)"
+                let serialNumber = tempObject.id.uuidString
+                if let oldPass = passLibrary.pass(withPassTypeIdentifier: oldPassTypeIdentifier, serialNumber: serialNumber) {
+                    passLibrary.removePass(oldPass)
+                }
+            }
+        }
+
         objectToEdit = tempObject
 
         do {
