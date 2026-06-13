@@ -28,3 +28,7 @@ See [CHANGELOG.md](./CHANGELOG.md) for supported features and the versions they 
 ## Contact me / Support
 
 Want to contact me with general questions about the app, feature requests, and bug reports? [Open a new issue](https://github.com/AndrewHanshaw/PassKeepr/issues/new?template=Blank+issue) on GitHub, or feel free to [send me an email](mailto:passkeepr@andrewhanshaw.com)
+
+## Special Thanks
+
+[@swxfe](https://github.com/swxfe) for adding Russian localization
