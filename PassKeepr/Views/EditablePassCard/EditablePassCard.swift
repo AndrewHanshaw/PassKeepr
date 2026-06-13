@@ -9,10 +9,10 @@ struct EditablePassCard: View {
 
     @State private var size: CGSize = CGSizeZero
     @State private var scannedCode = ""
-    @State private var isCustomizeLogoImagePresented = false
-    @State private var isCustomizeBackgroundImagePresented = false
-    @State private var isCustomizeStripImagePresented = false
-    @State private var isCustomizeThumbnailImagePresented = false
+    @Binding var isCustomizeLogoImagePresented: Bool
+    @Binding var isCustomizeBackgroundImagePresented: Bool
+    @Binding var isCustomizeStripImagePresented: Bool
+    @Binding var isCustomizeThumbnailImagePresented: Bool
     @Binding var isCustomizeBarcodePresented: Bool
     @Binding var isCustomizeQrCodePresented: Bool
     @State private var passBackgroundBrightness: BackgroundBrightness = .normal
@@ -148,14 +148,6 @@ struct EditablePassCard: View {
                         BuiltInBarcodeView(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeBarcodePresented: $isCustomizeBarcodePresented)
                     }
                 }
-                .sheet(isPresented: $isCustomizeBackgroundImagePresented) {
-                    CustomizeBackgroundImage(passObject: $passObject)
-                        .edgesIgnoringSafeArea(.bottom)
-                }
-                .sheet(isPresented: $isCustomizeThumbnailImagePresented) {
-                    CustomizeThumbnailImage(passObject: $passObject)
-                        .edgesIgnoringSafeArea(.bottom)
-                }
             }
             .overlay {
                 if isSigningPass {
@@ -200,10 +192,6 @@ struct EditablePassCard: View {
                 }
             }
         }
-        .sheet(isPresented: $isCustomizeStripImagePresented) {
-            CustomizeStripImage(passObject: $passObject)
-                .edgesIgnoringSafeArea(.bottom)
-        }
         .frame(maxWidth: .infinity)
         .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fill)
         .background(GeometryReader { geometry in
@@ -244,5 +232,5 @@ struct EditablePassCard: View {
 }
 
 #Preview {
-    EditablePassCard(passObject: .constant(MockModelData().passObjects[0]), isSigningPass: false, isCustomizeBarcodePresented: .constant(false), isCustomizeQrCodePresented: .constant(false))
+    EditablePassCard(passObject: .constant(MockModelData().passObjects[0]), isSigningPass: false, isCustomizeLogoImagePresented: .constant(false), isCustomizeBackgroundImagePresented: .constant(false), isCustomizeStripImagePresented: .constant(false), isCustomizeThumbnailImagePresented: .constant(false), isCustomizeBarcodePresented: .constant(false), isCustomizeQrCodePresented: .constant(false))
 }

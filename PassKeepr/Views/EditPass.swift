@@ -32,6 +32,10 @@ struct EditPass: View {
 
     @State private var isWalletSupported = false
     @State private var showDiscardConfirmation = false
+    @State private var isCustomizeLogoImagePresented = false
+    @State private var isCustomizeBackgroundImagePresented = false
+    @State private var isCustomizeStripImagePresented = false
+    @State private var isCustomizeThumbnailImagePresented = false
     @State private var isCustomizeBarcodePresented = false
     @State private var isCustomizeQrCodePresented = false
 
@@ -53,7 +57,7 @@ struct EditPass: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
-                    EditablePassCard(passObject: $tempObject, isSigningPass: hasEditPassButtonBeenPressed, isCustomizeBarcodePresented: $isCustomizeBarcodePresented, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
+                    EditablePassCard(passObject: $tempObject, isSigningPass: hasEditPassButtonBeenPressed, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented, isCustomizeBackgroundImagePresented: $isCustomizeBackgroundImagePresented, isCustomizeStripImagePresented: $isCustomizeStripImagePresented, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented, isCustomizeBarcodePresented: $isCustomizeBarcodePresented, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
                         .padding([.leading, .trailing], 6)
                         .padding(.top, 56)
 
@@ -140,6 +144,22 @@ struct EditPass: View {
                 }
             }
             .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
+        }
+        .sheet(isPresented: $isCustomizeLogoImagePresented) {
+            CustomizeLogoImage(passObject: $tempObject)
+                .edgesIgnoringSafeArea(.bottom)
+        }
+        .sheet(isPresented: $isCustomizeBackgroundImagePresented) {
+            CustomizeBackgroundImage(passObject: $tempObject)
+                .edgesIgnoringSafeArea(.bottom)
+        }
+        .sheet(isPresented: $isCustomizeThumbnailImagePresented) {
+            CustomizeThumbnailImage(passObject: $tempObject)
+                .edgesIgnoringSafeArea(.bottom)
+        }
+        .sheet(isPresented: $isCustomizeStripImagePresented) {
+            CustomizeStripImage(passObject: $tempObject)
+                .edgesIgnoringSafeArea(.bottom)
         }
         .sheet(isPresented: $isCustomizeBarcodePresented) {
             CustomizeBarcode(passObject: $tempObject)
