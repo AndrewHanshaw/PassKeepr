@@ -10,6 +10,7 @@ struct CustomizeStripImage: View {
 
     @State private var photoItem: PhotosPickerItem?
     @State private var imageForCrop: IdentifiableImage?
+    @State private var isPhotoPickerPresented = false
 
     @State private var showAlert: Bool = false
 
@@ -48,13 +49,18 @@ struct CustomizeStripImage: View {
                 }
                 .padding([.top, .bottom], 20)
 
-                PhotosPicker(selection: $photoItem, matching: .any(of: [.images, .not(.videos)])) {
+                Menu {
+                    Button("Choose Photo", systemImage: "photo") {
+                        isPhotoPickerPresented = true
+                    }
+                } label: {
                     Text(tempStrip == nil ? "Select a Strip Image" : "Change Strip Image")
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(Color.white)
-                        .padding(.vertical, 12)
-                        .accentColorProminentButtonStyleIfAvailable()
+                        .padding([.top, .bottom], 6)
                 }
+                .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
+                .glassProminentButtonStyleIfAvailable()
+                .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
                 .onChange(of: photoItem) {
                     Task {
                         if let loaded = try? await photoItem?.loadTransferable(type: Data.self),

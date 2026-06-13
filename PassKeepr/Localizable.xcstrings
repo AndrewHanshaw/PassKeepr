@@ -264,6 +264,16 @@
         }
       }
     },
+    "Choose Photo" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать фото"
+          }
+        }
+      }
+    },
     "Company" : {
       "localizations" : {
         "ru" : {
@@ -490,26 +500,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Подпишись на меня в"
-          }
-        }
-      }
-    },
-    "Get Barcode from Image" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сканировать штрихкод с фото"
-          }
-        }
-      }
-    },
-    "Get QR Code from Image" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сканировать QR-код с фото"
           }
         }
       }
@@ -870,6 +860,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сканировать QR-код"
+          }
+        }
+      }
+    },
+    "Scan from Camera" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сканировать камерой"
           }
         }
       }

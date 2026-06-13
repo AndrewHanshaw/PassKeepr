@@ -8,6 +8,7 @@ struct CustomizeBarcode: View {
 
     @Binding var passObject: PassObject
     @State private var photoItem: PhotosPickerItem?
+    @State private var isPhotoPickerPresented = false
 
     @State private var tempBarcodeData = ""
     @State private var tempAltText = ""
@@ -94,70 +95,21 @@ struct CustomizeBarcode: View {
                     .padding(.bottom, 20)
                     .padding(.top, 10)
 
-                    Button(
-                        action: { isScannerPresented.toggle() },
-                        label: {
-                            HStack {
-                                Image(systemName: "barcode.viewfinder")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(Color(.label))
+                    Menu {
+                        Button("Scan from Camera", systemImage: "barcode.viewfinder") {
+                            isScannerPresented.toggle()
+                        }
 
-                                Text("Scan Existing Barcode")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(Color(.label))
-                                    .disabled(false)
-                            }
-                            .padding([.top, .bottom], 10)
+                        Button("Choose Photo", systemImage: "photo") {
+                            isPhotoPickerPresented = true
+                        }
+                    } label: {
+                        Text("Scan Existing Barcode")
+                            .padding([.top, .bottom], 6)
                             .frame(maxWidth: .infinity, alignment: .center)
-                        }
-                    )
-                    .listSectionBackgroundModifier()
-                    .sheet(isPresented: $isScannerPresented) {
-                        ScannerView(scannedData: $scannedCode, scannedBarcodeType: $scannedBarcodeType, showScanner: $isScannerPresented)
-                            .edgesIgnoringSafeArea(.bottom)
                     }
-                    .onChange(of: tempBarcodeBorder) {
-                        render()
-                    }
-                    .onChange(of: scannedCode) {
-                        guard !scannedCode.isEmpty else { return }
-                        tempBarcodeData = scannedCode
-
-                        // Do not support converting a barcode pass to a qr code pass
-                        if scannedBarcodeType != BarcodeType.qr {
-                            tempBarcodeType = scannedBarcodeType ?? BarcodeType.code128
-                        }
-
-                        scannedCode = "" // allows for repeated scanning of the same code
-                    }
-                    .onChange(of: tempBarcodeData) {
-                        render()
-                    }
-                    .onChange(of: tempBarcodeType) {
-                        render()
-                    }
-                    .onAppear { render() }
-
-                    Text("Or:")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .font(.system(size: 20))
-                        .foregroundColor(.secondary)
-
-                    PhotosPicker(selection: $photoItem, matching: .any(of: [.images, .not(.videos)])) {
-                        HStack {
-                            Image(systemName: "photo")
-                                .font(.system(size: 40))
-                                .foregroundColor(Color(.label))
-
-                            Text("Get Barcode from Image")
-                                .font(.system(size: 20))
-                                .foregroundColor(Color(.label))
-                                .disabled(false)
-                        }
-                        .padding([.top, .bottom], 10)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    }
-                    .listSectionBackgroundModifier()
+                    .compositingGroup()
+                    .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
                     .onChange(of: photoItem) {
                         Task {
                             if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
@@ -179,6 +131,32 @@ struct CustomizeBarcode: View {
                             }
                         }
                     }
+                    .onChange(of: tempBarcodeData) {
+                        render()
+                    }
+                    .onChange(of: tempBarcodeType) {
+                        render()
+                    }
+                    .onAppear { render() }
+                    .sheet(isPresented: $isScannerPresented) {
+                        ScannerView(scannedData: $scannedCode, scannedBarcodeType: $scannedBarcodeType, showScanner: $isScannerPresented)
+                            .edgesIgnoringSafeArea(.bottom)
+                    }
+                    .onChange(of: tempBarcodeBorder) {
+                        render()
+                    }
+                    .onChange(of: scannedCode) {
+                        guard !scannedCode.isEmpty else { return }
+                        tempBarcodeData = scannedCode
+
+                        // Do not support converting a barcode pass to a qr code pass
+                        if scannedBarcodeType != BarcodeType.qr {
+                            tempBarcodeType = scannedBarcodeType ?? BarcodeType.code128
+                        }
+
+                        scannedCode = "" // allows for repeated scanning of the same code
+                    }
+                    .glassProminentButtonStyleIfAvailable()
 
                     Text("Or:")
                         .frame(maxWidth: .infinity, alignment: .center)

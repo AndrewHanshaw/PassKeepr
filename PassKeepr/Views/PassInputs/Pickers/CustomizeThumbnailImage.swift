@@ -23,6 +23,7 @@ struct CustomizeThumbnailImage: View {
     @State private var tempThumbnail: UIImage?
     @State private var tempThumbnailNoBackground: UIImage?
     @State private var isTransparencyAvailable: Bool = true
+    @State private var isPhotoPickerPresented = false
 
     @State private var photoItem: PhotosPickerItem?
     @State private var imageForCrop: IdentifiableImage?
@@ -110,11 +111,17 @@ struct CustomizeThumbnailImage: View {
 
                 switch tempThumbnailImageType {
                 case .photo:
-                    PhotosPicker(selection: $photoItem, matching: .any(of: [.images, .not(.videos)])) {
+                    Menu {
+                        Button("Choose Photo", systemImage: "photo") {
+                            isPhotoPickerPresented = true
+                        }
+                    } label: {
                         Text(tempThumbnail == nil ? "Select a Thumbnail Image" : "Change Thumbnail Image")
-                            .foregroundColor(Color.white)
                             .frame(maxWidth: .infinity, alignment: .center)
+                            .padding([.top, .bottom], 6)
                     }
+                    .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
+                    .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
                     .onChange(of: photoItem) {
                         Task {
                             if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
@@ -126,8 +133,7 @@ struct CustomizeThumbnailImage: View {
                             }
                         }
                     }
-                    .padding([.top, .bottom], 12)
-                    .accentColorProminentButtonStyleIfAvailable()
+                    .glassProminentButtonStyleIfAvailable()
 
                     Toggle(isOn: $isTransparencyOn) {
                         Text("Transparent background")

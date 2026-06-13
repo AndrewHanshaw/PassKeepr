@@ -12,6 +12,7 @@ struct CustomizeBackgroundImage: View {
 
     @State private var photoItem: PhotosPickerItem?
     @State private var imageForCrop: IdentifiableImage?
+    @State private var isPhotoPickerPresented = false
 
     @State private var showAlert: Bool = false
     private let alertTitleText = "Background Image"
@@ -45,48 +46,50 @@ struct CustomizeBackgroundImage: View {
                             .frame(maxHeight: 300)
                             .foregroundColor(Color.gray)
                             .opacity(0.5)
-                        Text("Add a Background Image")
-                            .foregroundColor(Color.gray)
-                            .opacity(0.7)
+                        VStack(spacing: 10) {
+                            Text("Add a Background Image")
+                            Button {
+                                showAlert.toggle()
+                            } label: {
+                                Image(systemName: "info.circle")
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                        .foregroundColor(Color.gray)
+                        .opacity(0.7)
                     }
                     .padding([.top, .bottom], 20)
                     .frame(maxWidth: .infinity, alignment: .center)
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text(alertTitleText),
+                              message: Text(alertDescriptionText),
+                              dismissButton: .default(Text("OK")))
+                    }
                 }
 
-                ZStack {
-                    PhotosPicker(selection: $photoItem, matching: .any(of: [.images, .not(.videos)])) {
-                        Text(tempBackground == nil ? "Select a Background Image" : "Change Background Image")
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(Color.white)
+                Menu {
+                    Button("Choose Photo", systemImage: "photo") {
+                        isPhotoPickerPresented = true
                     }
-                    .onChange(of: photoItem) {
-                        Task {
-                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
-                               let image = UIImage(data: loaded)
-                            {
-                                imageForCrop = IdentifiableImage(image: image)
-                            } else {
-                                print("Failed")
-                            }
+                } label: {
+                    Text(tempBackground == nil ? "Select a Background Image" : "Change Background Image")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding([.top, .bottom], 6)
+                }
+                .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
+                .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                .onChange(of: photoItem) {
+                    Task {
+                        if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
+                           let image = UIImage(data: loaded)
+                        {
+                            imageForCrop = IdentifiableImage(image: image)
+                        } else {
+                            print("Failed")
                         }
                     }
-                    HStack {
-                        Spacer()
-                        Image(systemName: "info.circle")
-                            .foregroundColor(Color.white)
-                            .onTapGesture {
-                                showAlert.toggle()
-                            }
-                            .alert(isPresented: $showAlert) {
-                                Alert(title: Text(alertTitleText),
-                                      message: Text(alertDescriptionText),
-                                      dismissButton: .default(Text("OK")))
-                            }
-                            .padding(.trailing, 12)
-                    }
                 }
-                .padding([.top, .bottom], 12)
-                .accentColorProminentButtonStyleIfAvailable()
+                .glassProminentButtonStyleIfAvailable()
 
                 if tempBackground != nil {
                     Button(role: .destructive) {

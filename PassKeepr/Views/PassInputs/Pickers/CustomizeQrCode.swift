@@ -8,6 +8,7 @@ struct CustomizeQrCode: View {
 
     @Binding var passObject: PassObject
     @State private var photoItem: PhotosPickerItem?
+    @State private var isPhotoPickerPresented = false
 
     @State private var tempQrCodeData: String = ""
     @State private var tempAltText: String = ""
@@ -86,49 +87,21 @@ struct CustomizeQrCode: View {
                     .padding([.leading, .trailing], 80)
                     .padding([.top, .bottom], 10)
 
-                    Button(
-                        action: { isScannerPresented.toggle() },
-                        label: {
-                            HStack {
-                                Image(systemName: "qrcode.viewfinder")
-                                    .font(.system(size: 40))
-                                    .foregroundColor(Color(.label))
+                    Menu {
+                        Button("Scan from Camera", systemImage: "qrcode.viewfinder") {
+                            isScannerPresented.toggle()
+                        }
 
-                                Text("Scan Existing QR Code")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(Color(.label))
-                                    .disabled(false)
-                            }
-                            .padding([.top, .bottom], 10)
+                        Button("Choose Photo", systemImage: "photo") {
+                            isPhotoPickerPresented = true
+                        }
+                    } label: {
+                        Text("Scan Existing QR Code")
+                            .padding([.top, .bottom], 6)
                             .frame(maxWidth: .infinity, alignment: .center)
-                        }
-                    )
-                    .listSectionBackgroundModifier()
-                    .sheet(isPresented: $isScannerPresented) {
-                        ScannerView(scannedData: $scannedCode, scannedBarcodeType: $scannedBarcodeType, showScanner: $isScannerPresented)
-                            .edgesIgnoringSafeArea(.bottom)
                     }
-
-                    Text("Or:")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .font(.system(size: 20))
-                        .foregroundColor(.secondary)
-
-                    PhotosPicker(selection: $photoItem, matching: .any(of: [.images, .not(.videos)])) {
-                        HStack {
-                            Image(systemName: "photo")
-                                .font(.system(size: 40))
-                                .foregroundColor(Color(.label))
-
-                            Text("Get QR Code from Image")
-                                .font(.system(size: 20))
-                                .foregroundColor(Color(.label))
-                                .disabled(false)
-                        }
-                        .padding([.top, .bottom], 10)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                    }
-                    .listSectionBackgroundModifier()
+                    .compositingGroup()
+                    .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
                     .onChange(of: photoItem) {
                         Task {
                             if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
@@ -148,6 +121,11 @@ struct CustomizeQrCode: View {
                             }
                         }
                     }
+                    .sheet(isPresented: $isScannerPresented) {
+                        ScannerView(scannedData: $scannedCode, scannedBarcodeType: $scannedBarcodeType, showScanner: $isScannerPresented)
+                            .edgesIgnoringSafeArea(.bottom)
+                    }
+                    .glassProminentButtonStyleIfAvailable()
 
                     Text("Or:")
                         .frame(maxWidth: .infinity, alignment: .center)
