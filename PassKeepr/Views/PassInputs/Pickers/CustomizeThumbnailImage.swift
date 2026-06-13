@@ -24,6 +24,7 @@ struct CustomizeThumbnailImage: View {
     @State private var tempThumbnailNoBackground: UIImage?
     @State private var isTransparencyAvailable: Bool = true
     @State private var isPhotoPickerPresented = false
+    @State private var isCameraPresented = false
 
     @State private var photoItem: PhotosPickerItem?
     @State private var imageForCrop: IdentifiableImage?
@@ -115,6 +116,12 @@ struct CustomizeThumbnailImage: View {
                         Button("Choose Photo", systemImage: "photo") {
                             isPhotoPickerPresented = true
                         }
+
+                        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                            Button("Take Photo", systemImage: "camera") {
+                                isCameraPresented = true
+                            }
+                        }
                     } label: {
                         Text(tempThumbnail == nil ? "Select a Thumbnail Image" : "Change Thumbnail Image")
                             .frame(maxWidth: .infinity, alignment: .center)
@@ -134,6 +141,12 @@ struct CustomizeThumbnailImage: View {
                         }
                     }
                     .glassProminentButtonStyleIfAvailable()
+                    .fullScreenCover(isPresented: $isCameraPresented) {
+                        CameraImagePicker { image in
+                            imageForCrop = IdentifiableImage(image: image)
+                        }
+                        .ignoresSafeArea()
+                    }
 
                     Toggle(isOn: $isTransparencyOn) {
                         Text("Transparent background")

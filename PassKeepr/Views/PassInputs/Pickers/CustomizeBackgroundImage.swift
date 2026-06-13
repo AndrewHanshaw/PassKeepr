@@ -13,6 +13,7 @@ struct CustomizeBackgroundImage: View {
     @State private var photoItem: PhotosPickerItem?
     @State private var imageForCrop: IdentifiableImage?
     @State private var isPhotoPickerPresented = false
+    @State private var isCameraPresented = false
 
     @State private var showAlert: Bool = false
     private let alertTitleText = "Background Image"
@@ -71,6 +72,12 @@ struct CustomizeBackgroundImage: View {
                     Button("Choose Photo", systemImage: "photo") {
                         isPhotoPickerPresented = true
                     }
+
+                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                        Button("Take Photo", systemImage: "camera") {
+                            isCameraPresented = true
+                        }
+                    }
                 } label: {
                     Text(tempBackground == nil ? "Select a Background Image" : "Change Background Image")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -90,6 +97,12 @@ struct CustomizeBackgroundImage: View {
                     }
                 }
                 .glassProminentButtonStyleIfAvailable()
+                .fullScreenCover(isPresented: $isCameraPresented) {
+                    CameraImagePicker { image in
+                        imageForCrop = IdentifiableImage(image: image)
+                    }
+                    .ignoresSafeArea()
+                }
 
                 if tempBackground != nil {
                     Button(role: .destructive) {

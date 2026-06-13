@@ -1034,6 +1034,16 @@
         }
       }
     },
+    "Take Photo" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сфотографировать"
+          }
+        }
+      }
+    },
     "Tap on icons\nto edit each field" : {
       "localizations" : {
         "ru" : {

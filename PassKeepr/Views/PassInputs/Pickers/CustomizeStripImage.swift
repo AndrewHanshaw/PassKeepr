@@ -11,6 +11,7 @@ struct CustomizeStripImage: View {
     @State private var photoItem: PhotosPickerItem?
     @State private var imageForCrop: IdentifiableImage?
     @State private var isPhotoPickerPresented = false
+    @State private var isCameraPresented = false
 
     @State private var showAlert: Bool = false
 
@@ -53,6 +54,12 @@ struct CustomizeStripImage: View {
                     Button("Choose Photo", systemImage: "photo") {
                         isPhotoPickerPresented = true
                     }
+
+                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                        Button("Take Photo", systemImage: "camera") {
+                            isCameraPresented = true
+                        }
+                    }
                 } label: {
                     Text(tempStrip == nil ? "Select a Strip Image" : "Change Strip Image")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -71,6 +78,12 @@ struct CustomizeStripImage: View {
                             print("Failed")
                         }
                     }
+                }
+                .fullScreenCover(isPresented: $isCameraPresented) {
+                    CameraImagePicker { image in
+                        imageForCrop = IdentifiableImage(image: image)
+                    }
+                    .ignoresSafeArea()
                 }
 
                 if tempStrip != nil {

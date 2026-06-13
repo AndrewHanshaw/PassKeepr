@@ -24,6 +24,7 @@ struct CustomizeLogoImage: View {
     @State private var tempLogoNoBackground: UIImage?
     @State private var isTransparencyAvailable: Bool = true
     @State private var isPhotoPickerPresented = false
+    @State private var isCameraPresented = false
 
     @State private var symbolSize: CGSize = .init(width: 1, height: 1)
 
@@ -116,6 +117,12 @@ struct CustomizeLogoImage: View {
                         Button("Choose Photo", systemImage: "photo") {
                             isPhotoPickerPresented = true
                         }
+
+                        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                            Button("Take Photo", systemImage: "camera") {
+                                isCameraPresented = true
+                            }
+                        }
                     } label: {
                         Text(tempLogo == nil ? "Select a Logo Image" : "Change Logo Image")
                             .frame(maxWidth: .infinity, alignment: .center)
@@ -135,6 +142,12 @@ struct CustomizeLogoImage: View {
                         }
                     }
                     .glassProminentButtonStyleIfAvailable()
+                    .fullScreenCover(isPresented: $isCameraPresented) {
+                        CameraImagePicker { image in
+                            imageForCrop = IdentifiableImage(image: image)
+                        }
+                        .ignoresSafeArea()
+                    }
 
                     Toggle(isOn: $isTransparencyOn) {
                         Text("Transparent background")
