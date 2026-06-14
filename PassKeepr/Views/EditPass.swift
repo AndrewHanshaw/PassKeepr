@@ -41,17 +41,6 @@ struct EditPass: View {
         _objectToEdit = objectToEdit
         self.isNewPass = isNewPass
         _tempObject = State(initialValue: objectToEdit.wrappedValue)
-        initializeTempObject()
-    }
-
-    private func initializeTempObject() {
-        tempObject.primaryFieldText == "" ? tempObject.primaryFieldText = "Default" : ()
-        if isNewPass {
-            // Overwrite so the navigation title shows this.
-            // On save, we will return it back to the default description
-            // That way if the user hasn't changed it, when they go back to edit it, it won't show "New Pass" again
-            tempObject.description = "New Pass"
-        }
     }
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -84,7 +73,7 @@ struct EditPass: View {
             }
             .ignoresSafeArea(edges: .top)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle($tempObject.description)
+            .navigationTitle(isNewPass && tempObject.description == PassObject.defaultDescription ? .init(get: { "New Pass" }, set: { tempObject.description = $0 }) : $tempObject.description)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     // This weird initializer for Menu is the only way I could find to get it to apply the GlassProminentButtonStyle on iOS 26
@@ -108,9 +97,6 @@ struct EditPass: View {
                         .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
 
                         Button("Done", systemImage: "checkmark.circle") {
-                            if tempObject.description == "New Pass" {
-                                tempObject.description = PassObject.defaultDescription
-                            }
                             let result = saveWithoutAddingToWallet()
                             if result.success {
                                 if generatePass(passObject: tempObject) != nil {
