@@ -464,6 +464,16 @@
         }
       }
     },
+    "Expiration Date" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дата истечения"
+          }
+        }
+      }
+    },
     "Failed to Update Pass" : {
       "localizations" : {
         "ru" : {

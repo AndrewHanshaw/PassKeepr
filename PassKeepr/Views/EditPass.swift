@@ -74,6 +74,8 @@ struct EditPass: View {
                     }
 
                     PassGroupPicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+
+                    ExpirationDatePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
                 }
                 .padding()
             }

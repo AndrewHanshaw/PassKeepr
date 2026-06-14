@@ -71,6 +71,8 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var vcardHasBirthday: Bool
     var vcardBirthday: Date
     var vcardCustomFields: [VCardCustomField]
+    var hasExpirationDate: Bool
+    var expirationDate: Date
 
     enum CodingKeys: String, CodingKey {
         case id, group, passIcon, barcodeString, barcodeType, barcodeBorder
@@ -93,6 +95,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
         case wifiSSID, wifiPassword, wifiSecurity, wifiIsHidden
         case vcardFirstName, vcardLastName, vcardCompany, vcardPhone, vcardEmail
         case vcardURL, vcardAddress, vcardSocial, vcardHasBirthday, vcardBirthday, vcardCustomFields
+        case hasExpirationDate, expirationDate
     }
 
     static var transferRepresentation: some TransferRepresentation {
@@ -170,6 +173,8 @@ extension PassObject {
         vcardHasBirthday = try c.decodeIfPresent(Bool.self, forKey: .vcardHasBirthday) ?? false
         vcardBirthday = try c.decodeIfPresent(Date.self, forKey: .vcardBirthday) ?? Date()
         vcardCustomFields = try c.decodeIfPresent([VCardCustomField].self, forKey: .vcardCustomFields) ?? []
+        hasExpirationDate = try c.decodeIfPresent(Bool.self, forKey: .hasExpirationDate) ?? false
+        expirationDate = try c.decodeIfPresent(Date.self, forKey: .expirationDate) ?? Date()
     }
 }
 
@@ -242,7 +247,9 @@ extension PassObject {
             vcardSocial: "",
             vcardHasBirthday: false,
             vcardBirthday: Date(),
-            vcardCustomFields: []
+            vcardCustomFields: [],
+            hasExpirationDate: false,
+            expirationDate: Date()
         )
     }
 
@@ -312,7 +319,9 @@ extension PassObject {
             vcardSocial: vcardSocial,
             vcardHasBirthday: vcardHasBirthday,
             vcardBirthday: vcardBirthday,
-            vcardCustomFields: vcardCustomFields
+            vcardCustomFields: vcardCustomFields,
+            hasExpirationDate: hasExpirationDate,
+            expirationDate: expirationDate
         )
     }
 }

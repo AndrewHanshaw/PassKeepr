@@ -87,7 +87,9 @@ private extension PassObject {
         vcardSocial: "",
         vcardHasBirthday: false,
         vcardBirthday: Date(),
-        vcardCustomFields: []
+        vcardCustomFields: [],
+        hasExpirationDate: false,
+        expirationDate: Date()
     )
 
     static let preview2 = PassObject(
@@ -155,6 +157,8 @@ private extension PassObject {
         vcardSocial: "",
         vcardHasBirthday: false,
         vcardBirthday: Date(),
-        vcardCustomFields: []
+        vcardCustomFields: [],
+        hasExpirationDate: false,
+        expirationDate: Date()
     )
 }

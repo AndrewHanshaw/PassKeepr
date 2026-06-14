@@ -68,6 +68,7 @@
 		BAA53E182D0E3AF5004A175A /* CustomizePassTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E172D0E3AF5004A175A /* CustomizePassTextField.swift */; };
 		BAA53E1C2D0E5C70004A175A /* EditablePassCardTopSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E1B2D0E5C70004A175A /* EditablePassCardTopSection.swift */; };
 		BAAD449F2FDDDD74000F71E1 /* CameraImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAD449E2FDDDD74000F71E1 /* CameraImagePicker.swift */; };
+		BAAD44A12FDE2CBE000F71E1 /* ExpirationDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAD44A02FDE2CBE000F71E1 /* ExpirationDatePicker.swift */; };
 		BABAADD22B0A69950014C73B /* PassObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD02B0A69950014C73B /* PassObject.swift */; };
 		BABAADD32B0A69950014C73B /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD12B0A69950014C73B /* ModelData.swift */; };
 		BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BABAADD92B0A6C110014C73B /* AddPass.swift */; };
@@ -198,6 +199,7 @@
 		BAA53E172D0E3AF5004A175A /* CustomizePassTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizePassTextField.swift; sourceTree = "<group>"; };
 		BAA53E1B2D0E5C70004A175A /* EditablePassCardTopSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCardTopSection.swift; sourceTree = "<group>"; };
 		BAAD449E2FDDDD74000F71E1 /* CameraImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraImagePicker.swift; sourceTree = "<group>"; };
+		BAAD44A02FDE2CBE000F71E1 /* ExpirationDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDatePicker.swift; sourceTree = "<group>"; };
 		BABAADD02B0A69950014C73B /* PassObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PassObject.swift; sourceTree = "<group>"; };
 		BABAADD12B0A69950014C73B /* ModelData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		BABAADD92B0A6C110014C73B /* AddPass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPass.swift; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 		BA0F32E72B9AC837007120B8 /* Pickers */ = {
 			isa = PBXGroup;
 			children = (
+				BAAD44A02FDE2CBE000F71E1 /* ExpirationDatePicker.swift */,
 				BA0018C72FD6658700B617FE /* PassGroupPicker.swift */,
 				BA6595902F79BB3D0091BB29 /* WifiQrCode.swift */,
 				BA65958E2F79BB350091BB29 /* VCardQrCode.swift */,
@@ -729,6 +732,7 @@
 				BADD64682CA5021D00E8F0A0 /* MockModelData.swift in Sources */,
 				BACDA8AF2D167704009C249C /* CustomizeStripImage.swift in Sources */,
 				BAE7B3402D066AD600DD0251 /* StripImageBarcode.swift in Sources */,
+				BAAD44A12FDE2CBE000F71E1 /* ExpirationDatePicker.swift in Sources */,
 				BAF0FB752D28D5E200948089 /* HeaderTextField.swift in Sources */,
 				BAD0D7122D1528350058054E /* SecondaryFieldSelection.swift in Sources */,
 				BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */,

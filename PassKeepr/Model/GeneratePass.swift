@@ -124,6 +124,11 @@ func generatePass(passObject: PassObject) -> URL? {
         passData.merge(["foregroundColor": passObject.foregroundColor.toRGBString()]) { _, _ in }
         passData.merge(["backgroundColor": passObject.backgroundColor.toRGBString()]) { _, _ in }
         passData.merge(["labelColor": passObject.labelColor.toRGBString()]) { _, _ in }
+        if passObject.hasExpirationDate {
+            let formatter = ISO8601DateFormatter()
+            formatter.formatOptions = [.withInternetDateTime]
+            passData.merge(["expirationDate": formatter.string(from: passObject.expirationDate)]) { _, _ in }
+        }
         if !passObject.associatedStoreIdentifiers.isEmpty {
             passData.merge(["associatedStoreIdentifiers": passObject.associatedStoreIdentifiers]) { _, _ in }
         }
