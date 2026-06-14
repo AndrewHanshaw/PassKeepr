@@ -56,28 +56,39 @@ struct EditPass: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 20) {
-                    EditablePassCard(passObject: $tempObject, isSigningPass: hasEditPassButtonBeenPressed, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented, isCustomizeBackgroundImagePresented: $isCustomizeBackgroundImagePresented, isCustomizeStripImagePresented: $isCustomizeStripImagePresented, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented, isCustomizeBarcodePresented: $isCustomizeBarcodePresented, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
-                        .padding([.leading, .trailing], 6)
-                        .padding(.top, 56)
+                ScrollViewReader { proxy in
+                    VStack(spacing: 20) {
+                        EditablePassCard(passObject: $tempObject, isSigningPass: hasEditPassButtonBeenPressed, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented, isCustomizeBackgroundImagePresented: $isCustomizeBackgroundImagePresented, isCustomizeStripImagePresented: $isCustomizeStripImagePresented, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented, isCustomizeBarcodePresented: $isCustomizeBarcodePresented, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
+                            .padding([.leading, .trailing], 6)
+                            .padding(.top, 56)
 
-                    BarcodeTypePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                        BarcodeTypePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
 
-                    ColorInput(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                        ColorInput(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
 
-                    SecondaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-                    AuxiliaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-                    HeaderFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                        SecondaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                        AuxiliaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                        HeaderFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
 
-                    if (tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr) && tempObject.backgroundImage == Data() {
-                        StripImageSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                        if (tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr) && tempObject.backgroundImage == Data() {
+                            StripImageSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                        }
+
+                        PassGroupPicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+
+                        ExpirationDatePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                            .id("expirationDatePicker")
                     }
-
-                    PassGroupPicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-
-                    ExpirationDatePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                    .padding()
+                    .onChange(of: tempObject.hasExpirationDate) { _, isEnabled in
+                        guard isEnabled else { return }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                            withAnimation { proxy.scrollTo("expirationDatePicker", anchor: .bottom) }
+                        }
+                    }
+                        }
+                    }
                 }
-                .padding()
             }
             .ignoresSafeArea(edges: .top)
             .navigationBarTitleDisplayMode(.inline)
