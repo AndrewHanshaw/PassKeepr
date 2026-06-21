@@ -309,31 +309,35 @@ func encodeHeaderFields(passObject: PassObject) -> [String: Any] {
 func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
     var encodedData: [Any] = []
 
-    if passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" {
+    let hasFieldThree = passObject.isSecondaryFieldThreeOn
+    let hasFieldTwo = passObject.isSecondaryFieldTwoOn || hasFieldThree
+    let hasFieldOne = passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" || hasFieldTwo
+
+    if hasFieldOne {
         let secondaryField1: [String: Any] = [
             "key": "secondary1",
             "label": passObject.secondaryFieldOneLabel,
-            "value": passObject.secondaryFieldOneText,
+            "value": passObject.secondaryFieldOneText.isEmpty ? " " : passObject.secondaryFieldOneText,
         ]
 
         encodedData.append(secondaryField1)
     }
 
-    if passObject.isSecondaryFieldTwoOn == true {
+    if hasFieldTwo {
         let secondaryField2: [String: Any] = [
             "key": "secondary2",
             "label": passObject.secondaryFieldTwoLabel,
-            "value": passObject.secondaryFieldTwoText,
+            "value": passObject.secondaryFieldTwoText.isEmpty ? " " : passObject.secondaryFieldTwoText,
         ]
 
         encodedData.append(secondaryField2)
     }
 
-    if passObject.isSecondaryFieldThreeOn == true {
+    if hasFieldThree {
         let secondaryField3: [String: Any] = [
             "key": "secondary3",
             "label": passObject.secondaryFieldThreeLabel,
-            "value": passObject.secondaryFieldThreeText,
+            "value": passObject.secondaryFieldThreeText.isEmpty ? " " : passObject.secondaryFieldThreeText,
         ]
 
         encodedData.append(secondaryField3)
@@ -349,31 +353,35 @@ func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
 func encodeAuxiliaryFields(passObject: PassObject) -> [String: Any] {
     var encodedData: [Any] = []
 
-    if passObject.auxiliaryFieldOneLabel != "" || passObject.auxiliaryFieldOneText != "" {
+    let hasFieldThree = passObject.isAuxiliaryFieldThreeOn
+    let hasFieldTwo = passObject.isAuxiliaryFieldTwoOn || hasFieldThree
+    let hasFieldOne = passObject.auxiliaryFieldOneLabel != "" || passObject.auxiliaryFieldOneText != "" || hasFieldTwo
+
+    if hasFieldOne {
         let auxiliaryField1: [String: Any] = [
             "key": "auxiliary1",
             "label": passObject.auxiliaryFieldOneLabel,
-            "value": passObject.auxiliaryFieldOneText,
+            "value": passObject.auxiliaryFieldOneText.isEmpty ? " " : passObject.auxiliaryFieldOneText,
         ]
 
         encodedData.append(auxiliaryField1)
     }
 
-    if passObject.isAuxiliaryFieldTwoOn == true {
+    if hasFieldTwo {
         let auxiliaryField2: [String: Any] = [
             "key": "auxiliary2",
             "label": passObject.auxiliaryFieldTwoLabel,
-            "value": passObject.auxiliaryFieldTwoText,
+            "value": passObject.auxiliaryFieldTwoText.isEmpty ? " " : passObject.auxiliaryFieldTwoText,
         ]
 
         encodedData.append(auxiliaryField2)
     }
 
-    if passObject.isAuxiliaryFieldThreeOn == true {
+    if hasFieldThree {
         let auxiliaryField3: [String: Any] = [
             "key": "auxiliary3",
             "label": passObject.auxiliaryFieldThreeLabel,
-            "value": passObject.auxiliaryFieldThreeText,
+            "value": passObject.auxiliaryFieldThreeText.isEmpty ? " " : passObject.auxiliaryFieldThreeText,
         ]
 
         encodedData.append(auxiliaryField3)
