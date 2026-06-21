@@ -1194,10 +1194,10 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		BA046B072F956D92005C6BA3 /* XCRemoteSwiftPackageReference "SwiftyCrop" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/AndrewHanshaw/SwiftyCrop/";
+			repositoryURL = "https://github.com/benedom/SwiftyCrop";
 			requirement = {
-				branch = toolbar;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.1;
 			};
 		};
 		BA1118372FDE385300501423 /* XCRemoteSwiftPackageReference "LocationPickerForSwiftUI" */ = {
