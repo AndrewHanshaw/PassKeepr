@@ -306,7 +306,7 @@ func encodeHeaderFields(passObject: PassObject) -> [String: Any] {
 func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
     var encodedData: [Any] = []
 
-    if passObject.secondaryFieldOneLabel != "", passObject.secondaryFieldOneText != "" {
+    if passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" {
         let secondaryField1: [String: Any] = [
             "key": "secondary1",
             "label": passObject.secondaryFieldOneLabel,
@@ -346,7 +346,7 @@ func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
 func encodeAuxiliaryFields(passObject: PassObject) -> [String: Any] {
     var encodedData: [Any] = []
 
-    if passObject.auxiliaryFieldOneLabel != "", passObject.auxiliaryFieldOneText != "" {
+    if passObject.auxiliaryFieldOneLabel != "" || passObject.auxiliaryFieldOneText != "" {
         let auxiliaryField1: [String: Any] = [
             "key": "auxiliary1",
             "label": passObject.auxiliaryFieldOneLabel,
