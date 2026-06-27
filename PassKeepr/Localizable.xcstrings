@@ -44,6 +44,16 @@
         }
       }
     },
+    "Add Location" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить место"
+          }
+        }
+      }
+    },
     "Add Pass" : {
       "localizations" : {
         "ru" : {
@@ -90,6 +100,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Адрес"
+          }
+        }
+      }
+    },
+    "Alert Text" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Текст оповещения"
           }
         }
       }
@@ -220,6 +240,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Изменить эмодзи"
+          }
+        }
+      }
+    },
+    "Change Location" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить место"
           }
         }
       }
@@ -624,6 +654,16 @@
         }
       }
     },
+    "Location Alert" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оповещение о местоположении"
+          }
+        }
+      }
+    },
     "Logo Image" : {
       "localizations" : {
         "ru" : {
@@ -970,6 +1010,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Выбрать эмодзи"
+          }
+        }
+      }
+    },
+    "Set Location" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать место"
           }
         }
       }

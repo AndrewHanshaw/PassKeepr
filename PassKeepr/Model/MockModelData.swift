@@ -89,7 +89,8 @@ private extension PassObject {
         vcardBirthday: Date(),
         vcardCustomFields: [],
         hasExpirationDate: false,
-        expirationDate: Date()
+        expirationDate: Date(),
+        locations: [PassLocation(latitude: 11.111, longitude: 22.222, relevantText: "Some Text")]
     )
 
     static let preview2 = PassObject(
@@ -159,6 +160,7 @@ private extension PassObject {
         vcardBirthday: Date(),
         vcardCustomFields: [],
         hasExpirationDate: false,
-        expirationDate: Date()
+        expirationDate: Date(),
+        locations: [PassLocation(latitude: 33.333, longitude: 44.444, relevantText: "Some more Text")]
     )
 }

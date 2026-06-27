@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>PassKeepr uses your location to set the coordinates for pass location alerts.</string>
 	<key>LocalServer</key>
 	<string>${LOCAL_SERVER}</string>
 	<key>CFBundleURLTypes</key>

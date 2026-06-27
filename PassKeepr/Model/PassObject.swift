@@ -73,6 +73,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var vcardCustomFields: [VCardCustomField]
     var hasExpirationDate: Bool
     var expirationDate: Date
+    var locations: [PassLocation]
 
     enum CodingKeys: String, CodingKey {
         case id, group, passIcon, barcodeString, barcodeType, barcodeBorder
@@ -96,6 +97,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
         case vcardFirstName, vcardLastName, vcardCompany, vcardPhone, vcardEmail
         case vcardURL, vcardAddress, vcardSocial, vcardHasBirthday, vcardBirthday, vcardCustomFields
         case hasExpirationDate, expirationDate
+        case locations
     }
 
     static var transferRepresentation: some TransferRepresentation {
@@ -175,6 +177,7 @@ extension PassObject {
         vcardCustomFields = try c.decodeIfPresent([VCardCustomField].self, forKey: .vcardCustomFields) ?? []
         hasExpirationDate = try c.decodeIfPresent(Bool.self, forKey: .hasExpirationDate) ?? false
         expirationDate = try c.decodeIfPresent(Date.self, forKey: .expirationDate) ?? Date()
+        locations = try c.decodeIfPresent([PassLocation].self, forKey: .locations) ?? []
     }
 }
 
@@ -249,7 +252,8 @@ extension PassObject {
             vcardBirthday: Date(),
             vcardCustomFields: [],
             hasExpirationDate: false,
-            expirationDate: Date()
+            expirationDate: Date(),
+            locations: []
         )
     }
 
@@ -321,7 +325,8 @@ extension PassObject {
             vcardBirthday: vcardBirthday,
             vcardCustomFields: vcardCustomFields,
             hasExpirationDate: hasExpirationDate,
-            expirationDate: expirationDate
+            expirationDate: expirationDate,
+            locations: locations
         )
     }
 }
@@ -414,6 +419,13 @@ struct VCardCustomField: Identifiable, Equatable, Codable, Hashable {
     var id = UUID()
     var label: String = ""
     var value: String = ""
+}
+
+struct PassLocation: Identifiable, Equatable, Codable, Hashable {
+    var id = UUID()
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
+    var relevantText: String = ""
 }
 
 enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {

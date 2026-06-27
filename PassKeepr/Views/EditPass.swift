@@ -78,6 +78,9 @@ struct EditPass: View {
 
                         ExpirationDatePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
                             .id("expirationDatePicker")
+
+                        LocationSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                            .id("locationSelection")
                     }
                     .padding()
                     .onChange(of: tempObject.hasExpirationDate) { _, isEnabled in
@@ -86,6 +89,10 @@ struct EditPass: View {
                             withAnimation { proxy.scrollTo("expirationDatePicker", anchor: .bottom) }
                         }
                     }
+                    .onChange(of: tempObject.locations.count) { oldCount, newCount in
+                        guard newCount > oldCount else { return }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                            withAnimation { proxy.scrollTo("locationSelection", anchor: .bottom) }
                         }
                     }
                 }

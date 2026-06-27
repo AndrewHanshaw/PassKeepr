@@ -129,6 +129,14 @@ func generatePass(passObject: PassObject) -> URL? {
             formatter.formatOptions = [.withInternetDateTime]
             passData.merge(["expirationDate": formatter.string(from: passObject.expirationDate)]) { _, _ in }
         }
+        if !passObject.locations.isEmpty {
+            let encoded: [[String: Any]] = passObject.locations.map { loc in
+                var d: [String: Any] = ["latitude": loc.latitude, "longitude": loc.longitude]
+                if !loc.relevantText.isEmpty { d["relevantText"] = loc.relevantText }
+                return d
+            }
+            passData.merge(["locations": encoded]) { _, _ in }
+        }
         if !passObject.associatedStoreIdentifiers.isEmpty {
             passData.merge(["associatedStoreIdentifiers": passObject.associatedStoreIdentifiers]) { _, _ in }
         }

@@ -23,6 +23,8 @@
 		BA0C54E42F6505B600DC2C7F /* PassKitConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0C54E32F6505B500DC2C7F /* PassKitConstants.swift */; };
 		BA0F98212CE2BA4800F76501 /* ExtendUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */; };
 		BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */; };
+		BA1118392FDE385300501423 /* LocationPicker in Frameworks */ = {isa = PBXBuildFile; productRef = BA1118382FDE385300501423 /* LocationPicker */; };
+		BA11183B2FDE3A6D00501423 /* LocationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA11183A2FDE3A6D00501423 /* LocationSelection.swift */; };
 		BA12869C2B95756500AC82E4 /* AztecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869B2B95756500AC82E4 /* AztecView.swift */; };
 		BA12869E2B957BD700AC82E4 /* GeneratePass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12869D2B957BD700AC82E4 /* GeneratePass.swift */; };
 		BA12A7312F66086800B55431 /* ThumbnailImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12A7302F66086800B55431 /* ThumbnailImageView.swift */; };
@@ -155,6 +157,7 @@
 		BA0C54E32F6505B500DC2C7F /* PassKitConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassKitConstants.swift; sourceTree = "<group>"; };
 		BA0F98202CE2BA3E00F76501 /* ExtendUInt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendUInt.swift; sourceTree = "<group>"; };
 		BA0F98222CE2BAFB00F76501 /* ExtendUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendUIImage.swift; sourceTree = "<group>"; };
+		BA11183A2FDE3A6D00501423 /* LocationSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSelection.swift; sourceTree = "<group>"; };
 		BA12869B2B95756500AC82E4 /* AztecView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AztecView.swift; sourceTree = "<group>"; };
 		BA12869D2B957BD700AC82E4 /* GeneratePass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePass.swift; sourceTree = "<group>"; };
 		BA12A7302F66086800B55431 /* ThumbnailImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailImageView.swift; sourceTree = "<group>"; };
@@ -248,6 +251,7 @@
 				BA8D50C42D30C8F5009617C1 /* SymbolPicker in Frameworks */,
 				BAF456BF2F5C083D000BE9A4 /* MCEmojiPicker in Frameworks */,
 				BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */,
+				BA1118392FDE385300501423 /* LocationPicker in Frameworks */,
 				BA046B092F956D92005C6BA3 /* SwiftyCrop in Frameworks */,
 				BA17A9112D36155E00A8C992 /* KeyboardAware in Frameworks */,
 			);
@@ -354,6 +358,7 @@
 		BA0F32E72B9AC837007120B8 /* Pickers */ = {
 			isa = PBXGroup;
 			children = (
+				BA11183A2FDE3A6D00501423 /* LocationSelection.swift */,
 				BAAD44A02FDE2CBE000F71E1 /* ExpirationDatePicker.swift */,
 				BA0018C72FD6658700B617FE /* PassGroupPicker.swift */,
 				BA6595902F79BB3D0091BB29 /* WifiQrCode.swift */,
@@ -524,6 +529,7 @@
 				BA17A9102D36155E00A8C992 /* KeyboardAware */,
 				BAF456BE2F5C083D000BE9A4 /* MCEmojiPicker */,
 				BA046B082F956D92005C6BA3 /* SwiftyCrop */,
+				BA1118382FDE385300501423 /* LocationPicker */,
 			);
 			productName = PassKeepr;
 			productReference = 3A02E7362AF6EE1000383BC2 /* PassKeepr.app */;
@@ -628,6 +634,7 @@
 				BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */,
 				BAF456BD2F5C083D000BE9A4 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
 				BA046B072F956D92005C6BA3 /* XCRemoteSwiftPackageReference "SwiftyCrop" */,
+				BA1118372FDE385300501423 /* XCRemoteSwiftPackageReference "LocationPickerForSwiftUI" */,
 			);
 			productRefGroup = 3A02E7372AF6EE1000383BC2 /* Products */;
 			projectDirPath = "";
@@ -697,6 +704,7 @@
 				BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */,
 				BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */,
 				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
+				BA11183B2FDE3A6D00501423 /* LocationSelection.swift in Sources */,
 				BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */,
 				BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */,
 				BA25D8972B76E8300044E423 /* Code93View.swift in Sources */,
@@ -1192,6 +1200,14 @@
 				kind = branch;
 			};
 		};
+		BA1118372FDE385300501423 /* XCRemoteSwiftPackageReference "LocationPickerForSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alessiorubicini/LocationPickerForSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ralfebert/KeyboardAwareSwiftUI";
@@ -1231,6 +1247,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA046B072F956D92005C6BA3 /* XCRemoteSwiftPackageReference "SwiftyCrop" */;
 			productName = SwiftyCrop;
+		};
+		BA1118382FDE385300501423 /* LocationPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA1118372FDE385300501423 /* XCRemoteSwiftPackageReference "LocationPickerForSwiftUI" */;
+			productName = LocationPicker;
 		};
 		BA17A9102D36155E00A8C992 /* KeyboardAware */ = {
 			isa = XCSwiftPackageProductDependency;
