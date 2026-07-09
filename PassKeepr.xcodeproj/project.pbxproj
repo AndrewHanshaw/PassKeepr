@@ -944,7 +944,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PassKeepr/PassKeepr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "$(CI_BUILD_NUMBER)";
 				DEVELOPMENT_ASSET_PATHS = "\"PassKeepr/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -983,7 +983,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PassKeepr/PassKeepr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "$(CI_BUILD_NUMBER)";
 				DEVELOPMENT_ASSET_PATHS = "\"PassKeepr/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1088,7 +1088,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PkPassShare/PkPassShare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "$(CI_BUILD_NUMBER)";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PkPassShare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PkPassShare;
@@ -1117,7 +1117,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PkPassShare/PkPassShare.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = "$(CI_BUILD_NUMBER)";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PkPassShare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PkPassShare;
