@@ -187,7 +187,7 @@ struct PassGridView: View {
         }
         .navigationDestination(for: UUID.self) { id in
             if let index = modelData.passObjects.firstIndex(where: { $0.id == id }) {
-                EditPass(objectToEdit: $modelData.passObjects[index], isNewPass: false)
+                EditPass(objectToEdit: $modelData.passObjects[index], isNewPass: false, shouldProvideOwnNavigation: false)
                     .zoomNavigationTransitionIfAvailable(sourceID: id, in: zoomNamespace)
             }
         }

@@ -24,6 +24,7 @@ struct EditPass: View {
     @State private var alertMessage: String = ""
 
     let isNewPass: Bool
+    let shouldProvideOwnNavigation: Bool
 
     @State private var hasEditPassButtonBeenPressed = false
     @State private var textSize: CGSize = CGSizeZero
@@ -41,9 +42,10 @@ struct EditPass: View {
 
     // On init, set the temp object owned by this view equal to the
     // one passed in via @Binding
-    init(objectToEdit: Binding<PassObject>, isNewPass: Bool) {
+    init(objectToEdit: Binding<PassObject>, isNewPass: Bool, shouldProvideOwnNavigation: Bool = true) {
         _objectToEdit = objectToEdit
         self.isNewPass = isNewPass
+        self.shouldProvideOwnNavigation = shouldProvideOwnNavigation
         _tempObject = State(initialValue: objectToEdit.wrappedValue)
     }
 
@@ -54,117 +56,134 @@ struct EditPass: View {
     }
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                ScrollViewReader { proxy in
-                    VStack(spacing: 20) {
-                        EditablePassCard(passObject: $tempObject, isSigningPass: hasEditPassButtonBeenPressed, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented, isCustomizeBackgroundImagePresented: $isCustomizeBackgroundImagePresented, isCustomizeStripImagePresented: $isCustomizeStripImagePresented, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented, isCustomizeBarcodePresented: $isCustomizeBarcodePresented, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
-                            .padding([.leading, .trailing], 6)
-                            .padding(.top, 56)
+        if shouldProvideOwnNavigation {
+            NavigationStack { content }
+        } else {
+            content
+        }
+    }
 
-                        BarcodeTypePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+    @ViewBuilder
+    private var content: some View {
+        ScrollView {
+            ScrollViewReader { proxy in
+                VStack(spacing: 20) {
+                    EditablePassCard(passObject: $tempObject, isSigningPass: hasEditPassButtonBeenPressed, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented, isCustomizeBackgroundImagePresented: $isCustomizeBackgroundImagePresented, isCustomizeStripImagePresented: $isCustomizeStripImagePresented, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented, isCustomizeBarcodePresented: $isCustomizeBarcodePresented, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
+                        .padding([.leading, .trailing], 6)
+                        .padding(.top, 56)
 
-                        ColorInput(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                    BarcodeTypePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
 
-                        SecondaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-                        AuxiliaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-                        HeaderFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                    ColorInput(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
 
-                        if (tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr) && tempObject.backgroundImage == Data() {
-                            StripImageSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-                        }
+                    SecondaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                    AuxiliaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                    HeaderFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
 
-                        PassGroupPicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-
-                        ExpirationDatePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-                            .id("expirationDatePicker")
-
-                        LocationSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-                            .id("locationSelection")
+                    if (tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr) && tempObject.backgroundImage == Data() {
+                        StripImageSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
                     }
-                    .padding()
-                    .onChange(of: tempObject.hasExpirationDate) { _, isEnabled in
-                        guard isEnabled else { return }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                            withAnimation { proxy.scrollTo("expirationDatePicker", anchor: .bottom) }
-                        }
+
+                    PassGroupPicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+
+                    ExpirationDatePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                        .id("expirationDatePicker")
+
+                    LocationSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                        .id("locationSelection")
+                }
+                .padding()
+                .onChange(of: tempObject.hasExpirationDate) { _, isEnabled in
+                    guard isEnabled else { return }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        withAnimation { proxy.scrollTo("expirationDatePicker", anchor: .bottom) }
                     }
-                    .onChange(of: tempObject.locations.count) { oldCount, newCount in
-                        guard newCount > oldCount else { return }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                            withAnimation { proxy.scrollTo("locationSelection", anchor: .bottom) }
-                        }
+                }
+                .onChange(of: tempObject.locations.count) { oldCount, newCount in
+                    guard newCount > oldCount else { return }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                        withAnimation { proxy.scrollTo("locationSelection", anchor: .bottom) }
                     }
                 }
             }
-            .ignoresSafeArea(edges: .top)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(isNewPass && tempObject.description == PassObject.defaultDescription ? .init(get: { "New Pass" }, set: { tempObject.description = $0 }) : $tempObject.description)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    // This weird initializer for Menu is the only way I could find to get it to apply the GlassProminentButtonStyle on iOS 26
-                    Menu("Done", systemImage: "checkmark", content: {
-                        Button("Save + Add to Wallet", image: ImageResource(name: "custom.wallet.pass.badge.plus", bundle: .main), action: {
-                            let result = saveWithoutAddingToWallet()
-                            if !result.success {
-                                hasEditPassButtonBeenPressed = false
-                                showAlert = true
-                                alertMessage = result.errorMessage ?? ""
-                            } else if let pkpassDir = generatePass(passObject: tempObject) {
-                                Task {
-                                    passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: tempObject.id)
-                                }
+        }
+        .ignoresSafeArea(edges: .top)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(isNewPass && tempObject.description == PassObject.defaultDescription ? .init(get: { "New Pass" }, set: { tempObject.description = $0 }) : $tempObject.description)
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                // This weird initializer for Menu is the only way I could find to get it to apply the GlassProminentButtonStyle on iOS 26
+                Menu("Done", systemImage: "checkmark", content: {
+                    Button("Save + Add to Wallet", image: ImageResource(name: "custom.wallet.pass.badge.plus", bundle: .main), action: {
+                        let result = saveWithoutAddingToWallet()
+                        if !result.success {
+                            hasEditPassButtonBeenPressed = false
+                            showAlert = true
+                            alertMessage = result.errorMessage ?? ""
+                        } else if let pkpassDir = generatePass(passObject: tempObject) {
+                            Task {
+                                passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: tempObject.id)
+                            }
+                        } else {
+                            hasEditPassButtonBeenPressed = false
+                            showAlert = true
+                            alertMessage = "Failed to generate pass file"
+                        }
+                    })
+                    .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
+
+                    Button("Done", systemImage: "checkmark.circle") {
+                        let result = saveWithoutAddingToWallet()
+                        if result.success {
+                            if generatePass(passObject: tempObject) != nil {
+                                presentationMode.wrappedValue.dismiss()
                             } else {
                                 hasEditPassButtonBeenPressed = false
                                 showAlert = true
                                 alertMessage = "Failed to generate pass file"
                             }
-                        })
-                        .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
-
-                        Button("Done", systemImage: "checkmark.circle") {
-                            let result = saveWithoutAddingToWallet()
-                            if result.success {
-                                if generatePass(passObject: tempObject) != nil {
-                                    presentationMode.wrappedValue.dismiss()
-                                } else {
-                                    hasEditPassButtonBeenPressed = false
-                                    showAlert = true
-                                    alertMessage = "Failed to generate pass file"
-                                }
-                            } else {
-                                hasEditPassButtonBeenPressed = false
-                                alertMessage = result.errorMessage ?? ""
-                                showAlert = true
-                            }
-                        }
-                        .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
-                    })
-                    .toolbarConfirmButtonModifier()
-                }
-
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel", systemImage: "xmark") {
-                        if isPassModified {
-                            showDiscardConfirmation = true
                         } else {
-                            presentationMode.wrappedValue.dismiss()
+                            hasEditPassButtonBeenPressed = false
+                            alertMessage = result.errorMessage ?? ""
+                            showAlert = true
                         }
                     }
-                    .confirmationDialog(
-                        "Are you sure you want to discard your changes?",
-                        isPresented: $showDiscardConfirmation,
-                        titleVisibility: .visible
-                    ) {
-                        Button("Discard Changes", role: .destructive) {
+                    .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
+                })
+                .toolbarConfirmButtonModifier()
+
+                if shouldProvideOwnNavigation {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Cancel", systemImage: "xmark") {
                             presentationMode.wrappedValue.dismiss()
                         }
+                        .toolbarCancelButtonModifier()
                     }
-                    .toolbarCancelButtonModifier()
                 }
             }
-            .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
+
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Cancel", systemImage: "xmark") {
+                    if isPassModified {
+                        showDiscardConfirmation = true
+                    } else {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+                .confirmationDialog(
+                    "Are you sure you want to discard your changes?",
+                    isPresented: $showDiscardConfirmation,
+                    titleVisibility: .visible
+                ) {
+                    Button("Discard Changes", role: .destructive) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+                .toolbarCancelButtonModifier()
+            }
         }
+        .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
         .sheet(isPresented: $isCustomizeLogoImagePresented) {
             CustomizeLogoImage(passObject: $tempObject)
                 .edgesIgnoringSafeArea(.bottom)
