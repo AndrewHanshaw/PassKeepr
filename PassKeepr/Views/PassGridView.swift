@@ -14,9 +14,10 @@ struct PassGridView: View {
     @EnvironmentObject var modelData: ModelData
 
     @Binding var importedPassURL: URL?
-    var columnCount: Int
 
     @Namespace private var zoomNamespace
+
+    @State private var columnCount: Int = 2
 
     @StateObject private var dragState = DragState()
     @State private var dragProperties = DragProperties()
@@ -179,6 +180,11 @@ struct PassGridView: View {
                 }
             }
         } // ZStack
+        .onGeometryChange(for: Bool.self) { proxy in
+            proxy.size.width > proxy.size.height
+        } action: { isLandscape in
+            columnCount = isLandscape ? 4 : 2
+        }
         .navigationDestination(for: UUID.self) { id in
             if let index = modelData.passObjects.firstIndex(where: { $0.id == id }) {
                 EditPass(objectToEdit: $modelData.passObjects[index], isNewPass: false)
