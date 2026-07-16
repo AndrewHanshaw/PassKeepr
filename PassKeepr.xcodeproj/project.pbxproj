@@ -36,6 +36,7 @@
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
 		BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */ = {isa = PBXBuildFile; fileRef = BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */; };
 		BA21DD1330089F0D00335F03 /* PassGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA21DD1230089F0D00335F03 /* PassGridView.swift */; };
+		BA21DD2530089FB200335F03 /* iOS18Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA21DD2430089FB200335F03 /* iOS18Helpers.swift */; };
 		BA25D8972B76E8300044E423 /* Code93View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA25D8962B76E8300044E423 /* Code93View.swift */; };
 		BA2ECC4F2D0F4E93001AD177 /* EditablePassCardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC4E2D0F4E93001AD177 /* EditablePassCardBackground.swift */; };
 		BA2ECC532D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */; };
@@ -169,6 +170,7 @@
 		BA1BACD32B463FCD00F86890 /* EditPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPass.swift; sourceTree = "<group>"; };
 		BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OneDimensionalBarcodeFilter.metal; sourceTree = "<group>"; };
 		BA21DD1230089F0D00335F03 /* PassGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassGridView.swift; sourceTree = "<group>"; };
+		BA21DD2430089FB200335F03 /* iOS18Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS18Helpers.swift; sourceTree = "<group>"; };
 		BA25D8962B76E8300044E423 /* Code93View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code93View.swift; sourceTree = "<group>"; };
 		BA2ECC4E2D0F4E93001AD177 /* EditablePassCardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCardBackground.swift; sourceTree = "<group>"; };
 		BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTextFieldGeneric.swift; sourceTree = "<group>"; };
@@ -474,6 +476,7 @@
 		BABAADDC2B0AB8150014C73B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BA21DD2430089FB200335F03 /* iOS18Helpers.swift */,
 				BAAD449E2FDDDD74000F71E1 /* CameraImagePicker.swift */,
 				BA046B282F95934A005C6BA3 /* SwiftyCropConfiguration+AppStyle.swift */,
 				BA046B262F958FA8005C6BA3 /* IdentifiableImage.swift */,
@@ -731,6 +734,7 @@
 				3A02E73A2AF6EE1000383BC2 /* PassKeeprApp.swift in Sources */,
 				BA409E422CF427160079193E /* EditablePassCard.swift in Sources */,
 				BAA53E182D0E3AF5004A175A /* CustomizePassTextField.swift in Sources */,
+				BA21DD2530089FB200335F03 /* iOS18Helpers.swift in Sources */,
 				BA067E072F5937CA00F87B79 /* BackgroundBrightness.swift in Sources */,
 				BA428B842D49CF870024B8B1 /* EAN13View.swift in Sources */,
 				BABAADDA2B0A6C110014C73B /* AddPass.swift in Sources */,

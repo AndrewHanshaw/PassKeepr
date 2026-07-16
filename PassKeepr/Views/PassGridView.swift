@@ -35,57 +35,18 @@ struct PassGridView: View {
         Array(repeating: .init(.flexible(), spacing: PADDING), count: columnCount)
     }
 
+    private var orderedPassIDs: [UUID] {
+        let modelIDs = Set(modelData.passObjects.map(\.id))
+        return dragState.orderIDs.filter { modelIDs.contains($0) }
+    }
+
     var body: some View {
         ZStack {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: PADDING) {
-                    ForEach(dragState.orderIDs.filter { id in modelData.passObjects.contains(where: { $0.id == id }) }, id: \.self) { id in
-                        // Resolve a binding into the real model by ID
-                        if let bindingIndex = modelData.passObjects.firstIndex(where: {
-                            $0.id == id
-                        }) {
-                            PassCardContainer(passObject: $modelData.passObjects[bindingIndex])
-                                .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fill)
-                                .opacity(dragProperties.draggedID == id ? 0.001 : 1.0)
-                                .onDrag {
-//                                        print("onDrag started for: \(passObject.id.uuidString)")
-
-                                    // Check if this is a spurious drag call after a recent drop.
-                                    // Bug introduced in iOS 18, where onDrag is called an additional time after dropping the item.
-                                    // Fixed in iOS 27
-                                    if #available(iOS 18.0, *) {
-                                        if #unavailable(iOS 27.0) {
-                                            if let lastDropTime = lastDragEnded,
-                                               lastDraggedID == id,
-                                               Date().timeIntervalSince(lastDropTime) < 1.3
-                                            {
-                                                // print("Ignoring spurious drag call - too soon after last drop")
-                                                return NSItemProvider()
-                                            }
-                                        }
-                                    }
-
-                                    // Record this as the start of a legitimate drag
-                                    dragProperties.draggedID = id
-                                    lastDraggedID = id
-
-                                    return NSItemProvider(object: NSString(string: id.uuidString))
-                                }
-                                .onDrop(
-                                    of: [.text],
-                                    delegate: PassDropDelegate(
-                                        destinationID: id,
-                                        dragState: dragState,
-                                        dragProperties: dragProperties,
-                                        onDropCompleted: {
-                                            commitNewOrder()
-                                            dragProperties.draggedID = nil
-                                            lastDragEnded = Date()
-                                        }
-                                    )
-                                )
-                        }
-                    } // ForEach
+                    ForEach(orderedPassIDs, id: \.self) { id in
+                        passCell(for: id)
+                    }
                 }
                 .padding(PADDING)
                 .onAppear {
@@ -221,6 +182,7 @@ struct PassGridView: View {
         .navigationDestination(for: UUID.self) { id in
             if let index = modelData.passObjects.firstIndex(where: { $0.id == id }) {
                 EditPass(objectToEdit: $modelData.passObjects[index], isNewPass: false)
+                    .zoomNavigationTransitionIfAvailable(sourceID: id, in: zoomNamespace)
             }
         }
         .overlay(alignment: .bottomTrailing) {
@@ -242,6 +204,46 @@ struct PassGridView: View {
         }
     }
 
+    @ViewBuilder
+    private func passCell(for id: UUID) -> some View {
+        if let bindingIndex = modelData.passObjects.firstIndex(where: { $0.id == id }) {
+            PassCardContainer(passObject: $modelData.passObjects[bindingIndex], zoomNamespace: zoomNamespace)
+                .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fill)
+                .opacity(dragProperties.draggedID == id ? 0.001 : 1.0)
+                .onDrag {
+                    // Check if this is a spurious drag call after a recent drop.
+                    // Bug introduced in iOS 18, where onDrag is called an additional time after dropping the item.
+                    // Fixed in iOS 27
+                    if #available(iOS 18.0, *) {
+                        if #unavailable(iOS 27.0) {
+                            if let lastDropTime = lastDragEnded,
+                               lastDraggedID == id,
+                               Date().timeIntervalSince(lastDropTime) < 1.3
+                            {
+                                return NSItemProvider()
+                            }
+                        }
+                    }
+                    dragProperties.draggedID = id
+                    lastDraggedID = id
+                    return NSItemProvider(object: NSString(string: id.uuidString))
+                }
+                .onDrop(
+                    of: [.text],
+                    delegate: PassDropDelegate(
+                        destinationID: id,
+                        dragState: dragState,
+                        dragProperties: dragProperties,
+                        onDropCompleted: {
+                            commitNewOrder()
+                            dragProperties.draggedID = nil
+                            lastDragEnded = Date()
+                        }
+                    )
+                )
+        }
+    }
+
     private func commitNewOrder() {
         // Reorder modelData.passObjects to follow dragState.orderIDs
         modelData.passObjects.sort { a, b in
@@ -257,16 +259,14 @@ struct PassGridView: View {
 
 struct PassCardContainer: View {
     @Binding var passObject: PassObject
-    @State private var shouldPresentEditPass = false
+    var zoomNamespace: Namespace.ID
 
     var body: some View {
-        PassCard(passObject: passObject)
-            .onTapGesture {
-                shouldPresentEditPass.toggle()
-            }
-            .sheet(isPresented: $shouldPresentEditPass) {
-                EditPass(objectToEdit: $passObject, isNewPass: false)
-            }
+        NavigationLink(value: passObject.id) {
+            PassCard(passObject: passObject)
+        }
+        .buttonStyle(.plain)
+        .matchedTransitionSourceIfAvailable(id: passObject.id, in: zoomNamespace)
     }
 }
 
