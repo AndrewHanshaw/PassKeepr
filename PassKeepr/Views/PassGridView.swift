@@ -1,0 +1,306 @@
+import SwiftUI
+
+private let PADDING: CGFloat = 14
+
+class DragProperties {
+    var draggedID: UUID?
+}
+
+class DragState: ObservableObject {
+    @Published var orderIDs: [UUID] = []
+}
+
+struct PassGridView: View {
+    @EnvironmentObject var modelData: ModelData
+
+    @Binding var importedPassURL: URL?
+    var columnCount: Int
+
+    @Namespace private var zoomNamespace
+
+    @StateObject private var dragState = DragState()
+    @State private var dragProperties = DragProperties()
+    @State private var lastDraggedID: UUID?
+    @State private var lastDragEnded: Date?
+
+    @State private var shouldPresentAddPass = false
+    @State private var shouldPresentInfo = false
+    @State private var shouldPresentDeleteConfirmation = false
+    @State private var importedPassObject: PassObject?
+    @State private var shouldShowNFCAlert = false
+    @State private var shouldShowImportErrorAlert = false
+    @State private var importErrorMessage = ""
+
+    private var columns: [GridItem] {
+        Array(repeating: .init(.flexible(), spacing: PADDING), count: columnCount)
+    }
+
+    var body: some View {
+        ZStack {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: PADDING) {
+                    ForEach(dragState.orderIDs.filter { id in modelData.passObjects.contains(where: { $0.id == id }) }, id: \.self) { id in
+                        // Resolve a binding into the real model by ID
+                        if let bindingIndex = modelData.passObjects.firstIndex(where: {
+                            $0.id == id
+                        }) {
+                            PassCardContainer(passObject: $modelData.passObjects[bindingIndex])
+                                .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fill)
+                                .opacity(dragProperties.draggedID == id ? 0.001 : 1.0)
+                                .onDrag {
+//                                        print("onDrag started for: \(passObject.id.uuidString)")
+
+                                    // Check if this is a spurious drag call after a recent drop.
+                                    // Bug introduced in iOS 18, where onDrag is called an additional time after dropping the item.
+                                    // Fixed in iOS 27
+                                    if #available(iOS 18.0, *) {
+                                        if #unavailable(iOS 27.0) {
+                                            if let lastDropTime = lastDragEnded,
+                                               lastDraggedID == id,
+                                               Date().timeIntervalSince(lastDropTime) < 1.3
+                                            {
+                                                // print("Ignoring spurious drag call - too soon after last drop")
+                                                return NSItemProvider()
+                                            }
+                                        }
+                                    }
+
+                                    // Record this as the start of a legitimate drag
+                                    dragProperties.draggedID = id
+                                    lastDraggedID = id
+
+                                    return NSItemProvider(object: NSString(string: id.uuidString))
+                                }
+                                .onDrop(
+                                    of: [.text],
+                                    delegate: PassDropDelegate(
+                                        destinationID: id,
+                                        dragState: dragState,
+                                        dragProperties: dragProperties,
+                                        onDropCompleted: {
+                                            commitNewOrder()
+                                            dragProperties.draggedID = nil
+                                            lastDragEnded = Date()
+                                        }
+                                    )
+                                )
+                        }
+                    } // ForEach
+                }
+                .padding(PADDING)
+                .onAppear {
+                    // initial order = current model order
+                    dragState.orderIDs = modelData.passObjects.map(\.id)
+                }
+                .onChange(of: modelData.passObjects.count) { _, _ in
+                    // Keep orderIDs in sync when items are added/removed:
+                    // remove missing ids, append newly added ids to the end
+                    dragProperties.draggedID = nil
+                    let modelIDs = Set(modelData.passObjects.map(\.id))
+                    var ids = dragState.orderIDs
+                    ids.removeAll { id in !modelIDs.contains(id) }
+                    let existing = Set(ids)
+                    let newIDs = modelData.passObjects.map(\.id).filter { !existing.contains($0) }
+                    ids.append(contentsOf: newIDs)
+                    dragState.orderIDs = ids
+                }
+            }
+            .softTopBottomScrollEdgeEffectStyleIfAvailable()
+            .scrollDisabled(modelData.passObjects.isEmpty)
+            .navigationBarTitleDisplayMode(.inline) // Necessary to prevent a gap between the title and the start of the grid
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("My Passes")
+                        .font(.system(size: 30, weight: .bold, design: .rounded))
+                }
+
+                ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        Button("Delete All Passes", systemImage: "trash", role: .destructive) {
+                            shouldPresentDeleteConfirmation = true
+                        }
+                        .simultaneousGesture(
+                            LongPressGesture(minimumDuration: 2.0)
+                                .onEnded { _ in
+                                    modelData.deleteAllItems()
+                                    modelData.deleteDataFile()
+                                }
+                        )
+
+                        Button("About PassKeepr", systemImage: "info.circle") {
+                            shouldPresentInfo.toggle()
+                        }
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                    }
+                }
+            }
+            .alert("Delete All Passes?",
+                   isPresented: $shouldPresentDeleteConfirmation)
+            {
+                Button("Delete", role: .destructive) { modelData.deleteAllItems() }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("This action cannot be undone.")
+            }
+            .toolbar {
+                if #available(iOS 26.0, *) {
+                    ToolbarSpacer(.flexible, placement: .bottomBar)
+
+                    ToolbarItem(placement: .bottomBar) {
+                        // Have to do this instead of something like the commented out below because it will throw a UIViewAlertForUnsatisfiableConstraints warning.
+                        // It doesn't like the systemImage initializer for some reason. Doing something like `
+                        Button(action: { shouldPresentAddPass.toggle() }) {
+                            Image(systemName: "plus")
+                                .foregroundStyle(Color(hex: 0xD5FED6))
+                            // Label("Add Pass", systemImage: "plus").labelStyle(.iconOnly) // This throws a warning too for some reason
+                        }
+                        .accessibilityLabel("Add Pass")
+                        // Ideally we'd do it this way
+//                        Button("Add", systemImage: "plus") {
+//                            shouldPresentAddPass.toggle()
+//                        }
+                        .buttonStyle(GlassProminentButtonStyle())
+                    }
+                }
+            }
+            .sheet(isPresented: $shouldPresentInfo, content: {
+                About()
+                    .presentationDragIndicator(.visible)
+            })
+            .sheet(isPresented: $shouldPresentAddPass) {
+                AddPass()
+            }
+            .onChange(of: importedPassURL) { _, newURL in
+                if let url = newURL {
+                    // Import the .pkpass file and parse it
+                    let result = importPass(from: url)
+                    if let importedPass = result.pass {
+                        if result.hasNFC { shouldShowNFCAlert = true }
+
+                        // Add the imported pass to modelData first
+                        modelData.passObjects.append(importedPass)
+                        modelData.encodePassObjects()
+
+                        // Set importedPassObject to trigger the sheet with a proper binding
+                        importedPassObject = importedPass
+                    } else {
+                        shouldShowImportErrorAlert = true
+                        importErrorMessage = "Failed to import pass file."
+                    }
+
+                    // Clean up the imported file
+                    try? FileManager.default.removeItem(at: url)
+                    importedPassURL = nil
+                }
+            }
+            .sheet(item: $importedPassObject) { passObject in
+                if let index = modelData.passObjects.firstIndex(where: { $0.id == passObject.id }) {
+                    EditPass(objectToEdit: $modelData.passObjects[index], isNewPass: false)
+                        .alert("NFC Pass Imported", isPresented: $shouldShowNFCAlert) {
+                            Button("OK", role: .cancel) {}
+                        } message: {
+                            Text("The imported pass contained NFC data. NFC functionality will not be included for this PassKeepr pass.")
+                        }
+                }
+            }
+            .alert("Import Failed", isPresented: $shouldShowImportErrorAlert) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(importErrorMessage)
+            }
+            if modelData.passObjects.isEmpty {
+                if #available(iOS 26.0, *) {
+                    NoPassesToShow()
+                } else {
+                    NoPassesToShow()
+                        .padding(.bottom, 38)
+                }
+            }
+        } // ZStack
+        .navigationDestination(for: UUID.self) { id in
+            if let index = modelData.passObjects.firstIndex(where: { $0.id == id }) {
+                EditPass(objectToEdit: $modelData.passObjects[index], isNewPass: false)
+            }
+        }
+        .overlay(alignment: .bottomTrailing) {
+            if #unavailable(iOS 26.0) {
+                Button(role: .none,
+                       action: { shouldPresentAddPass.toggle() },
+                       label: {
+                           Image(systemName: "plus.circle.fill")
+                               .resizable()
+                               .scaledToFit()
+                               .frame(width: 50)
+                               .symbolRenderingMode(.palette)
+                               .foregroundStyle(Color.white, Color.accentColor) // + color, circle color
+                       })
+                       .labelStyle(.iconOnly)
+                       .padding(.trailing, 30)
+                       .offset(x: 10, y: 10)
+            }
+        }
+    }
+
+    private func commitNewOrder() {
+        // Reorder modelData.passObjects to follow dragState.orderIDs
+        modelData.passObjects.sort { a, b in
+            guard
+                let ai = dragState.orderIDs.firstIndex(of: a.id),
+                let bi = dragState.orderIDs.firstIndex(of: b.id)
+            else { return false }
+            return ai < bi
+        }
+        modelData.encodePassObjects()
+    }
+}
+
+struct PassCardContainer: View {
+    @Binding var passObject: PassObject
+    @State private var shouldPresentEditPass = false
+
+    var body: some View {
+        PassCard(passObject: passObject)
+            .onTapGesture {
+                shouldPresentEditPass.toggle()
+            }
+            .sheet(isPresented: $shouldPresentEditPass) {
+                EditPass(objectToEdit: $passObject, isNewPass: false)
+            }
+    }
+}
+
+struct PassDropDelegate: DropDelegate {
+    let destinationID: UUID
+    @ObservedObject var dragState: DragState
+    let dragProperties: DragProperties
+    let onDropCompleted: () -> Void
+
+    func dropUpdated(info _: DropInfo) -> DropProposal? {
+        DropProposal(operation: .move)
+    }
+
+    func performDrop(info _: DropInfo) -> Bool {
+        onDropCompleted()
+        return true
+    }
+
+    func dropEntered(info _: DropInfo) {
+        guard let draggedID = dragProperties.draggedID,
+              draggedID != destinationID,
+              let fromIndex = dragState.orderIDs.firstIndex(of: draggedID),
+              let toIndex = dragState.orderIDs.firstIndex(of: destinationID),
+              fromIndex != toIndex
+        else {
+            return
+        }
+
+        // Animate the reordering
+        withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
+            dragState.orderIDs.move(
+                fromOffsets: IndexSet(integer: fromIndex),
+                toOffset: toIndex > fromIndex ? toIndex + 1 : toIndex
+            )
+        }
+    }
+}
