@@ -252,8 +252,6 @@ struct PassCard: View {
         } else {
             passBackgroundBrightness = .veryLight
         }
-
-        // print("PassCardContainer background brightness: \(backgroundBrightness)")
     }
 }
 
