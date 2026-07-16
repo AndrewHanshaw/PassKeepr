@@ -37,6 +37,7 @@
 		BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */ = {isa = PBXBuildFile; fileRef = BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */; };
 		BA21DD1330089F0D00335F03 /* PassGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA21DD1230089F0D00335F03 /* PassGridView.swift */; };
 		BA21DD2530089FB200335F03 /* iOS18Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA21DD2430089FB200335F03 /* iOS18Helpers.swift */; };
+		BA21DD2E3008A04100335F03 /* LandscapeDetailPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA21DD2D3008A04100335F03 /* LandscapeDetailPane.swift */; };
 		BA25D8972B76E8300044E423 /* Code93View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA25D8962B76E8300044E423 /* Code93View.swift */; };
 		BA2ECC4F2D0F4E93001AD177 /* EditablePassCardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC4E2D0F4E93001AD177 /* EditablePassCardBackground.swift */; };
 		BA2ECC532D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */; };
@@ -171,6 +172,7 @@
 		BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = OneDimensionalBarcodeFilter.metal; sourceTree = "<group>"; };
 		BA21DD1230089F0D00335F03 /* PassGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassGridView.swift; sourceTree = "<group>"; };
 		BA21DD2430089FB200335F03 /* iOS18Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS18Helpers.swift; sourceTree = "<group>"; };
+		BA21DD2D3008A04100335F03 /* LandscapeDetailPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandscapeDetailPane.swift; sourceTree = "<group>"; };
 		BA25D8962B76E8300044E423 /* Code93View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code93View.swift; sourceTree = "<group>"; };
 		BA2ECC4E2D0F4E93001AD177 /* EditablePassCardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCardBackground.swift; sourceTree = "<group>"; };
 		BA2ECC522D0F90DF001AD177 /* PrimaryTextFieldGeneric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryTextFieldGeneric.swift; sourceTree = "<group>"; };
@@ -459,6 +461,7 @@
 		BABAADDB2B0A6C190014C73B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BA21DD2D3008A04100335F03 /* LandscapeDetailPane.swift */,
 				BA21DD1230089F0D00335F03 /* PassGridView.swift */,
 				BAF0FB712D28D09200948089 /* PassCard */,
 				BAA53E1A2D0E5443004A175A /* EditablePassCard */,
@@ -730,6 +733,7 @@
 				BA7F036D2E9ADB63004E9610 /* BarcodeTypePicker.swift in Sources */,
 				BA65958F2F79BB350091BB29 /* VCardQrCode.swift in Sources */,
 				BACDA8AD2D167646009C249C /* StripImageSelection.swift in Sources */,
+				BA21DD2E3008A04100335F03 /* LandscapeDetailPane.swift in Sources */,
 				BA5FBE9A2F2F07BB00C7AA2A /* ImportPass.swift in Sources */,
 				3A02E73A2AF6EE1000383BC2 /* PassKeeprApp.swift in Sources */,
 				BA409E422CF427160079193E /* EditablePassCard.swift in Sources */,
