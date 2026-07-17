@@ -124,16 +124,6 @@
         }
       }
     },
-    "Are you sure you want to discard your changes?" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вы уверены, что хотите отменить изменения?"
-          }
-        }
-      }
-    },
     "Auxiliary Field" : {
       "localizations" : {
         "ru" : {
@@ -400,16 +390,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Удалить все карты?"
-          }
-        }
-      }
-    },
-    "Discard Changes" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сбросить изменения"
           }
         }
       }
@@ -880,16 +860,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сохранить"
-          }
-        }
-      }
-    },
-    "Save + Add to Wallet" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сохранить и добавить в Wallet"
           }
         }
       }

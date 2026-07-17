@@ -10,8 +10,6 @@ struct EditPass: View {
     // We want to update this object when the save button is pressed
     @Binding var objectToEdit: PassObject
 
-    @State private var attemptToDismiss = UUID()
-
     // Pass object created by this view.
     // This is @State because this view owns this PassObject
     // This PassObject will be swapped in for the @Binding passObject
@@ -50,10 +48,6 @@ struct EditPass: View {
     }
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
-    private var isPassModified: Bool {
-        tempObject != objectToEdit
-    }
 
     var body: some View {
         if shouldProvideOwnNavigation {
@@ -162,26 +156,6 @@ struct EditPass: View {
                     }
                 }
             }
-
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel", systemImage: "xmark") {
-                    if isPassModified {
-                        showDiscardConfirmation = true
-                    } else {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                }
-                .confirmationDialog(
-                    "Are you sure you want to discard your changes?",
-                    isPresented: $showDiscardConfirmation,
-                    titleVisibility: .visible
-                ) {
-                    Button("Discard Changes", role: .destructive) {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                }
-                .toolbarCancelButtonModifier()
-            }
         }
         .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
         .sheet(isPresented: $isCustomizeLogoImagePresented) {
@@ -207,14 +181,6 @@ struct EditPass: View {
         .sheet(isPresented: $isCustomizeQrCodePresented) {
             CustomizeQrCode(passObject: $tempObject)
                 .edgesIgnoringSafeArea(.bottom)
-        }
-        .interactiveDismissDisabled(isPassModified, attemptToDismiss: $attemptToDismiss)
-        .onChange(of: attemptToDismiss) {
-            if isPassModified {
-                showDiscardConfirmation = true
-            } else {
-                presentationMode.wrappedValue.dismiss()
-            }
         }
         .sheet(isPresented: $shouldShowSheet) {
             if isWalletSupported {
