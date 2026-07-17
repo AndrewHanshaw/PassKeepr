@@ -1004,6 +1004,16 @@
         }
       }
     },
+    "Sign Pass" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подписать карту"
+          }
+        }
+      }
+    },
     "Signing Pass…" : {
       "localizations" : {
         "ru" : {
