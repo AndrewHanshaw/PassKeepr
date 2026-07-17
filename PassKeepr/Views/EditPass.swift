@@ -12,10 +12,7 @@ struct EditPass: View {
 
     // Pass object created by this view.
     // This is @State because this view owns this PassObject
-    // This PassObject will be swapped in for the @Binding passObject
-    // when the save button is pressed
-    // This is done so the user can make edits, which won't be saved until
-    // the Save button is pressed
+    // Changes are committed to objectToEdit (and modelData) automatically via auto-save.
     @State private var tempObject: PassObject = .init()
     @State private var shouldShowSheet: Bool = false
     @State private var showAlert: Bool = false
@@ -30,7 +27,8 @@ struct EditPass: View {
     @FocusState private var isTextFieldFocused: Bool
 
     @State private var isWalletSupported = false
-    @State private var showDiscardConfirmation = false
+    /// Tracks the pass group at the time of last successful sign, to detect group changes for Wallet cleanup.
+    @State private var previouslySignedGroup: Int = -1
     @State private var isCustomizeLogoImagePresented = false
     @State private var isCustomizeBackgroundImagePresented = false
     @State private var isCustomizeStripImagePresented = false
@@ -64,7 +62,7 @@ struct EditPass: View {
                 VStack(spacing: 20) {
                     EditablePassCard(passObject: $tempObject, isSigningPass: hasEditPassButtonBeenPressed, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented, isCustomizeBackgroundImagePresented: $isCustomizeBackgroundImagePresented, isCustomizeStripImagePresented: $isCustomizeStripImagePresented, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented, isCustomizeBarcodePresented: $isCustomizeBarcodePresented, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
                         .padding([.leading, .trailing], 6)
-                        .padding(.top, 56)
+                        .padding(.top, 80)
 
                     BarcodeTypePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
 
@@ -102,58 +100,37 @@ struct EditPass: View {
             }
         }
         .ignoresSafeArea(edges: .top)
-        .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle(isNewPass && tempObject.description == PassObject.defaultDescription ? .init(get: { "New Pass" }, set: { tempObject.description = $0 }) : $tempObject.description)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                // This weird initializer for Menu is the only way I could find to get it to apply the GlassProminentButtonStyle on iOS 26
-                Menu("Done", systemImage: "checkmark", content: {
-                    Button("Save + Add to Wallet", image: ImageResource(name: "custom.wallet.pass.badge.plus", bundle: .main), action: {
-                        let result = saveWithoutAddingToWallet()
-                        if !result.success {
-                            hasEditPassButtonBeenPressed = false
-                            showAlert = true
-                            alertMessage = result.errorMessage ?? ""
-                        } else if let pkpassDir = generatePass(passObject: tempObject) {
-                            Task {
-                                passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: tempObject.id)
-                            }
-                        } else {
-                            hasEditPassButtonBeenPressed = false
-                            showAlert = true
-                            alertMessage = "Failed to generate pass file"
+                Button(action: {
+                    let result = prepareForSigning()
+                    if !result.success {
+                        hasEditPassButtonBeenPressed = false
+                        showAlert = true
+                        alertMessage = result.errorMessage ?? ""
+                    } else if let pkpassDir = generatePass(passObject: tempObject) {
+                        Task {
+                            passSigner.uploadPKPassFile(fileURL: pkpassDir, passUuid: tempObject.id)
                         }
-                    })
-                    .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
-
-                    Button("Done", systemImage: "checkmark.circle") {
-                        let result = saveWithoutAddingToWallet()
-                        if result.success {
-                            if generatePass(passObject: tempObject) != nil {
-                                presentationMode.wrappedValue.dismiss()
-                            } else {
-                                hasEditPassButtonBeenPressed = false
-                                showAlert = true
-                                alertMessage = "Failed to generate pass file"
-                            }
-                        } else {
-                            hasEditPassButtonBeenPressed = false
-                            alertMessage = result.errorMessage ?? ""
-                            showAlert = true
-                        }
+                    } else {
+                        hasEditPassButtonBeenPressed = false
+                        showAlert = true
+                        alertMessage = "Failed to generate pass file"
                     }
-                    .labelStyle(.titleAndIcon) // default on iOS 26, needed for older versions
-                })
+                }) {
+                    Label("Sign Pass", image: ImageResource(name: "custom.wallet.pass.badge.plus", bundle: .main))
+                }
                 .toolbarConfirmButtonModifier()
+            }
 
-                if shouldProvideOwnNavigation {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel", systemImage: "xmark") {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                        .toolbarCancelButtonModifier()
+            if shouldProvideOwnNavigation {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel", systemImage: "xmark") {
+                        presentationMode.wrappedValue.dismiss()
                     }
+                    .toolbarCancelButtonModifier()
                 }
             }
         }
@@ -209,6 +186,7 @@ struct EditPass: View {
         .onAppear {
             passSigner.isDataLoaded = false
             isWalletSupported = PKAddPassesViewController.canAddPasses()
+            previouslySignedGroup = objectToEdit.group
         }
         .onChange(of: objectToEdit) { _, newValue in
             // Update tempObject when the binding changes (e.g., from import)
@@ -216,9 +194,17 @@ struct EditPass: View {
                 tempObject = newValue
             }
         }
+        .onChange(of: tempObject) { _, newValue in
+            objectToEdit = newValue
+            if isNewPass && !modelData.passObjects.contains(where: { $0.id == newValue.id }) {
+                modelData.passObjects.append(newValue)
+            }
+            modelData.encodePassObjects()
+        }
         .onChange(of: passSigner.isDataLoaded) {
             if passSigner.isDataLoaded {
                 shouldShowSheet = true
+                previouslySignedGroup = tempObject.group
                 hasEditPassButtonBeenPressed = false
                 print("hasEditPassButtonBeenPressed = false")
                 print(passSigner.isDataLoaded)
@@ -239,16 +225,15 @@ struct EditPass: View {
         }
     }
 
-    func saveWithoutAddingToWallet() -> (success: Bool, errorMessage: String?) {
+    private func prepareForSigning() -> (success: Bool, errorMessage: String?) {
         hasEditPassButtonBeenPressed = true
 
-        // If the group changed, remove the old Wallet pass before saving the new group
-        let oldGroup = objectToEdit.group
+        // If the group changed since the last sign, remove the stale Wallet pass
         let newGroup = tempObject.group
-        if newGroup != oldGroup {
+        if previouslySignedGroup != -1 && newGroup != previouslySignedGroup {
             let passLibrary = PKPassLibrary()
             if PKPassLibrary.isPassLibraryAvailable() {
-                let oldPassTypeIdentifier = "pass.com.hanshaw.passKeepr.\(oldGroup)"
+                let oldPassTypeIdentifier = "pass.com.hanshaw.passKeepr.\(previouslySignedGroup)"
                 let serialNumber = tempObject.id.uuidString
                 if let oldPass = passLibrary.pass(withPassTypeIdentifier: oldPassTypeIdentifier, serialNumber: serialNumber) {
                     passLibrary.removePass(oldPass)
@@ -256,14 +241,12 @@ struct EditPass: View {
             }
         }
 
-        objectToEdit = tempObject
-
         do {
-            // Delete existing pass files if present so we can regenerate from scratch.
+            // Delete existing pass files so we can regenerate from scratch.
             // This must happen regardless of isNewPass — if the user declines the wallet
             // prompt and tries again, the .pkpass from the previous attempt still exists.
-            let passDirectory = URL.applicationSupportDirectory.appending(path: "\(objectToEdit.id.uuidString).pass")
-            let pkPassDirectory = URL.applicationSupportDirectory.appending(path: "\(objectToEdit.id.uuidString).pkpass")
+            let passDirectory = URL.applicationSupportDirectory.appending(path: "\(tempObject.id.uuidString).pass")
+            let pkPassDirectory = URL.applicationSupportDirectory.appending(path: "\(tempObject.id.uuidString).pkpass")
 
             if FileManager.default.fileExists(atPath: passDirectory.path) {
                 try FileManager.default.removeItem(at: passDirectory)
@@ -275,11 +258,6 @@ struct EditPass: View {
             return (false, "Deleting existing pass data was unsuccessful: \(error.localizedDescription)")
         }
 
-        if isNewPass && !modelData.passObjects.contains(where: { $0.id == objectToEdit.id }) {
-            modelData.passObjects.append(objectToEdit)
-        }
-
-        modelData.encodePassObjects()
         return (true, nil)
     }
 
