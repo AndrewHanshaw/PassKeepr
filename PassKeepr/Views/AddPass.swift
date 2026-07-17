@@ -7,8 +7,8 @@ struct AddPass: View {
 
     var body: some View {
         EditPass(objectToEdit: $addedPass, isNewPass: true)
-    } // View
-} // Struct
+    }
+}
 
 func getPkPass(fileURL: URL) -> PKPass {
     do {
