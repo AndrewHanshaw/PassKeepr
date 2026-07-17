@@ -18,6 +18,7 @@ struct PassGridView: View {
     @Namespace private var zoomNamespace
 
     @State private var columnCount: Int = 2
+    @State private var isLandscape: Bool = false
 
     @StateObject private var dragState = DragState()
     @State private var dragProperties = DragProperties()
@@ -43,39 +44,38 @@ struct PassGridView: View {
 
     var body: some View {
         ZStack {
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: PADDING) {
-                    ForEach(orderedPassIDs, id: \.self) { id in
-                        passCell(for: id)
+            Group {
+                if isLandscape {
+                    // In landscape there isn't enough vertical space for the large scrolling
+                    // title treatment, so just use the standard inline nav bar title.
+                    ScrollView {
+                        passGrid
                     }
-                }
-                .padding(PADDING)
-                .onAppear {
-                    // initial order = current model order
-                    dragState.orderIDs = modelData.passObjects.map(\.id)
-                }
-                .onChange(of: modelData.passObjects.count) { _, _ in
-                    // Keep orderIDs in sync when items are added/removed:
-                    // remove missing ids, append newly added ids to the end
-                    dragProperties.draggedID = nil
-                    let modelIDs = Set(modelData.passObjects.map(\.id))
-                    var ids = dragState.orderIDs
-                    ids.removeAll { id in !modelIDs.contains(id) }
-                    let existing = Set(ids)
-                    let newIDs = modelData.passObjects.map(\.id).filter { !existing.contains($0) }
-                    ids.append(contentsOf: newIDs)
-                    dragState.orderIDs = ids
+                    .navigationTitle("My Passes")
+                    .navigationBarTitleDisplayMode(.inline)
+                } else {
+                    FancyNavTitleScrollView(
+                        navigationTitle: "My Passes",
+                        titleView: {
+                            Text("My Passes")
+                                .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.leading, 20)
+                                .padding(.bottom, -16)
+                                .padding(.top, -4)
+                        },
+                        navBarView: {
+                            Text("My Passes")
+                                .font(.system(.headline, design: .rounded, weight: .bold))
+                        },
+                        content: {
+                            passGrid
+                        }
+                    )
                 }
             }
-            .softTopBottomScrollEdgeEffectStyleIfAvailable()
             .scrollDisabled(modelData.passObjects.isEmpty)
-            .navigationBarTitleDisplayMode(.inline) // Necessary to prevent a gap between the title and the start of the grid
             .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("My Passes")
-                        .font(.system(size: 30, weight: .bold, design: .rounded))
-                }
-
                 ToolbarItem(placement: .primaryAction) {
                     Menu {
                         Button("Delete All Passes", systemImage: "trash", role: .destructive) {
@@ -182,8 +182,9 @@ struct PassGridView: View {
         } // ZStack
         .onGeometryChange(for: Bool.self) { proxy in
             proxy.size.width > proxy.size.height
-        } action: { isLandscape in
-            columnCount = isLandscape ? 4 : 2
+        } action: { landscape in
+            isLandscape = landscape
+            columnCount = landscape ? 4 : 2
         }
         .navigationDestination(for: UUID.self) { id in
             if let index = modelData.passObjects.firstIndex(where: { $0.id == id }) {
@@ -207,6 +208,32 @@ struct PassGridView: View {
                        .padding(.trailing, 30)
                        .offset(x: 10, y: 10)
             }
+        }
+    }
+
+    @ViewBuilder
+    private var passGrid: some View {
+        LazyVGrid(columns: columns, spacing: PADDING) {
+            ForEach(orderedPassIDs, id: \.self) { id in
+                passCell(for: id)
+            }
+        }
+        .padding(PADDING)
+        .onAppear {
+            // initial order = current model order
+            dragState.orderIDs = modelData.passObjects.map(\.id)
+        }
+        .onChange(of: modelData.passObjects.count) { _, _ in
+            // Keep orderIDs in sync when items are added/removed:
+            // remove missing ids, append newly added ids to the end
+            dragProperties.draggedID = nil
+            let modelIDs = Set(modelData.passObjects.map(\.id))
+            var ids = dragState.orderIDs
+            ids.removeAll { id in !modelIDs.contains(id) }
+            let existing = Set(ids)
+            let newIDs = modelData.passObjects.map(\.id).filter { !existing.contains($0) }
+            ids.append(contentsOf: newIDs)
+            dragState.orderIDs = ids
         }
     }
 

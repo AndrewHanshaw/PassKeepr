@@ -99,6 +99,7 @@
 		BAF5EF932D094FCE00259BEA /* BuiltInQrCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */; };
 		BAF5EF952D09542200259BEA /* CustomizeQrCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */; };
 		BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = BAF9428A2CB35689009CF225 /* ZIPFoundation */; };
+		BAFF19F53009CA2200148BA2 /* FancyNavTitleScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAFF19F43009CA2200148BA2 /* FancyNavTitleScrollView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -231,6 +232,7 @@
 		BAF0FB762D29CCED00948089 /* PassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassCard.swift; sourceTree = "<group>"; };
 		BAF5EF922D094FCE00259BEA /* BuiltInQrCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInQrCodeView.swift; sourceTree = "<group>"; };
 		BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeQrCode.swift; sourceTree = "<group>"; };
+		BAFF19F43009CA2200148BA2 /* FancyNavTitleScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FancyNavTitleScrollView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -479,6 +481,7 @@
 		BABAADDC2B0AB8150014C73B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BAFF19F43009CA2200148BA2 /* FancyNavTitleScrollView.swift */,
 				BA21DD2430089FB200335F03 /* iOS18Helpers.swift */,
 				BAAD449E2FDDDD74000F71E1 /* CameraImagePicker.swift */,
 				BA046B282F95934A005C6BA3 /* SwiftyCropConfiguration+AppStyle.swift */,
@@ -711,6 +714,7 @@
 				BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */,
 				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
 				BA11183B2FDE3A6D00501423 /* LocationSelection.swift in Sources */,
+				BAFF19F53009CA2200148BA2 /* FancyNavTitleScrollView.swift in Sources */,
 				BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */,
 				BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */,
 				BA25D8972B76E8300044E423 /* Code93View.swift in Sources */,
