@@ -41,7 +41,7 @@ struct PassGroupPicker: View {
         .onChange(of: group) {
             pass.group = group
         }
-        .padding([.top, .bottom], 10)
+        .padding(.vertical, 10)
         .padding(.trailing, 4)
         .padding(.leading, 12)
         .listSectionBackgroundModifier() // necessary?

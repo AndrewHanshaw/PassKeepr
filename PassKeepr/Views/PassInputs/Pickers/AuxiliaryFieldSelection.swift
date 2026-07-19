@@ -34,13 +34,13 @@ struct AuxiliaryFieldSelection: View {
                             }
                         }
                     }
-                    .padding([.top, .bottom], 14)
+                    .padding(.vertical, 14)
                     .overlay(alignment: .bottom) {
                         if shouldShowSecondAuxiliaryField {
                             Divider()
                         }
                     }
-                    .padding([.leading, .trailing], 14)
+                    .padding(.horizontal, 14)
                     .disabled(disableControl || (isCapped && !passObject.isAuxiliaryFieldOneOn))
 
                 if shouldShowSecondAuxiliaryField {
@@ -60,7 +60,7 @@ struct AuxiliaryFieldSelection: View {
                                 Divider()
                             }
                         }
-                        .padding([.leading, .trailing], 14)
+                        .padding(.horizontal, 14)
                         .disabled(disableControl || (isCapped && !passObject.isAuxiliaryFieldTwoOn))
                 }
 

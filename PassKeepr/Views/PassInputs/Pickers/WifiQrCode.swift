@@ -25,7 +25,7 @@ struct WifiQrCode: View {
                 }
                 .accentColor(.secondary)
             }
-            .padding([.top, .bottom], 10)
+            .padding(.vertical, 10)
             .padding(.trailing, 4)
             .padding(.leading, 12)
             .listSectionBackgroundModifier()
@@ -43,8 +43,8 @@ struct WifiQrCode: View {
             }
 
             Toggle("Hidden Network", isOn: $passObject.wifiIsHidden)
-                .padding([.top, .bottom], 10)
-                .padding([.leading, .trailing], 16)
+                .padding(.vertical, 10)
+                .padding(.horizontal, 16)
                 .listSectionBackgroundModifier()
         }
     }

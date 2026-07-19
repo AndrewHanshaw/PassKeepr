@@ -5,6 +5,7 @@ import SwiftyCrop
 
 struct CustomizeBackgroundImage: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     @Binding var passObject: PassObject
 
@@ -59,7 +60,7 @@ struct CustomizeBackgroundImage: View {
                         .foregroundColor(Color.gray)
                         .opacity(0.7)
                     }
-                    .padding([.top, .bottom], 20)
+                    .padding(.vertical, 20)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .alert(isPresented: $showAlert) {
                         Alert(title: Text(alertTitleText),
@@ -81,7 +82,7 @@ struct CustomizeBackgroundImage: View {
                 } label: {
                     Text(tempBackground == nil ? "Select a Background Image" : "Change Background Image")
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .padding([.top, .bottom], 6)
+                        .padding(.vertical, 6)
                 }
                 .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
                 .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
@@ -113,7 +114,7 @@ struct CustomizeBackgroundImage: View {
                         Text("Remove Background Image")
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
-                    .padding([.top, .bottom], 12)
+                    .padding(.vertical, 12)
                     .listSectionBackgroundModifier()
                 }
 
