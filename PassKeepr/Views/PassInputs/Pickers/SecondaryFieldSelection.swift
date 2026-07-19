@@ -33,20 +33,20 @@ struct SecondaryFieldSelection: View {
                             }
                         }
                     }
-                    .padding([.top, .bottom], 14)
+                    .padding(.vertical, 14)
                     .overlay(alignment: .bottom) {
                         if shouldShowThirdSecondaryField {
                             Divider()
                         }
                     }
-                    .padding([.leading, .trailing], 14)
+                    .padding(.horizontal, 14)
                     .disabled(disableControl || (isCapped && !passObject.isSecondaryFieldTwoOn))
 
                 if shouldShowThirdSecondaryField {
                     Toggle("Additional Secondary Field", isOn: $passObject.isSecondaryFieldThreeOn)
                         .transition(.opacity)
                         .padding([.bottom], 14)
-                        .padding([.leading, .trailing], 14)
+                        .padding(.horizontal, 14)
                         .disabled(disableControl || (isCapped && !passObject.isSecondaryFieldThreeOn))
                 }
             }

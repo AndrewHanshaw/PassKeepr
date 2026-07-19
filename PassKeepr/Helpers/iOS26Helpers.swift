@@ -42,8 +42,8 @@ struct TextFieldPopoverModifier: ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {
             content
-                .padding([.top, .bottom], 16)
-                .padding([.leading, .trailing], 24)
+                .padding(.vertical, 16)
+                .padding(.horizontal, 24)
         } else {
             content
                 .padding(8)

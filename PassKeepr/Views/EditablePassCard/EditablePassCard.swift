@@ -45,7 +45,7 @@ struct EditablePassCard: View {
                 VStack(spacing: 0) {
                     EditablePassCardTopSection(backgroundBrightness: passBackgroundBrightness, disableButtons: isSigningPass, passObject: $passObject, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented)
                         .frame(height: size.height * 0.09)
-                        .padding([.leading, .trailing], 12)
+                        .padding(.horizontal, 12)
                         .padding(.top, 6)
                         .padding(.bottom, 0)
                         .zIndex(1)
@@ -59,12 +59,12 @@ struct EditablePassCard: View {
                                     .frame(width: size.width)
                             } else {
                                 PrimaryTextFieldGeneric(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, passObject: $passObject, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
-                                    .padding([.leading, .trailing], 10)
+                                    .padding(.horizontal, 10)
                                     .frame(maxWidth: size.width, maxHeight: size.height * 0.2)
                             }
                         }
                     }
-                    .padding([.top, .bottom], 8)
+                    .padding(.vertical, 8)
 
                     // TODO: The text size for all of these should match while still being as large as possible
                     HStack {
@@ -106,10 +106,10 @@ struct EditablePassCard: View {
                             }
                         }
                     }
-                    .padding([.leading, .trailing], 10)
+                    .padding(.horizontal, 10)
                     .layoutPriority(1)
                     .frame(width: size.width, height: size.height * 0.08)
-                    .padding([.top, .bottom], 5)
+                    .padding(.vertical, 5)
 
                     if !passObject.isCustomStripImageOn {
                         HStack {
@@ -132,7 +132,7 @@ struct EditablePassCard: View {
                                     .layoutPriority(1)
                             }
                         }
-                        .padding([.leading, .trailing], 10)
+                        .padding(.horizontal, 10)
                         .layoutPriority(1)
                         .frame(width: size.width)
                         .frame(height: size.height * 0.07)
