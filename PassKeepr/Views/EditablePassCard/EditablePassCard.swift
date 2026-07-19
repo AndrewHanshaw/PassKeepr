@@ -217,11 +217,13 @@ struct EditablePassCard: View {
     }
 
     func determineBackgroundColor() {
-        let backgroundBrightness: CGFloat = ImageRenderer(content: EditablePassCardBackground(backgroundImage: passObject.backgroundImage, backgroundColor: passObject.backgroundColor, backgroundBrightness: .normal).frame(width: size.width, height: size.height)).uiImage!.averageBrightness()!
+        guard size.width > 0, size.height > 0 else { return }
+        let rendered = ImageRenderer(content: EditablePassCardBackground(backgroundImage: passObject.backgroundImage, backgroundColor: passObject.backgroundColor, backgroundBrightness: .normal).frame(width: size.width, height: size.height))
+        guard let brightness = rendered.uiImage?.averageBrightness() else { return }
 
-        if backgroundBrightness < 0.2 {
+        if brightness < 0.2 {
             passBackgroundBrightness = .veryDark
-        } else if backgroundBrightness > 0.2 && backgroundBrightness < 0.55 {
+        } else if brightness > 0.2 && brightness < 0.55 {
             passBackgroundBrightness = .normal
         } else {
             passBackgroundBrightness = .veryLight

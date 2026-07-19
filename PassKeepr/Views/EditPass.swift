@@ -5,6 +5,7 @@ struct EditPass: View {
     @EnvironmentObject var modelData: ModelData
     @EnvironmentObject var passSigner: pkPassSigner
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     // Pass object passed into this view.
     // We want to update this object when the save button is pressed
@@ -55,51 +56,23 @@ struct EditPass: View {
         }
     }
 
+    // On iPhone, verticalSizeClass reflects interface orientation and is available
+    // synchronously from the first render, unlike onGeometryChange-based measurement
+    // (which starts with a wrong guess and corrects a frame later, causing the pass
+    // card's own size-dependent layout to sometimes latch onto the wrong initial width).
+    private var isLandscape: Bool {
+        verticalSizeClass == .compact
+    }
+
     @ViewBuilder
     private var content: some View {
-        ScrollView {
-            ScrollViewReader { proxy in
-                VStack(spacing: 20) {
-                    EditablePassCard(passObject: $tempObject, isSigningPass: hasEditPassButtonBeenPressed, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented, isCustomizeBackgroundImagePresented: $isCustomizeBackgroundImagePresented, isCustomizeStripImagePresented: $isCustomizeStripImagePresented, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented, isCustomizeBarcodePresented: $isCustomizeBarcodePresented, isCustomizeQrCodePresented: $isCustomizeQrCodePresented)
-                        .padding([.leading, .trailing], 6)
-                        .padding(.top, 80)
-
-                    BarcodeTypePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-
-                    ColorInput(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-
-                    SecondaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-                    AuxiliaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-                    HeaderFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-
-                    if (tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr) && tempObject.backgroundImage == Data() {
-                        StripImageSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-                    }
-
-                    PassGroupPicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-
-                    ExpirationDatePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-                        .id("expirationDatePicker")
-
-                    LocationSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
-                        .id("locationSelection")
-                }
-                .padding()
-                .onChange(of: tempObject.hasExpirationDate) { _, isEnabled in
-                    guard isEnabled else { return }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                        withAnimation { proxy.scrollTo("expirationDatePicker", anchor: .bottom) }
-                    }
-                }
-                .onChange(of: tempObject.locations.count) { oldCount, newCount in
-                    guard newCount > oldCount else { return }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                        withAnimation { proxy.scrollTo("locationSelection", anchor: .bottom) }
-                    }
-                }
+        Group {
+            if isLandscape {
+                landscapeLayout
+            } else {
+                portraitLayout
             }
         }
-        .ignoresSafeArea(edges: .top)
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle(isNewPass && tempObject.description == PassObject.defaultDescription ? .init(get: { "New Pass" }, set: { tempObject.description = $0 }) : $tempObject.description)
         .toolbar {
@@ -222,6 +195,92 @@ struct EditPass: View {
             Alert(title: Text("Failed to Update Pass"),
                   message: Text(alertMessage),
                   dismissButton: .default(Text("OK")))
+        }
+    }
+
+    @ViewBuilder
+    private var portraitLayout: some View {
+        ScrollView {
+            ScrollViewReader { proxy in
+                VStack(spacing: 20) {
+                    passCardView
+                    formFields(proxy: proxy)
+                }
+                .padding()
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var landscapeLayout: some View {
+        HStack(spacing: 0) {
+            ScrollView {
+                passCardView
+                    .padding(.horizontal)
+            }
+            .frame(maxWidth: .infinity)
+
+            Divider()
+
+            ScrollView {
+                ScrollViewReader { proxy in
+                    formFields(proxy: proxy)
+                        .padding(.horizontal)
+                }
+            }
+            .frame(maxWidth: .infinity)
+        }
+    }
+
+    @ViewBuilder
+    private var passCardView: some View {
+        EditablePassCard(
+            passObject: $tempObject,
+            isSigningPass: hasEditPassButtonBeenPressed,
+            isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented,
+            isCustomizeBackgroundImagePresented: $isCustomizeBackgroundImagePresented,
+            isCustomizeStripImagePresented: $isCustomizeStripImagePresented,
+            isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented,
+            isCustomizeBarcodePresented: $isCustomizeBarcodePresented,
+            isCustomizeQrCodePresented: $isCustomizeQrCodePresented
+        )
+        .padding([.leading, .trailing], 6)
+    }
+
+    @ViewBuilder
+    private func formFields(proxy: ScrollViewProxy) -> some View {
+        VStack(spacing: 20) {
+            BarcodeTypePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+
+            ColorInput(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+
+            SecondaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+            AuxiliaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+            HeaderFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+
+            if (tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr) && tempObject.backgroundImage == Data() {
+                StripImageSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+            }
+
+            PassGroupPicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+
+            ExpirationDatePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                .id("expirationDatePicker")
+
+            LocationSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                .id("locationSelection")
+        }
+        .onChange(of: tempObject.hasExpirationDate) { _, isEnabled in
+            guard isEnabled else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                withAnimation { proxy.scrollTo("expirationDatePicker", anchor: .bottom) }
+            }
+        }
+        .onChange(of: tempObject.locations.count) { oldCount, newCount in
+            guard newCount > oldCount else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                withAnimation { proxy.scrollTo("locationSelection", anchor: .bottom) }
+            }
         }
     }
 
