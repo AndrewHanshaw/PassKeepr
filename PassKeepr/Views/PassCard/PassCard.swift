@@ -143,7 +143,7 @@ struct PassCard: View {
                                 .fill(Color.white)
                         }
                         .aspectRatio(3, contentMode: .fit)
-                        .padding([.leading, .trailing], 20)
+                        .padding(.horizontal, 20)
                         .padding(.bottom, 15)
                     }
                 }

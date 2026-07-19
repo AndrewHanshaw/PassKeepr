@@ -125,7 +125,7 @@ struct CustomizeThumbnailImage: View {
                     } label: {
                         Text(tempThumbnail == nil ? "Select a Thumbnail Image" : "Change Thumbnail Image")
                             .frame(maxWidth: .infinity, alignment: .center)
-                            .padding([.top, .bottom], 6)
+                            .padding(.vertical, 6)
                     }
                     .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
                     .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))

@@ -40,7 +40,7 @@ struct CustomStripImage: View {
                         .foregroundColor(backgroundBrightness.overwriteForegroundColor)
                         .opacity(backgroundBrightness.overwriteOpacity)
                 }
-                .padding([.leading, .trailing], 10)
+                .padding(.horizontal, 10)
             }
 
             Button(action: {

@@ -31,7 +31,7 @@ struct About: View {
                     Image("x.logo.white")
                         .resizable()
                         .scaledToFit()
-                        .padding([.top, .bottom], 5)
+                        .padding(.vertical, 5)
                         .frame(height: 30)
                 }
                 .padding(8)

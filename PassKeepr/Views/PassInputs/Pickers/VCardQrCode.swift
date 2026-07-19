@@ -75,15 +75,15 @@ struct VCardQrCode: View {
 
             VStack(spacing: 0) {
                 Toggle("Birthday", isOn: $passObject.vcardHasBirthday)
-                    .padding([.top, .bottom], 10)
-                    .padding([.leading, .trailing], 16)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 16)
 
                 if passObject.vcardHasBirthday {
                     Divider()
                     DatePicker("Date", selection: $passObject.vcardBirthday, displayedComponents: .date)
                         .datePickerStyle(.compact)
-                        .padding([.top, .bottom], 10)
-                        .padding([.leading, .trailing], 16)
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 16)
                 }
             }
             .listSectionBackgroundModifier()

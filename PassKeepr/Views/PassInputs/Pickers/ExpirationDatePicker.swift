@@ -15,13 +15,13 @@ struct ExpirationDatePicker: View {
                         showDatePicker = pass.hasExpirationDate
                     }
                 }
-                .padding([.top, .bottom], 14)
+                .padding(.vertical, 14)
                 .overlay(alignment: .bottom) {
                     if showDatePicker {
                         Divider()
                     }
                 }
-                .padding([.leading, .trailing], 14)
+                .padding(.horizontal, 14)
                 .disabled(disableControl)
 
             if showDatePicker {

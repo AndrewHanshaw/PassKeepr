@@ -9,16 +9,16 @@ struct ColorInput: View {
         VStack(spacing: 12) {
             if pass.backgroundImage == Data() {
                 ColorPicker("Background Color", selection: Color.binding(from: $pass.backgroundColor), supportsOpacity: false)
-                    .padding([.top, .bottom], 16)
+                    .padding(.vertical, 16)
                     .overlay(Divider(), alignment: .bottom)
-                    .padding([.leading, .trailing], 16)
+                    .padding(.horizontal, 16)
                     .disabled(disableControl)
 
                 // Text color is forced to white when there is a background image
                 ColorPicker("Text Color", selection: Color.binding(from: $pass.foregroundColor), supportsOpacity: false)
                     .padding([.bottom], 16)
                     .overlay(Divider(), alignment: .bottom)
-                    .padding([.leading, .trailing], 16)
+                    .padding(.horizontal, 16)
                     .disabled(disableControl)
             }
             ColorPicker("Label Color", selection: Color.binding(from: $pass.labelColor), supportsOpacity: false)
