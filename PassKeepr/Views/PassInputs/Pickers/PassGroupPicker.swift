@@ -45,8 +45,10 @@ struct PassGroupPicker: View {
         .padding(.trailing, 4)
         .padding(.leading, 12)
         .listSectionBackgroundModifier() // necessary?
-        .alert(isPresented: $showAlert) {
-            Alert(title: Text("Pass Group"), message: Text("The Pass Group is used to separate passes once added to Wallet."), dismissButton: .default(Text("OK")))
+        .alert("Pass Group", isPresented: $showAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("The Pass Group is used to separate passes once added to Wallet.")
         }
     }
 }
