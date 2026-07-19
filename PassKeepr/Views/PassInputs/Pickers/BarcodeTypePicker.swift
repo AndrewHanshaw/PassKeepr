@@ -35,7 +35,7 @@ struct BarcodeTypePicker: View {
             .disabled(disableControl)
             .accentColor(.secondary)
         }
-        .padding([.top, .bottom], 10)
+        .padding(.vertical, 10)
         .padding(.trailing, 4)
         .padding(.leading, 12)
         .listSectionBackgroundModifier()

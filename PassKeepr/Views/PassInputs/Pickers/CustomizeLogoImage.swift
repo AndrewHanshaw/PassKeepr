@@ -80,7 +80,7 @@ struct CustomizeLogoImage: View {
                             .foregroundColor(Color.gray)
                             .opacity(0.7)
                     }
-                    .padding([.top, .bottom], 20)
+                    .padding(.vertical, 20)
                     .frame(maxWidth: .infinity, alignment: .center)
                 }
 
@@ -126,7 +126,7 @@ struct CustomizeLogoImage: View {
                     } label: {
                         Text(tempLogo == nil ? "Select a Logo Image" : "Change Logo Image")
                             .frame(maxWidth: .infinity, alignment: .center)
-                            .padding([.top, .bottom], 6)
+                            .padding(.vertical, 6)
                     }
                     .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
                     .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))

@@ -244,7 +244,7 @@ struct EditPass: View {
             isCustomizeBarcodePresented: $isCustomizeBarcodePresented,
             isCustomizeQrCodePresented: $isCustomizeQrCodePresented
         )
-        .padding([.leading, .trailing], 6)
+        .padding(.horizontal, 6)
     }
 
     @ViewBuilder

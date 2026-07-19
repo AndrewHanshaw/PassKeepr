@@ -48,7 +48,7 @@ struct CustomizeStripImage: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                     }
                 }
-                .padding([.top, .bottom], 20)
+                .padding(.vertical, 20)
 
                 Menu {
                     Button("Choose Photo", systemImage: "photo") {
@@ -63,7 +63,7 @@ struct CustomizeStripImage: View {
                 } label: {
                     Text(tempStrip == nil ? "Select a Strip Image" : "Change Strip Image")
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .padding([.top, .bottom], 6)
+                        .padding(.vertical, 6)
                 }
                 .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
                 .glassProminentButtonStyleIfAvailable()
@@ -95,7 +95,7 @@ struct CustomizeStripImage: View {
                         Text("Remove Strip Image")
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
-                    .padding([.top, .bottom], 12)
+                    .padding(.vertical, 12)
                     .listSectionBackgroundModifier()
                 }
 

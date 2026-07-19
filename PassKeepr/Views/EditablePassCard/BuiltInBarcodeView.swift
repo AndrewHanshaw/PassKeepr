@@ -19,7 +19,7 @@ struct BuiltInBarcodeView: View {
                         Code128View(data: passObject.barcodeString)
                             .padding(.top, 15)
                             .padding(.bottom, passObject.altText == "" ? 15 : 0)
-                            .padding([.leading, .trailing], 20)
+                            .padding(.horizontal, 20)
                     } else if passObject.barcodeType == BarcodeType.pdf417 {
                         PDF417View(data: passObject.barcodeString)
                             .padding(.bottom, passObject.altText == "" ? 8 : 0)
@@ -52,7 +52,7 @@ struct BuiltInBarcodeView: View {
             .disabled(disableButton)
         }
         .aspectRatio(passObject.altText == "" ? 3.4 : 3, contentMode: .fit)
-        .padding([.leading, .trailing], 45)
+        .padding(.horizontal, 45)
         .padding(.bottom, 40)
     }
 }

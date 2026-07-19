@@ -84,8 +84,8 @@ struct CustomizeQrCode: View {
                         }
                     }
                     .clipShape(.rect(cornerRadius: 5))
-                    .padding([.leading, .trailing], 80)
-                    .padding([.top, .bottom], 10)
+                    .padding(.vertical, 80)
+                    .padding(.vertical, 10)
 
                     Menu {
                         Button("Scan from Camera", systemImage: "qrcode.viewfinder") {
@@ -97,7 +97,7 @@ struct CustomizeQrCode: View {
                         }
                     } label: {
                         Text("Scan Existing QR Code")
-                            .padding([.top, .bottom], 6)
+                            .padding(.vertical, 6)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
                     .compositingGroup()
@@ -142,7 +142,7 @@ struct CustomizeQrCode: View {
                         }
                         .accentColor(.secondary)
                     }
-                    .padding([.top, .bottom], 10)
+                    .padding(.vertical, 10)
                     .padding(.trailing, 4)
                     .padding(.leading, 12)
                     .listSectionBackgroundModifier()
@@ -178,7 +178,7 @@ struct CustomizeQrCode: View {
                         }
                         .accentColor(.secondary)
                     }
-                    .padding([.top, .bottom], 10)
+                    .padding(.vertical, 10)
                     .padding(.trailing, 4)
                     .padding(.leading, 12)
                     .listSectionBackgroundModifier()
@@ -198,7 +198,7 @@ struct CustomizeQrCode: View {
                             }
                             .accentColor(.secondary)
                         }
-                        .padding([.top, .bottom], 10)
+                        .padding(.vertical, 10)
                         .padding(.trailing, 4)
                         .padding(.leading, 12)
                         .listSectionBackgroundModifier()

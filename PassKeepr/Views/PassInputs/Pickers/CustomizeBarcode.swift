@@ -105,7 +105,7 @@ struct CustomizeBarcode: View {
                         }
                     } label: {
                         Text("Scan Existing Barcode")
-                            .padding([.top, .bottom], 6)
+                            .padding(.vertical, 6)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }
                     .compositingGroup()
@@ -203,8 +203,8 @@ struct CustomizeBarcode: View {
                         .layoutPriority(1)
                         .padding(.top, 14)
                         .padding(.bottom, 7)
-                        .overlay(Divider().padding([.leading, .trailing], 2), alignment: .bottom)
-                        .padding([.leading, .trailing], 14)
+                        .overlay(Divider().padding(.horizontal, 2), alignment: .bottom)
+                        .padding(.horizontal, 14)
 
                         if tempBarcodeType != BarcodeType.none {
                             LabeledContent {
