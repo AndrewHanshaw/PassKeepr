@@ -28,6 +28,7 @@ struct CustomizeBarcode: View {
     }
 
     @State private var activeAlert: ActiveAlert?
+    @State private var isLandscape = false
 
     @Environment(\.displayScale) var displayScale
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -43,242 +44,7 @@ struct CustomizeBarcode: View {
 
     var body: some View {
         NavigationView {
-            ScrollView {
-                VStack(spacing: 20) {
-                    Group {
-                        if tempBarcodeType.isEnteredBarcodeValueValid(string: tempBarcodeData) {
-                            switch tempBarcodeType {
-                            case BarcodeType.none:
-                                EmptyView()
-
-                            case BarcodeType.code39:
-                                Code39View(value: $tempBarcodeData, border: tempBarcodeBorder).aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
-                                    .frame(maxWidth: .infinity)
-
-                            case BarcodeType.code93:
-                                Code93View(value: $tempBarcodeData, border: tempBarcodeBorder)
-                                    .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
-                                    .frame(maxWidth: .infinity)
-
-                            case BarcodeType.upce:
-                                UPCEView(value: $tempBarcodeData, border: tempBarcodeBorder)
-                                    .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
-                                    .frame(maxWidth: .infinity)
-
-                            case BarcodeType.upca:
-                                UPCAView(value: $tempBarcodeData, border: tempBarcodeBorder)
-                                    .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
-                                    .frame(maxWidth: .infinity)
-
-                            case BarcodeType.ean13:
-                                EAN13View(value: $tempBarcodeData, border: tempBarcodeBorder)
-                                    .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
-                                    .frame(maxWidth: .infinity)
-
-                            case BarcodeType.code128:
-                                Code128View(data: tempBarcodeData)
-                                    .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
-                                    .frame(maxWidth: .infinity)
-
-                            case BarcodeType.pdf417:
-                                PDF417View(data: tempBarcodeData)
-                                    .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
-                                    .frame(maxWidth: .infinity)
-
-                            case BarcodeType.qr:
-                                EmptyView()
-                            }
-                        } else {
-                            invalidBarcode
-                        }
-                    }
-                    .padding(.bottom, 20)
-                    .padding(.top, 10)
-
-                    Menu {
-                        Button("Scan from Camera", systemImage: "barcode.viewfinder") {
-                            isScannerPresented.toggle()
-                        }
-
-                        Button("Choose Photo", systemImage: "photo") {
-                            isPhotoPickerPresented = true
-                        }
-                    } label: {
-                        Text("Scan Existing Barcode")
-                            .padding(.vertical, 6)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                    }
-                    .compositingGroup()
-                    .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
-                    .onChange(of: photoItem) {
-                        Task {
-                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
-                               let image = UIImage(data: loaded)
-                            {
-                                if let imageBarcode = GetBarcodeFromImage(image: image) {
-                                    switch imageBarcode.barcodeType {
-                                    case BarcodeType.code128, BarcodeType.code93, BarcodeType.code39, BarcodeType.upce, BarcodeType.pdf417, BarcodeType.ean13, BarcodeType.upca:
-                                        tempBarcodeData = imageBarcode.payload
-                                        tempBarcodeType = imageBarcode.barcodeType
-                                    default:
-                                        activeAlert = .invalidBarcodeAlert
-                                    }
-                                } else {
-                                    activeAlert = .invalidBarcodeAlert
-                                }
-                            } else {
-                                activeAlert = .invalidBarcodeAlert
-                            }
-                        }
-                    }
-                    .onChange(of: tempBarcodeData) {
-                        render()
-                    }
-                    .onChange(of: tempBarcodeType) {
-                        render()
-                    }
-                    .onAppear { render() }
-                    .sheet(isPresented: $isScannerPresented) {
-                        ScannerView(scannedData: $scannedCode, scannedBarcodeType: $scannedBarcodeType, showScanner: $isScannerPresented)
-                            .edgesIgnoringSafeArea(.bottom)
-                    }
-                    .onChange(of: tempBarcodeBorder) {
-                        render()
-                    }
-                    .onChange(of: scannedCode) {
-                        guard !scannedCode.isEmpty else { return }
-                        tempBarcodeData = scannedCode
-
-                        // Do not support converting a barcode pass to a qr code pass
-                        if scannedBarcodeType != BarcodeType.qr {
-                            tempBarcodeType = scannedBarcodeType ?? BarcodeType.code128
-                        }
-
-                        scannedCode = "" // allows for repeated scanning of the same code
-                    }
-                    .glassProminentButtonStyleIfAvailable()
-
-                    Text("Or:")
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .font(.system(size: 20))
-                        .foregroundColor(.secondary)
-
-                    VStack {
-                        HStack(spacing: 0) {
-                            Text("Barcode Type")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            // Using picker here causes the "code 128" item to be 2 lines.
-                            // lineLimit and fixedSize somewhat fix it but it still flickers when selecing that option
-                            // To fix this, just recreate the Picker style manually
-                            Menu {
-                                ForEach(BarcodeType.allCases, id: \.self) { type in
-                                    if type != BarcodeType.qr && type != BarcodeType.none {
-                                        Button(String(describing: type)) {
-                                            tempBarcodeType = type
-                                        }
-                                    }
-                                }
-                            } label: {
-                                HStack(spacing: 4) {
-                                    Text(String(describing: tempBarcodeType))
-                                    Image(systemName: "chevron.up.chevron.down")
-                                        .font(.system(size: 13, weight: .medium))
-                                }
-                                .foregroundColor(.secondary)
-                            }
-                            .padding(6)
-
-                            Button(
-                                action: {
-                                    activeAlert = .barcodeInfoAlert
-                                },
-                                label: {
-                                    Image(systemName: "info.circle")
-                                        .foregroundColor(.secondary)
-                                }
-                            )
-                            .buttonStyle(PlainButtonStyle())
-                            .padding(.trailing, 6)
-                        }
-                        .layoutPriority(1)
-                        .padding(.top, 14)
-                        .padding(.bottom, 7)
-                        .overlay(Divider().padding(.horizontal, 2), alignment: .bottom)
-                        .padding(.horizontal, 14)
-
-                        if tempBarcodeType != BarcodeType.none {
-                            LabeledContent {
-                                TextField("Barcode Data", text: $tempBarcodeData)
-                                    .keyboardType(tempBarcodeType.keyboardType())
-                                    .disableAutocorrection(true)
-                                    .keyboardType(.asciiCapable)
-                            } label: {
-                                Text("Data")
-                            }
-                            .padding([.top], 7)
-                            .padding([.leading, .trailing, .bottom], 16)
-                        }
-                    }
-                    .listSectionBackgroundModifier()
-
-                    if tempBarcodeType == BarcodeType.code128 || tempBarcodeType == BarcodeType.pdf417 {
-                        LabeledContent {
-                            TextField("Alt Text", text: $tempAltText)
-                                .disableAutocorrection(true)
-                        } label: {
-                            Text("Alt Text")
-                        }
-                        .padding(14)
-                        .listSectionBackgroundModifier()
-                    } else if tempBarcodeType != BarcodeType.none {
-                        HStack {
-                            Text("Border")
-                            Slider(value: $tempBarcodeBorder, in: 0 ... 0.1, step: 0.005) {
-                                Text("Border")
-                            }
-                        }
-                        .padding(14)
-                        .listSectionBackgroundModifier()
-                    }
-                }
-                .padding(.top, 60)
-                .padding()
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        Text("Customize Barcode")
-                            .font(.system(size: 16, weight: .bold, design: .rounded))
-                    }
-
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("Save", systemImage: "checkmark") {
-                            passObject.barcodeString = tempBarcodeData
-                            passObject.altText = tempAltText
-                            passObject.barcodeType = tempBarcodeType
-                            passObject.barcodeBorder = tempBarcodeBorder
-                            if tempBarcodeType.doesBarcodeUseStripImage() {
-                                passObject.stripImage = tempStripImage
-                            }
-                            if tempStripImage != Data() {
-                                passObject.backgroundImage = Data()
-                            }
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                        .toolbarConfirmButtonModifier()
-                    }
-
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel", systemImage: "xmark") {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                        .toolbarCancelButtonModifier()
-                    }
-                }
-            }
-            .keyboardAware()
-            .scrollDismissesKeyboard(.immediately)
-            .ignoresSafeArea(edges: .all) // otherwise it gets all wiggy when you flick scroll to the top or bottom
-            .highProrityDragGestureModifier()
-            .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
+            content
         }
         .alert(item: $activeAlert) { alert in
             switch alert {
@@ -290,6 +56,290 @@ struct CustomizeBarcode: View {
                 return Alert(title: Text("No Valid Barcode Detected"),
                              message: Text("Please select an image containing a valid barcode"),
                              dismissButton: .default(Text("OK")))
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        Group {
+            if isLandscape {
+                landscapeLayout
+            } else {
+                portraitLayout
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Customize Barcode")
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
+            }
+
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Save", systemImage: "checkmark") {
+                    passObject.barcodeString = tempBarcodeData
+                    passObject.altText = tempAltText
+                    passObject.barcodeType = tempBarcodeType
+                    passObject.barcodeBorder = tempBarcodeBorder
+                    if tempBarcodeType.doesBarcodeUseStripImage() {
+                        passObject.stripImage = tempStripImage
+                    }
+                    if tempStripImage != Data() {
+                        passObject.backgroundImage = Data()
+                    }
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .toolbarConfirmButtonModifier()
+            }
+
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Cancel", systemImage: "xmark") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .toolbarCancelButtonModifier()
+            }
+        }
+        .keyboardAware()
+        .scrollDismissesKeyboard(.immediately)
+        .ignoresSafeArea(edges: .bottom) // otherwise it gets all wiggy when you flick scroll to the bottom
+        .highProrityDragGestureModifier()
+        .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
+        .onGeometryChange(for: Bool.self) { proxy in
+            proxy.size.width > proxy.size.height
+        } action: { newValue in
+            isLandscape = newValue
+        }
+    }
+
+    @ViewBuilder
+    private var portraitLayout: some View {
+        VStack(spacing: 20) {
+            barcodePreviewView
+                .padding(.bottom, 20)
+                .padding(.top, 10)
+            formFields
+        }
+        .padding()
+    }
+
+    @ViewBuilder
+    private var landscapeLayout: some View {
+        HStack(spacing: 0) {
+            VStack(alignment: .center, spacing: 0) {
+                barcodePreviewView
+                    .padding(.horizontal)
+                    .padding(.bottom, 50)
+                    .frame(maxWidth: .infinity)
+            }
+
+            Divider()
+
+            ScrollView {
+                formFields
+                    .padding(.horizontal)
+                    .frame(maxWidth: .infinity)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var barcodePreviewView: some View {
+        Group {
+            if tempBarcodeType.isEnteredBarcodeValueValid(string: tempBarcodeData) {
+                switch tempBarcodeType {
+                case BarcodeType.none:
+                    EmptyView()
+
+                case BarcodeType.code39:
+                    Code39View(value: $tempBarcodeData, border: tempBarcodeBorder).aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
+                case BarcodeType.code93:
+                    Code93View(value: $tempBarcodeData, border: tempBarcodeBorder)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
+                case BarcodeType.upce:
+                    UPCEView(value: $tempBarcodeData, border: tempBarcodeBorder)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
+                case BarcodeType.upca:
+                    UPCAView(value: $tempBarcodeData, border: tempBarcodeBorder)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
+                case BarcodeType.ean13:
+                    EAN13View(value: $tempBarcodeData, border: tempBarcodeBorder)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
+                case BarcodeType.code128:
+                    Code128View(data: tempBarcodeData)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
+                case BarcodeType.pdf417:
+                    PDF417View(data: tempBarcodeData)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
+                case BarcodeType.qr:
+                    EmptyView()
+                }
+            } else {
+                invalidBarcode
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var formFields: some View {
+        VStack(spacing: 20) {
+            Menu {
+                Button("Scan from Camera", systemImage: "barcode.viewfinder") {
+                    isScannerPresented.toggle()
+                }
+
+                Button("Choose Photo", systemImage: "photo") {
+                    isPhotoPickerPresented = true
+                }
+            } label: {
+                Text("Scan Existing Barcode")
+                    .padding(.vertical, 6)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+            .compositingGroup()
+            .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+            .onChange(of: photoItem) {
+                Task {
+                    if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
+                       let image = UIImage(data: loaded)
+                    {
+                        if let imageBarcode = GetBarcodeFromImage(image: image) {
+                            switch imageBarcode.barcodeType {
+                            case BarcodeType.code128, BarcodeType.code93, BarcodeType.code39, BarcodeType.upce, BarcodeType.pdf417, BarcodeType.ean13, BarcodeType.upca:
+                                tempBarcodeData = imageBarcode.payload
+                                tempBarcodeType = imageBarcode.barcodeType
+                            default:
+                                activeAlert = .invalidBarcodeAlert
+                            }
+                        } else {
+                            activeAlert = .invalidBarcodeAlert
+                        }
+                    } else {
+                        activeAlert = .invalidBarcodeAlert
+                    }
+                }
+            }
+            .onChange(of: tempBarcodeData) {
+                render()
+            }
+            .onChange(of: tempBarcodeType) {
+                render()
+            }
+            .onAppear { render() }
+            .sheet(isPresented: $isScannerPresented) {
+                ScannerView(scannedData: $scannedCode, scannedBarcodeType: $scannedBarcodeType, showScanner: $isScannerPresented)
+                    .edgesIgnoringSafeArea(.bottom)
+            }
+            .onChange(of: tempBarcodeBorder) {
+                render()
+            }
+            .onChange(of: scannedCode) {
+                guard !scannedCode.isEmpty else { return }
+                tempBarcodeData = scannedCode
+
+                // Do not support converting a barcode pass to a qr code pass
+                if scannedBarcodeType != BarcodeType.qr {
+                    tempBarcodeType = scannedBarcodeType ?? BarcodeType.code128
+                }
+
+                scannedCode = "" // allows for repeated scanning of the same code
+            }
+            .glassProminentButtonStyleIfAvailable()
+
+            Text("Or:")
+                .frame(maxWidth: .infinity, alignment: .center)
+                .font(.system(size: 20))
+                .foregroundColor(.secondary)
+
+            VStack {
+                HStack(spacing: 0) {
+                    Text("Barcode Type")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    // Using picker here causes the "code 128" item to be 2 lines.
+                    // lineLimit and fixedSize somewhat fix it but it still flickers when selecing that option
+                    // To fix this, just recreate the Picker style manually
+                    Menu {
+                        ForEach(BarcodeType.allCases, id: \.self) { type in
+                            if type != BarcodeType.qr && type != BarcodeType.none {
+                                Button(String(describing: type)) {
+                                    tempBarcodeType = type
+                                }
+                            }
+                        }
+                    } label: {
+                        HStack(spacing: 4) {
+                            Text(String(describing: tempBarcodeType))
+                            Image(systemName: "chevron.up.chevron.down")
+                                .font(.system(size: 13, weight: .medium))
+                        }
+                        .foregroundColor(.secondary)
+                    }
+                    .padding(6)
+
+                    Button(
+                        action: {
+                            activeAlert = .barcodeInfoAlert
+                        },
+                        label: {
+                            Image(systemName: "info.circle")
+                                .foregroundColor(.secondary)
+                        }
+                    )
+                    .buttonStyle(PlainButtonStyle())
+                    .padding(.trailing, 6)
+                }
+                .layoutPriority(1)
+                .padding(.top, 14)
+                .padding(.bottom, 7)
+                .overlay(Divider().padding(.horizontal, 2), alignment: .bottom)
+                .padding(.horizontal, 14)
+
+                if tempBarcodeType != BarcodeType.none {
+                    LabeledContent {
+                        TextField("Barcode Data", text: $tempBarcodeData)
+                            .keyboardType(tempBarcodeType.keyboardType())
+                            .disableAutocorrection(true)
+                            .keyboardType(.asciiCapable)
+                    } label: {
+                        Text("Data")
+                    }
+                    .padding([.top], 7)
+                    .padding([.leading, .trailing, .bottom], 16)
+                }
+            }
+            .listSectionBackgroundModifier()
+
+            if tempBarcodeType == BarcodeType.code128 || tempBarcodeType == BarcodeType.pdf417 {
+                LabeledContent {
+                    TextField("Alt Text", text: $tempAltText)
+                        .disableAutocorrection(true)
+                } label: {
+                    Text("Alt Text")
+                }
+                .padding(14)
+                .listSectionBackgroundModifier()
+            } else if tempBarcodeType != BarcodeType.none {
+                HStack {
+                    Text("Border")
+                    Slider(value: $tempBarcodeBorder, in: 0 ... 0.1, step: 0.005) {
+                        Text("Border")
+                    }
+                }
+                .padding(14)
+                .listSectionBackgroundModifier()
             }
         }
     }
