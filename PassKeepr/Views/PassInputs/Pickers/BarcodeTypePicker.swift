@@ -16,28 +16,48 @@ struct BarcodeTypePicker: View {
     var body: some View {
         HStack {
             Text("Barcode Type")
-            Spacer()
-            Picker("Barcode Type", selection: $category) {
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            // Using Picker here causes the label text (e.g. "1D Barcode") to wrap onto
+            // 2 lines after a rotation/geometry change, until the control is tapped again.
+            // Building the menu manually avoids this layout-invalidation bug.
+            Menu {
                 ForEach(BarcodeCategory.allCases, id: \.self) { type in
-                    HStack {
-                        Text(type.description)
-                        if type == BarcodeCategory.none {
-                            Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled")
-                        } else if type == BarcodeCategory.twoDimensional {
-                            Image(systemName: "qrcode")
-                        } else {
-                            Image(systemName: "barcode")
+                    Button {
+                        category = type
+                    } label: {
+                        HStack {
+                            Text(type.description)
+                            if type == BarcodeCategory.none {
+                                Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled")
+                            } else if type == BarcodeCategory.twoDimensional {
+                                Image(systemName: "qrcode")
+                            } else {
+                                Image(systemName: "barcode")
+                            }
                         }
                     }
-                    .tag(type)
                 }
+            } label: {
+                HStack(spacing: 4) {
+                    Text(category.description)
+                        .lineLimit(1)
+                    if category == BarcodeCategory.none {
+                        Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled")
+                    } else if category == BarcodeCategory.twoDimensional {
+                        Image(systemName: "qrcode")
+                    } else {
+                        Image(systemName: "barcode")
+                    }
+                    Image(systemName: "chevron.up.chevron.down")
+                        .font(.system(size: 13, weight: .medium))
+                }
+                .foregroundColor(.secondary)
             }
             .disabled(disableControl)
-            .accentColor(.secondary)
         }
-        .padding(.vertical, 10)
-        .padding(.trailing, 4)
-        .padding(.leading, 12)
+        .padding(.vertical, 14)
+        .padding(.horizontal, 14)
         .listSectionBackgroundModifier()
         .onChange(of: category) {
             switch category {
