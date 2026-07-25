@@ -1,10 +1,10 @@
-import KeyboardAware
 import PhotosUI
 import SwiftUI
 import Vision
 
 struct CustomizeQrCode: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     @Binding var passObject: PassObject
     @State private var photoItem: PhotosPickerItem?
@@ -24,7 +24,6 @@ struct CustomizeQrCode: View {
     @State private var useScannedData = false
     @State private var showAlert: Bool = false
     @State private var showInvalidQrCodeAlert: Bool = false
-    @State private var isLandscape = false
 
     @Environment(\.displayScale) var displayScale
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -66,6 +65,12 @@ struct CustomizeQrCode: View {
         }
     }
 
+    // On iPhone, verticalSizeClass reflects interface orientation and is unaffected by
+    // keyboard height changes (unlike measuring geometry size directly).
+    private var isLandscape: Bool {
+        verticalSizeClass == .compact
+    }
+
     @ViewBuilder
     private var content: some View {
         Group {
@@ -104,9 +109,8 @@ struct CustomizeQrCode: View {
                 .toolbarCancelButtonModifier()
             }
         }
-        .keyboardAware()
-        .scrollDismissesKeyboard(.immediately)
-        .ignoresSafeArea(edges: .bottom) // otherwise it gets all wiggy when you flick scroll to the bottom
+        .navigationBarTitleDisplayMode(.inline)
+        .scrollDismissesKeyboard(.interactively)
         .highProrityDragGestureModifier()
         .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
         .alert(isPresented: $showInvalidQrCodeAlert) {
@@ -117,11 +121,6 @@ struct CustomizeQrCode: View {
         .onChange(of: scannedCode) {
             applyScannedCode(scannedCode)
         }
-        .onGeometryChange(for: Bool.self) { proxy in
-            proxy.size.width > proxy.size.height
-        } action: { newValue in
-            isLandscape = newValue
-        }
     }
 
     @ViewBuilder
@@ -130,7 +129,6 @@ struct CustomizeQrCode: View {
             VStack(spacing: 20) {
                 qrCodePreviewView
                     .padding(.horizontal, 80)
-                    .padding(.vertical, 10)
                 formFields
             }
             .padding()
@@ -142,7 +140,8 @@ struct CustomizeQrCode: View {
         HStack(spacing: 0) {
             qrCodePreviewView
                 .padding(.horizontal, 80)
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea(edges: [.top, .bottom]) // extend past notch/dynamic island (top) and home indicator (bottom) to center against full device height; also stops the keyboard from resizing/shifting this pane
 
             Divider()
 

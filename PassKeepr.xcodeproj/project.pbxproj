@@ -32,7 +32,6 @@
 		BA12A7352F68EF2600B55431 /* AuxiliaryFieldSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12A7342F68EF2600B55431 /* AuxiliaryFieldSelection.swift */; };
 		BA12A7372F68EF3000B55431 /* AuxiliaryTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA12A7362F68EF3000B55431 /* AuxiliaryTextField.swift */; };
 		BA1515B92CE2BC6900DB1799 /* MeasureViewSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1515B82CE2BC6900DB1799 /* MeasureViewSize.swift */; };
-		BA17A9112D36155E00A8C992 /* KeyboardAware in Frameworks */ = {isa = PBXBuildFile; productRef = BA17A9102D36155E00A8C992 /* KeyboardAware */; };
 		BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA1BACD32B463FCD00F86890 /* EditPass.swift */; };
 		BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */ = {isa = PBXBuildFile; fileRef = BA1C2CBE2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal */; };
 		BA21DD1330089F0D00335F03 /* PassGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA21DD1230089F0D00335F03 /* PassGridView.swift */; };
@@ -259,7 +258,6 @@
 				BAF9428B2CB35689009CF225 /* ZIPFoundation in Frameworks */,
 				BA1118392FDE385300501423 /* LocationPicker in Frameworks */,
 				BA046B092F956D92005C6BA3 /* SwiftyCrop in Frameworks */,
-				BA17A9112D36155E00A8C992 /* KeyboardAware in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,7 +533,6 @@
 			packageProductDependencies = (
 				BAF9428A2CB35689009CF225 /* ZIPFoundation */,
 				BA8D50C32D30C8F5009617C1 /* SymbolPicker */,
-				BA17A9102D36155E00A8C992 /* KeyboardAware */,
 				BAF456BE2F5C083D000BE9A4 /* MCEmojiPicker */,
 				BA046B082F956D92005C6BA3 /* SwiftyCrop */,
 				BA1118382FDE385300501423 /* LocationPicker */,
@@ -640,7 +637,6 @@
 			packageReferences = (
 				BAF942892CB35689009CF225 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 				BA8D50C22D30C8F5009617C1 /* XCRemoteSwiftPackageReference "SymbolPicker" */,
-				BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */,
 				BAF456BD2F5C083D000BE9A4 /* XCRemoteSwiftPackageReference "MCEmojiPicker" */,
 				BA046B072F956D92005C6BA3 /* XCRemoteSwiftPackageReference "SwiftyCrop" */,
 				BA1118372FDE385300501423 /* XCRemoteSwiftPackageReference "LocationPickerForSwiftUI" */,
@@ -1222,14 +1218,6 @@
 				minimumVersion = 2.0.0;
 			};
 		};
-		BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ralfebert/KeyboardAwareSwiftUI";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.5.0;
-			};
-		};
 		BA8D50C22D30C8F5009617C1 /* XCRemoteSwiftPackageReference "SymbolPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/xnth97/SymbolPicker";
@@ -1266,11 +1254,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BA1118372FDE385300501423 /* XCRemoteSwiftPackageReference "LocationPickerForSwiftUI" */;
 			productName = LocationPicker;
-		};
-		BA17A9102D36155E00A8C992 /* KeyboardAware */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BA17A90F2D36155E00A8C992 /* XCRemoteSwiftPackageReference "KeyboardAwareSwiftUI" */;
-			productName = KeyboardAware;
 		};
 		BA8D50C32D30C8F5009617C1 /* SymbolPicker */ = {
 			isa = XCSwiftPackageProductDependency;
