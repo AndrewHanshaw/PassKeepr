@@ -1,10 +1,10 @@
-import KeyboardAware
 import PhotosUI
 import SwiftUI
 import Vision
 
 struct CustomizeBarcode: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     @Binding var passObject: PassObject
     @State private var photoItem: PhotosPickerItem?
@@ -28,7 +28,6 @@ struct CustomizeBarcode: View {
     }
 
     @State private var activeAlert: ActiveAlert?
-    @State private var isLandscape = false
 
     @Environment(\.displayScale) var displayScale
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -58,6 +57,12 @@ struct CustomizeBarcode: View {
                              dismissButton: .default(Text("OK")))
             }
         }
+    }
+
+    // On iPhone, verticalSizeClass reflects interface orientation and is unaffected by
+    // keyboard height changes (unlike measuring geometry size directly).
+    private var isLandscape: Bool {
+        verticalSizeClass == .compact
     }
 
     @ViewBuilder
@@ -99,38 +104,30 @@ struct CustomizeBarcode: View {
                 .toolbarCancelButtonModifier()
             }
         }
-        .keyboardAware()
-        .scrollDismissesKeyboard(.immediately)
-        .ignoresSafeArea(edges: .bottom) // otherwise it gets all wiggy when you flick scroll to the bottom
+        .navigationBarTitleDisplayMode(.inline)
+        .scrollDismissesKeyboard(.interactively)
         .highProrityDragGestureModifier()
         .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
-        .onGeometryChange(for: Bool.self) { proxy in
-            proxy.size.width > proxy.size.height
-        } action: { newValue in
-            isLandscape = newValue
-        }
     }
 
     @ViewBuilder
     private var portraitLayout: some View {
-        VStack(spacing: 20) {
-            barcodePreviewView
-                .padding(.bottom, 20)
-                .padding(.top, 10)
-            formFields
+        ScrollView {
+            VStack(spacing: 20) {
+                barcodePreviewView
+                formFields
+            }
+            .padding()
         }
-        .padding()
     }
 
     @ViewBuilder
     private var landscapeLayout: some View {
         HStack(spacing: 0) {
-            VStack(alignment: .center, spacing: 0) {
-                barcodePreviewView
-                    .padding(.horizontal)
-                    .padding(.bottom, 50)
-                    .frame(maxWidth: .infinity)
-            }
+            barcodePreviewView
+                .padding(.horizontal)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea(edges: [.top, .bottom]) // extend past notch/dynamic island (top) and home indicator (bottom) to center against full device height; also stops the keyboard from resizing/shifting this pane
 
             Divider()
 
