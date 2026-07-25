@@ -7,7 +7,6 @@ struct EditablePassCard: View {
 
     var isSigningPass: Bool
 
-    @State private var size: CGSize = CGSizeZero
     @State private var scannedCode = ""
     @Binding var isCustomizeLogoImagePresented: Bool
     @Binding var isCustomizeBackgroundImagePresented: Bool
@@ -38,6 +37,24 @@ struct EditablePassCard: View {
     }
 
     var body: some View {
+        GeometryReader { geometry in
+            cardContent(size: geometry.size)
+                .onChange(of: passObject.backgroundImage) {
+                    determineBackgroundColor(size: geometry.size)
+                }
+                .onChange(of: passObject.backgroundColor) {
+                    determineBackgroundColor(size: geometry.size)
+                }
+                .onAppear {
+                    determineBackgroundColor(size: geometry.size)
+                }
+        }
+        .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fit)
+        .frame(maxWidth: .infinity)
+    }
+
+    @ViewBuilder
+    private func cardContent(size: CGSize) -> some View {
         ZStack {
             ZStack {
                 EditablePassCardBackground(backgroundImage: passObject.backgroundImage, backgroundColor: passObject.backgroundColor, backgroundBrightness: passBackgroundBrightness)
@@ -192,31 +209,9 @@ struct EditablePassCard: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity)
-        .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fill)
-        .background(GeometryReader { geometry in
-            Color.clear
-                .onAppear {
-                    size = geometry.size
-                }
-                .onChange(of: geometry.size) {
-                    Task {
-                        size = geometry.size
-                    }
-                }
-        })
-        .onChange(of: passObject.backgroundImage) {
-            determineBackgroundColor()
-        }
-        .onChange(of: passObject.backgroundColor) {
-            determineBackgroundColor()
-        }
-        .onAppear {
-            determineBackgroundColor()
-        }
     }
 
-    func determineBackgroundColor() {
+    private func determineBackgroundColor(size: CGSize) {
         guard size.width > 0, size.height > 0 else { return }
         let rendered = ImageRenderer(content: EditablePassCardBackground(backgroundImage: passObject.backgroundImage, backgroundColor: passObject.backgroundColor, backgroundBrightness: .normal).frame(width: size.width, height: size.height))
         guard let brightness = rendered.uiImage?.averageBrightness() else { return }
