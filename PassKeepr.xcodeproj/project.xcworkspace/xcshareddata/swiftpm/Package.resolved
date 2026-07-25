@@ -1,15 +1,6 @@
 {
-  "originHash" : "f4e3eb2fd1ae01e5b078a1dc9e0ebbaf9b8f3c7c459b0071cfef79f6f298d842",
+  "originHash" : "fc690410effbf55359737cf83c0add783da3de42d2f82b5113f870d8f497bb9a",
   "pins" : [
-    {
-      "identity" : "keyboardawareswiftui",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ralfebert/KeyboardAwareSwiftUI",
-      "state" : {
-        "revision" : "c76a2e1ee69b413885c604e62f39b796de97dcda",
-        "version" : "0.5.0"
-      }
-    },
     {
       "identity" : "locationpickerforswiftui",
       "kind" : "remoteSourceControl",
