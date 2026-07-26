@@ -9,6 +9,7 @@ import Vision
 
 struct CustomizeThumbnailImage: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     @State private var tempThumbnailImageType: ImageType
     @Binding var passObject: PassObject
@@ -44,199 +45,7 @@ struct CustomizeThumbnailImage: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
-                if let thumbnail = tempThumbnail, !isTransparencyOn {
-                    HStack {
-                        Spacer()
-                        Image(uiImage: thumbnail)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(maxHeight: 80)
-                            .padding(20)
-                        Spacer()
-                    }
-                } else if let thumbnailNoBg = tempThumbnailNoBackground, isTransparencyOn {
-                    HStack {
-                        Spacer()
-                        Image(uiImage: thumbnailNoBg)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(maxHeight: 80)
-                            .padding(20)
-                        Spacer()
-                    }
-                } else {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                            .frame(maxHeight: 120)
-                            .foregroundColor(Color.gray)
-                            .opacity(0.5)
-                        Text("Thumbnail Image")
-                            .multilineTextAlignment(.center)
-                            .minimumScaleFactor(0.34)
-                            .foregroundColor(Color.gray)
-                            .opacity(0.7)
-                            .padding(2)
-                    }
-                    .aspectRatio(1, contentMode: .fit)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                }
-
-                Picker("Thumbnail type", selection: $tempThumbnailImageType) {
-                    ForEach(ImageType.allCases, id: \.self) { type in
-                        Text(String(describing: type))
-                    }
-                }
-                .pickerStyle(.segmented)
-                .onChange(of: tempThumbnailImageType) {
-                    tempThumbnail = nil
-                }
-                .padding(14)
-                .listSectionBackgroundModifier()
-                .onChange(of: emoji) {
-                    print(emoji)
-                    tempThumbnailImageType = ImageType.emoji
-                    tempThumbnail = ImageRenderer(content:
-                        Text(emoji)
-                            .padding(-30)
-                            .scaledToFill()
-                            .font(.system(size: 1000))
-                            .minimumScaleFactor(0.1)
-                            .frame(width: 500, height: 500)
-                    ).uiImage
-                }
-                .sheet(isPresented: $isSymbolPickerOn) {
-                    SymbolPicker(symbol: $symbolName)
-                }
-
-                switch tempThumbnailImageType {
-                case .photo:
-                    Menu {
-                        Button("Choose Photo", systemImage: "photo") {
-                            isPhotoPickerPresented = true
-                        }
-
-                        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                            Button("Take Photo", systemImage: "camera") {
-                                isCameraPresented = true
-                            }
-                        }
-                    } label: {
-                        Text(tempThumbnail == nil ? "Select a Thumbnail Image" : "Change Thumbnail Image")
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.vertical, 6)
-                    }
-                    .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
-                    .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
-                    .onChange(of: photoItem) {
-                        Task {
-                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
-                               let image = UIImage(data: loaded)
-                            {
-                                imageForCrop = IdentifiableImage(image: image)
-                            } else {
-                                print("Failed")
-                            }
-                        }
-                    }
-                    .glassProminentButtonStyleIfAvailable()
-                    .fullScreenCover(isPresented: $isCameraPresented) {
-                        CameraImagePicker { image in
-                            imageForCrop = IdentifiableImage(image: image)
-                        }
-                        .ignoresSafeArea()
-                    }
-
-                    Toggle(isOn: $isTransparencyOn) {
-                        Text("Transparent background")
-                            .opacity(isTransparencyAvailable ? 1 : 0.2)
-                    }
-                    .disabled(!isTransparencyAvailable)
-                    .padding(14)
-                    .listSectionBackgroundModifier()
-                case .emoji:
-                    Button {
-                        isEmojiPickerOn = true
-                    } label: {
-                        Text(tempThumbnail == nil ? "Select an Emoji" : "Change Emoji")
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                    }
-                    .foregroundColor(.white)
-                    .accentColorProminentButtonStyleIfAvailable()
-                    .emojiPicker(
-                        isPresented: $isEmojiPickerOn,
-                        selectedEmoji: $emoji
-                    )
-                case .symbol:
-                    Button {
-                        isSymbolPickerOn = true
-                    } label: {
-                        Text(tempThumbnail == nil ? "Select a Symbol" : "Change Symbol")
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                    }
-                    .foregroundColor(Color.white)
-                    .accentColorProminentButtonStyleIfAvailable()
-
-                    ColorPicker("Symbol Color", selection: $symbolColor, supportsOpacity: false)
-                        .padding(16)
-                        .listSectionBackgroundModifier()
-                case .none:
-                    EmptyView()
-                }
-
-                Spacer()
-            }
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Thumbnail Image")
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
-                }
-
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save", systemImage: "checkmark") {
-                        updateThumbnailImage()
-                    }
-                    .toolbarConfirmButtonModifier()
-                }
-
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel", systemImage: "xmark") {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                    .toolbarCancelButtonModifier()
-                }
-            }
-            .padding()
-            .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
-            .onChange(of: tempThumbnail) {
-                Task {
-                    // Check if Vision framework is available for background removal
-                    if #available(iOS 17, *) {
-                        if let tempNoBg = removeBackground(image: tempThumbnail) {
-                            tempThumbnailNoBackground = tempNoBg
-                            isTransparencyAvailable = true
-                        }
-                    } else {
-                        print("DEBUG: Background removal not available on this device/OS")
-                        isTransparencyAvailable = false
-                    }
-                    isTransparencyOn = false
-                }
-            }
-            .onChange(of: symbolName) {
-                renderSymbol()
-            }
-            .onChange(of: symbolColor) {
-                renderSymbol()
-            }
-            .onAppear {
-                if symbolName == "" {
-                    symbolColor = colorScheme == .light ? .black : .white
-                }
-            }
+            content
         }
         .sheetOrFullScreenCover(item: $imageForCrop) { item in
             SwiftyCropView(
@@ -256,6 +65,250 @@ struct CustomizeThumbnailImage: View {
                 tempThumbnail = croppedImage
             }
             .interactiveDismissDisabled()
+        }
+    }
+
+    // On iPhone, verticalSizeClass reflects interface orientation and is unaffected by
+    // keyboard height changes (unlike measuring geometry size directly).
+    private var isLandscape: Bool {
+        verticalSizeClass == .compact
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        Group {
+            if isLandscape {
+                landscapeLayout
+            } else {
+                portraitLayout
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Thumbnail Image")
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
+            }
+
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Save", systemImage: "checkmark") {
+                    updateThumbnailImage()
+                }
+                .toolbarConfirmButtonModifier()
+            }
+
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Cancel", systemImage: "xmark") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .toolbarCancelButtonModifier()
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
+        .onChange(of: tempThumbnail) {
+            Task {
+                // Check if Vision framework is available for background removal
+                if #available(iOS 17, *) {
+                    if let tempNoBg = removeBackground(image: tempThumbnail) {
+                        tempThumbnailNoBackground = tempNoBg
+                        isTransparencyAvailable = true
+                    }
+                } else {
+                    print("DEBUG: Background removal not available on this device/OS")
+                    isTransparencyAvailable = false
+                }
+                isTransparencyOn = false
+            }
+        }
+        .onChange(of: symbolName) {
+            renderSymbol()
+        }
+        .onChange(of: symbolColor) {
+            renderSymbol()
+        }
+        .onAppear {
+            if symbolName == "" {
+                symbolColor = colorScheme == .light ? .black : .white
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var portraitLayout: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                thumbnailPreviewView
+                    .frame(maxHeight: 80)
+                    .padding(20)
+                formFields
+            }
+            .padding()
+        }
+    }
+
+    @ViewBuilder
+    private var landscapeLayout: some View {
+        HStack(spacing: 0) {
+            thumbnailPreviewView
+                .frame(maxHeight: 160)
+                .padding(.horizontal, 20)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea(edges: [.top, .bottom]) // extend past notch/dynamic island (top) and home indicator (bottom) to center against full device height; also stops the keyboard from resizing/shifting this pane
+
+            Divider()
+
+            ScrollView {
+                formFields
+                    .padding(.horizontal)
+                    .frame(maxWidth: .infinity)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var thumbnailPreviewView: some View {
+        if let thumbnail = tempThumbnail, !isTransparencyOn {
+            HStack {
+                Spacer()
+                Image(uiImage: thumbnail)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                Spacer()
+            }
+        } else if let thumbnailNoBg = tempThumbnailNoBackground, isTransparencyOn {
+            HStack {
+                Spacer()
+                Image(uiImage: thumbnailNoBg)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                Spacer()
+            }
+        } else {
+            ZStack {
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
+                    .foregroundColor(Color.gray)
+                    .opacity(0.5)
+                Text("Thumbnail Image")
+                    .multilineTextAlignment(.center)
+                    .minimumScaleFactor(0.34)
+                    .foregroundColor(Color.gray)
+                    .opacity(0.7)
+                    .padding(2)
+            }
+            .aspectRatio(1, contentMode: .fit)
+            .frame(maxWidth: .infinity, alignment: .center)
+        }
+    }
+
+    @ViewBuilder
+    private var formFields: some View {
+        VStack(spacing: 20) {
+            Picker("Thumbnail type", selection: $tempThumbnailImageType) {
+                ForEach(ImageType.allCases, id: \.self) { type in
+                    Text(String(describing: type))
+                }
+            }
+            .pickerStyle(.segmented)
+            .onChange(of: tempThumbnailImageType) {
+                tempThumbnail = nil
+            }
+            .padding(14)
+            .listSectionBackgroundModifier()
+            .onChange(of: emoji) {
+                print(emoji)
+                tempThumbnailImageType = ImageType.emoji
+                tempThumbnail = ImageRenderer(content:
+                    Text(emoji)
+                        .padding(-30)
+                        .scaledToFill()
+                        .font(.system(size: 1000))
+                        .minimumScaleFactor(0.1)
+                        .frame(width: 500, height: 500)
+                ).uiImage
+            }
+            .sheet(isPresented: $isSymbolPickerOn) {
+                SymbolPicker(symbol: $symbolName)
+            }
+
+            switch tempThumbnailImageType {
+            case .photo:
+                Menu {
+                    Button("Choose Photo", systemImage: "photo") {
+                        isPhotoPickerPresented = true
+                    }
+
+                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                        Button("Take Photo", systemImage: "camera") {
+                            isCameraPresented = true
+                        }
+                    }
+                } label: {
+                    Text(tempThumbnail == nil ? "Select a Thumbnail Image" : "Change Thumbnail Image")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 6)
+                }
+                .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
+                .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                .onChange(of: photoItem) {
+                    Task {
+                        if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
+                           let image = UIImage(data: loaded)
+                        {
+                            imageForCrop = IdentifiableImage(image: image)
+                        } else {
+                            print("Failed")
+                        }
+                    }
+                }
+                .glassProminentButtonStyleIfAvailable()
+                .fullScreenCover(isPresented: $isCameraPresented) {
+                    CameraImagePicker { image in
+                        imageForCrop = IdentifiableImage(image: image)
+                    }
+                    .ignoresSafeArea()
+                }
+
+                Toggle(isOn: $isTransparencyOn) {
+                    Text("Transparent background")
+                        .opacity(isTransparencyAvailable ? 1 : 0.2)
+                }
+                .disabled(!isTransparencyAvailable)
+                .padding(14)
+                .listSectionBackgroundModifier()
+            case .emoji:
+                Button {
+                    isEmojiPickerOn = true
+                } label: {
+                    Text(tempThumbnail == nil ? "Select an Emoji" : "Change Emoji")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                }
+                .foregroundColor(.white)
+                .accentColorProminentButtonStyleIfAvailable()
+                .emojiPicker(
+                    isPresented: $isEmojiPickerOn,
+                    selectedEmoji: $emoji
+                )
+            case .symbol:
+                Button {
+                    isSymbolPickerOn = true
+                } label: {
+                    Text(tempThumbnail == nil ? "Select a Symbol" : "Change Symbol")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                }
+                .foregroundColor(Color.white)
+                .accentColorProminentButtonStyleIfAvailable()
+
+                ColorPicker("Symbol Color", selection: $symbolColor, supportsOpacity: false)
+                    .padding(16)
+                    .listSectionBackgroundModifier()
+            case .none:
+                EmptyView()
+            }
+
+            Spacer()
         }
     }
 
