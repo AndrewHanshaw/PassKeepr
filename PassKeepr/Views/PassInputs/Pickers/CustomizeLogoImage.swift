@@ -9,6 +9,7 @@ import Vision
 
 struct CustomizeLogoImage: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     @State private var tempLogoImageType: ImageType
     @Binding var passObject: PassObject
@@ -46,192 +47,7 @@ struct CustomizeLogoImage: View {
 
     var body: some View {
         NavigationView {
-            VStack(spacing: 20) {
-                if let logo = tempLogo, !isTransparencyOn {
-                    HStack {
-                        Spacer()
-                        Image(uiImage: logo)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(maxHeight: 80)
-                            .padding(20)
-                        Spacer()
-                    }
-                } else if let logoNoBg = tempLogoNoBackground, isTransparencyOn {
-                    HStack {
-                        Spacer()
-                        Image(uiImage: logoNoBg)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(maxHeight: 80)
-                            .padding(20)
-                        Spacer()
-                    }
-                } else {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                            .frame(maxHeight: 80)
-                            .aspectRatio(3.2, contentMode: .fit)
-                            .foregroundColor(Color.gray)
-                            .opacity(0.5)
-                        Text("Logo Image")
-                            .scaledToFit()
-                            .foregroundColor(Color.gray)
-                            .opacity(0.7)
-                    }
-                    .padding(.vertical, 20)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                }
-
-                Picker("Logo type", selection: $tempLogoImageType) {
-                    ForEach(ImageType.allCases, id: \.self) { type in
-                        Text(String(describing: type))
-                    }
-                }
-                .pickerStyle(.segmented)
-                .onChange(of: tempLogoImageType) {
-                    tempLogo = nil
-                }
-                .padding(14)
-                .listSectionBackgroundModifier()
-                .onChange(of: emoji) {
-                    print(emoji)
-                    tempLogoImageType = ImageType.emoji
-                    tempLogo = ImageRenderer(content:
-                        Text(emoji)
-                            .padding(-30)
-                            .scaledToFill()
-                            .font(.system(size: 1000))
-                            .minimumScaleFactor(0.1)
-                            .frame(width: 500, height: 500)
-                    ).uiImage
-                }
-                .sheet(isPresented: $isSymbolPickerOn) {
-                    SymbolPicker(symbol: $symbolName)
-                }
-
-                switch tempLogoImageType {
-                case .photo:
-                    Menu {
-                        Button("Choose Photo", systemImage: "photo") {
-                            isPhotoPickerPresented = true
-                        }
-
-                        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                            Button("Take Photo", systemImage: "camera") {
-                                isCameraPresented = true
-                            }
-                        }
-                    } label: {
-                        Text(tempLogo == nil ? "Select a Logo Image" : "Change Logo Image")
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.vertical, 6)
-                    }
-                    .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
-                    .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
-                    .onChange(of: photoItem) {
-                        Task {
-                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
-                               let image = UIImage(data: loaded)
-                            {
-                                imageForCrop = IdentifiableImage(image: image)
-                            } else {
-                                print("Failed")
-                            }
-                        }
-                    }
-                    .glassProminentButtonStyleIfAvailable()
-                    .fullScreenCover(isPresented: $isCameraPresented) {
-                        CameraImagePicker { image in
-                            imageForCrop = IdentifiableImage(image: image)
-                        }
-                        .ignoresSafeArea()
-                    }
-
-                    Toggle(isOn: $isTransparencyOn) {
-                        Text("Transparent background")
-                            .opacity(isTransparencyAvailable ? 1 : 0.2)
-                    }
-                    .disabled(!isTransparencyAvailable)
-                    .padding(14)
-                    .listSectionBackgroundModifier()
-                case .emoji:
-                    Button {
-                        isEmojiPickerOn = true
-                    } label: {
-                        Text(tempLogo == nil ? "Select an Emoji" : "Change Emoji")
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                    }
-                    .foregroundColor(.white)
-                    .accentColorProminentButtonStyleIfAvailable()
-                    .emojiPicker(
-                        isPresented: $isEmojiPickerOn,
-                        selectedEmoji: $emoji
-                    )
-                case .symbol:
-                    Button {
-                        isSymbolPickerOn = true
-                    } label: {
-                        Text(tempLogo == nil ? "Select a Symbol" : "Change Symbol")
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 12)
-                    }
-                    .foregroundColor(Color.white)
-                    .accentColorProminentButtonStyleIfAvailable()
-
-                    ColorPicker("Symbol Color", selection: $symbolColor, supportsOpacity: false)
-                        .padding(16)
-                        .listSectionBackgroundModifier()
-                case .none:
-                    EmptyView()
-                }
-
-                Spacer()
-            }
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Logo Image")
-                        .font(.system(size: 16, weight: .bold, design: .rounded))
-                }
-
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save", systemImage: "checkmark") {
-                        updateLogoImage()
-                    }
-                    .toolbarConfirmButtonModifier()
-                }
-
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel", systemImage: "xmark") {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                    .toolbarCancelButtonModifier()
-                }
-            }
-            .padding()
-            .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
-            .onChange(of: tempLogo) {
-                Task {
-                    if let tempNoBg = removeBackground(image: tempLogo) {
-                        tempLogoNoBackground = tempNoBg
-                        isTransparencyAvailable = true
-                    }
-                    isTransparencyOn = false
-                }
-            }
-            .onChange(of: symbolName) {
-                renderSymbol()
-            }
-            .onChange(of: symbolColor) {
-                renderSymbol()
-            }
-            .onAppear {
-                if passObject.logoSymbolName == "" {
-                    symbolColor = colorScheme == .light ? .black : .white
-                }
-            }
+            content
         }
         .sheetOrFullScreenCover(item: $imageForCrop) { item in
             SwiftyCropView(
@@ -250,6 +66,240 @@ struct CustomizeLogoImage: View {
             ) { croppedImage in
                 tempLogo = croppedImage
             }
+        }
+    }
+
+    // On iPhone, verticalSizeClass reflects interface orientation and is unaffected by
+    // keyboard height changes (unlike measuring geometry size directly).
+    private var isLandscape: Bool {
+        verticalSizeClass == .compact
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        Group {
+            if isLandscape {
+                landscapeLayout
+            } else {
+                portraitLayout
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("Logo Image")
+                    .font(.system(size: 16, weight: .bold, design: .rounded))
+            }
+
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Save", systemImage: "checkmark") {
+                    updateLogoImage()
+                }
+                .toolbarConfirmButtonModifier()
+            }
+
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Cancel", systemImage: "xmark") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .toolbarCancelButtonModifier()
+            }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
+        .onChange(of: tempLogo) {
+            Task {
+                if let tempNoBg = removeBackground(image: tempLogo) {
+                    tempLogoNoBackground = tempNoBg
+                    isTransparencyAvailable = true
+                }
+                isTransparencyOn = false
+            }
+        }
+        .onChange(of: symbolName) {
+            renderSymbol()
+        }
+        .onChange(of: symbolColor) {
+            renderSymbol()
+        }
+        .onAppear {
+            if passObject.logoSymbolName == "" {
+                symbolColor = colorScheme == .light ? .black : .white
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var portraitLayout: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                logoPreviewView
+                formFields
+            }
+            .padding()
+        }
+    }
+
+    @ViewBuilder
+    private var landscapeLayout: some View {
+        HStack(spacing: 0) {
+            logoPreviewView
+                .padding(.horizontal, 20)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea(edges: [.top, .bottom]) // extend past notch/dynamic island (top) and home indicator (bottom) to center against full device height; also stops the keyboard from resizing/shifting this pane
+
+            Divider()
+
+            ScrollView {
+                formFields
+                    .padding(.horizontal)
+                    .frame(maxWidth: .infinity)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var logoPreviewView: some View {
+        HStack(alignment: .center) {
+            Spacer()
+            if let logo = tempLogo, !isTransparencyOn {
+                Image(uiImage: logo)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxHeight: 80)
+                    .padding(20)
+            } else if let logoNoBg = tempLogoNoBackground, isTransparencyOn {
+                Image(uiImage: logoNoBg)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxHeight: 80)
+                    .padding(20)
+            } else {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
+                        .frame(maxHeight: 80)
+                        .aspectRatio(3.2, contentMode: .fit)
+                        .foregroundColor(Color.gray)
+                        .opacity(0.5)
+                    Text("Logo Image")
+                        .scaledToFit()
+                        .foregroundColor(Color.gray)
+                        .opacity(0.7)
+                }
+                .frame(maxWidth: .infinity, alignment: .center) // maybe remove?
+            }
+            Spacer()
+        }
+    }
+
+    @ViewBuilder
+    private var formFields: some View {
+        VStack(spacing: 20) {
+            Picker("Logo type", selection: $tempLogoImageType) {
+                ForEach(ImageType.allCases, id: \.self) { type in
+                    Text(String(describing: type))
+                }
+            }
+            .pickerStyle(.segmented)
+            .onChange(of: tempLogoImageType) {
+                tempLogo = nil
+            }
+            .padding(14)
+            .listSectionBackgroundModifier()
+            .onChange(of: emoji) {
+                print(emoji)
+                tempLogoImageType = ImageType.emoji
+                tempLogo = ImageRenderer(content:
+                    Text(emoji)
+                        .padding(-30)
+                        .scaledToFill()
+                        .font(.system(size: 1000))
+                        .minimumScaleFactor(0.1)
+                        .frame(width: 500, height: 500)
+                ).uiImage
+            }
+            .sheet(isPresented: $isSymbolPickerOn) {
+                SymbolPicker(symbol: $symbolName)
+            }
+
+            switch tempLogoImageType {
+            case .photo:
+                Menu {
+                    Button("Choose Photo", systemImage: "photo") {
+                        isPhotoPickerPresented = true
+                    }
+
+                    if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                        Button("Take Photo", systemImage: "camera") {
+                            isCameraPresented = true
+                        }
+                    }
+                } label: {
+                    Text(tempLogo == nil ? "Select a Logo Image" : "Change Logo Image")
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 6)
+                }
+                .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
+                .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                .onChange(of: photoItem) {
+                    Task {
+                        if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
+                           let image = UIImage(data: loaded)
+                        {
+                            imageForCrop = IdentifiableImage(image: image)
+                        } else {
+                            print("Failed")
+                        }
+                    }
+                }
+                .glassProminentButtonStyleIfAvailable()
+                .fullScreenCover(isPresented: $isCameraPresented) {
+                    CameraImagePicker { image in
+                        imageForCrop = IdentifiableImage(image: image)
+                    }
+                    .ignoresSafeArea()
+                }
+
+                Toggle(isOn: $isTransparencyOn) {
+                    Text("Transparent background")
+                        .opacity(isTransparencyAvailable ? 1 : 0.2)
+                }
+                .disabled(!isTransparencyAvailable)
+                .padding(14)
+                .listSectionBackgroundModifier()
+            case .emoji:
+                Button {
+                    isEmojiPickerOn = true
+                } label: {
+                    Text(tempLogo == nil ? "Select an Emoji" : "Change Emoji")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                }
+                .foregroundColor(.white)
+                .accentColorProminentButtonStyleIfAvailable()
+                .emojiPicker(
+                    isPresented: $isEmojiPickerOn,
+                    selectedEmoji: $emoji
+                )
+            case .symbol:
+                Button {
+                    isSymbolPickerOn = true
+                } label: {
+                    Text(tempLogo == nil ? "Select a Symbol" : "Change Symbol")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                }
+                .foregroundColor(Color.white)
+                .accentColorProminentButtonStyleIfAvailable()
+
+                ColorPicker("Symbol Color", selection: $symbolColor, supportsOpacity: false)
+                    .padding(16)
+                    .listSectionBackgroundModifier()
+            case .none:
+                EmptyView()
+            }
+
+            Spacer()
         }
     }
 
