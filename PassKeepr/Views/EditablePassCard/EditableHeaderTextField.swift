@@ -13,25 +13,27 @@ struct EditableHeaderTextField: View {
     @State private var isCustomizeTextPresented = false
 
     var body: some View {
-        VStack(alignment: .trailing, spacing: 0) {
+        Group {
             if textLabel != "" || text != "" {
-                Text(textLabel)
-                    .lineLimit(1)
-                    .frame(alignment: .topTrailing)
-                    .foregroundColor(labelColor)
-                    .disableAutocorrection(true)
-                    .textCase(.uppercase)
-                    .font(.system(size: 11))
-                    .fontWeight(.semibold)
-                    .padding(0)
+                VStack(alignment: .trailing, spacing: 0) {
+                    Text(textLabel)
+                        .lineLimit(1)
+                        .frame(alignment: .topTrailing)
+                        .foregroundColor(labelColor)
+                        .disableAutocorrection(true)
+                        .textCase(.uppercase)
+                        .font(.system(size: 11))
+                        .fontWeight(.semibold)
+                        .padding(0)
 
-                Text(text)
-                    .lineLimit(1)
-                    .frame(maxHeight: .infinity, alignment: .topTrailing)
-                    .foregroundColor(textColor)
-                    .disableAutocorrection(true)
-                    .padding(0)
-                    .minimumScaleFactor(0.34) // no font size specified. Just let it be as large as possible and shrink it if needed
+                    Text(text)
+                        .lineLimit(1)
+                        .frame(maxHeight: .infinity, alignment: .topTrailing)
+                        .foregroundColor(textColor)
+                        .disableAutocorrection(true)
+                        .padding(0)
+                        .minimumScaleFactor(0.34) // no font size specified. Just let it be as large as possible and shrink it if needed
+                }
             } else {
                 ZStack {
                     RoundedRectangle(cornerRadius: 5)
