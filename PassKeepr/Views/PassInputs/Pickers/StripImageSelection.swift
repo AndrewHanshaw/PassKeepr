@@ -37,7 +37,7 @@ struct StripImageSelection: View {
                 Text("Strip images are not compatible with QR codes")
                     .font(.footnote)
                     .foregroundColor(.secondary)
-                    .padding([.leading, .bottom], 14)
+                    .padding(.leading, 14)
             }
         }
     }
