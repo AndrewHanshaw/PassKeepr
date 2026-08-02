@@ -4,6 +4,7 @@ struct NotchedRectanglePost27: InsettableShape {
     var notchRadius: CGFloat = 35
     var insetAmount: CGFloat = 0
     var verticalOffset: CGFloat = 20
+    var cornerRadius: CGFloat = 10
 
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -29,8 +30,11 @@ struct NotchedRectanglePost27: InsettableShape {
         // See `docs/NotchedRectangleMath.pdf` for a visual explanation
         let angle = acos(horizontalDistance / insetNotchRadius) * 180 / .pi
 
-        // Start from top-left corner
-        path.move(to: CGPoint(x: insetRect.minX, y: insetRect.minY))
+        // Clamp the corner radius so it never exceeds half of the rect's smallest dimension
+        let r = max(0, min(cornerRadius, min(insetRect.width, insetRect.height) / 2))
+
+        // Start on the top edge, just after the (rounded) top-left corner
+        path.move(to: CGPoint(x: insetRect.minX + r, y: insetRect.minY))
 
         // Draw to the start of the notch
         path.addLine(to: CGPoint(x: arcStartX, y: insetRect.minY))
@@ -44,14 +48,53 @@ struct NotchedRectanglePost27: InsettableShape {
             clockwise: true
         )
 
-        // Continue to top right corner
-        path.addLine(to: CGPoint(x: insetRect.maxX, y: insetRect.minY))
+        // Continue to just before the top-right corner
+        path.addLine(to: CGPoint(x: insetRect.maxX - r, y: insetRect.minY))
+
+        // Rounded top-right corner
+        path.addArc(
+            center: CGPoint(x: insetRect.maxX - r, y: insetRect.minY + r),
+            radius: r,
+            startAngle: .degrees(-90),
+            endAngle: .degrees(0),
+            clockwise: false
+        )
 
         // Right edge
-        path.addLine(to: CGPoint(x: insetRect.maxX, y: insetRect.maxY))
+        path.addLine(to: CGPoint(x: insetRect.maxX, y: insetRect.maxY - r))
+
+        // Rounded bottom-right corner
+        path.addArc(
+            center: CGPoint(x: insetRect.maxX - r, y: insetRect.maxY - r),
+            radius: r,
+            startAngle: .degrees(0),
+            endAngle: .degrees(90),
+            clockwise: false
+        )
 
         // Bottom edge
-        path.addLine(to: CGPoint(x: insetRect.minX, y: insetRect.maxY))
+        path.addLine(to: CGPoint(x: insetRect.minX + r, y: insetRect.maxY))
+
+        // Rounded bottom-left corner
+        path.addArc(
+            center: CGPoint(x: insetRect.minX + r, y: insetRect.maxY - r),
+            radius: r,
+            startAngle: .degrees(90),
+            endAngle: .degrees(180),
+            clockwise: false
+        )
+
+        // Left edge
+        path.addLine(to: CGPoint(x: insetRect.minX, y: insetRect.minY + r))
+
+        // Rounded top-left corner
+        path.addArc(
+            center: CGPoint(x: insetRect.minX + r, y: insetRect.minY + r),
+            radius: r,
+            startAngle: .degrees(180),
+            endAngle: .degrees(270),
+            clockwise: false
+        )
 
         // Close the path
         path.closeSubpath()
