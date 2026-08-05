@@ -42,6 +42,7 @@ struct HeaderTextField: View {
                                 .padding(0)
                                 .padding(.leading, -10)
                                 .minimumScaleFactor(0.34)
+                                .textFieldLabelModifier()
                         }
                         Spacer()
                     }

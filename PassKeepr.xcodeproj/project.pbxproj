@@ -57,6 +57,7 @@
 		BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7A4A242B65B485006F06DF /* ExtendColor.swift */; };
 		BA7F036B2E9AC4F4004E9610 /* iOS26Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7F036A2E9AC4F2004E9610 /* iOS26Helpers.swift */; };
 		BA7F036D2E9ADB63004E9610 /* BarcodeTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7F036C2E9ADB58004E9610 /* BarcodeTypePicker.swift */; };
+		BA825F0A3022DE0E00232748 /* iOS27Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA825F093022DE0E00232748 /* iOS27Helpers.swift */; };
 		BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82A7922B84424900279103 /* InvalidBarcodeView.swift */; };
 		BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA863A162B6621B6008746C1 /* ScannerView.swift */; };
 		BA8671DF2B951FD700F20608 /* PDF417View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8671DE2B951FD700F20608 /* PDF417View.swift */; };
@@ -193,6 +194,7 @@
 		BA7A4A242B65B485006F06DF /* ExtendColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendColor.swift; sourceTree = "<group>"; };
 		BA7F036A2E9AC4F2004E9610 /* iOS26Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS26Helpers.swift; sourceTree = "<group>"; };
 		BA7F036C2E9ADB58004E9610 /* BarcodeTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeTypePicker.swift; sourceTree = "<group>"; };
+		BA825F093022DE0E00232748 /* iOS27Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS27Helpers.swift; sourceTree = "<group>"; };
 		BA82A7922B84424900279103 /* InvalidBarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidBarcodeView.swift; sourceTree = "<group>"; };
 		BA863A162B6621B6008746C1 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		BA8671DE2B951FD700F20608 /* PDF417View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDF417View.swift; sourceTree = "<group>"; };
@@ -479,6 +481,7 @@
 		BABAADDC2B0AB8150014C73B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				BA825F093022DE0E00232748 /* iOS27Helpers.swift */,
 				BAFF19F43009CA2200148BA2 /* FancyNavTitleScrollView.swift */,
 				BA21DD2430089FB200335F03 /* iOS18Helpers.swift */,
 				BAAD449E2FDDDD74000F71E1 /* CameraImagePicker.swift */,
@@ -761,6 +764,7 @@
 				BA95576D2CD69ADE0010721A /* AddToWalletView.swift in Sources */,
 				BA879C242B7064AB008A685E /* UPCEView.swift in Sources */,
 				BAA53E1C2D0E5C70004A175A /* EditablePassCardTopSection.swift in Sources */,
+				BA825F0A3022DE0E00232748 /* iOS27Helpers.swift in Sources */,
 				BA1C2CBF2B6EFBBA0040E2E6 /* OneDimensionalBarcodeFilter.metal in Sources */,
 				BA8671DF2B951FD700F20608 /* PDF417View.swift in Sources */,
 				BA5B292F2E80D69200DBD750 /* NoPassesToShow.swift in Sources */,
