@@ -45,7 +45,7 @@ struct LocationSelection: View {
 
     @State private var showLocationSection: Bool = false
     @State private var editingIndex: Int? = nil
-    @State private var pickerCoordinates: CLLocationCoordinate2D = .init()
+    @State private var pickerCoordinates: CLLocationCoordinate2D? = nil
     @State private var showPickerSheet = false
     @State private var removingIDs: Set<UUID> = []
     @State private var newIDs: Set<UUID> = []
@@ -107,7 +107,7 @@ struct LocationSelection: View {
                                     longitude: location.longitude
                                 )
                             } else {
-                                pickerCoordinates = locationProvider.coordinate ?? CLLocationCoordinate2D()
+                                pickerCoordinates = nil
                             }
                             showPickerSheet = true
                         },
@@ -160,9 +160,9 @@ struct LocationSelection: View {
                     .toolbar {
                         ToolbarItem(placement: .confirmationAction) {
                             Button("Done") {
-                                if let i = editingIndex {
-                                    passObject.locations[i].latitude = pickerCoordinates.latitude
-                                    passObject.locations[i].longitude = pickerCoordinates.longitude
+                                if let i = editingIndex, let coordinate = pickerCoordinates {
+                                    passObject.locations[i].latitude = coordinate.latitude
+                                    passObject.locations[i].longitude = coordinate.longitude
                                 }
                                 showPickerSheet = false
                             }
