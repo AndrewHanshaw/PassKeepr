@@ -34,6 +34,7 @@ struct PrimaryTextFieldGeneric: View {
                             .fontWeight(.semibold)
                             .padding(0)
                             .padding(.top, 0)
+                            .textFieldLabelModifier()
 
                         Text(text)
                             .frame(alignment: .topLeading)

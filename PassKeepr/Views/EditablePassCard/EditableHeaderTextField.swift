@@ -25,6 +25,7 @@ struct EditableHeaderTextField: View {
                         .font(.system(size: 11))
                         .fontWeight(.semibold)
                         .padding(0)
+                        .textFieldLabelModifier()
 
                     Text(text)
                         .lineLimit(1)
