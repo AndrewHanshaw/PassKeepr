@@ -26,6 +26,7 @@ struct SecondaryTextField: View {
                         .fontWeight(.semibold)
                         .padding(0)
                         .padding(.top, -2)
+                        .textFieldLabelModifier()
 
                     Text(text)
                         .lineLimit(1)
