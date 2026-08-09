@@ -148,6 +148,16 @@ struct EditablePassCardBackgroundPost27: View {
     var backgroundColor: UInt
     var backgroundBrightness: BackgroundBrightness
 
+    // Three-section vertical shading:
+    // 1. Top: starts at `topOpacity` and fades to transparent by `topFadeEndLocation`.
+    // 2. Middle: stays fully transparent until `bottomFadeStartLocation`.
+    // 3. Bottom: fades back in (over a longer span than the top fade) up to
+    //    `bottomOpacity` at the very bottom edge.
+    var topOpacity: Double = 0.04
+    var topFadeEndLocation: CGFloat = 0.24
+    var bottomFadeStartLocation: CGFloat = 0.45
+    var bottomOpacity: Double = 0.085
+
     var body: some View {
         ZStack {
             if backgroundImage != Data() {
@@ -155,6 +165,31 @@ struct EditablePassCardBackgroundPost27: View {
             } else {
                 plainColorBackground
             }
+
+            gradientOverlay
+        }
+    }
+
+    private var gradientOverlay: some View {
+        LinearGradient(
+            stops: [
+                .init(color: Color.black.opacity(topOpacity), location: 0),
+                .init(color: Color.black.opacity(0), location: topFadeEndLocation),
+                .init(color: Color.black.opacity(0), location: bottomFadeStartLocation),
+                .init(color: Color.black.opacity(bottomOpacity), location: 1),
+            ],
+            startPoint: .top,
+            endPoint: .bottom
+        )
+        .clipShape(gradientClipShape)
+        .allowsHitTesting(false)
+    }
+
+    private var gradientClipShape: AnyShape {
+        if backgroundImage != Data() {
+            AnyShape(NotchedRectanglePost27())
+        } else {
+            AnyShape(RoundedRectangle(cornerRadius: 10))
         }
     }
 
