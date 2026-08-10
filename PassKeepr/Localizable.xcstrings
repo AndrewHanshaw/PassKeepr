@@ -234,6 +234,9 @@
         }
       }
     },
+    "Change Icon Image" : {
+
+    },
     "Change Location" : {
       "localizations" : {
         "ru" : {
@@ -754,6 +757,9 @@
         }
       }
     },
+    "Pass Icon" : {
+
+    },
     "PassKeepr" : {
       "localizations" : {
         "ru" : {
@@ -853,6 +859,9 @@
           }
         }
       }
+    },
+    "Rename" : {
+
     },
     "Save" : {
       "localizations" : {
