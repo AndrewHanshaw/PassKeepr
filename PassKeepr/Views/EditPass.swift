@@ -18,6 +18,8 @@ struct EditPass: View {
     @State private var shouldShowSheet: Bool = false
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
+    @State private var isEditingTitle = false
+    @State private var renameText = ""
 
     let isNewPass: Bool
     let shouldProvideOwnNavigation: Bool
@@ -36,6 +38,7 @@ struct EditPass: View {
     @State private var isCustomizeThumbnailImagePresented = false
     @State private var isCustomizeBarcodePresented = false
     @State private var isCustomizeQrCodePresented = false
+    @State private var isCustomizeIconImagePresented = false
 
     // On init, set the temp object owned by this view equal to the
     // one passed in via @Binding
@@ -74,8 +77,53 @@ struct EditPass: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle(isNewPass && tempObject.description == PassObject.defaultDescription ? .init(get: { "New Pass" }, set: { tempObject.description = $0 }) : $tempObject.description)
+        .navigationTitle("")
         .toolbar {
+            ToolbarItem(placement: .principal) {
+                if isEditingTitle {
+                    HStack(spacing: 4) {
+                        if tempObject.passIcon != Data(), let uiImage = UIImage(data: tempObject.passIcon) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 24, height: 24)
+                                .clipShape(RoundedRectangle(cornerRadius: 4))
+                        }
+                        InlineTitleTextField(text: $renameText, onCommit: commitRename)
+                            .frame(minWidth: 150)
+                    }
+                } else {
+                    Menu {
+                        Button("Rename", systemImage: "pencil") {
+                            renameText = tempObject.description == PassObject.defaultDescription ? "" : tempObject.description
+                            isEditingTitle = true
+                        }
+                        Button("Change Icon Image", systemImage: "square.dashed") {
+                            isCustomizeIconImagePresented = true
+                        }
+                    } label: {
+                        HStack(spacing: 4) {
+                            if tempObject.passIcon != Data(), let uiImage = UIImage(data: tempObject.passIcon) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 24, height: 24)
+                                    .clipShape(RoundedRectangle(cornerRadius: 4))
+                            }
+                            Text(displayedTitle)
+                                .font(.headline)
+                                .foregroundStyle(.primary)
+                                .lineLimit(1)
+                                .truncationMode(.tail)
+                                .frame(maxWidth: 200)
+                            Image(systemName: "chevron.down")
+                                .font(.caption2.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+            }
+
             ToolbarItem(placement: .confirmationAction) {
                 Button(action: {
                     let result = prepareForSigning()
@@ -130,6 +178,10 @@ struct EditPass: View {
         }
         .sheet(isPresented: $isCustomizeQrCodePresented) {
             CustomizeQrCode(passObject: $tempObject)
+                .edgesIgnoringSafeArea(.bottom)
+        }
+        .sheet(isPresented: $isCustomizeIconImagePresented) {
+            CustomizeIconImage(passObject: $tempObject)
                 .edgesIgnoringSafeArea(.bottom)
         }
         .sheet(isPresented: $shouldShowSheet) {
@@ -196,6 +248,15 @@ struct EditPass: View {
                   message: Text(alertMessage),
                   dismissButton: .default(Text("OK")))
         }
+    }
+
+    private func commitRename() {
+        tempObject.description = renameText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? PassObject.defaultDescription : renameText
+        isEditingTitle = false
+    }
+
+    private var displayedTitle: String {
+        isNewPass && tempObject.description == PassObject.defaultDescription ? "New Pass" : tempObject.description
     }
 
     @ViewBuilder
@@ -335,6 +396,70 @@ struct EditPass: View {
 
         func updateUIViewController(_: UIActivityViewController, context _: Context) {
             // No updates needed
+        }
+    }
+}
+
+/// A UIKit-backed text field used for the in-place navigation title rename.
+/// Driving this with raw UIKit (rather than SwiftUI's TextField + @FocusState) guarantees the
+/// keyboard reliably appears with all text selected as soon as it's shown, and that the edit is
+/// committed whenever the field resigns first responder for any reason (Return key, tapping
+/// elsewhere, or the keyboard being dismissed by a scroll) — SwiftUI's FocusState does not reliably
+/// track resignation caused by scroll-to-dismiss when hosted in a toolbar's principal item.
+private struct InlineTitleTextField: UIViewRepresentable {
+    @Binding var text: String
+    var onCommit: () -> Void
+
+    func makeUIView(context: Context) -> UITextField {
+        let textField = UITextField()
+        textField.delegate = context.coordinator
+        textField.font = UIFont.preferredFont(forTextStyle: .headline)
+        textField.textAlignment = .center
+        textField.returnKeyType = .done
+        textField.adjustsFontForContentSizeCategory = true
+        textField.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        textField.addTarget(context.coordinator, action: #selector(Coordinator.textChanged), for: .editingChanged)
+        return textField
+    }
+
+    func updateUIView(_ uiView: UITextField, context: Context) {
+        if uiView.text != text {
+            uiView.text = text
+        }
+
+        guard !context.coordinator.hasFocused else { return }
+        context.coordinator.hasFocused = true
+        DispatchQueue.main.async {
+            uiView.becomeFirstResponder()
+            uiView.selectAll(nil)
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(text: $text, onCommit: onCommit)
+    }
+
+    final class Coordinator: NSObject, UITextFieldDelegate {
+        var text: Binding<String>
+        var onCommit: () -> Void
+        var hasFocused = false
+
+        init(text: Binding<String>, onCommit: @escaping () -> Void) {
+            self.text = text
+            self.onCommit = onCommit
+        }
+
+        @objc func textChanged(_ textField: UITextField) {
+            text.wrappedValue = textField.text ?? ""
+        }
+
+        func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            textField.resignFirstResponder()
+            return true
+        }
+
+        func textFieldDidEndEditing(_: UITextField) {
+            onCommit()
         }
     }
 }
