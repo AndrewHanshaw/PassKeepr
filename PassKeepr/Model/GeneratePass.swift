@@ -457,7 +457,7 @@ func shouldBackgroundImageBeAddedToPass(passObject: PassObject) -> Bool {
 }
 
 func getIsStripImageSupported(passObject: PassObject) -> Bool {
-    if passObject.barcodeType != BarcodeType.qr && (passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) || passObject.isCustomStripImageOn) {
+    if passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) || passObject.isCustomStripImageOn {
         return true
     } else {
         return false
