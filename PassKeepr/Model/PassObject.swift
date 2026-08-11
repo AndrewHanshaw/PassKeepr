@@ -6,6 +6,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var id: UUID
     var group: Int
     var passIcon: Data
+    var passIconType: ImageType
     var barcodeString: String
     var barcodeType: BarcodeType
     var barcodeBorder: Double
@@ -53,6 +54,9 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var logoSymbolColor: UInt
     var thumbnailSymbolName: String
     var thumbnailSymbolColor: UInt
+    var passIconSymbolName: String
+    var passIconSymbolColor: UInt
+    var passIconBackgroundColor: UInt
     var associatedStoreIdentifiers: [Int]
     // WiFi QR Code
     var wifiSSID: String
@@ -76,7 +80,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var locations: [PassLocation]
 
     enum CodingKeys: String, CodingKey {
-        case id, group, passIcon, barcodeString, barcodeType, barcodeBorder
+        case id, group, passIcon, passIconType, barcodeString, barcodeType, barcodeBorder
         case stripImage, backgroundImage, logoImage, logoImageType
         case thumbnailImage, thumbnailImageType
         case qrCodeCorrectionLevel, qrCodeEncoding, qrCodeType
@@ -92,6 +96,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
         case isCustomStripImageOn
         case logoSymbolName, logoSymbolColor
         case thumbnailSymbolName, thumbnailSymbolColor
+        case passIconSymbolName, passIconSymbolColor, passIconBackgroundColor
         case associatedStoreIdentifiers
         case wifiSSID, wifiPassword, wifiSecurity, wifiIsHidden
         case vcardFirstName, vcardLastName, vcardCompany, vcardPhone, vcardEmail
@@ -113,6 +118,7 @@ extension PassObject {
         id = try c.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
         group = try c.decodeIfPresent(Int.self, forKey: .group) ?? 1
         passIcon = try c.decodeIfPresent(Data.self, forKey: .passIcon) ?? defaultIcon
+        passIconType = try c.decodeIfPresent(ImageType.self, forKey: .passIconType) ?? .photo
         barcodeString = try c.decodeIfPresent(String.self, forKey: .barcodeString) ?? ""
         barcodeType = try c.decodeIfPresent(BarcodeType.self, forKey: .barcodeType) ?? .none
         barcodeBorder = try c.decodeIfPresent(Double.self, forKey: .barcodeBorder) ?? 0
@@ -159,6 +165,9 @@ extension PassObject {
         logoSymbolColor = try c.decodeIfPresent(UInt.self, forKey: .logoSymbolColor) ?? 0x000000
         thumbnailSymbolName = try c.decodeIfPresent(String.self, forKey: .thumbnailSymbolName) ?? ""
         thumbnailSymbolColor = try c.decodeIfPresent(UInt.self, forKey: .thumbnailSymbolColor) ?? 0x000000
+        passIconSymbolName = try c.decodeIfPresent(String.self, forKey: .passIconSymbolName) ?? ""
+        passIconSymbolColor = try c.decodeIfPresent(UInt.self, forKey: .passIconSymbolColor) ?? 0x000000
+        passIconBackgroundColor = try c.decodeIfPresent(UInt.self, forKey: .passIconBackgroundColor) ?? 0xFFFFFF
         associatedStoreIdentifiers = try c.decodeIfPresent([Int].self, forKey: .associatedStoreIdentifiers) ?? [6_740_440_736]
         wifiSSID = try c.decodeIfPresent(String.self, forKey: .wifiSSID) ?? ""
         wifiPassword = try c.decodeIfPresent(String.self, forKey: .wifiPassword) ?? ""
@@ -189,6 +198,7 @@ extension PassObject {
             id: UUID(),
             group: 1,
             passIcon: defaultIcon,
+            passIconType: .photo,
             barcodeString: "",
             barcodeType: .none,
             barcodeBorder: 0,
@@ -235,6 +245,9 @@ extension PassObject {
             logoSymbolColor: 0x000000,
             thumbnailSymbolName: "",
             thumbnailSymbolColor: 0x000000,
+            passIconSymbolName: "",
+            passIconSymbolColor: 0x000000,
+            passIconBackgroundColor: 0xFFFFFF,
             associatedStoreIdentifiers: [6_740_440_736],
             wifiSSID: "",
             wifiPassword: "",
@@ -262,6 +275,7 @@ extension PassObject {
             id: UUID(),
             group: 1,
             passIcon: passIcon,
+            passIconType: passIconType,
             barcodeString: barcodeString,
             barcodeType: barcodeType,
             barcodeBorder: barcodeBorder,
@@ -308,6 +322,9 @@ extension PassObject {
             logoSymbolColor: logoSymbolColor,
             thumbnailSymbolName: thumbnailSymbolName,
             thumbnailSymbolColor: thumbnailSymbolColor,
+            passIconSymbolName: passIconSymbolName,
+            passIconSymbolColor: passIconSymbolColor,
+            passIconBackgroundColor: passIconBackgroundColor,
             associatedStoreIdentifiers: associatedStoreIdentifiers,
             wifiSSID: wifiSSID,
             wifiPassword: wifiPassword,
