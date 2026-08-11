@@ -307,7 +307,10 @@ func importPass(from pkpassURL: URL) -> (pass: PassObject?, hasNFC: Bool) {
 
         // Extract icon (required)
         let icon = extractLargestVariant("icon")
-        passObject.passIcon = icon
+        if icon != Data() {
+            passObject.passIcon = icon
+            passObject.passIconType = .photo
+        }
 
         // Extract logo
         let logo = extractLargestVariant("logo")

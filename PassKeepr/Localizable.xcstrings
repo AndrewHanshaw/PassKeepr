@@ -567,6 +567,9 @@
         }
       }
     },
+    "Icon type" : {
+
+    },
     "Import Failed" : {
       "localizations" : {
         "ru" : {
@@ -1002,6 +1005,9 @@
           }
         }
       }
+    },
+    "Select an Icon Image" : {
+
     },
     "Set Location" : {
       "localizations" : {
