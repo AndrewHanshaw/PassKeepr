@@ -195,6 +195,14 @@ func importPass(from pkpassURL: URL) -> (pass: PassObject?, hasNFC: Bool) {
             if let stringValue = finalValue as? String {
                 return resolveString(stringValue, using: resolver)
             } else if let numberValue = finalValue as? NSNumber {
+                // NSNumber.stringValue can surface binary floating-point artifacts
+                // (e.g. 83.51 -> "83.51000000000001"). For floating-point types, use
+                // Swift's native Double formatting instead, which prints the shortest
+                // string that round-trips to the same value (e.g. "83.51").
+                let objCType = String(cString: numberValue.objCType)
+                if objCType == "d" || objCType == "f" {
+                    return String(numberValue.doubleValue)
+                }
                 return numberValue.stringValue
             } else if let doubleValue = finalValue as? Double {
                 return String(doubleValue)
