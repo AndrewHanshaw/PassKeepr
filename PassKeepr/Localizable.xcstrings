@@ -1079,16 +1079,6 @@
         }
       }
     },
-    "Strip images are not compatible with QR codes" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Баннеры несовместимы с QR-кодами"
-          }
-        }
-      }
-    },
     "Symbol Color" : {
       "localizations" : {
         "ru" : {
