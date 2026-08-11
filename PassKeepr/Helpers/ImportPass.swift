@@ -208,16 +208,27 @@ func importPass(from pkpassURL: URL) -> (pass: PassObject?, hasNFC: Bool) {
             resolveString(raw ?? "", using: resolver)
         }
 
+        // If a field carries a "currencyCode", mark it (and the pass overall) as using currency
+        // formatting, and adopt that currency code as the pass's shared currency.
+        func applyCurrencyIfPresent(_ field: [String: Any], isCurrency: inout Bool) {
+            guard let currencyCode = field["currencyCode"] as? String else { return }
+            isCurrency = true
+            passObject.isCurrencyFieldsOn = true
+            passObject.currencyCode = currencyCode
+        }
+
         // Extract header fields
         if let headerFields = passStyle["headerFields"] as? [[String: Any]] {
             if headerFields.count > 0 {
                 passObject.headerFieldOneLabel = resolveLabel(headerFields[0]["label"] as? String)
                 passObject.headerFieldOneText = valueToString(headerFields[0]["value"])
+                applyCurrencyIfPresent(headerFields[0], isCurrency: &passObject.isHeaderFieldOneCurrency)
             }
             if headerFields.count > 1 {
                 passObject.isHeaderFieldTwoOn = true
                 passObject.headerFieldTwoLabel = resolveLabel(headerFields[1]["label"] as? String)
                 passObject.headerFieldTwoText = valueToString(headerFields[1]["value"])
+                applyCurrencyIfPresent(headerFields[1], isCurrency: &passObject.isHeaderFieldTwoCurrency)
             }
         }
 
@@ -227,6 +238,7 @@ func importPass(from pkpassURL: URL) -> (pass: PassObject?, hasNFC: Bool) {
         {
             passObject.primaryFieldLabel = resolveLabel(firstPrimary["label"] as? String)
             passObject.primaryFieldText = valueToString(firstPrimary["value"])
+            applyCurrencyIfPresent(firstPrimary, isCurrency: &passObject.isPrimaryFieldCurrency)
         }
 
         // Extract secondary fields
@@ -234,16 +246,19 @@ func importPass(from pkpassURL: URL) -> (pass: PassObject?, hasNFC: Bool) {
             if secondaryFields.count > 0 {
                 passObject.secondaryFieldOneLabel = resolveLabel(secondaryFields[0]["label"] as? String)
                 passObject.secondaryFieldOneText = valueToString(secondaryFields[0]["value"])
+                applyCurrencyIfPresent(secondaryFields[0], isCurrency: &passObject.isSecondaryFieldOneCurrency)
             }
             if secondaryFields.count > 1 {
                 passObject.isSecondaryFieldTwoOn = true
                 passObject.secondaryFieldTwoLabel = resolveLabel(secondaryFields[1]["label"] as? String)
                 passObject.secondaryFieldTwoText = valueToString(secondaryFields[1]["value"])
+                applyCurrencyIfPresent(secondaryFields[1], isCurrency: &passObject.isSecondaryFieldTwoCurrency)
             }
             if secondaryFields.count > 2 {
                 passObject.isSecondaryFieldThreeOn = true
                 passObject.secondaryFieldThreeLabel = resolveLabel(secondaryFields[2]["label"] as? String)
                 passObject.secondaryFieldThreeText = valueToString(secondaryFields[2]["value"])
+                applyCurrencyIfPresent(secondaryFields[2], isCurrency: &passObject.isSecondaryFieldThreeCurrency)
             }
         }
 
@@ -252,16 +267,19 @@ func importPass(from pkpassURL: URL) -> (pass: PassObject?, hasNFC: Bool) {
             if auxiliaryFields.count > 0 {
                 passObject.auxiliaryFieldOneLabel = resolveLabel(auxiliaryFields[0]["label"] as? String)
                 passObject.auxiliaryFieldOneText = valueToString(auxiliaryFields[0]["value"])
+                applyCurrencyIfPresent(auxiliaryFields[0], isCurrency: &passObject.isAuxiliaryFieldOneCurrency)
             }
             if auxiliaryFields.count > 1 {
                 passObject.isAuxiliaryFieldTwoOn = true
                 passObject.auxiliaryFieldTwoLabel = resolveLabel(auxiliaryFields[1]["label"] as? String)
                 passObject.auxiliaryFieldTwoText = valueToString(auxiliaryFields[1]["value"])
+                applyCurrencyIfPresent(auxiliaryFields[1], isCurrency: &passObject.isAuxiliaryFieldTwoCurrency)
             }
             if auxiliaryFields.count > 2 {
                 passObject.isAuxiliaryFieldThreeOn = true
                 passObject.auxiliaryFieldThreeLabel = resolveLabel(auxiliaryFields[2]["label"] as? String)
                 passObject.auxiliaryFieldThreeText = valueToString(auxiliaryFields[2]["value"])
+                applyCurrencyIfPresent(auxiliaryFields[2], isCurrency: &passObject.isAuxiliaryFieldThreeCurrency)
             }
         }
     }
@@ -307,7 +325,10 @@ func importPass(from pkpassURL: URL) -> (pass: PassObject?, hasNFC: Bool) {
 
         // Extract icon (required)
         let icon = extractLargestVariant("icon")
-        passObject.passIcon = icon
+        if icon != Data() {
+            passObject.passIcon = icon
+            passObject.passIconType = .photo
+        }
 
         // Extract logo
         let logo = extractLargestVariant("logo")
