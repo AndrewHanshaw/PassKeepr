@@ -11,7 +11,21 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var barcodeType: BarcodeType
     var barcodeBorder: Double
     var stripImage: Data // PNG data for all passes that use the strip image (may be a barcode, picture, etc)
-    var backgroundImage: Data // PNG data for all passes that use the background image
+    // PNG data for all passes that use the background image. Assigning this automatically
+    // recomputes `imageBackgroundBrightness` below (see `didSet`), so callers can just set it
+    // directly instead of going through a separate update method.
+    var backgroundImage: Data {
+        didSet {
+            guard backgroundImage != oldValue else { return }
+            imageBackgroundBrightness = Self.computeImageBrightness(from: backgroundImage)
+        }
+    }
+
+    // Cached brightness classification of `backgroundImage`, kept in sync automatically by
+    // `backgroundImage`'s `didSet` rather than being recomputed every time a card is rendered.
+    // `nil` means there's no background image, in which case `backgroundBrightness` falls back
+    // to `backgroundColor` (which is cheap enough to compute on the fly, so it needs no cache).
+    var imageBackgroundBrightness: BackgroundBrightness? = nil
     var logoImage: Data // PNG data for all passes that use the logo image
     var logoImageType: ImageType
     var thumbnailImage: Data // PNG data for thumbnail image (90x90 points, aspect ratio 2:3 to 3:2)
@@ -92,7 +106,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
 
     enum CodingKeys: String, CodingKey {
         case id, group, passIcon, passIconType, barcodeString, barcodeType, barcodeBorder
-        case stripImage, backgroundImage, logoImage, logoImageType
+        case stripImage, backgroundImage, imageBackgroundBrightness, logoImage, logoImageType
         case thumbnailImage, thumbnailImageType
         case qrCodeCorrectionLevel, qrCodeEncoding, qrCodeType
         case altText, foregroundColor, backgroundColor, labelColor, description
@@ -140,6 +154,7 @@ extension PassObject {
         barcodeBorder = try c.decodeIfPresent(Double.self, forKey: .barcodeBorder) ?? 0
         stripImage = try c.decodeIfPresent(Data.self, forKey: .stripImage) ?? Data()
         backgroundImage = try c.decodeIfPresent(Data.self, forKey: .backgroundImage) ?? Data()
+        imageBackgroundBrightness = try c.decodeIfPresent(BackgroundBrightness.self, forKey: .imageBackgroundBrightness)
         logoImage = try c.decodeIfPresent(Data.self, forKey: .logoImage) ?? Data()
         logoImageType = try c.decodeIfPresent(ImageType.self, forKey: .logoImageType) ?? .none
         thumbnailImage = try c.decodeIfPresent(Data.self, forKey: .thumbnailImage) ?? Data()
@@ -214,6 +229,37 @@ extension PassObject {
         isAuxiliaryFieldOneCurrency = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldOneCurrency) ?? false
         isAuxiliaryFieldTwoCurrency = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldTwoCurrency) ?? false
         isAuxiliaryFieldThreeCurrency = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldThreeCurrency) ?? false
+
+        // Migration: passes saved before `imageBackgroundBrightness` existed won't have it persisted.
+        // Compute it once here so older saved passes with a background image get correct contrast
+        // immediately, instead of waiting until the user next edits the background.
+        if imageBackgroundBrightness == nil, backgroundImage != Data() {
+            imageBackgroundBrightness = Self.computeImageBrightness(from: backgroundImage)
+        }
+    }
+}
+
+extension PassObject {
+    // The brightness bucket used to keep card chrome (shadows, strokes, text overlays) legible
+    // against whatever is actually behind the card: the background image if there is one,
+    // otherwise the background color. Cheap to read in both cases — the image case is kept
+    // up to date automatically by `backgroundImage`'s `didSet` instead of being recalculated
+    // on every access, and the color case is cheap enough to just compute here directly.
+    var backgroundBrightness: BackgroundBrightness {
+        if let imageBackgroundBrightness {
+            return imageBackgroundBrightness
+        }
+
+        let red = CGFloat((backgroundColor >> 16) & 0xFF) / 255.0
+        let green = CGFloat((backgroundColor >> 8) & 0xFF) / 255.0
+        let blue = CGFloat(backgroundColor & 0xFF) / 255.0
+        return BackgroundBrightness(brightness: (0.299 * red) + (0.587 * green) + (0.114 * blue))
+    }
+
+    static func computeImageBrightness(from data: Data) -> BackgroundBrightness? {
+        guard data != Data(), let image = UIImage(data: data) else { return nil }
+        let brightness = image.resizeToFit(maxWidth: 40, maxHeight: 40).averageBrightness() ?? 0.5
+        return BackgroundBrightness(brightness: brightness)
     }
 }
 
@@ -319,6 +365,7 @@ extension PassObject {
             barcodeBorder: barcodeBorder,
             stripImage: stripImage,
             backgroundImage: backgroundImage,
+            imageBackgroundBrightness: imageBackgroundBrightness,
             logoImage: logoImage,
             logoImageType: logoImageType,
             thumbnailImage: thumbnailImage,
