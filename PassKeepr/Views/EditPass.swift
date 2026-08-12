@@ -213,6 +213,11 @@ struct EditPass: View {
             isWalletSupported = PKAddPassesViewController.canAddPasses()
             previouslySignedGroup = objectToEdit.group
         }
+        .onDisappear {
+            // Make sure the last debounced change actually lands on disk even if the view
+            // disappears before the debounce timer fires (e.g. user taps Cancel/back quickly).
+            modelData.flushPendingEncode()
+        }
         .onChange(of: objectToEdit) { _, newValue in
             // Update tempObject when the binding changes (e.g., from import)
             if tempObject.id != newValue.id {
@@ -224,7 +229,7 @@ struct EditPass: View {
             if isNewPass && !modelData.passObjects.contains(where: { $0.id == newValue.id }) {
                 modelData.passObjects.append(newValue)
             }
-            modelData.encodePassObjects()
+            modelData.scheduleEncodePassObjects()
         }
         .onChange(of: passSigner.isDataLoaded) {
             if passSigner.isDataLoaded {
