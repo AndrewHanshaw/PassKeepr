@@ -11,10 +11,20 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var barcodeType: BarcodeType
     var barcodeBorder: Double
     var stripImage: Data // PNG data for all passes that use the strip image (may be a barcode, picture, etc)
-    var backgroundImage: Data // PNG data for all passes that use the background image
-    // Cached brightness classification of `backgroundImage`, computed once whenever the image is set
-    // (see `updateBackgroundImage`) rather than every time a card is rendered. `nil` means there's no
-    // background image, in which case `backgroundBrightness` falls back to `backgroundColor`.
+    // PNG data for all passes that use the background image. Assigning this automatically
+    // recomputes `imageBackgroundBrightness` below (see `didSet`), so callers can just set it
+    // directly instead of going through a separate update method.
+    var backgroundImage: Data {
+        didSet {
+            guard backgroundImage != oldValue else { return }
+            imageBackgroundBrightness = Self.computeImageBrightness(from: backgroundImage)
+        }
+    }
+
+    // Cached brightness classification of `backgroundImage`, kept in sync automatically by
+    // `backgroundImage`'s `didSet` rather than being recomputed every time a card is rendered.
+    // `nil` means there's no background image, in which case `backgroundBrightness` falls back
+    // to `backgroundColor` (which is cheap enough to compute on the fly, so it needs no cache).
     var imageBackgroundBrightness: BackgroundBrightness? = nil
     var logoImage: Data // PNG data for all passes that use the logo image
     var logoImageType: ImageType
@@ -232,8 +242,9 @@ extension PassObject {
 extension PassObject {
     /// The brightness bucket used to keep card chrome (shadows, strokes, text overlays) legible
     /// against whatever is actually behind the card: the background image if there is one,
-    /// otherwise the background color. Cheap to read in both cases — the image case is
-    /// precomputed by `updateBackgroundImage` instead of being recalculated on every access.
+    /// otherwise the background color. Cheap to read in both cases — the image case is kept
+    /// up to date automatically by `backgroundImage`'s `didSet` instead of being recalculated
+    /// on every access, and the color case is cheap enough to just compute here directly.
     var backgroundBrightness: BackgroundBrightness {
         if let imageBackgroundBrightness {
             return imageBackgroundBrightness
@@ -243,14 +254,6 @@ extension PassObject {
         let green = CGFloat((backgroundColor >> 8) & 0xFF) / 255.0
         let blue = CGFloat(backgroundColor & 0xFF) / 255.0
         return BackgroundBrightness(brightness: (0.299 * red) + (0.587 * green) + (0.114 * blue))
-    }
-
-    /// Sets `backgroundImage` and recomputes `imageBackgroundBrightness` to match. This is the
-    /// only supported way to change `backgroundImage` — use this instead of assigning the
-    /// property directly so brightness never goes stale.
-    mutating func updateBackgroundImage(_ data: Data) {
-        backgroundImage = data
-        imageBackgroundBrightness = Self.computeImageBrightness(from: data)
     }
 
     static func computeImageBrightness(from data: Data) -> BackgroundBrightness? {
