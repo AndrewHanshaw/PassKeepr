@@ -10,7 +10,14 @@ struct EditableHeaderTextField: View {
     var textColor: Color
     var labelColor: Color
 
+    var isCurrency: Bool
+    var currencyCode: String
+
     @State private var isCustomizeTextPresented = false
+
+    private var displayText: String {
+        isCurrency ? formattedCurrencyText(text, currencyCode: currencyCode) : text
+    }
 
     var body: some View {
         Group {
@@ -27,7 +34,7 @@ struct EditableHeaderTextField: View {
                         .padding(0)
                         .textFieldLabelModifier()
 
-                    Text(text)
+                    Text(displayText)
                         .lineLimit(1)
                         .frame(maxHeight: .infinity, alignment: .topTrailing)
                         .foregroundColor(textColor)
@@ -72,5 +79,5 @@ struct EditableHeaderTextField: View {
 }
 
 #Preview {
-    EditableHeaderTextField(backgroundBrightness: .normal, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
+    EditableHeaderTextField(backgroundBrightness: .normal, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black, isCurrency: false, currencyCode: "USD")
 }
