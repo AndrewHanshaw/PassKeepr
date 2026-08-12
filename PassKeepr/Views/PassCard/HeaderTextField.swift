@@ -7,7 +7,14 @@ struct HeaderTextField: View {
     var textColor: Color
     var labelColor: Color
 
+    var isCurrency: Bool
+    var currencyCode: String
+
     @State private var isCustomizeTextPresented = false
+
+    private var displayText: String {
+        isCurrency ? formattedCurrencyText(text, currencyCode: currencyCode) : text
+    }
 
     var body: some View {
         VStack {
@@ -33,7 +40,7 @@ struct HeaderTextField: View {
 
                         HStack {
                             Spacer()
-                            Text(text)
+                            Text(displayText)
                                 .lineLimit(1)
                                 .frame(alignment: .top)
                                 .foregroundColor(textColor)
@@ -55,5 +62,5 @@ struct HeaderTextField: View {
 }
 
 #Preview {
-    HeaderTextField(textLabel: "HEADER", text: "TEST", textColor: .black, labelColor: .black)
+    HeaderTextField(textLabel: "HEADER", text: "TEST", textColor: .black, labelColor: .black, isCurrency: false, currencyCode: "USD")
 }

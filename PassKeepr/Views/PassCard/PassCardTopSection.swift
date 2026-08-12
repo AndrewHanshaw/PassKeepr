@@ -18,7 +18,7 @@ struct PassCardTopSection: View {
             }
             Spacer()
             if passObject.headerFieldOneLabel != "" && passObject.headerFieldOneText != "" {
-                HeaderTextField(textLabel: passObject.headerFieldOneLabel, text: passObject.headerFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                HeaderTextField(textLabel: passObject.headerFieldOneLabel, text: passObject.headerFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor), isCurrency: passObject.isCurrencyFieldsOn && passObject.isHeaderFieldOneCurrency, currencyCode: passObject.currencyCode)
                     .padding(.top, 5)
             }
         }

@@ -10,7 +10,14 @@ struct AuxiliaryTextField: View {
     var textColor: Color
     var labelColor: Color
 
+    var isCurrency: Bool
+    var currencyCode: String
+
     @State private var isCustomizeTextPresented = false
+
+    private var displayText: String {
+        isCurrency ? formattedCurrencyText(text, currencyCode: currencyCode) : text
+    }
 
     var body: some View {
         Group {
@@ -28,7 +35,7 @@ struct AuxiliaryTextField: View {
                         .padding(.top, -2)
                         .textFieldLabelModifier()
 
-                    Text(text)
+                    Text(displayText)
                         .lineLimit(1)
                         .frame(maxHeight: .infinity, alignment: .bottom)
                         .foregroundColor(textColor)
@@ -76,5 +83,5 @@ struct AuxiliaryTextField: View {
 }
 
 #Preview {
-    AuxiliaryTextField(backgroundBrightness: .normal, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black)
+    AuxiliaryTextField(backgroundBrightness: .normal, disableButton: false, textLabel: .constant("HEADER"), text: .constant("TEST"), textColor: .black, labelColor: .black, isCurrency: false, currencyCode: "USD")
 }

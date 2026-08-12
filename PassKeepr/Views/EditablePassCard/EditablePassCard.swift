@@ -90,40 +90,40 @@ struct EditablePassCard: View {
 
                     // TODO: The text size for all of these should match while still being as large as possible
                     HStack {
-                        SecondaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldOneLabel, text: $passObject.secondaryFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                        SecondaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldOneLabel, text: $passObject.secondaryFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor), isCurrency: passObject.isCurrencyFieldsOn && passObject.isSecondaryFieldOneCurrency, currencyCode: passObject.currencyCode)
                             .layoutPriority(1)
 
                         Spacer()
 
                         if passObject.isSecondaryFieldTwoOn {
-                            SecondaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldTwoLabel, text: $passObject.secondaryFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                            SecondaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldTwoLabel, text: $passObject.secondaryFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor), isCurrency: passObject.isCurrencyFieldsOn && passObject.isSecondaryFieldTwoCurrency, currencyCode: passObject.currencyCode)
                                 .layoutPriority(1)
                         }
 
                         if passObject.isSecondaryFieldThreeOn {
                             Spacer()
 
-                            SecondaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldThreeLabel, text: $passObject.secondaryFieldThreeText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                            SecondaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.secondaryFieldThreeLabel, text: $passObject.secondaryFieldThreeText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor), isCurrency: passObject.isCurrencyFieldsOn && passObject.isSecondaryFieldThreeCurrency, currencyCode: passObject.currencyCode)
                                 .layoutPriority(1)
                         }
 
                         if passObject.isCustomStripImageOn {
                             if passObject.isAuxiliaryFieldOneOn {
-                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldOneLabel, text: $passObject.auxiliaryFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldOneLabel, text: $passObject.auxiliaryFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor), isCurrency: passObject.isCurrencyFieldsOn && passObject.isAuxiliaryFieldOneCurrency, currencyCode: passObject.currencyCode)
                                     .layoutPriority(1)
                             }
 
                             if passObject.isAuxiliaryFieldTwoOn {
                                 Spacer()
 
-                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldTwoLabel, text: $passObject.auxiliaryFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldTwoLabel, text: $passObject.auxiliaryFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor), isCurrency: passObject.isCurrencyFieldsOn && passObject.isAuxiliaryFieldTwoCurrency, currencyCode: passObject.currencyCode)
                                     .layoutPriority(1)
                             }
 
                             if passObject.isAuxiliaryFieldThreeOn {
                                 Spacer()
 
-                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldThreeLabel, text: $passObject.auxiliaryFieldThreeText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldThreeLabel, text: $passObject.auxiliaryFieldThreeText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor), isCurrency: passObject.isCurrencyFieldsOn && passObject.isAuxiliaryFieldThreeCurrency, currencyCode: passObject.currencyCode)
                                     .layoutPriority(1)
                             }
                         }
@@ -136,21 +136,21 @@ struct EditablePassCard: View {
                     if !passObject.isCustomStripImageOn {
                         HStack {
                             if passObject.isAuxiliaryFieldOneOn {
-                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldOneLabel, text: $passObject.auxiliaryFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldOneLabel, text: $passObject.auxiliaryFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor), isCurrency: passObject.isCurrencyFieldsOn && passObject.isAuxiliaryFieldOneCurrency, currencyCode: passObject.currencyCode)
                                     .layoutPriority(1)
                             }
 
                             Spacer()
 
                             if passObject.isAuxiliaryFieldTwoOn {
-                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldTwoLabel, text: $passObject.auxiliaryFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldTwoLabel, text: $passObject.auxiliaryFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor), isCurrency: passObject.isCurrencyFieldsOn && passObject.isAuxiliaryFieldTwoCurrency, currencyCode: passObject.currencyCode)
                                     .layoutPriority(1)
                             }
 
                             if passObject.isAuxiliaryFieldThreeOn {
                                 Spacer()
 
-                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldThreeLabel, text: $passObject.auxiliaryFieldThreeText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                AuxiliaryTextField(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.auxiliaryFieldThreeLabel, text: $passObject.auxiliaryFieldThreeText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor), isCurrency: passObject.isCurrencyFieldsOn && passObject.isAuxiliaryFieldThreeCurrency, currencyCode: passObject.currencyCode)
                                     .layoutPriority(1)
                             }
                         }
