@@ -1,9 +1,22 @@
 import SwiftUI
 
-enum BackgroundBrightness {
+enum BackgroundBrightness: Codable {
     case veryDark
     case normal
     case veryLight
+
+    /// Classifies a 0...1 luminance value (as produced by `UIImage.averageBrightness()` or a
+    /// direct RGB brightness calculation) into one of the three buckets used to keep card
+    /// chrome (shadows, strokes, overlays) legible against the pass's own colors.
+    init(brightness: CGFloat) {
+        if brightness < 0.2 {
+            self = .veryDark
+        } else if brightness > 0.2, brightness < 0.55 {
+            self = .normal
+        } else {
+            self = .veryLight
+        }
+    }
 
     var overwriteOpacity: Double {
         switch self {

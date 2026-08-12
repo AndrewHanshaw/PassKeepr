@@ -90,7 +90,7 @@ struct CustomizeBarcode: View {
                         passObject.stripImage = tempStripImage
                     }
                     if tempStripImage != Data() {
-                        passObject.backgroundImage = Data()
+                        passObject.updateBackgroundImage(Data())
                     }
                     presentationMode.wrappedValue.dismiss()
                 }

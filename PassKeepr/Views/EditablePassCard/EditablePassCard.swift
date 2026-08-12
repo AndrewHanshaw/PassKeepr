@@ -14,7 +14,10 @@ struct EditablePassCard: View {
     @Binding var isCustomizeThumbnailImagePresented: Bool
     @Binding var isCustomizeBarcodePresented: Bool
     @Binding var isCustomizeQrCodePresented: Bool
-    @State private var passBackgroundBrightness: BackgroundBrightness = .normal
+
+    // Brightness is precomputed on PassObject whenever the background image/color is actually changed,
+    // so this just reads it directly, no local state or offscreen rendering needed here.
+    private var passBackgroundBrightness: BackgroundBrightness { passObject.backgroundBrightness }
 
     private var signingOverlayColor: Color {
         switch passBackgroundBrightness {
@@ -44,15 +47,6 @@ struct EditablePassCard: View {
         // including the very first one.
         GeometryReader { geometry in
             cardContent(size: geometry.size)
-                .onChange(of: passObject.backgroundImage) {
-                    determineBackgroundColor(size: geometry.size)
-                }
-                .onChange(of: passObject.backgroundColor) {
-                    determineBackgroundColor(size: geometry.size)
-                }
-                .onAppear {
-                    determineBackgroundColor(size: geometry.size)
-                }
         }
         .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fit)
         .frame(maxWidth: .infinity)
@@ -214,22 +208,6 @@ struct EditablePassCard: View {
                 }
             }
         }
-    }
-
-    private func determineBackgroundColor(size: CGSize) {
-        guard size.width > 0, size.height > 0 else { return }
-        let rendered = ImageRenderer(content: EditablePassCardBackground(backgroundImage: passObject.backgroundImage, backgroundColor: passObject.backgroundColor, backgroundBrightness: .normal).frame(width: size.width, height: size.height))
-        guard let brightness = rendered.uiImage?.averageBrightness() else { return }
-
-        if brightness < 0.2 {
-            passBackgroundBrightness = .veryDark
-        } else if brightness > 0.2 && brightness < 0.55 {
-            passBackgroundBrightness = .normal
-        } else {
-            passBackgroundBrightness = .veryLight
-        }
-
-        // print("Background brightness: \(backgroundBrightness)")
     }
 }
 

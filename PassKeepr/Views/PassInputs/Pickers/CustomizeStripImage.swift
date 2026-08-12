@@ -70,7 +70,7 @@ struct CustomizeStripImage: View {
                     if let strip = tempStrip {
                         passObject.stripImage = strip.pngData() ?? Data()
                         // Remove background image (incompatible with strip image)
-                        passObject.backgroundImage = Data()
+                        passObject.updateBackgroundImage(Data())
                     }
                     presentationMode.wrappedValue.dismiss()
                 }

@@ -107,7 +107,7 @@ struct CustomizeBackgroundImage: View {
 
                 if tempBackground != nil {
                     Button(role: .destructive) {
-                        passObject.backgroundImage = Data()
+                        passObject.updateBackgroundImage(Data())
                         presentationMode.wrappedValue.dismiss()
                     }
                     label: {
@@ -132,7 +132,7 @@ struct CustomizeBackgroundImage: View {
                     Button("Save", systemImage: "checkmark") {
                         if let background = tempBackground {
                             // Store the largest (3x) variant so imports/exports can downscale as needed
-                            passObject.backgroundImage = background.pngData() ?? Data()
+                            passObject.updateBackgroundImage(background.pngData() ?? Data())
 
                             passObject.stripImage = Data()
 
