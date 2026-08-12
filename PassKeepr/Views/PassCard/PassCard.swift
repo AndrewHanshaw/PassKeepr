@@ -8,6 +8,7 @@ struct PassCard: View {
     @State private var passBackgroundBrightness: BackgroundBrightness = .normal
     @State private var showAlert = false
     @State private var alertMessage = ""
+    @State private var cachedBackgroundImage: UIImage?
     var passObject: PassObject
 
     var body: some View {
@@ -23,13 +24,15 @@ struct PassCard: View {
                         }
                     }
             })
-            .onChange(of: passObject.backgroundImage) {
+            .onChange(of: passObject.backgroundImage) { _, newValue in
+                decodeBackgroundImageIfNeeded(newValue)
                 determineBackgroundColor()
             }
             .onChange(of: passObject.backgroundColor) {
                 determineBackgroundColor()
             }
             .onAppear {
+                decodeBackgroundImageIfNeeded(passObject.backgroundImage)
                 determineBackgroundColor()
             }
             .overlay(
@@ -71,7 +74,7 @@ struct PassCard: View {
                                     .padding(0)
                                     .padding(.top, -2)
 
-                                Text(passObject.primaryFieldText)
+                                Text((passObject.isCurrencyFieldsOn && passObject.isPrimaryFieldCurrency) ? formattedCurrencyText(passObject.primaryFieldText, currencyCode: passObject.currencyCode) : passObject.primaryFieldText)
                                     .lineLimit(1)
                                     .frame(maxHeight: .infinity, alignment: .topLeading)
                                     .foregroundColor(Color(hex: passObject.foregroundColor))
@@ -100,7 +103,7 @@ struct PassCard: View {
                                     .padding(0)
                                     .padding(.top, -2)
 
-                                Text(passObject.secondaryFieldOneText)
+                                Text((passObject.isCurrencyFieldsOn && passObject.isSecondaryFieldOneCurrency) ? formattedCurrencyText(passObject.secondaryFieldOneText, currencyCode: passObject.currencyCode) : passObject.secondaryFieldOneText)
                                     .lineLimit(1)
                                     .frame(maxHeight: .infinity, alignment: .topLeading)
                                     .foregroundColor(Color(hex: passObject.foregroundColor))
@@ -185,8 +188,8 @@ struct PassCard: View {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .fill(shadowColor)
                 .background(
-                    passObject.backgroundImage != Data() ?
-                        Image(uiImage: UIImage(data: passObject.backgroundImage)!)
+                    cachedBackgroundImage != nil ?
+                        Image(uiImage: cachedBackgroundImage!)
                         .resizable()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .blur(radius: 6)
@@ -201,9 +204,9 @@ struct PassCard: View {
             RoundedRectangle(cornerRadius: 10, style: .continuous)
                 .strokeBorder(passBackgroundBrightness == .veryDark ? Color.white.opacity(0.15) : Color.black.opacity(0.1), lineWidth: 2) // strokeBorder draws the line only on the inside of the view
                 .background(
-                    passObject.backgroundImage != Data() ?
+                    cachedBackgroundImage != nil ?
                         AnyView(
-                            Image(uiImage: UIImage(data: passObject.backgroundImage)!)
+                            Image(uiImage: cachedBackgroundImage!)
                                 .resizable()
                                 .scaleEffect(1.05) // Scale up the image slightly to prevent a semitransparent halo around the image
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -214,6 +217,14 @@ struct PassCard: View {
                             .fill(Color(hex: passObject.backgroundColor)))
                 )
         }
+    }
+
+    private func decodeBackgroundImageIfNeeded(_ data: Data) {
+        guard data != Data() else {
+            cachedBackgroundImage = nil
+            return
+        }
+        cachedBackgroundImage = UIImage(data: data)
     }
 
     private var shadowColor: Color {
@@ -243,15 +254,75 @@ struct PassCard: View {
     }
 
     func determineBackgroundColor() {
-        let backgroundBrightness: CGFloat = ImageRenderer(content: passCardBackground.frame(width: size.width, height: size.height)).uiImage?.averageBrightness() ?? 0.5
-
-        if backgroundBrightness < 0.2 {
-            passBackgroundBrightness = .veryDark
-        } else if backgroundBrightness > 0.2, backgroundBrightness < 0.55 {
-            passBackgroundBrightness = .normal
-        } else {
-            passBackgroundBrightness = .veryLight
+        if let cached = PassCardBrightnessCache.shared.brightness(for: passObject) {
+            passBackgroundBrightness = cached
+            return
         }
+
+        // No background image: brightness can be computed directly from the hex color,
+        // no offscreen rendering needed at all.
+        guard passObject.backgroundImage != Data() else {
+            let color = passObject.backgroundColor
+            let red = CGFloat((color >> 16) & 0xFF) / 255.0
+            let green = CGFloat((color >> 8) & 0xFF) / 255.0
+            let blue = CGFloat(color & 0xFF) / 255.0
+            let result = Self.classify((0.299 * red) + (0.587 * green) + (0.114 * blue))
+            passBackgroundBrightness = result
+            PassCardBrightnessCache.shared.setBrightness(result, for: passObject)
+            return
+        }
+
+        // Background image case: sample brightness from a small downsized copy of the already-decoded
+        // image (instead of re-rendering the whole styled card via ImageRenderer), off the main thread.
+        guard let image = cachedBackgroundImage else { return }
+        let object = passObject
+        Task.detached(priority: .utility) {
+            let brightness = image.resizeToFit(maxWidth: 40, maxHeight: 40).averageBrightness() ?? 0.5
+            let result = Self.classify(brightness)
+            PassCardBrightnessCache.shared.setBrightness(result, for: object)
+            await MainActor.run {
+                self.passBackgroundBrightness = result
+            }
+        }
+    }
+
+    private static func classify(_ brightness: CGFloat) -> BackgroundBrightness {
+        if brightness < 0.2 {
+            return .veryDark
+        } else if brightness > 0.2, brightness < 0.55 {
+            return .normal
+        } else {
+            return .veryLight
+        }
+    }
+}
+
+/// Caches computed background brightness per pass so that LazyVGrid recycling cells
+/// during scrolling doesn't repeatedly re-trigger expensive brightness computation.
+private final class PassCardBrightnessCache {
+    static let shared = PassCardBrightnessCache()
+
+    private struct Key: Hashable {
+        let id: UUID
+        let imageByteCount: Int
+        let backgroundColor: UInt
+    }
+
+    private var cache: [Key: BackgroundBrightness] = [:]
+    private let lock = NSLock()
+
+    private func key(for passObject: PassObject) -> Key {
+        Key(id: passObject.id, imageByteCount: passObject.backgroundImage.count, backgroundColor: passObject.backgroundColor)
+    }
+
+    func brightness(for passObject: PassObject) -> BackgroundBrightness? {
+        lock.lock(); defer { lock.unlock() }
+        return cache[key(for: passObject)]
+    }
+
+    func setBrightness(_ brightness: BackgroundBrightness, for passObject: PassObject) {
+        lock.lock(); defer { lock.unlock() }
+        cache[key(for: passObject)] = brightness
     }
 }
 
