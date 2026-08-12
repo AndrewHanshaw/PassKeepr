@@ -5,11 +5,12 @@ struct PassCard: View {
     @EnvironmentObject var passSigner: pkPassSigner
     @Environment(\.colorScheme) var colorScheme
     @State private var size: CGSize = CGSizeZero
-    @State private var passBackgroundBrightness: BackgroundBrightness = .normal
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var cachedBackgroundImage: UIImage?
     var passObject: PassObject
+
+    private var passBackgroundBrightness: BackgroundBrightness { passObject.backgroundBrightness }
 
     var body: some View {
         passCardBackground
@@ -25,15 +26,10 @@ struct PassCard: View {
                     }
             })
             .onChange(of: passObject.backgroundImage) { _, newValue in
-                decodeBackgroundImageIfNeeded(newValue)
-                determineBackgroundColor()
-            }
-            .onChange(of: passObject.backgroundColor) {
-                determineBackgroundColor()
+                decodeBackgroundImage(newValue)
             }
             .onAppear {
-                decodeBackgroundImageIfNeeded(passObject.backgroundImage)
-                determineBackgroundColor()
+                decodeBackgroundImage(passObject.backgroundImage)
             }
             .overlay(
                 VStack {
@@ -219,12 +215,11 @@ struct PassCard: View {
         }
     }
 
-    private func decodeBackgroundImageIfNeeded(_ data: Data) {
-        guard data != Data() else {
-            cachedBackgroundImage = nil
-            return
-        }
-        cachedBackgroundImage = UIImage(data: data)
+    // Decodes the background image (if any) for rendering. Brightness is a cheap derived property
+    // read straight from `passObject.backgroundBrightness` (see PassObject.swift) — it's precomputed
+    // whenever the background is actually changed, so there's nothing to compute here at render time.
+    private func decodeBackgroundImage(_ data: Data) {
+        cachedBackgroundImage = data == Data() ? nil : UIImage(data: data)
     }
 
     private var shadowColor: Color {
@@ -251,78 +246,6 @@ struct PassCard: View {
         case .veryLight:
             return 0.4
         }
-    }
-
-    func determineBackgroundColor() {
-        if let cached = PassCardBrightnessCache.shared.brightness(for: passObject) {
-            passBackgroundBrightness = cached
-            return
-        }
-
-        // No background image: brightness can be computed directly from the hex color,
-        // no offscreen rendering needed at all.
-        guard passObject.backgroundImage != Data() else {
-            let color = passObject.backgroundColor
-            let red = CGFloat((color >> 16) & 0xFF) / 255.0
-            let green = CGFloat((color >> 8) & 0xFF) / 255.0
-            let blue = CGFloat(color & 0xFF) / 255.0
-            let result = Self.classify((0.299 * red) + (0.587 * green) + (0.114 * blue))
-            passBackgroundBrightness = result
-            PassCardBrightnessCache.shared.setBrightness(result, for: passObject)
-            return
-        }
-
-        // Background image case: sample brightness from a small downsized copy of the already-decoded
-        // image (instead of re-rendering the whole styled card via ImageRenderer), off the main thread.
-        guard let image = cachedBackgroundImage else { return }
-        let object = passObject
-        Task.detached(priority: .utility) {
-            let brightness = image.resizeToFit(maxWidth: 40, maxHeight: 40).averageBrightness() ?? 0.5
-            let result = Self.classify(brightness)
-            PassCardBrightnessCache.shared.setBrightness(result, for: object)
-            await MainActor.run {
-                self.passBackgroundBrightness = result
-            }
-        }
-    }
-
-    private static func classify(_ brightness: CGFloat) -> BackgroundBrightness {
-        if brightness < 0.2 {
-            return .veryDark
-        } else if brightness > 0.2, brightness < 0.55 {
-            return .normal
-        } else {
-            return .veryLight
-        }
-    }
-}
-
-/// Caches computed background brightness per pass so that LazyVGrid recycling cells
-/// during scrolling doesn't repeatedly re-trigger expensive brightness computation.
-private final class PassCardBrightnessCache {
-    static let shared = PassCardBrightnessCache()
-
-    private struct Key: Hashable {
-        let id: UUID
-        let imageByteCount: Int
-        let backgroundColor: UInt
-    }
-
-    private var cache: [Key: BackgroundBrightness] = [:]
-    private let lock = NSLock()
-
-    private func key(for passObject: PassObject) -> Key {
-        Key(id: passObject.id, imageByteCount: passObject.backgroundImage.count, backgroundColor: passObject.backgroundColor)
-    }
-
-    func brightness(for passObject: PassObject) -> BackgroundBrightness? {
-        lock.lock(); defer { lock.unlock() }
-        return cache[key(for: passObject)]
-    }
-
-    func setBrightness(_ brightness: BackgroundBrightness, for passObject: PassObject) {
-        lock.lock(); defer { lock.unlock() }
-        cache[key(for: passObject)] = brightness
     }
 }
 
