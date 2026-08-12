@@ -23,6 +23,29 @@ class ModelData: ObservableObject {
         encode(filename, data)
     }
 
+    private var pendingEncodeTask: Task<Void, Never>?
+
+    // Debounced version of `encodePassObjects()` for hot paths that can change rapidly (e.g. every
+    // keystroke or ColorPicker drag frame while editing a pass). Encoding + writing the whole passes
+    // array (including all embedded image data) to disk is too expensive to do on every single change,
+    // so rapid-fire calls each restart a short delay and only the last one actually writes to disk.
+    func scheduleEncodePassObjects(after delay: Duration = .milliseconds(400)) {
+        pendingEncodeTask?.cancel()
+        pendingEncodeTask = Task { [weak self] in
+            try? await Task.sleep(for: delay)
+            guard !Task.isCancelled else { return }
+            self?.encodePassObjects()
+        }
+    }
+
+    // Cancels any pending debounced encode and writes immediately, so a scheduled save is never
+    // lost if the caller goes away (e.g. a view disappearing) before the delay elapses.
+    func flushPendingEncode() {
+        pendingEncodeTask?.cancel()
+        pendingEncodeTask = nil
+        encodePassObjects()
+    }
+
     func load<T: Decodable>(_ filename: String) -> T? {
         let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         let file = applicationSupportDirectory.appendingPathComponent(filename)
