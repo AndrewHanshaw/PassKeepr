@@ -19,6 +19,12 @@ struct PrimaryTextFieldGeneric: View {
     @State private var isTutorialStage0Presented = false
     @State private var isTutorialStage1Presented = false
 
+    private var displayText: String {
+        (passObject.isCurrencyFieldsOn && passObject.isPrimaryFieldCurrency)
+            ? formattedCurrencyText(text, currencyCode: passObject.currencyCode)
+            : text
+    }
+
     var body: some View {
         HStack {
             Group {
@@ -36,7 +42,7 @@ struct PrimaryTextFieldGeneric: View {
                             .padding(.top, 0)
                             .textFieldLabelModifier()
 
-                        Text(text)
+                        Text(displayText)
                             .frame(alignment: .topLeading)
                             .foregroundColor(textColor)
                             .disableAutocorrection(true)
