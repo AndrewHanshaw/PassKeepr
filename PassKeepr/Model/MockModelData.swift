@@ -105,7 +105,8 @@ private extension PassObject {
         isSecondaryFieldThreeCurrency: false,
         isAuxiliaryFieldOneCurrency: false,
         isAuxiliaryFieldTwoCurrency: false,
-        isAuxiliaryFieldThreeCurrency: false
+        isAuxiliaryFieldThreeCurrency: false,
+        isCoupon: false
     )
 
     static let preview2 = PassObject(
@@ -191,6 +192,7 @@ private extension PassObject {
         isSecondaryFieldThreeCurrency: false,
         isAuxiliaryFieldOneCurrency: false,
         isAuxiliaryFieldTwoCurrency: false,
-        isAuxiliaryFieldThreeCurrency: false
+        isAuxiliaryFieldThreeCurrency: false,
+        isCoupon: false
     )
 }
