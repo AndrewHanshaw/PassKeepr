@@ -103,6 +103,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var isAuxiliaryFieldOneCurrency: Bool
     var isAuxiliaryFieldTwoCurrency: Bool
     var isAuxiliaryFieldThreeCurrency: Bool
+    var isCoupon: Bool
 
     enum CodingKeys: String, CodingKey {
         case id, group, passIcon, passIconType, barcodeString, barcodeType, barcodeBorder
@@ -133,6 +134,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
         case isHeaderFieldOneCurrency, isHeaderFieldTwoCurrency
         case isSecondaryFieldOneCurrency, isSecondaryFieldTwoCurrency, isSecondaryFieldThreeCurrency
         case isAuxiliaryFieldOneCurrency, isAuxiliaryFieldTwoCurrency, isAuxiliaryFieldThreeCurrency
+        case isCoupon
     }
 
     static var transferRepresentation: some TransferRepresentation {
@@ -229,6 +231,7 @@ extension PassObject {
         isAuxiliaryFieldOneCurrency = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldOneCurrency) ?? false
         isAuxiliaryFieldTwoCurrency = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldTwoCurrency) ?? false
         isAuxiliaryFieldThreeCurrency = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldThreeCurrency) ?? false
+        isCoupon = try c.decodeIfPresent(Bool.self, forKey: .isCoupon) ?? false
 
         // Migration: passes saved before `imageBackgroundBrightness` existed won't have it persisted.
         // Compute it once here so older saved passes with a background image get correct contrast
@@ -350,7 +353,8 @@ extension PassObject {
             isSecondaryFieldThreeCurrency: false,
             isAuxiliaryFieldOneCurrency: false,
             isAuxiliaryFieldTwoCurrency: false,
-            isAuxiliaryFieldThreeCurrency: false
+            isAuxiliaryFieldThreeCurrency: false,
+            isCoupon: false
         )
     }
 
@@ -439,7 +443,8 @@ extension PassObject {
             isSecondaryFieldThreeCurrency: isSecondaryFieldThreeCurrency,
             isAuxiliaryFieldOneCurrency: isAuxiliaryFieldOneCurrency,
             isAuxiliaryFieldTwoCurrency: isAuxiliaryFieldTwoCurrency,
-            isAuxiliaryFieldThreeCurrency: isAuxiliaryFieldThreeCurrency
+            isAuxiliaryFieldThreeCurrency: isAuxiliaryFieldThreeCurrency,
+            isCoupon: isCoupon
         )
     }
 }

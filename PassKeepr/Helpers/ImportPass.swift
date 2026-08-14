@@ -73,6 +73,7 @@ func importPass(from pkpassURL: URL) -> (pass: PassObject?, hasNFC: Bool) {
     } else if let boardingPass = passJson["boardingPass"] as? [String: Any] {
         extractFields(from: boardingPass, into: &passObject, resolver: resolver)
     } else if let coupon = passJson["coupon"] as? [String: Any] {
+        passObject.isCoupon = true
         extractFields(from: coupon, into: &passObject, resolver: resolver)
     }
 
