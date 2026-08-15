@@ -8,35 +8,35 @@ struct EditablePassCardTopSection: View {
     @Binding var isCustomizeLogoImagePresented: Bool
 
     var body: some View {
-        GeometryReader { geometry in
+        HStack(spacing: 0) {
+            Group {
+                if passObject.logoImage != Data() {
+                    logoImage
+                } else {
+                    placeholder
+                }
+            }
+            .overlay {
+                Button(action: {
+                    isCustomizeLogoImagePresented.toggle()
+                }) {
+                    Image("custom.photo.circle.fill")
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.green, .white)
+                        .font(.system(size: 24))
+                        .offset(x: 12, y: 12)
+                        .shadow(radius: 2, x: 0, y: 0)
+                }
+                .disabled(disableButtons)
+            }
+            .zIndex(1)
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            Spacer() // Always sits in the exact middle of the view regardless of how wide the logo or header fields are.
+                .frame(width: 60)
+
             HStack(spacing: 0) {
-                Group {
-                    if passObject.logoImage != Data() {
-                        logoImage
-                    } else {
-                        placeholder
-                    }
-                }
-                .overlay {
-                    Button(action: {
-                        isCustomizeLogoImagePresented.toggle()
-                    }) {
-                        Image("custom.photo.circle.fill")
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle(.green, .white)
-                            .font(.system(size: 24))
-                            .offset(x: 12, y: 12)
-                            .shadow(radius: 2, x: 0, y: 0)
-                    }
-                    .disabled(disableButtons)
-                }
-                .frame(maxWidth: geometry.size.width * 0.64)
-                .fixedSize(horizontal: true, vertical: false)
-                .zIndex(1)
-
-                Spacer()
-
                 if passObject.isHeaderFieldTwoOn {
                     EditableHeaderTextField(backgroundBrightness: backgroundBrightness, disableButton: disableButtons, textLabel: $passObject.headerFieldTwoLabel, text: $passObject.headerFieldTwoText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor), isCurrency: passObject.isCurrencyFieldsOn && passObject.isHeaderFieldTwoCurrency, currencyCode: passObject.currencyCode)
                         .padding(.trailing, 10)
@@ -44,6 +44,7 @@ struct EditablePassCardTopSection: View {
 
                 EditableHeaderTextField(backgroundBrightness: backgroundBrightness, disableButton: disableButtons, textLabel: $passObject.headerFieldOneLabel, text: $passObject.headerFieldOneText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor), isCurrency: passObject.isCurrencyFieldsOn && passObject.isHeaderFieldOneCurrency, currencyCode: passObject.currencyCode)
             }
+            .frame(maxWidth: .infinity, alignment: .trailing)
         }
     }
 
@@ -54,12 +55,12 @@ struct EditablePassCardTopSection: View {
            uiImage.size.width < PassKitConstants.LogoImage.width && uiImage.size.height < PassKitConstants.LogoImage.height
         {
             Image(uiImage: uiImage)
-                .frame(alignment: .center)
+                .frame(alignment: .leading)
         } else if let uiImage = UIImage(data: passObject.logoImage) {
             Image(uiImage: uiImage)
                 .resizable()
                 .scaledToFit()
-                .frame(maxWidth: 140, alignment: .center)
+                .frame(alignment: .leading)
         }
     }
 
@@ -72,8 +73,8 @@ struct EditablePassCardTopSection: View {
             Text("Logo Image")
                 .foregroundColor(backgroundBrightness.overwriteForegroundColor)
                 .opacity(backgroundBrightness.overwriteOpacity)
+                .padding(.horizontal, 6)
         }
-        .aspectRatio(PassKitConstants.LogoImage.aspectRatio, contentMode: .fit)
     }
 }
 
