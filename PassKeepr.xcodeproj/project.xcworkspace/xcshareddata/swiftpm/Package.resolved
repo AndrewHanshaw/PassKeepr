@@ -1,5 +1,5 @@
 {
-  "originHash" : "2047e13db9cea9f2ac874f6e93638284b230a61ef2022d8e4e6e97cb80388680",
+  "originHash" : "e07976d7c2065c8ce773388de56ab3cbbf53b5a35c30cb60a4b6b53e8cb0b1c4",
   "pins" : [
     {
       "identity" : "locationpickerforswiftui",
@@ -22,10 +22,10 @@
     {
       "identity" : "swiftycrop",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/benedom/SwiftyCrop",
+      "location" : "https://github.com/AndrewHanshaw/SwiftyCrop/",
       "state" : {
-        "revision" : "62a88adf60eeb1cf27b9b1e18f4cb12ef4887c39",
-        "version" : "2.2.1"
+        "branch" : "dlh/iOS27",
+        "revision" : "14996ebe84198e62bc5cbb8616259e2fb2ec3153"
       }
     },
     {
