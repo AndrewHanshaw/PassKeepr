@@ -17,12 +17,12 @@
         }
       }
     },
-    "Add a Background Image" : {
+    "Add a\nBackground Image" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Добавить фоновое изображение"
+            "value" : "Добавить фоновое\nизображение"
           }
         }
       }
