@@ -181,6 +181,8 @@ func generatePass(passObject: PassObject) -> URL? {
         } else if passObject.backgroundImage != Data() {
             // If there is a background image
             passStyleString = "eventTicket"
+        } else if passObject.isCoupon {
+            passStyleString = "coupon"
         } else {
             // Default to generic
             passStyleString = "generic"
