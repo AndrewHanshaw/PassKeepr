@@ -1,13 +1,13 @@
 {
-  "originHash" : "fc690410effbf55359737cf83c0add783da3de42d2f82b5113f870d8f497bb9a",
+  "originHash" : "2047e13db9cea9f2ac874f6e93638284b230a61ef2022d8e4e6e97cb80388680",
   "pins" : [
     {
       "identity" : "locationpickerforswiftui",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alessiorubicini/LocationPickerForSwiftUI",
+      "location" : "https://github.com/AndrewHanshaw/LocationPickerForSwiftUI",
       "state" : {
-        "revision" : "d8a6f58df8e4522df4cf40790bbf1416a1b14af0",
-        "version" : "2.0.0"
+        "branch" : "dlh/iOS27",
+        "revision" : "4c18a4892528ce5f177d97e37a8101e1db64d688"
       }
     },
     {
