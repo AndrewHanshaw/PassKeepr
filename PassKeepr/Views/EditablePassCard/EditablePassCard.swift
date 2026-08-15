@@ -39,6 +39,30 @@ struct EditablePassCard: View {
         }
     }
 
+    // Mirrors the shape selection in EditablePassCardBackgroundPost27: a notched card when there's
+    // a background image, a scalloped (coupon) edge when there isn't one but isCoupon is set, and a
+    // plain rounded rectangle otherwise.
+    private var signingOverlayClipShapePost27: AnyShape {
+        if passObject.backgroundImage != Data() {
+            AnyShape(NotchedRectanglePost27())
+        } else if passObject.isCoupon {
+            AnyShape(ScallopedRectangle())
+        } else {
+            AnyShape(RoundedRectangle(cornerRadius: 10))
+        }
+    }
+
+    // Mirrors the shape selection in EditablePassCardBackground (pre-iOS 27 equivalent of the above).
+    private var signingOverlayClipShapePreiOS27: AnyShape {
+        if passObject.backgroundImage != Data() {
+            AnyShape(NotchedRectangle())
+        } else if passObject.isCoupon {
+            AnyShape(ScallopedRectangle())
+        } else {
+            AnyShape(RoundedRectangle(cornerRadius: 10))
+        }
+    }
+
     var body: some View {
         // Deriving `size` directly from the GeometryReader's own proposed size (rather than
         // measuring the rendered content after the fact via .background + @State) means there's
@@ -56,7 +80,7 @@ struct EditablePassCard: View {
     private func cardContent(size: CGSize) -> some View {
         ZStack {
             ZStack {
-                EditablePassCardBackground(backgroundImage: passObject.backgroundImage, backgroundColor: passObject.backgroundColor, backgroundBrightness: passBackgroundBrightness)
+                EditablePassCardBackground(backgroundImage: passObject.backgroundImage, backgroundColor: passObject.backgroundColor, backgroundBrightness: passBackgroundBrightness, isCoupon: passObject.isCoupon)
 
                 VStack(spacing: 0) {
                     EditablePassCardTopSection(backgroundBrightness: passBackgroundBrightness, disableButtons: isSigningPass, passObject: $passObject, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented)
@@ -177,7 +201,7 @@ struct EditablePassCard: View {
                             .tint(signingContentColor)
                             .foregroundColor(signingContentColor)
                     }
-                    .clipShape(passObject.backgroundImage == Data() ? AnyShape(RoundedRectangle(cornerRadius: 10)) : AnyShape(NotchedRectangle()))
+                    .clipShape(signingOverlayClipShapePreiOS27)
                     .overlay {
                         VStack(spacing: 8) {
                             Spacer().frame(height: 0)

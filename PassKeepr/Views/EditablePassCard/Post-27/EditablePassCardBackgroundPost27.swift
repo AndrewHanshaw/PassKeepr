@@ -6,6 +6,7 @@ struct EditablePassCardBackgroundPost27: View {
     var backgroundImage: Data
     var backgroundColor: UInt
     var backgroundBrightness: BackgroundBrightness
+    var isCoupon: Bool
 
     // Three-section vertical shading:
     // 1. Top: starts at `topOpacity` and fades to transparent by `topFadeEndLocation`.
@@ -21,6 +22,8 @@ struct EditablePassCardBackgroundPost27: View {
         ZStack {
             if backgroundImage != Data() {
                 imageBackground
+            } else if isCoupon {
+                scalloppedBackground
             } else {
                 plainColorBackground
             }
@@ -100,6 +103,30 @@ struct EditablePassCardBackgroundPost27: View {
         }
     }
 
+    private var scalloppedBackground: some View {
+        ZStack {
+            // Colored shadow for the background, similar to the native iOS effect
+            // Rounded rectangle for the shadow because scallops are too small to be visible in the shadow anyway so it's wasted compute
+            RoundedRectangle(cornerRadius: 10)
+                .fill(shadowColor) // Want to use fill here because there is no strokeborder for the shadow and using .background causes issues with opacity (it uses inverted colors vs the ColorScheme)
+                .scaleEffect(0.95, anchor: .bottom)
+                .blur(radius: 8)
+                .opacity(shadowOpacity)
+                .padding(.bottom, -4)
+
+            // "Real" background
+            ScalloppedRectangle()
+                .strokeBorder(backgroundBrightness == .veryDark ? Color.gray.opacity(0.25) : Color.black.opacity(0.1), lineWidth: 2) // strokeBorder draws the line only on the inside of the view
+                .background { // Want to use background here because .fill overwrites the strokeborder. Ok because there is no opacity modifier
+                    ScalloppedRectangle()
+                        .fill(Color(hex: backgroundColor))
+                }
+        }
+        // Render this whole subtree into a single cached texture instead of re-rasterizing the ~300-segment scalloped path
+        // on every color change. The shape geometry never changes, only the fill/stroke color
+        .drawingGroup()
+    }
+
     private var shadowColor: Color {
         switch backgroundBrightness {
         case .veryDark:
@@ -124,5 +151,5 @@ struct EditablePassCardBackgroundPost27: View {
 }
 
 #Preview {
-    EditablePassCardBackgroundPost27(backgroundImage: MockModelData().passObjects[0].backgroundImage, backgroundColor: MockModelData().passObjects[0].backgroundColor, backgroundBrightness: .normal)
+    EditablePassCardBackgroundPost27(backgroundImage: MockModelData().passObjects[0].backgroundImage, backgroundColor: MockModelData().passObjects[0].backgroundColor, backgroundBrightness: .normal, isCoupon: MockModelData().passObjects[0].isCoupon)
 }

@@ -6,11 +6,14 @@ struct EditablePassCardBackground: View {
     var backgroundImage: Data
     var backgroundColor: UInt
     var backgroundBrightness: BackgroundBrightness
+    var isCoupon: Bool
 
     var body: some View {
         ZStack {
             if backgroundImage != Data() {
                 imageBackground
+            } else if isCoupon {
+                scalloppedBackground
             } else {
                 plainColorBackground
             }
@@ -65,6 +68,27 @@ struct EditablePassCardBackground: View {
         }
     }
 
+    private var scalloppedBackground: some View {
+        ZStack {
+            // Colored shadow for the background, similar to the native iOS effect
+            // Rounded rectangle for the shadow because scallops are too small to be visible in the shadow anyway so it's wasted compute
+            RoundedRectangle(cornerRadius: 10)
+                .fill(shadowColor) // Want to use fill here because there is no strokeborder for the shadow and using .background causes issues with opacity (it uses inverted colors vs the ColorScheme)
+                .scaleEffect(0.95, anchor: .bottom)
+                .blur(radius: 8)
+                .opacity(shadowOpacity)
+                .padding(.bottom, -4)
+
+            // "Real" background
+            ScallopedRectangle()
+                .strokeBorder(backgroundBrightness == .veryDark ? Color.gray.opacity(0.25) : Color.black.opacity(0.1), lineWidth: 2) // strokeBorder draws the line only on the inside of the view
+                .background { // Want to use background here because .fill overwrites the strokeborder. Ok because there is no opacity modifier
+                    ScallopedRectangle()
+                        .fill(Color(hex: backgroundColor))
+                }
+        }
+    }
+
     private var shadowColor: Color {
         switch backgroundBrightness {
         case .veryDark:
@@ -89,5 +113,5 @@ struct EditablePassCardBackground: View {
 }
 
 #Preview {
-    EditablePassCardBackground(backgroundImage: MockModelData().passObjects[0].backgroundImage, backgroundColor: MockModelData().passObjects[0].backgroundColor, backgroundBrightness: .normal)
+    EditablePassCardBackground(backgroundImage: MockModelData().passObjects[0].backgroundImage, backgroundColor: MockModelData().passObjects[0].backgroundColor, backgroundBrightness: .normal, isCoupon: MockModelData().passObjects[0].isCoupon)
 }
