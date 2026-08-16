@@ -137,6 +137,7 @@ struct CurrencyFieldSelection: View {
                 .padding(.leading, 14)
                 .overlay(alignment: .bottom) {
                     Divider()
+                        .padding(.horizontal, 14)
                 }
                 .transition(.opacity)
 
@@ -145,10 +146,13 @@ struct CurrencyFieldSelection: View {
                         .overlay(alignment: .bottom) {
                             if index != fieldRows.count - 1 {
                                 Divider()
+                                    .padding(.horizontal, 14)
                             }
                         }
                         .disabled(disableControl)
                         .transition(.opacity)
+                        .padding(.vertical, 1)
+                        .padding(.bottom, index == fieldRows.count - 1 ? 4 : 0)
                 }
             }
         }
@@ -163,8 +167,8 @@ struct CurrencyFieldSelection: View {
     CurrencyFieldSelection(passObject: .constant(MockModelData().passObjects[0]), disableControl: false)
 }
 
-/// A tappable list row that shows a trailing checkmark when selected, in place of a Toggle switch —
-/// matching the multi-select checklist style used throughout iOS Settings (e.g. Sounds, Tags).
+// Tappable list row that shows a trailing checkmark when selected
+// Matches the native multi-select checklist style
 private struct CurrencyFieldRow: View {
     let genericName: String
     let userLabel: String
@@ -188,6 +192,7 @@ private struct CurrencyFieldRow: View {
                 Image(systemName: "checkmark")
                     .foregroundStyle(.tint)
                     .opacity(isSelected ? 1 : 0)
+                    .animation(.easeInOut(duration: 0.05), value: isSelected)
             }
             .contentShape(Rectangle())
         }
