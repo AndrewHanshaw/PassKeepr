@@ -29,21 +29,22 @@ struct AuxiliaryTextField: View {
                         .foregroundColor(labelColor)
                         .disableAutocorrection(true)
                         .textCase(.uppercase)
-                        .font(.system(size: 11))
+                        .font(.system(size: 12))
                         .fontWeight(.semibold)
                         .padding(0)
                         .padding(.top, -2)
                         .textFieldLabelModifier()
 
                     Text(displayText)
-                        .lineLimit(1)
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2) // iOS 27 only ?
                         .frame(maxHeight: .infinity, alignment: .bottom)
                         .foregroundColor(textColor)
                         .disableAutocorrection(true)
                         .font(.system(size: 26))
                         .fontWeight(.light)
                         .padding(0)
-                        .minimumScaleFactor(0.34)
+                        .minimumScaleFactor(0.5)
                 }
             } else {
                 ZStack {
