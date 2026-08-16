@@ -59,6 +59,8 @@
 		BA7F036D2E9ADB63004E9610 /* BarcodeTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7F036C2E9ADB58004E9610 /* BarcodeTypePicker.swift */; };
 		BA825F0A3022DE0E00232748 /* iOS27Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA825F093022DE0E00232748 /* iOS27Helpers.swift */; };
 		BA825F0C302950A800232748 /* CustomizeIconImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA825F0B302950A800232748 /* CustomizeIconImage.swift */; };
+		BA825F723030E94C00232748 /* NotchedRectanglePost27.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA825F6E3030E94C00232748 /* NotchedRectanglePost27.swift */; };
+		BA825F733030E94C00232748 /* NotchedRectanglePre27.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA825F6F3030E94C00232748 /* NotchedRectanglePre27.swift */; };
 		BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82A7922B84424900279103 /* InvalidBarcodeView.swift */; };
 		BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA863A162B6621B6008746C1 /* ScannerView.swift */; };
 		BA8671DF2B951FD700F20608 /* PDF417View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8671DE2B951FD700F20608 /* PDF417View.swift */; };
@@ -199,6 +201,8 @@
 		BA7F036C2E9ADB58004E9610 /* BarcodeTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeTypePicker.swift; sourceTree = "<group>"; };
 		BA825F093022DE0E00232748 /* iOS27Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS27Helpers.swift; sourceTree = "<group>"; };
 		BA825F0B302950A800232748 /* CustomizeIconImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeIconImage.swift; sourceTree = "<group>"; };
+		BA825F6E3030E94C00232748 /* NotchedRectanglePost27.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchedRectanglePost27.swift; sourceTree = "<group>"; };
+		BA825F6F3030E94C00232748 /* NotchedRectanglePre27.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchedRectanglePre27.swift; sourceTree = "<group>"; };
 		BA82A7922B84424900279103 /* InvalidBarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidBarcodeView.swift; sourceTree = "<group>"; };
 		BA863A162B6621B6008746C1 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		BA8671DE2B951FD700F20608 /* PDF417View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDF417View.swift; sourceTree = "<group>"; };
@@ -322,6 +326,7 @@
 				BA15A2C92CE0002800ECD183 /* Info.plist */,
 				BA7C075C2B6C8B1200F09154 /* BarcodeGenerators */,
 				BABAADDC2B0AB8150014C73B /* Helpers */,
+				BA825F713030E94C00232748 /* Shapes */,
 				BABAADDB2B0A6C190014C73B /* Views */,
 				BABAADD42B0A6BAA0014C73B /* Resources */,
 				BABAADCF2B0A69950014C73B /* Model */,
@@ -401,6 +406,15 @@ BACF00012FE1000000000001 /* CurrencyFieldSelection.swift */,
 				BA82A7922B84424900279103 /* InvalidBarcodeView.swift */,
 			);
 			path = BarcodeGenerators;
+			sourceTree = "<group>";
+		};
+		BA825F713030E94C00232748 /* Shapes */ = {
+			isa = PBXGroup;
+			children = (
+				BA825F6E3030E94C00232748 /* NotchedRectanglePost27.swift */,
+				BA825F6F3030E94C00232748 /* NotchedRectanglePre27.swift */,
+			);
+			path = Shapes;
 			sourceTree = "<group>";
 		};
 		BA8671CD2B95105500F20608 /* Metal */ = {
@@ -737,6 +751,8 @@ BACF00042FE1000000000004 /* FormatCurrencyText.swift in Sources */,
 				BA12A7312F66086800B55431 /* ThumbnailImageView.swift in Sources */,
 				BA6DACF72D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift in Sources */,
 				BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */,
+				BA825F723030E94C00232748 /* NotchedRectanglePost27.swift in Sources */,
+				BA825F733030E94C00232748 /* NotchedRectanglePre27.swift in Sources */,
 				BA0018C82FD6658700B617FE /* PassGroupPicker.swift in Sources */,
 				BA1BACD42B463FCD00F86890 /* EditPass.swift in Sources */,
 				BA12A7332F66089600B55431 /* CustomizeThumbnailImage.swift in Sources */,
