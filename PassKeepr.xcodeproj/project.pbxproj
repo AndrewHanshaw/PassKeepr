@@ -48,6 +48,7 @@
 		BA5FBE9A2F2F07BB00C7AA2A /* ImportPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5FBE992F2F07BB00C7AA2A /* ImportPass.swift */; };
 		BA65958F2F79BB350091BB29 /* VCardQrCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA65958E2F79BB350091BB29 /* VCardQrCode.swift */; };
 		BA6595912F79BB3D0091BB29 /* WifiQrCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6595902F79BB3D0091BB29 /* WifiQrCode.swift */; };
+		BA690F7130317111008E6473 /* ScallopedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA690F7030317111008E6473 /* ScallopedRectangle.swift */; };
 		BA6D4FE12B71C60400CB6ACA /* Code39View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D4FE02B71C60400CB6ACA /* Code39View.swift */; };
 		BA6D6C682CE83628007D4C9A /* CustomizeLogoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */; };
 		BA6DACF72D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA6DACF62D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift */; };
@@ -190,6 +191,7 @@
 		BA5FBE992F2F07BB00C7AA2A /* ImportPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportPass.swift; sourceTree = "<group>"; };
 		BA65958E2F79BB350091BB29 /* VCardQrCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VCardQrCode.swift; sourceTree = "<group>"; };
 		BA6595902F79BB3D0091BB29 /* WifiQrCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiQrCode.swift; sourceTree = "<group>"; };
+		BA690F7030317111008E6473 /* ScallopedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScallopedRectangle.swift; sourceTree = "<group>"; };
 		BA6D4FE02B71C60400CB6ACA /* Code39View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code39View.swift; sourceTree = "<group>"; };
 		BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeLogoImage.swift; sourceTree = "<group>"; };
 		BA6DACF62D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendVNBarcodeSymbology.swift; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@ BACF00012FE1000000000001 /* CurrencyFieldSelection.swift */,
 		BA825F713030E94C00232748 /* Shapes */ = {
 			isa = PBXGroup;
 			children = (
+				BA690F7030317111008E6473 /* ScallopedRectangle.swift */,
 				BA825F6E3030E94C00232748 /* NotchedRectanglePost27.swift */,
 				BA825F6F3030E94C00232748 /* NotchedRectanglePre27.swift */,
 			);
@@ -750,6 +753,7 @@ BACF00042FE1000000000004 /* FormatCurrencyText.swift in Sources */,
 				BAED06682D32158C00D6789E /* GetBarcodeFromImage.swift in Sources */,
 				BA12A7312F66086800B55431 /* ThumbnailImageView.swift in Sources */,
 				BA6DACF72D394C1400C2FD90 /* ExtendVNBarcodeSymbology.swift in Sources */,
+				BA690F7130317111008E6473 /* ScallopedRectangle.swift in Sources */,
 				BA7A4A252B65B485006F06DF /* ExtendColor.swift in Sources */,
 				BA825F723030E94C00232748 /* NotchedRectanglePost27.swift in Sources */,
 				BA825F733030E94C00232748 /* NotchedRectanglePre27.swift in Sources */,
