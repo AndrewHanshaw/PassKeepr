@@ -60,6 +60,7 @@
 		BA825F0C302950A800232748 /* CustomizeIconImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA825F0B302950A800232748 /* CustomizeIconImage.swift */; };
 		BA825F723030E94C00232748 /* NotchedRectanglePost27.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA825F6E3030E94C00232748 /* NotchedRectanglePost27.swift */; };
 		BA825F733030E94C00232748 /* NotchedRectanglePre27.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA825F6F3030E94C00232748 /* NotchedRectanglePre27.swift */; };
+		BA825F763030EA1E00232748 /* EditablePassCardBackgroundPost27.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA825F753030EA1E00232748 /* EditablePassCardBackgroundPost27.swift */; };
 		BA825F793030EA8A00232748 /* LocationPicker in Frameworks */ = {isa = PBXBuildFile; productRef = BA825F783030EA8A00232748 /* LocationPicker */; };
 		BA825F7C3030EB4B00232748 /* SwiftyCrop in Frameworks */ = {isa = PBXBuildFile; productRef = BA825F7B3030EB4B00232748 /* SwiftyCrop */; };
 		BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA82A7922B84424900279103 /* InvalidBarcodeView.swift */; };
@@ -205,6 +206,7 @@
 		BA825F0B302950A800232748 /* CustomizeIconImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeIconImage.swift; sourceTree = "<group>"; };
 		BA825F6E3030E94C00232748 /* NotchedRectanglePost27.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchedRectanglePost27.swift; sourceTree = "<group>"; };
 		BA825F6F3030E94C00232748 /* NotchedRectanglePre27.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotchedRectanglePre27.swift; sourceTree = "<group>"; };
+		BA825F753030EA1E00232748 /* EditablePassCardBackgroundPost27.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCardBackgroundPost27.swift; sourceTree = "<group>"; };
 		BA82A7922B84424900279103 /* InvalidBarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidBarcodeView.swift; sourceTree = "<group>"; };
 		BA863A162B6621B6008746C1 /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		BA8671DE2B951FD700F20608 /* PDF417View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDF417View.swift; sourceTree = "<group>"; };
@@ -379,7 +381,7 @@
 			children = (
 				BA825F0B302950A800232748 /* CustomizeIconImage.swift */,
 				BA11183A2FDE3A6D00501423 /* LocationSelection.swift */,
-BACF00012FE1000000000001 /* CurrencyFieldSelection.swift */,
+				BACF00012FE1000000000001 /* CurrencyFieldSelection.swift */,
 				BAAD44A02FDE2CBE000F71E1 /* ExpirationDatePicker.swift */,
 				BA0018C72FD6658700B617FE /* PassGroupPicker.swift */,
 				BA6595902F79BB3D0091BB29 /* WifiQrCode.swift */,
@@ -447,6 +449,7 @@ BACF00012FE1000000000001 /* CurrencyFieldSelection.swift */,
 		BAA53E1A2D0E5443004A175A /* EditablePassCard */ = {
 			isa = PBXGroup;
 			children = (
+				BA825F753030EA1E00232748 /* EditablePassCardBackgroundPost27.swift */,
 				BA12A7362F68EF3000B55431 /* AuxiliaryTextField.swift */,
 				BA12A7302F66086800B55431 /* ThumbnailImageView.swift */,
 				BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */,
@@ -515,7 +518,7 @@ BACF00012FE1000000000001 /* CurrencyFieldSelection.swift */,
 				BAE0C1542F5E3627001CC4DB /* InteractiveDismissDisabled.swift */,
 				BA0C54E32F6505B500DC2C7F /* PassKitConstants.swift */,
 				BA5FBE992F2F07BB00C7AA2A /* ImportPass.swift */,
-BACF00032FE1000000000003 /* FormatCurrencyText.swift */,
+				BACF00032FE1000000000003 /* FormatCurrencyText.swift */,
 				BA7F036A2E9AC4F2004E9610 /* iOS26Helpers.swift */,
 				BA885AE72CF2A01C0084FC25 /* TextFieldDynamicWidth.swift */,
 				BA1515B82CE2BC6900DB1799 /* MeasureViewSize.swift */,
@@ -736,11 +739,12 @@ BACF00032FE1000000000003 /* FormatCurrencyText.swift */,
 				BA7A4A212B65ABE9006F06DF /* CodeScanner.swift in Sources */,
 				BAF5EF952D09542200259BEA /* CustomizeQrCode.swift in Sources */,
 				BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */,
+				BA825F763030EA1E00232748 /* EditablePassCardBackgroundPost27.swift in Sources */,
 				BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */,
 				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
 				BA11183B2FDE3A6D00501423 /* LocationSelection.swift in Sources */,
-BACF00022FE1000000000002 /* CurrencyFieldSelection.swift in Sources */,
-BACF00042FE1000000000004 /* FormatCurrencyText.swift in Sources */,
+				BACF00022FE1000000000002 /* CurrencyFieldSelection.swift in Sources */,
+				BACF00042FE1000000000004 /* FormatCurrencyText.swift in Sources */,
 				BAFF19F53009CA2200148BA2 /* FancyNavTitleScrollView.swift in Sources */,
 				BA0F98232CE2BAFD00F76501 /* ExtendUIImage.swift in Sources */,
 				BA82A7932B84424900279103 /* InvalidBarcodeView.swift in Sources */,
