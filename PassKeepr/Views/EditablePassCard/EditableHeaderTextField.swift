@@ -48,12 +48,12 @@ struct EditableHeaderTextField: View {
                         .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
                         .foregroundColor(backgroundBrightness.overwriteForegroundColor)
                         .opacity(backgroundBrightness.overwriteOpacityRoundedRectangle)
-                        .frame(maxWidth: .infinity)
                     Text("Header Field")
                         .multilineTextAlignment(.center)
                         .foregroundColor(backgroundBrightness.overwriteForegroundColor)
                         .opacity(backgroundBrightness.overwriteOpacity)
                 }
+                .frame(maxWidth: .infinity)
             }
         }
         .overlay {
