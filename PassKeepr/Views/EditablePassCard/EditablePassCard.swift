@@ -39,7 +39,7 @@ struct EditablePassCard: View {
         }
     }
 
-    // Mirrors the shape selection in EditablePassCardBackgroundPost27: a notched card when there's
+    // Mirrors the shape selection in EditablePassCardBackground: a notched card when there's
     // a background image, a scalloped (coupon) edge when there isn't one but isCoupon is set, and a
     // plain rounded rectangle otherwise.
     private var signingOverlayClipShapePost27: AnyShape {
@@ -84,7 +84,7 @@ struct EditablePassCard: View {
     private func cardContentPostiOS27(size: CGSize) -> some View {
         ZStack {
             ZStack {
-                EditablePassCardBackgroundPost27(backgroundImage: passObject.backgroundImage, backgroundColor: passObject.backgroundColor, backgroundBrightness: passBackgroundBrightness, isCoupon: passObject.isCoupon)
+                EditablePassCardBackground(backgroundImage: passObject.backgroundImage, backgroundColor: passObject.backgroundColor, backgroundBrightness: passBackgroundBrightness, isCoupon: passObject.isCoupon)
 
                 VStack(spacing: 0) {
                     EditablePassCardTopSection(backgroundBrightness: passBackgroundBrightness, disableButtons: isSigningPass, passObject: $passObject, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented)
