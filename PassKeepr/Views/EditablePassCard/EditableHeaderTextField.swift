@@ -29,10 +29,9 @@ struct EditableHeaderTextField: View {
                         .foregroundColor(labelColor)
                         .disableAutocorrection(true)
                         .textCase(.uppercase)
-                        .font(.system(size: 11))
+                        .font(.system(size: 12))
                         .fontWeight(.semibold)
                         .padding(0)
-                        .textFieldLabelModifier()
 
                     Text(displayText)
                         .lineLimit(1)
@@ -40,7 +39,8 @@ struct EditableHeaderTextField: View {
                         .foregroundColor(textColor)
                         .disableAutocorrection(true)
                         .padding(0)
-                        .minimumScaleFactor(0.34) // no font size specified. Just let it be as large as possible and shrink it if needed
+                        .minimumScaleFactor(0.5) // no font size specified. Just let it be as large as possible and shrink it if needed
+                        .textFieldLabelModifier()
                 }
             } else {
                 ZStack {
