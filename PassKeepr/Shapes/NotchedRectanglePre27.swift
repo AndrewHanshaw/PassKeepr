@@ -1,15 +1,19 @@
 import SwiftUI
 
 struct NotchedRectangle: InsettableShape {
-    var notchRadius: CGFloat = 35
+    var notchRadiusRatio: CGFloat = 0.18
     var insetAmount: CGFloat = 0
-    var verticalOffset: CGFloat = 20
+    var verticalOffsetRatio: CGFloat = 0.13
 
     func path(in rect: CGRect) -> Path {
         var path = Path()
 
         // Apply inset to the rectangle
         let insetRect = rect.insetBy(dx: insetAmount, dy: insetAmount)
+
+        // Calculate notch dimensions based on shape width
+        let notchRadius = rect.width * notchRadiusRatio
+        let verticalOffset = rect.width * verticalOffsetRatio
 
         // Calculate notch center position
         let notchCenterX = insetRect.minX + (insetRect.width / 2)
