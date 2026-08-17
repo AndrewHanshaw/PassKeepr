@@ -3,17 +3,13 @@ import SwiftUI
 struct PassCard: View {
     @EnvironmentObject var modelData: ModelData
     @EnvironmentObject var passSigner: pkPassSigner
-    @Environment(\.colorScheme) var colorScheme
     @State private var size: CGSize = CGSizeZero
     @State private var showAlert = false
     @State private var alertMessage = ""
-    @State private var cachedBackgroundImage: UIImage?
     var passObject: PassObject
 
-    private var passBackgroundBrightness: BackgroundBrightness { passObject.backgroundBrightness }
-
     var body: some View {
-        passCardBackground
+        PassCardBackgroundView(passObject: passObject, notchRadius: 30, verticalOffset: 22, scallopsPerEdge: 30)
             .background(GeometryReader { geometry in
                 Color.clear
                     .onAppear {
@@ -25,12 +21,6 @@ struct PassCard: View {
                         }
                     }
             })
-            .onChange(of: passObject.backgroundImage) { _, newValue in
-                decodeBackgroundImage(newValue)
-            }
-            .onAppear {
-                decodeBackgroundImage(passObject.backgroundImage)
-            }
             .overlay(
                 VStack {
                     PassCardTopSection(passObject: passObject)
@@ -177,167 +167,6 @@ struct PassCard: View {
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
             }
-    }
-
-    private var passCardBackground: some View {
-        ZStack {
-            backgroundShape
-                .fill(shadowColor) // Want to use fill here because there is no strokeborder for the shadow and using .background causes issues with opacity (it uses inverted colors vs the ColorScheme)
-                .scaleEffect(0.95, anchor: .bottom)
-                .blur(radius: 8)
-                .opacity(shadowOpacity)
-                .padding(.bottom, -4)
-
-            if passObject.backgroundImage != Data() {
-                imageBackground
-            } else if passObject.isCoupon {
-                scallopedBackground
-            } else {
-                plainColorBackground
-            }
-
-            gradientOverlay
-        }
-    }
-
-    private var gradientOverlay: some View {
-        LinearGradient(
-            stops: [
-                .init(color: Color.black.opacity(0.04), location: 0),
-                .init(color: Color.black.opacity(0), location: 0.24),
-                .init(color: Color.black.opacity(0), location: 0.45),
-                .init(color: Color.black.opacity(0.085), location: 1),
-            ],
-            startPoint: .top,
-            endPoint: .bottom
-        )
-        .clipShape(backgroundShape)
-        .allowsHitTesting(false)
-    }
-
-    // Reduced notch/scallop sizes to match this card's smaller rendered width (~52% of the full editable card)
-    private var cardNotch: NotchedRectanglePost27 { NotchedRectanglePost27(notchRadius: 30, verticalOffset: 22) }
-    private var cardScallop: ScallopedRectangle { ScallopedRectangle(scallopsPerEdge: 30) }
-
-    // Shared by both the shadow (filled) and the gradient overlay (used as a clip shape) so the
-    // two always agree on which silhouette - notched, scalloped, or plain rounded - to use.
-    private var backgroundShape: AnyShape {
-        if passObject.backgroundImage != Data() {
-            AnyShape(cardNotch)
-        } else if passObject.isCoupon {
-            AnyShape(cardScallop)
-        } else {
-            AnyShape(RoundedRectangle(cornerRadius: 10))
-        }
-    }
-
-    private var imageBackground: some View {
-        ZStack {
-            // Border - the same photo, tinted darker/lighter, so the border reads as an edge of the
-            // actual image instead of a flat, unrelated color.
-            cardNotch
-                .fill(Color.clear)
-                .background(
-                    cachedBackgroundImage != nil ?
-                        AnyView(
-                            Image(uiImage: cachedBackgroundImage!)
-                                .resizable()
-                                .scaleEffect(1.05)
-                                .blur(radius: 6)
-                                .overlay(imageBorderTint)
-                                .clipShape(cardNotch)
-                        )
-                        : AnyView(Color.clear)
-                )
-
-            // "Real" background
-            cardNotch
-                .inset(by: 2)
-                .fill(Color.clear)
-                .background(
-                    cachedBackgroundImage != nil ?
-                        AnyView(
-                            Image(uiImage: cachedBackgroundImage!)
-                                .resizable()
-                                .scaleEffect(1.05) // Scale up the image slightly to prevent a semitransparent halo around the image
-                                .blur(radius: 6)
-                                .clipShape(cardNotch.inset(by: 2))
-                        )
-                        : AnyView(Color.clear)
-                )
-        }
-    }
-
-    private var plainColorBackground: some View {
-        ZStack {
-            // Border
-            RoundedRectangle(cornerRadius: 10)
-                .fill(borderColor)
-
-            // "Real" background
-            RoundedRectangle(cornerRadius: 10)
-                .inset(by: 2)
-                .fill(Color(hex: passObject.backgroundColor))
-        }
-    }
-
-    private var scallopedBackground: some View {
-        ZStack {
-            // Border
-            cardScallop
-                .fill(borderColor)
-
-            // "Real" background
-            cardScallop
-                .inset(by: 2)
-                .fill(Color(hex: passObject.backgroundColor))
-        }
-        // Render this whole subtree into a single cached texture instead of re-rasterizing the ~300-segment scalloped path
-        // on every color change. The shape geometry never changes, only the fill/stroke color
-        .drawingGroup()
-    }
-
-    // A slightly darker (or, for very dark backgrounds, slightly lighter) shade of the pass's own
-    // background color, so the plain and scalloped borders read as an edge of the same material
-    // instead of an unrelated gray/black outline.
-    private var borderColor: Color {
-        Color(hex: passObject.backgroundColor).adjustingBrightness(by: passBackgroundBrightness == .veryDark ? 0.15 : -0.12)
-    }
-
-    // Darkens (or, for very dark backgrounds, lightens) the border layer's copy of the background
-    // photo, so the notched border reads as an edge of the same photo instead of a flat, unrelated
-    // color.
-    private var imageBorderTint: Color {
-        passBackgroundBrightness == .veryDark ? Color.white.opacity(0.18) : Color.black.opacity(0.18)
-    }
-
-    // Decodes the background image (if any) for rendering. Brightness is a cheap derived property
-    // read straight from `passObject.backgroundBrightness` (see PassObject.swift) — it's precomputed
-    // whenever the background is actually changed, so there's nothing to compute here at render time.
-    private func decodeBackgroundImage(_ data: Data) {
-        cachedBackgroundImage = data == Data() ? nil : UIImage(data: data)
-    }
-
-    private var shadowColor: Color {
-        switch passBackgroundBrightness {
-        case .veryDark:
-            return colorScheme == .light ? Color(hex: passObject.backgroundColor) : Color.gray.opacity(0.6)
-        case .normal:
-            return Color(hex: passObject.backgroundColor)
-        case .veryLight:
-            return colorScheme == .light ? Color.gray : Color(hex: passObject.backgroundColor).opacity(0.6)
-        }
-    }
-
-    private var shadowOpacity: Double {
-        switch passBackgroundBrightness {
-        case .veryDark:
-            return colorScheme == .light ? 0.5 : 0.4
-        case .normal:
-            return colorScheme == .light ? 0.5 : 0.6
-        case .veryLight:
-            return 0.4
-        }
     }
 }
 
