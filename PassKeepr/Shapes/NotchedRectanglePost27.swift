@@ -14,22 +14,35 @@ struct NotchedRectanglePost27: InsettableShape {
         let insetRect = rect.insetBy(dx: insetAmount, dy: insetAmount)
 
         // Calculate notch center position
+        // The center X is the horizontal midpoint — inset is symmetric so both rect and insetRect give the same value.
+        // The center Y is anchored to the *original* rect top (not insetRect.minY) so the notch center doesn't
+        // drift as insetAmount increases. Keeping it fixed is required for a true parallel offset of the arc.
         let notchCenterX = insetRect.minX + (insetRect.width / 2)
-        let notchCenterY = insetRect.minY - verticalOffset // pull the center of the circle UP
+        let notchCenterY = rect.minY - verticalOffset // pull the center of the circle UP
 
-        // Calculate inset notch radius
+        // For this concave notch the inward normal at any arc point points *away* from the notch center
+        // (toward the card body below), so a parallel inward offset of `d` maps every arc point to the
+        // same circle but with radius `R + d`. The center must not shift with the inset — the original
+        // code moved it down by insetAmount AND enlarged the radius, doubling the offset at the bottom
+        // of the notch and producing a stroke that looked thicker there.
         let insetNotchRadius = notchRadius + insetAmount
 
         // Radius of the small fillets where the notch meets the flat top edge
         let notchFilletRadius = max(0, notchCornerRadius)
 
-        // Each fillet's center sits `notchFilletRadius` below the top edge (so it's tangent to
-        // the edge) and `insetNotchRadius + notchFilletRadius` away from the notch's own center
-        // (so it's externally tangent to the notch's circle). Solving those two constraints with
-        // the Pythagorean theorem gives its horizontal offset from the notch center.
+        // Each fillet's center sits `notchFilletRadius` below the inset top edge (tangent to it)
+        // and `insetNotchRadius + notchFilletRadius` away from the notch's own center
+        // (externally tangent to the notch circle). Solving those two constraints with
+        // the Pythagorean theorem gives the horizontal offset from the notch center.
         // See `docs/NotchedRectangleMath.pdf` for a visual explanation of the base (unfilleted) math.
+        //
+        // Because the notch center is anchored to the original rect top while the fillet center is
+        // anchored to the inset top edge, the vertical separation between them grows with insetAmount:
+        //   notch center y  = rect.minY   - verticalOffset
+        //   fillet center y = insetRect.minY + notchFilletRadius = rect.minY + insetAmount + notchFilletRadius
+        //   vertical gap    = verticalOffset + insetAmount + notchFilletRadius
         let filletCenterDistance = insetNotchRadius + notchFilletRadius
-        let filletVerticalOffset = verticalOffset + notchFilletRadius
+        let filletVerticalOffset = verticalOffset + insetAmount + notchFilletRadius
         let filletHalfSpan = sqrt(pow(filletCenterDistance, 2) - pow(filletVerticalOffset, 2))
 
         let leftFilletCenter = CGPoint(x: notchCenterX - filletHalfSpan, y: insetRect.minY + notchFilletRadius)
@@ -45,7 +58,7 @@ struct NotchedRectanglePost27: InsettableShape {
         let rightFilletToNotchAngle = Angle(radians: atan2(notchCenterY - rightFilletCenter.y, notchCenterX - rightFilletCenter.x))
 
         // Clamp the corner radius so it never exceeds half of the rect's smallest dimension
-        let r = max(0, min(cornerRadius, min(insetRect.width, insetRect.height) / 2))
+        let r = max(0, min(cornerRadius - insetAmount, min(insetRect.width, insetRect.height) / 2))
 
         // Start on the top edge, just after the (rounded) top-left corner
         path.move(to: CGPoint(x: insetRect.minX + r, y: insetRect.minY))
