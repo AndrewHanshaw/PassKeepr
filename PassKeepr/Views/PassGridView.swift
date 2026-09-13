@@ -43,28 +43,7 @@ struct PassGridView: View {
     var body: some View {
         ZStack {
             ScrollView {
-                LazyVGrid(columns: columns, spacing: PADDING) {
-                    ForEach(orderedPassIDs, id: \.self) { id in
-                        passCell(for: id)
-                    }
-                }
-                .padding(PADDING)
-                .onAppear {
-                    // initial order = current model order
-                    dragState.orderIDs = modelData.passObjects.map(\.id)
-                }
-                .onChange(of: modelData.passObjects.count) { _, _ in
-                    // Keep orderIDs in sync when items are added/removed:
-                    // remove missing ids, append newly added ids to the end
-                    dragProperties.draggedID = nil
-                    let modelIDs = Set(modelData.passObjects.map(\.id))
-                    var ids = dragState.orderIDs
-                    ids.removeAll { id in !modelIDs.contains(id) }
-                    let existing = Set(ids)
-                    let newIDs = modelData.passObjects.map(\.id).filter { !existing.contains($0) }
-                    ids.append(contentsOf: newIDs)
-                    dragState.orderIDs = ids
-                }
+                passGrid
             }
             .softTopBottomScrollEdgeEffectStyleIfAvailable()
             .scrollDisabled(modelData.passObjects.isEmpty)
@@ -206,6 +185,32 @@ struct PassGridView: View {
                        .padding(.trailing, 30)
                        .offset(x: 10, y: 10)
             }
+        }
+    }
+
+    @ViewBuilder
+    private var passGrid: some View {
+        LazyVGrid(columns: columns, spacing: PADDING) {
+            ForEach(orderedPassIDs, id: \.self) { id in
+                passCell(for: id)
+            }
+        }
+        .padding(PADDING)
+        .onAppear {
+            // initial order = current model order
+            dragState.orderIDs = modelData.passObjects.map(\.id)
+        }
+        .onChange(of: modelData.passObjects.count) { _, _ in
+            // Keep orderIDs in sync when items are added/removed:
+            // remove missing ids, append newly added ids to the end
+            dragProperties.draggedID = nil
+            let modelIDs = Set(modelData.passObjects.map(\.id))
+            var ids = dragState.orderIDs
+            ids.removeAll { id in !modelIDs.contains(id) }
+            let existing = Set(ids)
+            let newIDs = modelData.passObjects.map(\.id).filter { !existing.contains($0) }
+            ids.append(contentsOf: newIDs)
+            dragState.orderIDs = ids
         }
     }
 
