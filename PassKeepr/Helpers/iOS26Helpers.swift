@@ -1,21 +1,5 @@
 import SwiftUI
 
-struct SoftTopBottomScrollEdgeEffectModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        if #available(iOS 26.0, *) {
-            content.scrollEdgeEffectStyle(.soft, for: [.top, .bottom])
-        } else {
-            content
-        }
-    }
-}
-
-extension View {
-    func softTopBottomScrollEdgeEffectStyleIfAvailable() -> some View {
-        modifier(SoftTopBottomScrollEdgeEffectModifier())
-    }
-}
-
 struct ListSectionBackgroundModifier: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
 
@@ -172,7 +156,7 @@ extension View {
         if #available(iOS 26.0, *) {
             self.sheet(item: item, content: content)
         } else {
-            self.fullScreenCover(item: item, content: content)
+            fullScreenCover(item: item, content: content)
         }
     }
 }
