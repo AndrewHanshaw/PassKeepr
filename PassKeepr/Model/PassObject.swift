@@ -78,6 +78,17 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
     var hasExpirationDate: Bool
     var expirationDate: Date
     var locations: [PassLocation]
+    var isCurrencyFieldsOn: Bool
+    var currencyCode: String
+    var isPrimaryFieldCurrency: Bool
+    var isHeaderFieldOneCurrency: Bool
+    var isHeaderFieldTwoCurrency: Bool
+    var isSecondaryFieldOneCurrency: Bool
+    var isSecondaryFieldTwoCurrency: Bool
+    var isSecondaryFieldThreeCurrency: Bool
+    var isAuxiliaryFieldOneCurrency: Bool
+    var isAuxiliaryFieldTwoCurrency: Bool
+    var isAuxiliaryFieldThreeCurrency: Bool
 
     enum CodingKeys: String, CodingKey {
         case id, group, passIcon, passIconType, barcodeString, barcodeType, barcodeBorder
@@ -103,6 +114,11 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
         case vcardURL, vcardAddress, vcardSocial, vcardHasBirthday, vcardBirthday, vcardCustomFields
         case hasExpirationDate, expirationDate
         case locations
+        case isCurrencyFieldsOn, currencyCode
+        case isPrimaryFieldCurrency
+        case isHeaderFieldOneCurrency, isHeaderFieldTwoCurrency
+        case isSecondaryFieldOneCurrency, isSecondaryFieldTwoCurrency, isSecondaryFieldThreeCurrency
+        case isAuxiliaryFieldOneCurrency, isAuxiliaryFieldTwoCurrency, isAuxiliaryFieldThreeCurrency
     }
 
     static var transferRepresentation: some TransferRepresentation {
@@ -187,6 +203,17 @@ extension PassObject {
         hasExpirationDate = try c.decodeIfPresent(Bool.self, forKey: .hasExpirationDate) ?? false
         expirationDate = try c.decodeIfPresent(Date.self, forKey: .expirationDate) ?? Date()
         locations = try c.decodeIfPresent([PassLocation].self, forKey: .locations) ?? []
+        isCurrencyFieldsOn = try c.decodeIfPresent(Bool.self, forKey: .isCurrencyFieldsOn) ?? false
+        currencyCode = try c.decodeIfPresent(String.self, forKey: .currencyCode) ?? "USD"
+        isPrimaryFieldCurrency = try c.decodeIfPresent(Bool.self, forKey: .isPrimaryFieldCurrency) ?? false
+        isHeaderFieldOneCurrency = try c.decodeIfPresent(Bool.self, forKey: .isHeaderFieldOneCurrency) ?? false
+        isHeaderFieldTwoCurrency = try c.decodeIfPresent(Bool.self, forKey: .isHeaderFieldTwoCurrency) ?? false
+        isSecondaryFieldOneCurrency = try c.decodeIfPresent(Bool.self, forKey: .isSecondaryFieldOneCurrency) ?? false
+        isSecondaryFieldTwoCurrency = try c.decodeIfPresent(Bool.self, forKey: .isSecondaryFieldTwoCurrency) ?? false
+        isSecondaryFieldThreeCurrency = try c.decodeIfPresent(Bool.self, forKey: .isSecondaryFieldThreeCurrency) ?? false
+        isAuxiliaryFieldOneCurrency = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldOneCurrency) ?? false
+        isAuxiliaryFieldTwoCurrency = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldTwoCurrency) ?? false
+        isAuxiliaryFieldThreeCurrency = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldThreeCurrency) ?? false
     }
 }
 
@@ -266,7 +293,18 @@ extension PassObject {
             vcardCustomFields: [],
             hasExpirationDate: false,
             expirationDate: Date(),
-            locations: []
+            locations: [],
+            isCurrencyFieldsOn: false,
+            currencyCode: "USD",
+            isPrimaryFieldCurrency: false,
+            isHeaderFieldOneCurrency: false,
+            isHeaderFieldTwoCurrency: false,
+            isSecondaryFieldOneCurrency: false,
+            isSecondaryFieldTwoCurrency: false,
+            isSecondaryFieldThreeCurrency: false,
+            isAuxiliaryFieldOneCurrency: false,
+            isAuxiliaryFieldTwoCurrency: false,
+            isAuxiliaryFieldThreeCurrency: false
         )
     }
 
@@ -343,7 +381,18 @@ extension PassObject {
             vcardCustomFields: vcardCustomFields,
             hasExpirationDate: hasExpirationDate,
             expirationDate: expirationDate,
-            locations: locations
+            locations: locations,
+            isCurrencyFieldsOn: isCurrencyFieldsOn,
+            currencyCode: currencyCode,
+            isPrimaryFieldCurrency: isPrimaryFieldCurrency,
+            isHeaderFieldOneCurrency: isHeaderFieldOneCurrency,
+            isHeaderFieldTwoCurrency: isHeaderFieldTwoCurrency,
+            isSecondaryFieldOneCurrency: isSecondaryFieldOneCurrency,
+            isSecondaryFieldTwoCurrency: isSecondaryFieldTwoCurrency,
+            isSecondaryFieldThreeCurrency: isSecondaryFieldThreeCurrency,
+            isAuxiliaryFieldOneCurrency: isAuxiliaryFieldOneCurrency,
+            isAuxiliaryFieldTwoCurrency: isAuxiliaryFieldTwoCurrency,
+            isAuxiliaryFieldThreeCurrency: isAuxiliaryFieldThreeCurrency
         )
     }
 }
