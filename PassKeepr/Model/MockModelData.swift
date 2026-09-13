@@ -94,7 +94,18 @@ private extension PassObject {
         vcardCustomFields: [],
         hasExpirationDate: false,
         expirationDate: Date(),
-        locations: [PassLocation(latitude: 11.111, longitude: 22.222, relevantText: "Some Text")]
+        locations: [PassLocation(latitude: 11.111, longitude: 22.222, relevantText: "Some Text")],
+        isCurrencyFieldsOn: false,
+        currencyCode: "USD",
+        isPrimaryFieldCurrency: false,
+        isHeaderFieldOneCurrency: false,
+        isHeaderFieldTwoCurrency: false,
+        isSecondaryFieldOneCurrency: false,
+        isSecondaryFieldTwoCurrency: false,
+        isSecondaryFieldThreeCurrency: false,
+        isAuxiliaryFieldOneCurrency: false,
+        isAuxiliaryFieldTwoCurrency: false,
+        isAuxiliaryFieldThreeCurrency: false
     )
 
     static let preview2 = PassObject(
@@ -169,6 +180,17 @@ private extension PassObject {
         vcardCustomFields: [],
         hasExpirationDate: false,
         expirationDate: Date(),
-        locations: [PassLocation(latitude: 33.333, longitude: 44.444, relevantText: "Some more Text")]
+        locations: [PassLocation(latitude: 33.333, longitude: 44.444, relevantText: "Some more Text")],
+        isCurrencyFieldsOn: false,
+        currencyCode: "USD",
+        isPrimaryFieldCurrency: false,
+        isHeaderFieldOneCurrency: false,
+        isHeaderFieldTwoCurrency: false,
+        isSecondaryFieldOneCurrency: false,
+        isSecondaryFieldTwoCurrency: false,
+        isSecondaryFieldThreeCurrency: false,
+        isAuxiliaryFieldOneCurrency: false,
+        isAuxiliaryFieldTwoCurrency: false,
+        isAuxiliaryFieldThreeCurrency: false
     )
 }
