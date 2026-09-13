@@ -227,7 +227,7 @@ struct EditablePassCardBackgroundPost27: View {
             RoundedRectangle(cornerRadius: 10)
                 .fill(shadowColor) // Want to use fill here because there is no strokeborder for the shadow and using .background causes issues with opacity (it uses inverted colors vs the ColorScheme)
                 .scaleEffect(0.95, anchor: .bottom)
-                .blur(radius: 8)
+                .blur(radius: 12)
                 .opacity(shadowOpacity)
                 .padding(.bottom, -4)
 
