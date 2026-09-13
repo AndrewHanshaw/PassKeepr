@@ -325,11 +325,20 @@ struct EditPass: View {
 
             PassGroupPicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
 
+            CurrencyFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
+                .id("currencyFieldSelection")
+
             ExpirationDatePicker(pass: $tempObject, disableControl: hasEditPassButtonBeenPressed)
                 .id("expirationDatePicker")
 
             LocationSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
                 .id("locationSelection")
+        }
+        .onChange(of: tempObject.isCurrencyFieldsOn) { _, isEnabled in
+            guard isEnabled else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                withAnimation { proxy.scrollTo("currencyFieldSelection", anchor: .bottom) }
+            }
         }
         .onChange(of: tempObject.hasExpirationDate) { _, isEnabled in
             guard isEnabled else { return }

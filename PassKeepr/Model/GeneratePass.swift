@@ -146,11 +146,13 @@ func generatePass(passObject: PassObject) -> URL? {
 
         // A primary field with a strip image *is* strictly allowed by PassKit, however it looks horrible, so I'm just disabling it for now to avoid having to even think about it
         if !shouldStripImageBeAddedToPass(passObject: passObject) && !passObject.isCustomStripImageOn {
-            let primaryFields: [String: Any] = [
-                "key": "primary",
-                "label": passObject.primaryFieldLabel,
-                "value": passObject.primaryFieldText,
-            ]
+            let primaryFields: [String: Any] = passFieldDict(
+                key: "primary",
+                label: passObject.primaryFieldLabel,
+                text: passObject.primaryFieldText,
+                isCurrency: passObject.isCurrencyFieldsOn && passObject.isPrimaryFieldCurrency,
+                currencyCode: passObject.currencyCode
+            )
 
             data.merge(["primaryFields": [primaryFields]]) { _, _ in }
         }
@@ -289,25 +291,58 @@ func zipDirectory(uuid: UUID) throws -> URL? {
     return pkpassDirectory
 }
 
+// Converts a user-entered field value into a decimal amount suitable for a PassKit currency field,
+// tolerating common formatting characters (currency symbols, thousands separators, whitespace).
+func currencyFieldValue(_ text: String) -> Double {
+    let cleaned = text
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+        .replacingOccurrences(of: ",", with: "")
+        .filter { $0.isNumber || $0 == "." || $0 == "-" }
+
+    return Double(cleaned) ?? 0
+}
+
+// Builds a single PassKit field dictionary, encoding it as a currency amount ("currencyCode" + numeric
+// "value") when isCurrency is true, or as a plain string value otherwise.
+func passFieldDict(key: String, label: String, text: String, isCurrency: Bool, currencyCode: String, blankIfEmpty: Bool = false) -> [String: Any] {
+    var field: [String: Any] = [
+        "key": key,
+        "label": label,
+    ]
+
+    if isCurrency {
+        field["currencyCode"] = currencyCode
+        field["value"] = currencyFieldValue(text)
+    } else {
+        field["value"] = blankIfEmpty && text.isEmpty ? " " : text
+    }
+
+    return field
+}
+
 func encodeHeaderFields(passObject: PassObject) -> [String: Any] {
     var encodedData: [Any] = []
 
     if passObject.headerFieldOneLabel != "" || passObject.headerFieldOneText != "" {
-        let headerField1: [String: Any] = [
-            "key": "header1",
-            "label": passObject.headerFieldOneLabel,
-            "value": passObject.headerFieldOneText,
-        ]
+        let headerField1 = passFieldDict(
+            key: "header1",
+            label: passObject.headerFieldOneLabel,
+            text: passObject.headerFieldOneText,
+            isCurrency: passObject.isCurrencyFieldsOn && passObject.isHeaderFieldOneCurrency,
+            currencyCode: passObject.currencyCode
+        )
 
         encodedData.append(headerField1)
     }
 
     if passObject.isHeaderFieldTwoOn == true {
-        let headerField2: [String: Any] = [
-            "key": "header2",
-            "label": passObject.headerFieldTwoLabel,
-            "value": passObject.headerFieldTwoText,
-        ]
+        let headerField2 = passFieldDict(
+            key: "header2",
+            label: passObject.headerFieldTwoLabel,
+            text: passObject.headerFieldTwoText,
+            isCurrency: passObject.isCurrencyFieldsOn && passObject.isHeaderFieldTwoCurrency,
+            currencyCode: passObject.currencyCode
+        )
 
         encodedData.append(headerField2)
     }
@@ -327,31 +362,40 @@ func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
     let hasFieldOne = passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" || hasFieldTwo
 
     if hasFieldOne {
-        let secondaryField1: [String: Any] = [
-            "key": "secondary1",
-            "label": passObject.secondaryFieldOneLabel,
-            "value": passObject.secondaryFieldOneText.isEmpty ? " " : passObject.secondaryFieldOneText,
-        ]
+        let secondaryField1 = passFieldDict(
+            key: "secondary1",
+            label: passObject.secondaryFieldOneLabel,
+            text: passObject.secondaryFieldOneText,
+            isCurrency: passObject.isCurrencyFieldsOn && passObject.isSecondaryFieldOneCurrency,
+            currencyCode: passObject.currencyCode,
+            blankIfEmpty: true
+        )
 
         encodedData.append(secondaryField1)
     }
 
     if hasFieldTwo {
-        let secondaryField2: [String: Any] = [
-            "key": "secondary2",
-            "label": passObject.secondaryFieldTwoLabel,
-            "value": passObject.secondaryFieldTwoText.isEmpty ? " " : passObject.secondaryFieldTwoText,
-        ]
+        let secondaryField2 = passFieldDict(
+            key: "secondary2",
+            label: passObject.secondaryFieldTwoLabel,
+            text: passObject.secondaryFieldTwoText,
+            isCurrency: passObject.isCurrencyFieldsOn && passObject.isSecondaryFieldTwoCurrency,
+            currencyCode: passObject.currencyCode,
+            blankIfEmpty: true
+        )
 
         encodedData.append(secondaryField2)
     }
 
     if hasFieldThree {
-        let secondaryField3: [String: Any] = [
-            "key": "secondary3",
-            "label": passObject.secondaryFieldThreeLabel,
-            "value": passObject.secondaryFieldThreeText.isEmpty ? " " : passObject.secondaryFieldThreeText,
-        ]
+        let secondaryField3 = passFieldDict(
+            key: "secondary3",
+            label: passObject.secondaryFieldThreeLabel,
+            text: passObject.secondaryFieldThreeText,
+            isCurrency: passObject.isCurrencyFieldsOn && passObject.isSecondaryFieldThreeCurrency,
+            currencyCode: passObject.currencyCode,
+            blankIfEmpty: true
+        )
 
         encodedData.append(secondaryField3)
     }
@@ -371,31 +415,40 @@ func encodeAuxiliaryFields(passObject: PassObject) -> [String: Any] {
     let hasFieldOne = passObject.auxiliaryFieldOneLabel != "" || passObject.auxiliaryFieldOneText != "" || hasFieldTwo
 
     if hasFieldOne {
-        let auxiliaryField1: [String: Any] = [
-            "key": "auxiliary1",
-            "label": passObject.auxiliaryFieldOneLabel,
-            "value": passObject.auxiliaryFieldOneText.isEmpty ? " " : passObject.auxiliaryFieldOneText,
-        ]
+        let auxiliaryField1 = passFieldDict(
+            key: "auxiliary1",
+            label: passObject.auxiliaryFieldOneLabel,
+            text: passObject.auxiliaryFieldOneText,
+            isCurrency: passObject.isCurrencyFieldsOn && passObject.isAuxiliaryFieldOneCurrency,
+            currencyCode: passObject.currencyCode,
+            blankIfEmpty: true
+        )
 
         encodedData.append(auxiliaryField1)
     }
 
     if hasFieldTwo {
-        let auxiliaryField2: [String: Any] = [
-            "key": "auxiliary2",
-            "label": passObject.auxiliaryFieldTwoLabel,
-            "value": passObject.auxiliaryFieldTwoText.isEmpty ? " " : passObject.auxiliaryFieldTwoText,
-        ]
+        let auxiliaryField2 = passFieldDict(
+            key: "auxiliary2",
+            label: passObject.auxiliaryFieldTwoLabel,
+            text: passObject.auxiliaryFieldTwoText,
+            isCurrency: passObject.isCurrencyFieldsOn && passObject.isAuxiliaryFieldTwoCurrency,
+            currencyCode: passObject.currencyCode,
+            blankIfEmpty: true
+        )
 
         encodedData.append(auxiliaryField2)
     }
 
     if hasFieldThree {
-        let auxiliaryField3: [String: Any] = [
-            "key": "auxiliary3",
-            "label": passObject.auxiliaryFieldThreeLabel,
-            "value": passObject.auxiliaryFieldThreeText.isEmpty ? " " : passObject.auxiliaryFieldThreeText,
-        ]
+        let auxiliaryField3 = passFieldDict(
+            key: "auxiliary3",
+            label: passObject.auxiliaryFieldThreeLabel,
+            text: passObject.auxiliaryFieldThreeText,
+            isCurrency: passObject.isCurrencyFieldsOn && passObject.isAuxiliaryFieldThreeCurrency,
+            currencyCode: passObject.currencyCode,
+            blankIfEmpty: true
+        )
 
         encodedData.append(auxiliaryField3)
     }
