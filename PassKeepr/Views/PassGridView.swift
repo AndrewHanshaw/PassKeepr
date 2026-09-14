@@ -1,6 +1,16 @@
 import SwiftUI
 
-private let PADDING: CGFloat = 14
+let PASS_GRID_PADDING: CGFloat = 14
+let PASS_GRID_FIXED_CARD_WIDTH: CGFloat = 150 // Adjust this to your desired card width
+private let PADDING = PASS_GRID_PADDING
+private let FIXED_CARD_WIDTH = PASS_GRID_FIXED_CARD_WIDTH
+
+// The minimum container width needed to guarantee `columnCount` columns fit in `passGrid`'s layout.
+// Mirrors the column-count math in `passGrid` so callers (e.g. `ContentView`'s split view) can
+// reserve enough space for a desired number of columns instead of guessing a width.
+func passGridMinWidth(forColumns columnCount: Int) -> CGFloat {
+    CGFloat(columnCount) * PASS_GRID_FIXED_CARD_WIDTH + CGFloat(columnCount + 1) * PASS_GRID_PADDING
+}
 
 class DragProperties {
     var draggedID: UUID?
@@ -14,7 +24,19 @@ struct PassGridView: View {
     @EnvironmentObject var modelData: ModelData
 
     @Binding var importedPassURL: URL?
-    @State private var columnCount: Int = 2
+
+    // Matches ContentView's isPad check: device idiom (not horizontalSizeClass) so that
+    // resizing an iPad window (Split View / Stage Manager) doesn't change which column layout
+    // strategy is used.
+    private var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
+    }
+
+    // Measured via a read-only .onGeometryChange on the outer (non-scrolling) ZStack below —
+    // NOT via a GeometryReader wrapping passGrid's content. A GeometryReader used as content
+    // greedily fills whatever space is *proposed* to it; inside a ScrollView that proposal is
+    // just the viewport height, which clamps the grid's height to one screen and breaks scrolling.
+    @State private var gridWidth: CGFloat = 0
 
     @Namespace private var zoomNamespace
 
@@ -33,8 +55,30 @@ struct PassGridView: View {
     @State private var shouldShowImportErrorAlert = false
     @State private var importErrorMessage = ""
 
+    private var columnCount: Int {
+        if isPad {
+            // iPad sidebar width varies, so fit as many fixed-width cards as will cleanly fit rather than guessing a column count.
+            max(1, Int((gridWidth - PADDING) / (FIXED_CARD_WIDTH + PADDING)))
+        } else {
+            // iPhone always gets the full screen width, so pick a column count and let the cards stretch
+            isLandscape ? 4 : 2
+        }
+    }
+
+    private var sidePadding: CGFloat {
+        guard isPad else { return PADDING }
+        let totalCardWidth = CGFloat(columnCount) * FIXED_CARD_WIDTH
+        let interCardSpacing = CGFloat(max(columnCount - 1, 0)) * PADDING
+        let remainingSpace = gridWidth - totalCardWidth - interCardSpacing
+        return max(PADDING, remainingSpace / 2)
+    }
+
     private var columns: [GridItem] {
-        Array(repeating: .init(.flexible(), spacing: PADDING), count: columnCount)
+        if isPad {
+            Array(repeating: .init(.fixed(FIXED_CARD_WIDTH), spacing: PADDING), count: columnCount)
+        } else {
+            Array(repeating: .init(.flexible(), spacing: PADDING), count: columnCount)
+        }
     }
 
     private var orderedPassIDs: [UUID] {
@@ -180,11 +224,11 @@ struct PassGridView: View {
                 }
             }
         } // ZStack
-        .onGeometryChange(for: Bool.self) { proxy in
-            proxy.size.width > proxy.size.height
-        } action: { landscape in
-            isLandscape = landscape
-            columnCount = landscape ? 4 : 2
+        .onGeometryChange(for: CGSize.self) { proxy in
+            proxy.size
+        } action: { newSize in
+            isLandscape = newSize.width > newSize.height
+            gridWidth = newSize.width
         }
         .navigationDestination(for: UUID.self) { id in
             if let index = modelData.passObjects.firstIndex(where: { $0.id == id }) {
@@ -218,7 +262,9 @@ struct PassGridView: View {
                 passCell(for: id)
             }
         }
-        .padding(PADDING)
+        .padding(.horizontal, sidePadding)
+        .padding(.vertical, PADDING)
+        .frame(maxWidth: .infinity, alignment: .center)
         .onAppear {
             // initial order = current model order
             dragState.orderIDs = modelData.passObjects.map(\.id)

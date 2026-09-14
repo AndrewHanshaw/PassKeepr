@@ -9,7 +9,7 @@ struct ContentView: View {
             // iPad: two-column split view
             NavigationSplitView {
                 PassGridView(importedPassURL: $importedPassURL)
-                    .navigationSplitViewColumnWidth(min: 280, ideal: 320)
+                    .navigationSplitViewColumnWidth(min: passGridMinWidth(forColumns: 2), ideal: passGridMinWidth(forColumns: 2) + 20)
             } detail: {
                 LandscapeDetailPane()
                     .navigationSplitViewColumnWidth(min: 320, ideal: 400)
