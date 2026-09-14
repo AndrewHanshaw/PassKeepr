@@ -87,8 +87,6 @@ enum PassCardShape {
     static func notch(notchRadius: CGFloat? = nil, verticalOffset: CGFloat? = nil, insetAmount: CGFloat = 0) -> AnyShape {
         if #available(iOS 27.0, *) {
             var shape = NotchedRectanglePost27(insetAmount: insetAmount)
-            if let notchRadius { shape.notchRadius = notchRadius }
-            if let verticalOffset { shape.verticalOffset = verticalOffset }
             return AnyShape(shape)
         } else {
             var shape = NotchedRectangle(insetAmount: insetAmount)

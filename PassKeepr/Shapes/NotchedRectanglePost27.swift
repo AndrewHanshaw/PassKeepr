@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct NotchedRectanglePost27: InsettableShape {
-    var notchRadius: CGFloat = 55
+    var notchRadiusRatio: CGFloat = 0.20
     var insetAmount: CGFloat = 0
-    var verticalOffset: CGFloat = 43
+    var verticalOffsetRatio: CGFloat = 0.15
     var cornerRadius: CGFloat = 10
     var notchCornerRadius: CGFloat = 10
 
@@ -13,7 +13,9 @@ struct NotchedRectanglePost27: InsettableShape {
         // Apply inset to the rectangle
         let insetRect = rect.insetBy(dx: insetAmount, dy: insetAmount)
 
-        // Calculate notch center position
+        // Calculate notch dimensions based on shape width
+        let notchRadius = rect.width * notchRadiusRatio
+        let verticalOffset = rect.width * verticalOffsetRatio
         // The center X is the horizontal midpoint — inset is symmetric so both rect and insetRect give the same value.
         // The center Y is anchored to the *original* rect top (not insetRect.minY) so the notch center doesn't
         // drift as insetAmount increases. Keeping it fixed is required for a true parallel offset of the arc.
