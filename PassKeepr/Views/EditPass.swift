@@ -270,6 +270,7 @@ struct EditPass: View {
             ScrollViewReader { proxy in
                 VStack(spacing: 20) {
                     passCardView
+                        .frame(maxWidth: 350)
                     formFields(proxy: proxy)
                 }
                 .padding()
