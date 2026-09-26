@@ -274,6 +274,15 @@ struct EditPass: View {
                     formFields(proxy: proxy)
                 }
                 .padding()
+                .id("editPassTop")
+                // On iPad, the detail pane of the NavigationSplitView reuses this same
+                // ScrollView instance when a different pass is tapped in the sidebar (the
+                // navigation path is replaced rather than pushed), so the scroll offset from
+                // the previously viewed pass otherwise persists. Force it back to the top
+                // whenever the pass being edited changes.
+                .onChange(of: tempObject.id) { _, _ in
+                    proxy.scrollTo("editPassTop", anchor: .top)
+                }
             }
         }
     }
@@ -340,22 +349,28 @@ struct EditPass: View {
             LocationSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
                 .id("locationSelection")
         }
-        .onChange(of: tempObject.isCurrencyFieldsOn) { _, isEnabled in
-            guard isEnabled else { return }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                withAnimation { proxy.scrollTo("currencyFieldSelection", anchor: .bottom) }
+        .onChange(of: tempObject) { oldValue, newValue in
+            // Only auto-scroll when a toggle/field was actually expanded by the user on the
+            // same pass. When switching to a different pass whose object already has these
+            // fields enabled, oldValue.id != newValue.id, so skip scrolling entirely - otherwise
+            // every pass with currency fields, an expiration date, or a saved location already
+            // enabled would immediately scroll the newly loaded pass away from the top.
+            guard oldValue.id == newValue.id else { return }
+
+            if !oldValue.isCurrencyFieldsOn, newValue.isCurrencyFieldsOn {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    withAnimation { proxy.scrollTo("currencyFieldSelection", anchor: .bottom) }
+                }
             }
-        }
-        .onChange(of: tempObject.hasExpirationDate) { _, isEnabled in
-            guard isEnabled else { return }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                withAnimation { proxy.scrollTo("expirationDatePicker", anchor: .bottom) }
+            if !oldValue.hasExpirationDate, newValue.hasExpirationDate {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    withAnimation { proxy.scrollTo("expirationDatePicker", anchor: .bottom) }
+                }
             }
-        }
-        .onChange(of: tempObject.locations.count) { oldCount, newCount in
-            guard newCount > oldCount else { return }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                withAnimation { proxy.scrollTo("locationSelection", anchor: .bottom) }
+            if newValue.locations.count > oldValue.locations.count {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                    withAnimation { proxy.scrollTo("locationSelection", anchor: .bottom) }
+                }
             }
         }
     }
