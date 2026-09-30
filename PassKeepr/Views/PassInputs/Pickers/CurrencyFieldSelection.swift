@@ -11,7 +11,7 @@ struct CurrencyFieldSelection: View {
 
     private func currencyDisplayName(for code: String) -> String {
         if let name = Locale.current.localizedString(forCurrencyCode: code) {
-            return "\(code) - \(name)"
+            return "\(code)"
         }
         return code
     }
