@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct NotchedRectanglePost27: InsettableShape {
-    var notchRadiusRatio: CGFloat = 0.20
+    var notchRadiusRatio: CGFloat = 0.18
     var insetAmount: CGFloat = 0
-    var verticalOffsetRatio: CGFloat = 0.15
+    var verticalOffsetRatio: CGFloat = 0.13
     var cornerRadius: CGFloat = 10
     var notchCornerRadius: CGFloat = 10
 
