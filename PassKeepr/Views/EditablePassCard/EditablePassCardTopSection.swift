@@ -34,7 +34,7 @@ struct EditablePassCardTopSection: View {
             .frame(maxWidth: .infinity, alignment: .leading)
 
             Spacer() // Always sits in the exact middle of the view regardless of how wide the logo or header fields are.
-                .frame(width: 60)
+                .frame(width: 80)
 
             HStack(spacing: 0) {
                 if passObject.isHeaderFieldTwoOn {
