@@ -71,6 +71,7 @@ struct CustomizeStripImage: View {
                         passObject.stripImage = strip.pngData() ?? Data()
                         // Remove background image (incompatible with strip image)
                         passObject.backgroundImage = Data()
+                        passObject.isBackgroundImageOn = false
                     }
                     presentationMode.wrappedValue.dismiss()
                 }

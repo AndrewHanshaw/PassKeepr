@@ -178,7 +178,7 @@ func generatePass(passObject: PassObject) -> URL? {
             } else {
                 passStyleString = "storeCard"
             }
-        } else if passObject.backgroundImage != Data() {
+        } else if passObject.backgroundImage != Data() && passObject.isBackgroundImageOn {
             // If there is a background image
             passStyleString = "eventTicket"
         } else if passObject.isCoupon {
@@ -504,7 +504,7 @@ func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
 }
 
 func shouldBackgroundImageBeAddedToPass(passObject: PassObject) -> Bool {
-    if (passObject.backgroundImage != Data()) && getIsBackgroundImageSupported(passObject: passObject) {
+    if (passObject.isBackgroundImageOn == true && passObject.backgroundImage != Data()) && getIsBackgroundImageSupported(passObject: passObject) {
         return true
     } else {
         return false

@@ -84,7 +84,7 @@ enum PassCardShape {
         return AnyShape(shape)
     }
 
-    static func background(backgroundImage: Data, isCoupon: Bool, scallopsPerEdge: Int? = nil, insetAmount: CGFloat = 0) -> AnyShape {
+    static func background(hasBackgroundImage _: Data, isCoupon: Bool, scallopsPerEdge: Int? = nil, insetAmount: CGFloat = 0) -> AnyShape {
         if backgroundImage != Data() {
             notch(insetAmount: insetAmount)
         } else if isCoupon {
@@ -118,7 +118,7 @@ struct PassCardBackgroundView: View {
     // Shared by both the shadow (filled) and the gradient overlay (used as a clip shape) so the
     // two always agree on which silhouette - notched, scalloped, or plain rounded - to use.
     private var backgroundShape: AnyShape {
-        PassCardShape.background(backgroundImage: passObject.backgroundImage, isCoupon: passObject.isCoupon, scallopsPerEdge: scallopsPerEdge)
+        PassCardShape.background(hasBackgroundImage: passObject.backgroundImage, isCoupon: passObject.isCoupon, scallopsPerEdge: scallopsPerEdge)
     }
 
     private func notchShape(insetAmount: CGFloat = 0) -> AnyShape {
@@ -161,7 +161,7 @@ struct PassCardBackgroundView: View {
                 .opacity(colors.shadowOpacity)
                 .padding(.bottom, -4)
 
-            if passObject.backgroundImage != Data() {
+            if passObject.isBackgroundImageOn && passObject.backgroundImage != Data() {
                 imageBackground
             } else if passObject.isCoupon {
                 scallopedBackground
@@ -172,10 +172,14 @@ struct PassCardBackgroundView: View {
             PassCardGradientOverlay(clipShape: backgroundShape)
         }
         .onChange(of: passObject.backgroundImage) { _, newValue in
-            decodeBackgroundImage(newValue)
+            if passObject.isBackgroundImageOn {
+                decodeBackgroundImage(newValue)
+            }
         }
         .onAppear {
-            decodeBackgroundImage(passObject.backgroundImage)
+            if passObject.isBackgroundImageOn {
+                decodeBackgroundImage(passObject.backgroundImage)
+            }
         }
     }
 

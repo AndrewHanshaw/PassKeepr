@@ -7,7 +7,7 @@ struct ColorInput: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            if pass.backgroundImage == Data() {
+            if !pass.isBackgroundImageOn {
                 ColorPicker("Background Color", selection: Color.binding(from: $pass.backgroundColor), supportsOpacity: false)
                     .padding(.vertical, 16)
                     .overlay(Divider(), alignment: .bottom)
@@ -23,7 +23,7 @@ struct ColorInput: View {
             }
             ColorPicker("Label Color", selection: Color.binding(from: $pass.labelColor), supportsOpacity: false)
                 .padding([.leading, .trailing, .bottom], 16)
-                .padding(.top, pass.backgroundImage == Data() ? 0 : 16) // Need to add top padding only when the other two pickers are not shown
+                .padding(.top, !pass.isBackgroundImageOn ? 0 : 16) // Need to add top padding only when the other two pickers are not shown
                 .disabled(disableControl)
         }
         .listSectionBackgroundModifier()
