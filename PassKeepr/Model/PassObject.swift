@@ -18,8 +18,11 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
         didSet {
             guard backgroundImage != oldValue else { return }
             imageBackgroundBrightness = Self.computeImageBrightness(from: backgroundImage)
+            isBackgroundImageOn = backgroundImage != Data()
         }
     }
+
+    var isBackgroundImageOn: Bool
 
     // Cached brightness classification of `backgroundImage`, kept in sync automatically by
     // `backgroundImage`'s `didSet` rather than being recomputed every time a card is rendered.
@@ -135,6 +138,7 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
         case isSecondaryFieldOneCurrency, isSecondaryFieldTwoCurrency, isSecondaryFieldThreeCurrency
         case isAuxiliaryFieldOneCurrency, isAuxiliaryFieldTwoCurrency, isAuxiliaryFieldThreeCurrency
         case isCoupon
+        case isBackgroundImageOn
     }
 
     static var transferRepresentation: some TransferRepresentation {
@@ -232,12 +236,21 @@ extension PassObject {
         isAuxiliaryFieldTwoCurrency = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldTwoCurrency) ?? false
         isAuxiliaryFieldThreeCurrency = try c.decodeIfPresent(Bool.self, forKey: .isAuxiliaryFieldThreeCurrency) ?? false
         isCoupon = try c.decodeIfPresent(Bool.self, forKey: .isCoupon) ?? false
+        let persistedIsBackgroundImageOn = try c.decodeIfPresent(Bool.self, forKey: .isBackgroundImageOn)
+        isBackgroundImageOn = persistedIsBackgroundImageOn ?? false
 
         // Migration: passes saved before `imageBackgroundBrightness` existed won't have it persisted.
         // Compute it once here so older saved passes with a background image get correct contrast
         // immediately, instead of waiting until the user next edits the background.
         if imageBackgroundBrightness == nil, backgroundImage != Data() {
             imageBackgroundBrightness = Self.computeImageBrightness(from: backgroundImage)
+        }
+
+        // Migration: passes saved before `isBackgroundImageOn` existed won't have it persisted.
+        // Sync it based on whether there's actually a background image. A persisted value (including
+        // `false` alongside retained image data, e.g. after enabling Coupon Pass) must be preserved.
+        if persistedIsBackgroundImageOn == nil, backgroundImage != Data() {
+            isBackgroundImageOn = true
         }
     }
 }
@@ -280,6 +293,7 @@ extension PassObject {
             barcodeBorder: 0,
             stripImage: Data(),
             backgroundImage: Data(),
+            isBackgroundImageOn: false,
             logoImage: Data(),
             logoImageType: .none,
             thumbnailImage: Data(),
@@ -369,6 +383,7 @@ extension PassObject {
             barcodeBorder: barcodeBorder,
             stripImage: stripImage,
             backgroundImage: backgroundImage,
+            isBackgroundImageOn: isBackgroundImageOn,
             imageBackgroundBrightness: imageBackgroundBrightness,
             logoImage: logoImage,
             logoImageType: logoImageType,

@@ -353,7 +353,10 @@ func importPass(from pkpassURL: URL) -> (pass: PassObject?, hasNFC: Bool) {
 
         // Extract background image
         let bg = extractLargestVariant("background")
-        passObject.backgroundImage = bg
+        if bg != Data() {
+            passObject.backgroundImage = bg
+            passObject.isBackgroundImageOn = true
+        }
 
         // Extract thumbnail image
         let thumbnail = extractLargestVariant("thumbnail")

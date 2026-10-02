@@ -91,6 +91,7 @@ struct CustomizeBarcode: View {
                     }
                     if tempStripImage != Data() {
                         passObject.backgroundImage = Data()
+                        passObject.isBackgroundImageOn = false
                     }
                     presentationMode.wrappedValue.dismiss()
                 }
