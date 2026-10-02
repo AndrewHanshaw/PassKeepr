@@ -612,6 +612,16 @@
         }
       }
     },
+    "Coupon Pass" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Карта купона"
+          }
+        }
+      }
+    },
     "Label" : {
       "localizations" : {
         "ru" : {
