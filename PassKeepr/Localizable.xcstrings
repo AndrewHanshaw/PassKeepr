@@ -323,6 +323,16 @@
         }
       }
     },
+    "Coupon Pass" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Карта купона"
+          }
+        }
+      }
+    },
     "Created by Drew Hanshaw" : {
       "localizations" : {
         "ru" : {
