@@ -125,6 +125,7 @@ struct PassCardBackgroundView: View {
     @State private var cachedBackgroundImage: UIImage?
 
     var passObject: PassObject
+    var isEditable: Bool = false
 
     // Shape sizing - `nil` uses each shape's own default (used by the full-size editable card).
     // The smaller read-only `PassCard` overrides these to match its reduced rendered size.
@@ -227,7 +228,7 @@ struct PassCardBackgroundView: View {
     }
 
     private var scallopedBackground: some View {
-        ZStack {
+        let background = ZStack {
             // Border
             scallopShape()
                 .fill(colors.borderColor)
@@ -236,9 +237,15 @@ struct PassCardBackgroundView: View {
             scallopShape(insetAmount: 2)
                 .fill(Color(hex: passObject.backgroundColor))
         }
-        // Render this whole subtree into a single cached texture instead of re-rasterizing the ~300-segment scalloped path
-        // on every color change. The shape geometry never changes, only the fill/stroke color
-        .drawingGroup()
+
+        // Cache the scalloped shape for performance when editing. Skip the cache during normal display (keeps the drag preview rendering correct).
+        if isEditable {
+            // Render this whole subtree into a single cached texture instead of re-rasterizing the ~300-segment scalloped path
+            // on every color change. The shape geometry never changes, only the fill/stroke color
+            return AnyView(background.drawingGroup())
+        } else {
+            return AnyView(background)
+        }
     }
 
     // Decodes the background image (if any) for rendering, caching it in @State so repeated body

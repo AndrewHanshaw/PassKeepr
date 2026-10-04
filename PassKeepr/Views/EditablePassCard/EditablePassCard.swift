@@ -59,7 +59,7 @@ struct EditablePassCard: View {
     private func cardContent(size: CGSize) -> some View {
         ZStack {
             ZStack {
-                PassCardBackgroundView(passObject: passObject)
+                PassCardBackgroundView(passObject: passObject, isEditable: true)
 
                 VStack(spacing: 0) {
                     EditablePassCardTopSection(backgroundBrightness: passBackgroundBrightness, disableButtons: isSigningPass, passObject: $passObject, isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented)
