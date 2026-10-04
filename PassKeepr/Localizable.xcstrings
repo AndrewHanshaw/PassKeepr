@@ -1061,6 +1061,16 @@
         }
       }
     },
+    "Signing..." : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подписание..."
+          }
+        }
+      }
+    },
     "Social" : {
       "localizations" : {
         "ru" : {
