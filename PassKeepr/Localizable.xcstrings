@@ -20,16 +20,6 @@
         }
       }
     },
-    "Add a\nBackground Image" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавить фоновое\nизображение"
-          }
-        }
-      }
-    },
     "Add a Strip Image" : {
       "localizations" : {
         "ru" : {

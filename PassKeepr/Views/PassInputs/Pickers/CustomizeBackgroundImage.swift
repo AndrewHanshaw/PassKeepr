@@ -148,45 +148,10 @@ struct CustomizeBackgroundImage: View {
     private var backgroundPreviewView: some View {
         HStack(alignment: .center) {
             Spacer()
-            if let tempBackground {
-                HStack {
-                    Spacer()
-                    Image(uiImage: tempBackground)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxHeight: 300)
-                        .padding(20)
-                    Spacer()
-                }
-            } else {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5, 3]))
-                        .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fit)
-                        .frame(maxHeight: 300)
-                        .foregroundColor(Color.gray)
-                        .opacity(0.5)
-                    VStack(spacing: 10) {
-                        Text("Add a\nBackground Image")
-                            .multilineTextAlignment(.center)
-                        Button {
-                            showAlert.toggle()
-                        } label: {
-                            Image(systemName: "info.circle")
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                    }
-                    .foregroundColor(Color.gray)
-                    .opacity(0.7)
-                }
-                .padding(.vertical, 20)
-                .frame(maxWidth: .infinity, alignment: .center)
-                .alert(isPresented: $showAlert) {
-                    Alert(title: Text(alertTitleText),
-                          message: Text(alertDescriptionText),
-                          dismissButton: .default(Text("OK")))
-                }
-            }
+            PassCardBackgroundView(passObject: tempPassObject)
+                .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fit)
+                .frame(maxHeight: 300)
+                .padding(.bottom, 20)
             Spacer()
         }
     }
