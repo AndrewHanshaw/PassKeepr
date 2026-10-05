@@ -9,7 +9,7 @@ struct EditablePassCard: View {
 
     @State private var scannedCode = ""
     @Binding var isCustomizeLogoImagePresented: Bool
-    @Binding var isCustomizeBackgroundImagePresented: Bool
+    @Binding var isCustomizePassBackgroundPresented: Bool
     @Binding var isCustomizeStripImagePresented: Bool
     @Binding var isCustomizeThumbnailImagePresented: Bool
     @Binding var isCustomizeBarcodePresented: Bool
@@ -195,7 +195,7 @@ struct EditablePassCard: View {
             }
             .overlay {
                 Button(action: {
-                    isCustomizeBackgroundImagePresented.toggle()
+                    isCustomizePassBackgroundPresented.toggle()
                 }) {
                     Image("custom.wallet.pass.on.rectangle.portrait.filled.circle")
                         .symbolRenderingMode(.palette)
@@ -213,5 +213,5 @@ struct EditablePassCard: View {
 }
 
 #Preview {
-    EditablePassCard(passObject: .constant(MockModelData().passObjects[0]), isSigningPass: false, isCustomizeLogoImagePresented: .constant(false), isCustomizeBackgroundImagePresented: .constant(false), isCustomizeStripImagePresented: .constant(false), isCustomizeThumbnailImagePresented: .constant(false), isCustomizeBarcodePresented: .constant(false), isCustomizeQrCodePresented: .constant(false))
+    EditablePassCard(passObject: .constant(MockModelData().passObjects[0]), isSigningPass: false, isCustomizeLogoImagePresented: .constant(false), isCustomizePassBackgroundPresented: .constant(false), isCustomizeStripImagePresented: .constant(false), isCustomizeThumbnailImagePresented: .constant(false), isCustomizeBarcodePresented: .constant(false), isCustomizeQrCodePresented: .constant(false))
 }

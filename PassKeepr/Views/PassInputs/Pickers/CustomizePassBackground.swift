@@ -3,7 +3,7 @@ import CoreImage
 import SwiftUI
 import SwiftyCrop
 
-struct CustomizeBackgroundImage: View {
+struct CustomizePassBackground: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.verticalSizeClass) private var verticalSizeClass
 
@@ -261,5 +261,5 @@ struct CustomizeBackgroundImage: View {
 }
 
 #Preview {
-    CustomizeBackgroundImage(passObject: .constant(MockModelData().passObjects[0]))
+    CustomizePassBackground(passObject: .constant(MockModelData().passObjects[0]))
 }

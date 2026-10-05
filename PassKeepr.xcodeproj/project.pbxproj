@@ -95,7 +95,7 @@
 		BAE7B33E2D065DFF00DD0251 /* BuiltInBarcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */; };
 		BAE7B3402D066AD600DD0251 /* StripImageBarcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAE7B33F2D066AD600DD0251 /* StripImageBarcode.swift */; };
 		BAED06682D32158C00D6789E /* GetBarcodeFromImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED06672D32158C00D6789E /* GetBarcodeFromImage.swift */; };
-		BAED92C52D04D596000822CA /* CustomizeBackgroundImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */; };
+		BAED92C52D04D596000822CA /* CustomizePassBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAED92C42D04D596000822CA /* CustomizePassBackground.swift */; };
 		BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */; };
 		BAF0FB732D28D0AB00948089 /* PassCardTopSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF0FB722D28D0AB00948089 /* PassCardTopSection.swift */; };
 		BAF0FB752D28D5E200948089 /* HeaderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF0FB742D28D5E200948089 /* HeaderTextField.swift */; };
@@ -236,7 +236,7 @@
 		BAE7B33D2D065DF500DD0251 /* BuiltInBarcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltInBarcodeView.swift; sourceTree = "<group>"; };
 		BAE7B33F2D066AD600DD0251 /* StripImageBarcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripImageBarcode.swift; sourceTree = "<group>"; };
 		BAED06672D32158C00D6789E /* GetBarcodeFromImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetBarcodeFromImage.swift; sourceTree = "<group>"; };
-		BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeBackgroundImage.swift; sourceTree = "<group>"; };
+		BAED92C42D04D596000822CA /* CustomizePassBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizePassBackground.swift; sourceTree = "<group>"; };
 		BAEE421F2CC436FA00A3F7A1 /* SignPass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignPass.swift; sourceTree = "<group>"; };
 		BAF0FB722D28D0AB00948089 /* PassCardTopSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassCardTopSection.swift; sourceTree = "<group>"; };
 		BAF0FB742D28D5E200948089 /* HeaderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTextField.swift; sourceTree = "<group>"; };
@@ -387,7 +387,7 @@ BACF00012FE1000000000001 /* CurrencyFieldSelection.swift */,
 				BA7F036C2E9ADB58004E9610 /* BarcodeTypePicker.swift */,
 				BA7A4A222B65AE3A006F06DF /* ColorInput.swift */,
 				BA6D6C672CE83627007D4C9A /* CustomizeLogoImage.swift */,
-				BAED92C42D04D596000822CA /* CustomizeBackgroundImage.swift */,
+				BAED92C42D04D596000822CA /* CustomizePassBackground.swift */,
 				BACDA8AE2D167704009C249C /* CustomizeStripImage.swift */,
 				BAE7B33B2D06588E00DD0251 /* CustomizeBarcode.swift */,
 				BAF5EF942D09542200259BEA /* CustomizeQrCode.swift */,
@@ -803,7 +803,7 @@ BACF00042FE1000000000004 /* FormatCurrencyText.swift in Sources */,
 				BA598E8E2D3609C900B06BAA /* About.swift in Sources */,
 				BAAD449F2FDDDD74000F71E1 /* CameraImagePicker.swift in Sources */,
 				BAF0FB732D28D0AB00948089 /* PassCardTopSection.swift in Sources */,
-				BAED92C52D04D596000822CA /* CustomizeBackgroundImage.swift in Sources */,
+				BAED92C52D04D596000822CA /* CustomizePassBackground.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
