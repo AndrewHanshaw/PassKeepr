@@ -33,7 +33,7 @@ struct EditPass: View {
     // Tracks the pass group at the time of last successful sign, to detect group changes for Wallet cleanup.
     @State private var previouslySignedGroup: Int = -1
     @State private var isCustomizeLogoImagePresented = false
-    @State private var isCustomizeBackgroundImagePresented = false
+    @State private var isCustomizePassBackgroundPresented = false
     @State private var isCustomizeStripImagePresented = false
     @State private var isCustomizeThumbnailImagePresented = false
     @State private var isCustomizeBarcodePresented = false
@@ -160,8 +160,8 @@ struct EditPass: View {
             CustomizeLogoImage(passObject: $tempObject)
                 .edgesIgnoringSafeArea(.bottom)
         }
-        .sheet(isPresented: $isCustomizeBackgroundImagePresented) {
-            CustomizeBackgroundImage(passObject: $tempObject)
+        .sheet(isPresented: $isCustomizePassBackgroundPresented) {
+            CustomizePassBackground(passObject: $tempObject)
                 .edgesIgnoringSafeArea(.bottom)
         }
         .sheet(isPresented: $isCustomizeThumbnailImagePresented) {
@@ -314,7 +314,7 @@ struct EditPass: View {
             passObject: $tempObject,
             isSigningPass: hasEditPassButtonBeenPressed,
             isCustomizeLogoImagePresented: $isCustomizeLogoImagePresented,
-            isCustomizeBackgroundImagePresented: $isCustomizeBackgroundImagePresented,
+            isCustomizePassBackgroundPresented: $isCustomizePassBackgroundPresented,
             isCustomizeStripImagePresented: $isCustomizeStripImagePresented,
             isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented,
             isCustomizeBarcodePresented: $isCustomizeBarcodePresented,

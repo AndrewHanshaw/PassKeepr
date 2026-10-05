@@ -3,7 +3,7 @@ import CoreImage
 import SwiftUI
 import SwiftyCrop
 
-struct CustomizeBackgroundImage: View {
+struct CustomizePassBackground: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.verticalSizeClass) private var verticalSizeClass
 
@@ -66,7 +66,7 @@ struct CustomizeBackgroundImage: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 HStack {
-                    Text("Background Image")
+                    Text("Pass Background")
                         .font(.system(size: 16, weight: .bold, design: .rounded))
 
                     Button {
@@ -270,5 +270,5 @@ struct CustomizeBackgroundImage: View {
 }
 
 #Preview {
-    CustomizeBackgroundImage(passObject: .constant(MockModelData().passObjects[0]))
+    CustomizePassBackground(passObject: .constant(MockModelData().passObjects[0]))
 }
