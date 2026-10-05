@@ -80,22 +80,13 @@ struct PassCardGradientOverlay: View {
 // Shared shape-selection logic for the pass card background: a notch when there's a background
 // image, a scalloped edge when there isn't one but the pass is a coupon, or a plain rounded
 // rectangle otherwise. Each caller passes in its own sizing, leaving each shape's own default when
-// `nil`. `NotchedRectanglePost27` and `NotchedRectangle` (the pre-iOS27 equivalent) aren't the same
-// concrete type, so the notch case type-erases to `AnyShape` and bakes `insetAmount` into the
-// initializer rather than relying on `.inset(by:)` afterward (`AnyShape` isn't `InsettableShape`).
+// `nil`. `NotchedRectangle` aren't the same concrete type, so the notch case type-erases to
+// `AnyShape` and bakes `insetAmount` into the initializer rather than relying on `.inset(by:)`
+// afterward (`AnyShape` isn't `InsettableShape`).
 enum PassCardShape {
-    static func notch(notchRadius: CGFloat? = nil, verticalOffset: CGFloat? = nil, insetAmount: CGFloat = 0) -> AnyShape {
-        if #available(iOS 27.0, *) {
-            var shape = NotchedRectanglePost27(insetAmount: insetAmount)
-            if let notchRadius { shape.notchRadius = notchRadius }
-            if let verticalOffset { shape.verticalOffset = verticalOffset }
-            return AnyShape(shape)
-        } else {
-            var shape = NotchedRectangle(insetAmount: insetAmount)
-            if let notchRadius { shape.notchRadius = notchRadius }
-            if let verticalOffset { shape.verticalOffset = verticalOffset }
-            return AnyShape(shape)
-        }
+    static func notch(notchRadius _: CGFloat? = nil, verticalOffset _: CGFloat? = nil, insetAmount: CGFloat = 0) -> AnyShape {
+        let shape = NotchedRectangle(insetAmount: insetAmount)
+        return AnyShape(shape)
     }
 
     static func scallop(scallopsPerEdge: Int? = nil, insetAmount: CGFloat = 0) -> AnyShape {
