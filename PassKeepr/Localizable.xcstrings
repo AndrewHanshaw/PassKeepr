@@ -855,16 +855,6 @@
         }
       }
     },
-    "Remove Background Image" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалить фоновое изображение"
-          }
-        }
-      }
-    },
     "Remove Strip Image" : {
       "localizations" : {
         "ru" : {
