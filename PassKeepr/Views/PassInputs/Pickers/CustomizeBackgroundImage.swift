@@ -9,7 +9,7 @@ struct CustomizeBackgroundImage: View {
 
     @Binding var passObject: PassObject
 
-    @State private var tempBackground: UIImage?
+    @State private var tempPassObject: PassObject
 
     @State private var photoItem: PhotosPickerItem?
     @State private var imageForCrop: IdentifiableImage?
@@ -24,7 +24,7 @@ struct CustomizeBackgroundImage: View {
 
     init(passObject: Binding<PassObject>) {
         _passObject = passObject
-        _tempBackground = State(initialValue: UIImage(data: passObject.wrappedValue.backgroundImage))
+        _tempPassObject = State(initialValue: passObject.wrappedValue)
     }
 
     var body: some View {
@@ -43,7 +43,7 @@ struct CustomizeBackgroundImage: View {
                     colors: .appColors(colorScheme: colorScheme)
                 )
             ) { croppedImage in
-                tempBackground = croppedImage
+                tempPassObject.backgroundImage = croppedImage?.pngData() ?? Data()
             }
         }
     }
@@ -71,14 +71,12 @@ struct CustomizeBackgroundImage: View {
 
             ToolbarItem(placement: .confirmationAction) {
                 Button("Save", systemImage: "checkmark") {
-                    if let background = tempBackground {
+                    if tempPassObject.backgroundImage != Data() {
                         // Store the largest (3x) variant so imports/exports can downscale as needed
-                        passObject.backgroundImage = background.pngData() ?? Data()
-
-                        passObject.stripImage = Data()
+                        tempPassObject.stripImage = Data()
 
                         // Center-crop existing thumbnail to 1:1 to match background image pass layout
-                        if passObject.thumbnailImage != Data(), let thumbUI = UIImage(data: passObject.thumbnailImage), let cgThumb = thumbUI.cgImage {
+                        if tempPassObject.thumbnailImage != Data(), let thumbUI = UIImage(data: tempPassObject.thumbnailImage), let cgThumb = thumbUI.cgImage {
                             let pixelW = CGFloat(cgThumb.width)
                             let pixelH = CGFloat(cgThumb.height)
                             let side = min(pixelW, pixelH)
@@ -89,10 +87,12 @@ struct CustomizeBackgroundImage: View {
                                 height: side
                             )
                             if let cropped = cgThumb.cropping(to: cropRect) {
-                                passObject.thumbnailImage = UIImage(cgImage: cropped, scale: thumbUI.scale, orientation: thumbUI.imageOrientation).pngData() ?? passObject.thumbnailImage
+                                tempPassObject.thumbnailImage = UIImage(cgImage: cropped, scale: thumbUI.scale, orientation: thumbUI.imageOrientation).pngData() ?? tempPassObject.thumbnailImage
                             }
                         }
                     }
+
+                    passObject = tempPassObject // Commit temporary changes to actual passObject
                     presentationMode.wrappedValue.dismiss()
                 }
                 .toolbarConfirmButtonModifier()
@@ -107,10 +107,10 @@ struct CustomizeBackgroundImage: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
-        .onChange(of: passObject.backgroundImage) {
-            if passObject.backgroundImage != Data() {
+        .onChange(of: tempPassObject.backgroundImage) {
+            if tempPassObject.backgroundImage != Data() {
                 // Force white text when a background color is set
-                passObject.foregroundColor = Color.white.toHex()
+                tempPassObject.foregroundColor = Color.white.toHex()
             }
         }
     }
@@ -160,11 +160,10 @@ struct CustomizeBackgroundImage: View {
     private var formFields: some View {
         VStack(spacing: 0) {
             VStack(spacing: 0) {
-                Toggle("Coupon Pass", isOn: $passObject.isCoupon)
-                    .onChange(of: passObject.isCoupon) {
-                        if passObject.isCoupon {
-                            passObject.backgroundImage = Data()
-                            tempBackground = nil
+                Toggle("Coupon Pass", isOn: $tempPassObject.isCoupon)
+                    .onChange(of: tempPassObject.isCoupon) {
+                        if tempPassObject.isCoupon {
+                            tempPassObject.backgroundImage = Data()
                         }
                     }
                     .padding(.vertical, 14)
@@ -173,27 +172,20 @@ struct CustomizeBackgroundImage: View {
                     }
                     .padding(.horizontal, 14)
 
-                Toggle("Background Image", isOn: $passObject.isBackgroundImageOn)
-                    .onChange(of: passObject.isBackgroundImageOn) { _, newValue in
-                        if !newValue {
-                            passObject.isBackgroundImageOn = false
-                            passObject.backgroundImage = Data()
-                        }
-                    }
-                    .onChange(of: passObject.isCoupon) {
-                        if passObject.isCoupon {
-                            passObject.isBackgroundImageOn = false
-                            tempBackground = nil
+                Toggle("Background Image", isOn: $tempPassObject.isBackgroundImageOn)
+                    .onChange(of: tempPassObject.isCoupon) {
+                        if tempPassObject.isCoupon {
+                            tempPassObject.isBackgroundImageOn = false
                         }
                     }
                     .padding(14)
-                    .disabled(passObject.isCoupon)
+                    .disabled(tempPassObject.isCoupon)
             }
             .listSectionBackgroundModifier()
 
             if !passObject.isCoupon {
                 VStack(spacing: 20) {
-                    if tempBackground != nil {
+                    if tempPassObject.isBackgroundImageOn {
                         Menu {
                             Button("Choose Photo", systemImage: "photo") {
                                 isPhotoPickerPresented = true
@@ -205,7 +197,7 @@ struct CustomizeBackgroundImage: View {
                                 }
                             }
                         } label: {
-                            Text(tempBackground == nil ? "Select a Background Image" : "Change Background Image")
+                            Text(tempPassObject.backgroundImage == Data() ? "Select a Background Image" : "Change Background Image")
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .padding(.vertical, 6)
                         }
@@ -231,9 +223,9 @@ struct CustomizeBackgroundImage: View {
                         }
                     }
 
-                    if tempBackground != nil {
+                    if tempPassObject.isBackgroundImageOn {
                         Button(role: .destructive) {
-                            passObject.backgroundImage = Data()
+                            tempPassObject.backgroundImage = Data()
                             presentationMode.wrappedValue.dismiss()
                         }
                         label: {
