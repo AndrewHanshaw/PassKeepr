@@ -198,7 +198,7 @@ struct EditablePassCard: View {
                     Button(action: {
                         isCustomizeBackgroundImagePresented.toggle()
                     }) {
-                        Image("custom.photo.circle.fill")
+                        Image("custom.wallet.pass.on.rectangle.portrait.filled.circle")
                             .symbolRenderingMode(.palette)
                             .foregroundStyle(.green, .white)
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
