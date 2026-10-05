@@ -194,21 +194,19 @@ struct EditablePassCard: View {
                 }
             }
             .overlay {
-                if passObject.stripImage == Data() && !passObject.isCustomStripImageOn {
-                    Button(action: {
-                        isCustomizeBackgroundImagePresented.toggle()
-                    }) {
-                        Image("custom.wallet.pass.on.rectangle.portrait.filled.circle")
-                            .symbolRenderingMode(.palette)
-                            .foregroundStyle(.green, .white)
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                            .font(.system(size: 28))
-                            .offset(x: 12, y: 12)
-                            .shadow(radius: 5, x: 0, y: 0)
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                    .disabled(isSigningPass)
+                Button(action: {
+                    isCustomizeBackgroundImagePresented.toggle()
+                }) {
+                    Image("custom.wallet.pass.on.rectangle.portrait.filled.circle")
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.green, .white)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                        .font(.system(size: 28))
+                        .offset(x: 12, y: 12)
+                        .shadow(radius: 5, x: 0, y: 0)
                 }
+                .buttonStyle(PlainButtonStyle())
+                .disabled(isSigningPass)
             }
         }
     }
