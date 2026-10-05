@@ -30,4 +30,16 @@ extension Color {
             }
         )
     }
+
+    // Nudges this color's brightness by `percentage`. Negative is darker, positive is lighter, clamped so it never goes below black or above white
+    func adjustingBrightness(by percentage: Double) -> Color {
+        var hue: CGFloat = 0
+        var saturation: CGFloat = 0
+        var brightness: CGFloat = 0
+        var alpha: CGFloat = 0
+        UIColor(self).getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+
+        let newBrightness = min(1, max(0, brightness + CGFloat(percentage)))
+        return Color(hue: Double(hue), saturation: Double(saturation), brightness: Double(newBrightness), opacity: Double(alpha))
+    }
 }
