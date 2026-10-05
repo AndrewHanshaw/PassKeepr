@@ -762,6 +762,16 @@
         }
       }
     },
+    "Pass Background" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фон карты"
+          }
+        }
+      }
+    },
     "Pass Group" : {
       "localizations" : {
         "ru" : {
