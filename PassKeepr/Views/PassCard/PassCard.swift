@@ -3,17 +3,13 @@ import SwiftUI
 struct PassCard: View {
     @EnvironmentObject var modelData: ModelData
     @EnvironmentObject var passSigner: pkPassSigner
-    @Environment(\.colorScheme) var colorScheme
     @State private var size: CGSize = CGSizeZero
     @State private var showAlert = false
     @State private var alertMessage = ""
-    @State private var cachedBackgroundImage: UIImage?
     var passObject: PassObject
 
-    private var passBackgroundBrightness: BackgroundBrightness { passObject.backgroundBrightness }
-
     var body: some View {
-        passCardBackground
+        PassCardBackgroundView(passObject: passObject, notchRadius: 30, verticalOffset: 22, scallopsPerEdge: 30)
             .background(GeometryReader { geometry in
                 Color.clear
                     .onAppear {
@@ -25,12 +21,6 @@ struct PassCard: View {
                         }
                     }
             })
-            .onChange(of: passObject.backgroundImage) { _, newValue in
-                decodeBackgroundImage(newValue)
-            }
-            .onAppear {
-                decodeBackgroundImage(passObject.backgroundImage)
-            }
             .overlay(
                 VStack {
                     PassCardTopSection(passObject: passObject)
@@ -177,75 +167,6 @@ struct PassCard: View {
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
             }
-    }
-
-    private var passCardBackground: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .fill(shadowColor)
-                .background(
-                    cachedBackgroundImage != nil ?
-                        Image(uiImage: cachedBackgroundImage!)
-                        .resizable()
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .blur(radius: 6)
-                        : nil // No background if image is nil
-                )
-                .scaleEffect(0.95, anchor: .bottom)
-                .blur(radius: 3)
-                .opacity(shadowOpacity)
-                .padding(.bottom, -4)
-                .allowsHitTesting(false)
-
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .strokeBorder(passBackgroundBrightness == .veryDark ? Color.white.opacity(0.15) : Color.black.opacity(0.1), lineWidth: 2) // strokeBorder draws the line only on the inside of the view
-                .background(
-                    cachedBackgroundImage != nil ?
-                        AnyView(
-                            Image(uiImage: cachedBackgroundImage!)
-                                .resizable()
-                                .scaleEffect(1.05) // Scale up the image slightly to prevent a semitransparent halo around the image
-                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .blur(radius: 6)
-                                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                        )
-                        : AnyView(RoundedRectangle(cornerRadius: 10, style: .continuous)
-                            .fill(Color(hex: passObject.backgroundColor)))
-                )
-        }
-    }
-
-    // Decodes the background image (if any) for rendering. Brightness is a cheap derived property
-    // read straight from `passObject.backgroundBrightness` (see PassObject.swift) — it's precomputed
-    // whenever the background is actually changed, so there's nothing to compute here at render time.
-    private func decodeBackgroundImage(_ data: Data) {
-        cachedBackgroundImage = data == Data() ? nil : UIImage(data: data)
-    }
-
-    private var shadowColor: Color {
-        if passObject.backgroundImage != Data() {
-            return Color.clear
-        }
-
-        switch passBackgroundBrightness {
-        case .veryDark:
-            return colorScheme == .light ? Color(hex: passObject.backgroundColor) : Color.gray.opacity(0.6)
-        case .normal:
-            return Color(hex: passObject.backgroundColor)
-        case .veryLight:
-            return colorScheme == .light ? Color.gray : Color(hex: passObject.backgroundColor)
-        }
-    }
-
-    private var shadowOpacity: Double {
-        switch passBackgroundBrightness {
-        case .veryDark:
-            return colorScheme == .light ? 0.5 : 0.4
-        case .normal:
-            return colorScheme == .light ? 0.5 : 0.6
-        case .veryLight:
-            return 0.4
-        }
     }
 }
 
