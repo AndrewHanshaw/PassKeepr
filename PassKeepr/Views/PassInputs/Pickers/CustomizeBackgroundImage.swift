@@ -183,63 +183,61 @@ struct CustomizeBackgroundImage: View {
             }
             .listSectionBackgroundModifier()
 
-            if !passObject.isCoupon {
-                VStack(spacing: 20) {
-                    if tempPassObject.isBackgroundImageOn {
-                        Menu {
-                            Button("Choose Photo", systemImage: "photo") {
-                                isPhotoPickerPresented = true
-                            }
+            VStack(spacing: 20) {
+                if tempPassObject.isBackgroundImageOn {
+                    Menu {
+                        Button("Choose Photo", systemImage: "photo") {
+                            isPhotoPickerPresented = true
+                        }
 
-                            if UIImagePickerController.isSourceTypeAvailable(.camera) {
-                                Button("Take Photo", systemImage: "camera") {
-                                    isCameraPresented = true
-                                }
-                            }
-                        } label: {
-                            Text(tempPassObject.backgroundImage == Data() ? "Select a Background Image" : "Change Background Image")
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .padding(.vertical, 6)
-                        }
-                        .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
-                        .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
-                        .onChange(of: photoItem) {
-                            Task {
-                                if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
-                                   let image = UIImage(data: loaded)
-                                {
-                                    imageForCrop = IdentifiableImage(image: image)
-                                } else {
-                                    print("Failed")
-                                }
+                        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+                            Button("Take Photo", systemImage: "camera") {
+                                isCameraPresented = true
                             }
                         }
-                        .glassProminentButtonStyleIfAvailable()
-                        .fullScreenCover(isPresented: $isCameraPresented) {
-                            CameraImagePicker { image in
+                    } label: {
+                        Text(tempPassObject.backgroundImage == Data() ? "Select a Background Image" : "Change Background Image")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.vertical, 6)
+                    }
+                    .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
+                    .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
+                    .onChange(of: photoItem) {
+                        Task {
+                            if let loaded = try? await photoItem?.loadTransferable(type: Data.self),
+                               let image = UIImage(data: loaded)
+                            {
                                 imageForCrop = IdentifiableImage(image: image)
+                            } else {
+                                print("Failed")
                             }
-                            .ignoresSafeArea()
                         }
                     }
-
-                    if tempPassObject.isBackgroundImageOn {
-                        Button(role: .destructive) {
-                            tempPassObject.backgroundImage = Data()
-                            presentationMode.wrappedValue.dismiss()
+                    .glassProminentButtonStyleIfAvailable()
+                    .fullScreenCover(isPresented: $isCameraPresented) {
+                        CameraImagePicker { image in
+                            imageForCrop = IdentifiableImage(image: image)
                         }
-                        label: {
-                            Text("Remove Background Image")
-                                .frame(maxWidth: .infinity, alignment: .center)
-                        }
-                        .padding(.vertical, 12)
-                        .listSectionBackgroundModifier()
+                        .ignoresSafeArea()
                     }
-
-                    Spacer()
                 }
-                .padding(.top, 20)
+
+                if tempPassObject.isBackgroundImageOn {
+                    Button(role: .destructive) {
+                        tempPassObject.backgroundImage = Data()
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    label: {
+                        Text("Remove Background Image")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                    .padding(.vertical, 12)
+                    .listSectionBackgroundModifier()
+                }
+
+                Spacer()
             }
+            .padding(.top, 20)
         }
     }
 
