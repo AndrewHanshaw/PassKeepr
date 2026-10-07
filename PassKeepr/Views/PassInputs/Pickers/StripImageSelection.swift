@@ -20,6 +20,11 @@ struct StripImageSelection: View {
                     if passObject.isCustomStripImageOn && passObject.auxiliaryFieldOneText.isEmpty {
                         passObject.isAuxiliaryFieldOneOn = false
                     }
+
+                    if passObject.isCustomStripImageOn {
+                        // Strip image is mutually exclusive with the background image
+                        passObject.isBackgroundImageOn = false
+                    }
                 }
         }
     }

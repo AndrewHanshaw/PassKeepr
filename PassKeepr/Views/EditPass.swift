@@ -334,7 +334,7 @@ struct EditPass: View {
             AuxiliaryFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
             HeaderFieldSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
 
-            if (tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr) && tempObject.backgroundImage == Data() {
+            if tempObject.barcodeType == BarcodeType.none || tempObject.barcodeType == BarcodeType.code128 || tempObject.barcodeType == BarcodeType.pdf417 || tempObject.barcodeType == BarcodeType.qr {
                 StripImageSelection(passObject: $tempObject, disableControl: hasEditPassButtonBeenPressed)
             }
 
