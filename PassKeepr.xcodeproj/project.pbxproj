@@ -66,6 +66,7 @@
 		BA95576D2CD69ADE0010721A /* AddToWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA95576C2CD69ADE0010721A /* AddToWalletView.swift */; };
 		BA9ED5E82B0C65380093CC75 /* Code128View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5E72B0C65380093CC75 /* Code128View.swift */; };
 		BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */; };
+		BAA102D33073541100C7EBBD /* LandscapeDetailPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA102D23073541100C7EBBD /* LandscapeDetailPane.swift */; };
 		BAA53E142D0E2E2C004A175A /* HeaderFieldSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E132D0E2E2C004A175A /* HeaderFieldSelection.swift */; };
 		BAA53E162D0E38C5004A175A /* EditableHeaderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E152D0E38C5004A175A /* EditableHeaderTextField.swift */; };
 		BAA53E182D0E3AF5004A175A /* CustomizePassTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA53E172D0E3AF5004A175A /* CustomizePassTextField.swift */; };
@@ -200,6 +201,7 @@
 		BA95576C2CD69ADE0010721A /* AddToWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToWalletView.swift; sourceTree = "<group>"; };
 		BA9ED5E72B0C65380093CC75 /* Code128View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Code128View.swift; sourceTree = "<group>"; };
 		BA9ED5EB2B0EE7140093CC75 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
+		BAA102D23073541100C7EBBD /* LandscapeDetailPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandscapeDetailPane.swift; sourceTree = "<group>"; };
 		BAA53E132D0E2E2C004A175A /* HeaderFieldSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderFieldSelection.swift; sourceTree = "<group>"; };
 		BAA53E152D0E38C5004A175A /* EditableHeaderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableHeaderTextField.swift; sourceTree = "<group>"; };
 		BAA53E172D0E3AF5004A175A /* CustomizePassTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizePassTextField.swift; sourceTree = "<group>"; };
@@ -461,6 +463,7 @@
 		BABAADDB2B0A6C190014C73B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BAA102D23073541100C7EBBD /* LandscapeDetailPane.swift */,
 				BA21DD1230089F0D00335F03 /* PassGridView.swift */,
 				BAF0FB712D28D09200948089 /* PassCard */,
 				BAA53E1A2D0E5443004A175A /* EditablePassCard */,
@@ -709,6 +712,7 @@
 				BAF5EF952D09542200259BEA /* CustomizeQrCode.swift in Sources */,
 				BAEE42202CC436FA00A3F7A1 /* SignPass.swift in Sources */,
 				BA9ED5EC2B0EE7140093CC75 /* QRCodeView.swift in Sources */,
+				BAA102D33073541100C7EBBD /* LandscapeDetailPane.swift in Sources */,
 				BA863A172B6621B6008746C1 /* ScannerView.swift in Sources */,
 				BA11183B2FDE3A6D00501423 /* LocationSelection.swift in Sources */,
 				BAFF19F53009CA2200148BA2 /* FancyNavTitleScrollView.swift in Sources */,

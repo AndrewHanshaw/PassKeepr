@@ -21,6 +21,9 @@ struct ContentView: View {
             NavigationSplitView {
                 PassGridView(importedPassURL: $importedPassURL)
                     .navigationSplitViewColumnWidth(min: passGridMinWidth(forColumns: 2), ideal: passGridMinWidth(forColumns: 2) + 20)
+            } detail: {
+                LandscapeDetailPane()
+                    .navigationSplitViewColumnWidth(min: 320, ideal: 400)
             }
         } else {
             // iPhone: NavigationStack required for zoom transition support

@@ -944,6 +944,16 @@
         }
       }
     },
+    "Select a Pass to Edit\nor Add a New Pass" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите карту для редактирования\nили добавьте новую карту"
+          }
+        }
+      }
+    },
     "Select a Strip Image" : {
       "localizations" : {
         "ru" : {
