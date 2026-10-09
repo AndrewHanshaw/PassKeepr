@@ -13,8 +13,12 @@ struct InvalidBarcodeView: View {
 
             Text(isEmpty ? "Enter Barcode Data" : "Invalid Barcode Data")
                 .font(Font.system(size: 18))
+                .multilineTextAlignment(.center)
+                .minimumScaleFactor(0.34)
+                .lineLimit(2)
                 .foregroundColor(Color.gray)
                 .opacity(0.7)
+                .padding(15)
         }
     }
 }
