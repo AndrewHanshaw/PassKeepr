@@ -6,6 +6,7 @@ import SwiftyCrop
 struct CustomizePassBackground: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.displayScale) private var displayScale
 
     @Binding var passObject: PassObject
 
@@ -264,7 +265,7 @@ struct CustomizePassBackground: View {
             .frame(width: targetSize.width, height: targetSize.height))
 
         // Render the scaled-down image
-        renderer.scale = UIScreen.main.scale // Maintain screen scale for quality
+        renderer.scale = displayScale // Maintain screen scale for quality
         return renderer.uiImage
     }
 }

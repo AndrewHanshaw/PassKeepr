@@ -6,16 +6,17 @@ struct AztecView: View {
     @Binding var numberOfLayers: Int
     @Binding var isCompact: Bool
     @Binding var percentCorrectionLevel: Int
+    @Environment(\.displayScale) private var displayScale
 
     var body: some View {
-        if let AztecImage = GenerateAztecBarcode(string: data, viewWidth: UIScreen.main.bounds.width, numberOfLayers: numberOfLayers, isCompact: isCompact, percentCorrectionLevel: percentCorrectionLevel) {
-            GeometryReader { geometry in
+        GeometryReader { geometry in
+            if let AztecImage = GenerateAztecBarcode(string: data, viewWidth: geometry.size.width, numberOfLayers: numberOfLayers, isCompact: isCompact, percentCorrectionLevel: percentCorrectionLevel, displayScale: displayScale) {
                 Image(uiImage: AztecImage)
                     .resizable()
                     .frame(width: geometry.size.width)
             }
-            .aspectRatio(1.0, contentMode: .fit)
         }
+        .aspectRatio(1.0, contentMode: .fit)
     }
 }
 
@@ -23,7 +24,7 @@ struct AztecView: View {
     AztecView(data: .constant("Hello, Swift Aztec Barcode!"), numberOfLayers: .constant(3), isCompact: .constant(false), percentCorrectionLevel: .constant(50))
 }
 
-func GenerateAztecBarcode(string: String, viewWidth: CGFloat, numberOfLayers: Int, isCompact: Bool, percentCorrectionLevel: Int) -> UIImage? {
+func GenerateAztecBarcode(string: String, viewWidth: CGFloat, numberOfLayers: Int, isCompact: Bool, percentCorrectionLevel: Int, displayScale: CGFloat) -> UIImage? {
     let filter = CIFilter.aztecCodeGenerator()
 
     filter.message = string.data(using: String.Encoding.ascii)!
@@ -41,7 +42,7 @@ func GenerateAztecBarcode(string: String, viewWidth: CGFloat, numberOfLayers: In
     // Convert the CIImage to a UIImage
     let context = CIContext()
     if let cgImage = context.createCGImage(scaledImage, from: scaledImage.extent) {
-        let qrCodeImage = UIImage(cgImage: cgImage, scale: UIScreen.main.scale, orientation: .up)
+        let qrCodeImage = UIImage(cgImage: cgImage, scale: displayScale, orientation: .up)
         return qrCodeImage
     }
 

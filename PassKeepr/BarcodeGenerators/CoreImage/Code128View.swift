@@ -3,10 +3,11 @@ import SwiftUI
 
 struct Code128View: View {
     var data: String
+    @Environment(\.displayScale) private var displayScale
 
     var body: some View {
-        if let code128BarcodeImage = GenerateCode128Barcode(string: data, viewWidth: UIScreen.main.bounds.width) {
-            GeometryReader { geometry in
+        GeometryReader { geometry in
+            if let code128BarcodeImage = GenerateCode128Barcode(string: data, viewWidth: geometry.size.width, displayScale: displayScale) {
                 Image(uiImage: code128BarcodeImage)
                     .resizable()
                     .frame(width: geometry.size.width)
@@ -19,7 +20,7 @@ struct Code128View: View {
     Code128View(data: "Hello, Swift Barcode!")
 }
 
-func GenerateCode128Barcode(string: String, viewWidth: CGFloat) -> UIImage? {
+func GenerateCode128Barcode(string: String, viewWidth: CGFloat, displayScale: CGFloat) -> UIImage? {
     let filter = CIFilter.code128BarcodeGenerator()
 
     filter.quietSpace = 4
@@ -35,7 +36,7 @@ func GenerateCode128Barcode(string: String, viewWidth: CGFloat) -> UIImage? {
     // Convert the CIImage to a UIImage
     let context = CIContext()
     if let cgImage = context.createCGImage(scaledImage, from: scaledImage.extent) {
-        let qrCodeImage = UIImage(cgImage: cgImage, scale: UIScreen.main.scale, orientation: .up)
+        let qrCodeImage = UIImage(cgImage: cgImage, scale: displayScale, orientation: .up)
         return qrCodeImage
     }
 
