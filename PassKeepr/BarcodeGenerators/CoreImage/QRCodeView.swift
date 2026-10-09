@@ -5,16 +5,17 @@ struct QRCodeView: View {
     var data: String
     var correctionLevel: QrCodeCorrectionLevel
     var encoding: QrCodeEncoding
+    @Environment(\.displayScale) private var displayScale
 
     var body: some View {
-        if let QRCodeImage = GenerateQRCode(string: data, viewWidth: UIScreen.main.bounds.width, correctionLevel: correctionLevel, encoding: encoding) {
-            GeometryReader { _ in
+        GeometryReader { geometry in
+            if let QRCodeImage = GenerateQRCode(string: data, viewWidth: geometry.size.width, correctionLevel: correctionLevel, encoding: encoding, displayScale: displayScale) {
                 Image(uiImage: QRCodeImage)
                     .resizable()
                     .scaledToFit()
             }
-            .aspectRatio(1.0, contentMode: .fit)
         }
+        .aspectRatio(1.0, contentMode: .fit)
     }
 }
 
@@ -22,7 +23,7 @@ struct QRCodeView: View {
     QRCodeView(data: "Hello, Swift QRcode!", correctionLevel: QrCodeCorrectionLevel.high, encoding: QrCodeEncoding.ascii)
 }
 
-func GenerateQRCode(string: String, viewWidth: CGFloat, correctionLevel: QrCodeCorrectionLevel, encoding: QrCodeEncoding) -> UIImage? {
+func GenerateQRCode(string: String, viewWidth: CGFloat, correctionLevel: QrCodeCorrectionLevel, encoding: QrCodeEncoding, displayScale: CGFloat) -> UIImage? {
     let filter = CIFilter.qrCodeGenerator()
 
     filter.correctionLevel = "\(correctionLevel)"
@@ -38,7 +39,7 @@ func GenerateQRCode(string: String, viewWidth: CGFloat, correctionLevel: QrCodeC
     // Convert the CIImage to a UIImage
     let context = CIContext()
     if let cgImage = context.createCGImage(scaledImage, from: scaledImage.extent) {
-        let qrCodeImage = UIImage(cgImage: cgImage, scale: UIScreen.main.scale, orientation: .up)
+        let qrCodeImage = UIImage(cgImage: cgImage, scale: displayScale, orientation: .up)
         return qrCodeImage
     }
 

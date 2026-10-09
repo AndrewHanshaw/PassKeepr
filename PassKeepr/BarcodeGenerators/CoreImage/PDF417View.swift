@@ -3,10 +3,11 @@ import SwiftUI
 
 struct PDF417View: View {
     var data: String
+    @Environment(\.displayScale) private var displayScale
 
     var body: some View {
-        if let PDF417Image = GeneratePDF417Barcode(string: data, viewWidth: UIScreen.main.bounds.width, viewHeight: UIScreen.main.bounds.height) {
-            GeometryReader { geometry in
+        GeometryReader { geometry in
+            if let PDF417Image = GeneratePDF417Barcode(string: data, viewWidth: geometry.size.width, viewHeight: geometry.size.height, displayScale: displayScale) {
                 Image(uiImage: PDF417Image)
                     .resizable()
                     .frame(width: geometry.size.width)
@@ -19,7 +20,7 @@ struct PDF417View: View {
     PDF417View(data: "Hello, Swift PDF417 Barcode!")
 }
 
-func GeneratePDF417Barcode(string: String, viewWidth: CGFloat, viewHeight: CGFloat) -> UIImage? {
+func GeneratePDF417Barcode(string: String, viewWidth: CGFloat, viewHeight: CGFloat, displayScale: CGFloat) -> UIImage? {
     let filter = CIFilter.pdf417BarcodeGenerator()
 
     filter.message = string.data(using: String.Encoding.ascii) ?? "invalid data".data(using: String.Encoding.ascii)!
@@ -34,7 +35,7 @@ func GeneratePDF417Barcode(string: String, viewWidth: CGFloat, viewHeight: CGFlo
     // Convert the CIImage to a UIImage
     let context = CIContext()
     if let cgImage = context.createCGImage(scaledImage, from: scaledImage.extent) {
-        let qrCodeImage = UIImage(cgImage: cgImage, scale: UIScreen.main.scale, orientation: .up)
+        let qrCodeImage = UIImage(cgImage: cgImage, scale: displayScale, orientation: .up)
         return qrCodeImage
     }
 
