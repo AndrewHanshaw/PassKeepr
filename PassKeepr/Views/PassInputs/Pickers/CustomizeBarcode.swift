@@ -25,7 +25,9 @@ struct CustomizeBarcode: View {
     enum ActiveAlert: Identifiable {
         case barcodeInfoAlert, invalidBarcodeAlert
 
-        var id: Self { self }
+        var id: Self {
+            self
+        }
     }
 
     @State private var activeAlert: ActiveAlert?
@@ -180,6 +182,31 @@ struct CustomizeBarcode: View {
 
                 case BarcodeType.pdf417:
                     PDF417View(data: tempBarcodeData)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
+                case BarcodeType.ean8:
+                    EAN8View(value: $tempBarcodeData, border: tempBarcodeBorder)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
+                case BarcodeType.itf14:
+                    ITF14View(value: $tempBarcodeData, border: tempBarcodeBorder)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
+                case BarcodeType.code39Checksum:
+                    Code39ChecksumView(value: $tempBarcodeData, border: tempBarcodeBorder)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
+                case BarcodeType.code39FullASCII:
+                    Code39FullASCIIView(value: $tempBarcodeData, border: tempBarcodeBorder)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
+                case BarcodeType.code39FullASCIIChecksum:
+                    Code39FullASCIIChecksumView(value: $tempBarcodeData, border: tempBarcodeBorder)
                         .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                         .frame(maxWidth: .infinity)
 
@@ -347,28 +374,43 @@ struct CustomizeBarcode: View {
         switch tempBarcodeType {
         case BarcodeType.code39:
             tempStripImage = ImageRenderer(content:
-                Code39View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)
-            ).uiImage?.pngData() ?? Data()
+                Code39View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
 
         case BarcodeType.code93:
             tempStripImage = ImageRenderer(content:
-                Code93View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)
-            ).uiImage?.pngData() ?? Data()
+                Code93View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
 
         case BarcodeType.upce:
             tempStripImage = ImageRenderer(content:
-                UPCEView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)
-            ).uiImage?.pngData() ?? Data()
+                UPCEView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
 
         case BarcodeType.upca:
             tempStripImage = ImageRenderer(content:
-                UPCAView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)
-            ).uiImage?.pngData() ?? Data()
+                UPCAView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
 
         case BarcodeType.ean13:
             tempStripImage = ImageRenderer(content:
-                EAN13View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)
-            ).uiImage?.pngData() ?? Data()
+                EAN13View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
+
+        case BarcodeType.ean8:
+            tempStripImage = ImageRenderer(content:
+                EAN8View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
+
+        case BarcodeType.itf14:
+            tempStripImage = ImageRenderer(content:
+                ITF14View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
+
+        case BarcodeType.code39Checksum:
+            tempStripImage = ImageRenderer(content:
+                Code39ChecksumView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
+
+        case BarcodeType.code39FullASCII:
+            tempStripImage = ImageRenderer(content:
+                Code39FullASCIIView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
+
+        case BarcodeType.code39FullASCIIChecksum:
+            tempStripImage = ImageRenderer(content:
+                Code39FullASCIIChecksumView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
 
         default:
             break
