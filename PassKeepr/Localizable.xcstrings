@@ -1241,12 +1241,12 @@
         }
       }
     },
-    "Use the ＋ Button to Add a Pass" : {
+    "Use the ＋ Button\nto Add a Pass" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Используйте кнопку ＋, чтобы добавить карту"
+            "value" : "Используйте кнопку ＋\nчтобы добавить карту"
           }
         }
       }

@@ -25,6 +25,7 @@ struct PassGridView: View {
 
     @Binding var importedPassURL: URL?
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Binding var addButtonCenter: CGPoint?
 
     // Measured via a read-only .onGeometryChange on the outer (non-scrolling) ZStack below —
     // NOT via a GeometryReader wrapping passGrid's content. A GeometryReader used as content
@@ -167,6 +168,11 @@ struct PassGridView: View {
 //                            shouldPresentAddPass.toggle()
 //                        }
                         .buttonStyle(GlassProminentButtonStyle())
+                        .onGeometryChange(for: CGRect.self) { proxy in
+                            proxy.frame(in: .global)
+                        } action: { frame in
+                            addButtonCenter = CGPoint(x: frame.midX, y: frame.midY)
+                        }
                     }
                 }
             }
@@ -215,14 +221,6 @@ struct PassGridView: View {
             } message: {
                 Text(importErrorMessage)
             }
-            if modelData.passObjects.isEmpty {
-                if #available(iOS 26.0, *) {
-                    NoPassesToShow()
-                } else {
-                    NoPassesToShow()
-                        .padding(.bottom, 38)
-                }
-            }
         } // ZStack
         .onGeometryChange(for: CGSize.self) { proxy in
             proxy.size
@@ -251,6 +249,11 @@ struct PassGridView: View {
                        .labelStyle(.iconOnly)
                        .padding(.trailing, 30)
                        .offset(x: 10, y: 10)
+                       .onGeometryChange(for: CGRect.self) { proxy in
+                           proxy.frame(in: .global)
+                       } action: { frame in
+                           addButtonCenter = CGPoint(x: frame.midX, y: frame.midY)
+                       }
             }
         }
     }

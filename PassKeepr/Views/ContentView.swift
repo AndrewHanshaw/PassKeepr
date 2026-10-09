@@ -15,11 +15,14 @@ struct ContentView: View {
         UIDevice.current.userInterfaceIdiom == .pad
     }
 
+    @EnvironmentObject var modelData: ModelData
+    @State private var addButtonCenter: CGPoint?
+
     var body: some View {
         if isPad {
             // iPad: two-column split view
             NavigationSplitView {
-                PassGridView(importedPassURL: $importedPassURL)
+                PassGridView(importedPassURL: $importedPassURL, addButtonCenter: $addButtonCenter)
                     .navigationSplitViewColumnWidth(min: passGridMinWidth(forColumns: 2), ideal: passGridMinWidth(forColumns: 2) + 20)
             } detail: {
                 LandscapeDetailPane()
@@ -31,6 +34,11 @@ struct ContentView: View {
                 PassGridView(importedPassURL: $importedPassURL)
             }
         }
+
+            // Empty state overlay at window level (no parent coordinate conversions)
+            if modelData.passObjects.isEmpty {
+                NoPassesToShow(addButtonCenter: addButtonCenter)
+            }
     }
 }
 
