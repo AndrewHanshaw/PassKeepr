@@ -9,7 +9,7 @@ struct PassCard: View {
     var passObject: PassObject
 
     var body: some View {
-        PassCardBackgroundView(passObject: passObject, notchRadius: 30, verticalOffset: 22, scallopsPerEdge: 30)
+        PassCardBackgroundView(passObject: passObject, scallopsPerEdge: 30)
             .background(GeometryReader { geometry in
                 Color.clear
                     .onAppear {
