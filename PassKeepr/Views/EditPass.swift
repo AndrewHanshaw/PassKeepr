@@ -40,6 +40,9 @@ struct EditPass: View {
     @State private var isCustomizeQrCodePresented = false
     @State private var isCustomizeIconImagePresented = false
 
+    // Track if the full toolbar menu fits in the available space
+    @State private var toolbarFits = true
+
     // On init, set the temp object owned by this view equal to the
     // one passed in via @Binding
     init(objectToEdit: Binding<PassObject>, isNewPass: Bool, shouldProvideOwnNavigation: Bool = true) {
@@ -79,29 +82,9 @@ struct EditPass: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("")
         .toolbar {
-            ToolbarItem(placement: .principal) {
-                if isEditingTitle {
-                    HStack(spacing: 4) {
-                        if tempObject.passIcon != Data(), let uiImage = UIImage(data: tempObject.passIcon) {
-                            Image(uiImage: uiImage)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 24, height: 24)
-                                .clipShape(RoundedRectangle(cornerRadius: 4))
-                        }
-                        InlineTitleTextField(text: $renameText, onCommit: commitRename)
-                            .frame(minWidth: 150)
-                    }
-                } else {
-                    Menu {
-                        Button("Rename", systemImage: "pencil") {
-                            renameText = tempObject.description == PassObject.defaultDescription ? "" : tempObject.description
-                            isEditingTitle = true
-                        }
-                        Button("Change Icon Image", systemImage: "square.dashed") {
-                            isCustomizeIconImagePresented = true
-                        }
-                    } label: {
+            if toolbarFits {
+                ToolbarItem(placement: .principal) {
+                    if isEditingTitle {
                         HStack(spacing: 4) {
                             if tempObject.passIcon != Data(), let uiImage = UIImage(data: tempObject.passIcon) {
                                 Image(uiImage: uiImage)
@@ -110,15 +93,51 @@ struct EditPass: View {
                                     .frame(width: 24, height: 24)
                                     .clipShape(RoundedRectangle(cornerRadius: 4))
                             }
-                            Text(displayedTitle)
-                                .font(.headline)
-                                .foregroundStyle(.primary)
-                                .lineLimit(1)
-                                .truncationMode(.tail)
-                                .frame(maxWidth: 200)
-                            Image(systemName: "chevron.down")
-                                .font(.caption2.weight(.semibold))
-                                .foregroundStyle(.secondary)
+                            InlineTitleTextField(text: $renameText, onCommit: commitRename)
+                                .frame(minWidth: 150)
+                        }
+                    } else {
+                        Menu {
+                            Button("Rename", systemImage: "pencil") {
+                                renameText = tempObject.description == PassObject.defaultDescription ? "" : tempObject.description
+                                isEditingTitle = true
+                            }
+                            Button("Change Icon Image", systemImage: "square.dashed") {
+                                isCustomizeIconImagePresented = true
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                if tempObject.passIcon != Data(), let uiImage = UIImage(data: tempObject.passIcon) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 24, height: 24)
+                                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                                }
+                                Text(displayedTitle)
+                                    .font(.headline)
+                                    .foregroundStyle(.primary)
+                                    .lineLimit(1)
+                                    .truncationMode(.tail)
+                                    .frame(maxWidth: 200)
+                                Image(systemName: "chevron.down")
+                                    .font(.caption2.weight(.semibold))
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                }
+            }
+
+            if #available(iOS 27.0, *) { // okay to wrap this behind iOS27 as it is specific to the iPhone Duo which launched with iOS27
+                if !toolbarFits {
+                    ToolbarOverflowMenu {
+                        Button("Rename", systemImage: "pencil") {
+                            renameText = tempObject.description == PassObject.defaultDescription ? "" : tempObject.description
+                            isEditingTitle = true
+                        }
+                        Button("Change Icon Image", systemImage: "square.dashed") {
+                            isCustomizeIconImagePresented = true
                         }
                     }
                 }
@@ -154,6 +173,14 @@ struct EditPass: View {
                     .toolbarCancelButtonModifier()
                 }
             }
+        }
+        .onGeometryChange(for: CGRect.self) { proxy in
+            proxy.frame(in: .global)
+        } action: { frame in
+            // This size is unique to iPhone Duo inner screen portrait orientation
+            // This affects some iPad window sizes, but there isn't a great way to detect the Duo specifically
+            // TODO: Use uname to detect iPhone Duo specifically eventually?
+            toolbarFits = frame.width > 327
         }
         .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
         .sheet(isPresented: $isCustomizeLogoImagePresented) {
