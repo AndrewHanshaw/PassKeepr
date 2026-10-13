@@ -112,7 +112,7 @@ struct LocationSelection: View {
                             showPickerSheet = true
                         },
                         onDelete: {
-                            withAnimation(.easeInOut(duration: 0.3)) {
+                            _ = withAnimation(.easeInOut(duration: 0.3)) {
                                 removingIDs.insert(location.id)
                             }
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
