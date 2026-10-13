@@ -1,3 +1,26 @@
+## [1.07] - 2026-10-21
+
+### Added
+- Support for landscape orientation on iOS devices.
+- Support for iPadOS:
+    - Support for resizing the window to an arbitrary size.
+    - New navigational layout.
+- Support for iPhone Duo.
+- Support for Coupon passes.
+- Support for converting text fields into currency:
+    - Individual text fields can be toggled to be represented as a chosen currency type.
+    - Imported passes will have the currency field(s) and currency code pre-selected.
+- The ability to customize the Pass's icon image.
+
+### Fixed
+- Issue that disallowed strip images on passes with QR codes.
+- The location picker no longer defaults to a placeholder coordinate before one is chosen.
+
+### Changed
+- Update Pass shape to reflect changes made in iOS27
+- Changes to PassKeepr passes are now automatically saved to the pass gallery (within PassKeepr). If you want to update the Wallet pass associated with a PassKeepr pass, click the "Sign Pass" button
+
+
 ## [1.06] - 2026-06-11
 
 ### Added
