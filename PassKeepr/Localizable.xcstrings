@@ -231,7 +231,14 @@
       }
     },
     "Change Icon Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить значок"
+          }
+        }
+      }
     },
     "Change Location" : {
       "localizations" : {
@@ -334,10 +341,24 @@
       }
     },
     "Currency Code" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Код валюты"
+          }
+        }
+      }
     },
     "Currency Fields" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поля валюты"
+          }
+        }
+      }
     },
     "Customize Barcode" : {
       "localizations" : {
@@ -600,7 +621,14 @@
       }
     },
     "Icon type" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Тип значка"
+          }
+        }
+      }
     },
     "Import Failed" : {
       "localizations" : {
@@ -803,7 +831,14 @@
       }
     },
     "Pass Icon" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Значок карты"
+          }
+        }
+      }
     },
     "PassKeepr" : {
       "localizations" : {
@@ -896,7 +931,14 @@
       }
     },
     "Rename" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Переименовать"
+          }
+        }
+      }
     },
     "Save" : {
       "localizations" : {
@@ -1039,7 +1081,14 @@
       }
     },
     "Select an Icon Image" : {
-
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выбрать значок"
+          }
+        }
+      }
     },
     "Set Location" : {
       "localizations" : {
