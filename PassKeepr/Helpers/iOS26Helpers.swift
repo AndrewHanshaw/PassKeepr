@@ -22,22 +22,6 @@ extension View {
     }
 }
 
-struct GlassProminentButtonStyleModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        if #available(iOS 26.0, *) {
-            content.buttonStyle(GlassProminentButtonStyle())
-        } else {
-            content
-        }
-    }
-}
-
-extension View {
-    func glassProminentButtonStyleIfAvailable() -> some View {
-        modifier(GlassProminentButtonStyleModifier())
-    }
-}
-
 struct TextFieldPopoverModifier: ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 26.0, *) {
@@ -62,10 +46,12 @@ struct AccentColorProminentButtonStyleModifier: ViewModifier {
         if #available(iOS 26.0, *) {
             content
                 .glassEffect(.regular.tint(.accentColor).interactive())
+                .foregroundColor(Color(.white))
         } else {
             content
                 .background(Color.accentColor)
                 .clipShape(.rect(cornerRadius: 12))
+                .foregroundColor(Color(.white))
         }
     }
 }

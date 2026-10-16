@@ -204,7 +204,7 @@ struct CustomizeBarcode: View {
                 }
             } label: {
                 Text("Scan Existing Barcode")
-                    .padding(.vertical, 6)
+                    .padding(.vertical, 12)
                     .frame(maxWidth: .infinity, alignment: .center)
             }
             .compositingGroup()
@@ -255,7 +255,7 @@ struct CustomizeBarcode: View {
 
                 scannedCode = "" // allows for repeated scanning of the same code
             }
-            .glassProminentButtonStyleIfAvailable()
+            .accentColorProminentButtonStyleIfAvailable()
 
             Text("Or:")
                 .frame(maxWidth: .infinity, alignment: .center)

@@ -191,7 +191,7 @@ struct CustomizeQrCode: View {
                 }
             } label: {
                 Text("Scan Existing QR Code")
-                    .padding(.vertical, 6)
+                    .padding(.vertical, 12)
                     .frame(maxWidth: .infinity, alignment: .center)
             }
             .compositingGroup()
@@ -219,7 +219,7 @@ struct CustomizeQrCode: View {
                 ScannerView(scannedData: $scannedCode, scannedBarcodeType: $scannedBarcodeType, showScanner: $isScannerPresented)
                     .edgesIgnoringSafeArea(.bottom)
             }
-            .glassProminentButtonStyleIfAvailable()
+            .accentColorProminentButtonStyleIfAvailable()
 
             Text("Or:")
                 .frame(maxWidth: .infinity, alignment: .center)

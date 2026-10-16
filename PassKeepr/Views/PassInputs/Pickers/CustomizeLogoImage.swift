@@ -237,7 +237,7 @@ struct CustomizeLogoImage: View {
                 } label: {
                     Text(tempLogo == nil ? "Select a Logo Image" : "Change Logo Image")
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.vertical, 6)
+                        .padding(.vertical, 12)
                 }
                 .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
                 .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
@@ -252,7 +252,7 @@ struct CustomizeLogoImage: View {
                         }
                     }
                 }
-                .glassProminentButtonStyleIfAvailable()
+                .accentColorProminentButtonStyleIfAvailable()
                 .fullScreenCover(isPresented: $isCameraPresented) {
                     CameraImagePicker { image in
                         imageForCrop = IdentifiableImage(image: image)
@@ -275,7 +275,6 @@ struct CustomizeLogoImage: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
                 }
-                .foregroundColor(.white)
                 .accentColorProminentButtonStyleIfAvailable()
                 .emojiPicker(
                     isPresented: $isEmojiPickerOn,
@@ -289,7 +288,6 @@ struct CustomizeLogoImage: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
                 }
-                .foregroundColor(Color.white)
                 .accentColorProminentButtonStyleIfAvailable()
 
                 ColorPicker("Symbol Color", selection: $symbolColor, supportsOpacity: false)

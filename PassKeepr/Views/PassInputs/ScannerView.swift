@@ -63,7 +63,8 @@ struct ScannerView: View {
                 }
                 .font(.system(size: 18))
                 .controlSize(.large)
-                .glassProminentButtonStyleIfAvailable()
+                .padding(16)
+                .accentColorProminentButtonStyleIfAvailable()
             }
             .padding(.bottom, 100)
         }

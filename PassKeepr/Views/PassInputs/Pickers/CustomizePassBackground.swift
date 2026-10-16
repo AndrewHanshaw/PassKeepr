@@ -223,7 +223,7 @@ struct CustomizePassBackground: View {
                     } label: {
                         Text(tempPassObject.backgroundImage == Data() ? "Select a Background Image" : "Change Background Image")
                             .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.vertical, 6)
+                            .padding(.vertical, 12)
                     }
                     .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
                     .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
@@ -238,7 +238,7 @@ struct CustomizePassBackground: View {
                             }
                         }
                     }
-                    .glassProminentButtonStyleIfAvailable()
+                    .accentColorProminentButtonStyleIfAvailable()
                     .fullScreenCover(isPresented: $isCameraPresented) {
                         CameraImagePicker { image in
                             imageForCrop = IdentifiableImage(image: image)

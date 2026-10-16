@@ -158,10 +158,10 @@ struct CustomizeStripImage: View {
             } label: {
                 Text(tempStrip == nil ? "Select a Strip Image" : "Change Strip Image")
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.vertical, 6)
+                    .padding(.vertical, 12)
             }
             .compositingGroup() //  fixes _UIReparentingView warning. See https://stackoverflow.com/questions/79871713/ios-26-broken-view-hierarchy-on-menu/79958545#79958545
-            .glassProminentButtonStyleIfAvailable()
+            .accentColorProminentButtonStyleIfAvailable()
             .photosPicker(isPresented: $isPhotoPickerPresented, selection: $photoItem, matching: .any(of: [.images, .not(.videos)]))
             .onChange(of: photoItem) {
                 Task {

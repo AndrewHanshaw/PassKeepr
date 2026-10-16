@@ -36,11 +36,9 @@ struct About: View {
                 }
                 .padding(8)
                 .frame(maxHeight: 30)
-                .background(RoundedRectangle(cornerRadius: 5)
-                    .foregroundColor(Color.accentColor)
-                )
             }
-            .glassProminentButtonStyleIfAvailable()
+            .padding(10)
+            .accentColorProminentButtonStyleIfAvailable()
         }
     }
 }

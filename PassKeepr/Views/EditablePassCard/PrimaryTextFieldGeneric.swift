@@ -71,7 +71,6 @@ struct PrimaryTextFieldGeneric: View {
                                         isTutorialStage1Presented = false
                                         modelData.tutorialStage += 1
                                     })
-                                    .foregroundColor(.white)
                                     .padding(.horizontal, 10)
                                     .padding(.vertical, 5)
                                     .accentColorProminentButtonStyleIfAvailable()
@@ -122,7 +121,6 @@ struct PrimaryTextFieldGeneric: View {
                         isTutorialStage0Presented = false
                         modelData.tutorialStage += 1
                     })
-                    .foregroundColor(.white)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 5)
                     .accentColorProminentButtonStyleIfAvailable()
