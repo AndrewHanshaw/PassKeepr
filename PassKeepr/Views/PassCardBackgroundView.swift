@@ -78,8 +78,8 @@ enum PassCardShape {
         return AnyShape(shape)
     }
 
-    static func background(hasBackgroundImage _: Data, isCoupon: Bool, scallopsPerEdge: Int? = nil, insetAmount: CGFloat = 0) -> AnyShape {
-        if backgroundImage != Data() {
+    static func background(hasBackgroundImage: Bool, isCoupon: Bool, scallopsPerEdge: Int? = nil, insetAmount: CGFloat = 0) -> AnyShape {
+        if hasBackgroundImage {
             notch(insetAmount: insetAmount)
         } else if isCoupon {
             scallop(scallopsPerEdge: scallopsPerEdge, insetAmount: insetAmount)
@@ -112,7 +112,7 @@ struct PassCardBackgroundView: View {
     // Shared by both the shadow (filled) and the gradient overlay (used as a clip shape) so the
     // two always agree on which silhouette - notched, scalloped, or plain rounded - to use.
     private var backgroundShape: AnyShape {
-        PassCardShape.background(hasBackgroundImage: passObject.backgroundImage, isCoupon: passObject.isCoupon, scallopsPerEdge: scallopsPerEdge)
+        PassCardShape.background(hasBackgroundImage: passObject.isBackgroundImageOn && passObject.backgroundImage != Data(), isCoupon: passObject.isCoupon, scallopsPerEdge: scallopsPerEdge)
     }
 
     private func notchShape(insetAmount: CGFloat = 0) -> AnyShape {
@@ -163,7 +163,9 @@ struct PassCardBackgroundView: View {
                 plainColorBackground
             }
 
-            PassCardGradientOverlay(clipShape: backgroundShape)
+            if #available(iOS 27.0, *) {
+                PassCardGradientOverlay(clipShape: backgroundShape)
+            }
         }
         .onChange(of: passObject.backgroundImage) { _, newValue in
             if passObject.isBackgroundImageOn {

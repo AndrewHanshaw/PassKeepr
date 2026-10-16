@@ -44,7 +44,7 @@ struct EditablePassCard: View {
     // plain rounded rectangle otherwise. `PassCardShape.background` already handles the
     // pre/post-iOS 27 notch shape branching internally, so one property covers both call sites.
     private var signingOverlayClipShape: AnyShape {
-        PassCardShape.background(hasBackgroundImage: passObject.isBackgroundImageOn, isCoupon: passObject.isCoupon)
+        PassCardShape.background(hasBackgroundImage: passObject.isBackgroundImageOn && passObject.backgroundImage != Data(), isCoupon: passObject.isCoupon)
     }
 
     var body: some View {
