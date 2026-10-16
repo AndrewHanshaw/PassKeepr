@@ -29,6 +29,10 @@ struct CustomizeIconImage: View {
 
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
+    @State private var showAlert: Bool = false
+    private let alertTitleText = "Pass Icon"
+    private let alertDescriptionText = "The pass icon is required, but is generally only displayed when sharing the pass."
+
     init(passObject: Binding<PassObject>) {
         _tempIconType = State(initialValue: passObject.wrappedValue.passIconType)
         _passObject = passObject
@@ -80,8 +84,24 @@ struct CustomizeIconImage: View {
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                Text("Pass Icon")
-                    .font(.system(size: 16, weight: .bold, design: .rounded))
+                HStack {
+                    Text("Pass Icon")
+                        .font(.system(size: 16, weight: .bold, design: .rounded))
+
+                    Button {
+                        showAlert.toggle()
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .foregroundColor(.secondary)
+                            .font(.system(size: 12))
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text(alertTitleText),
+                              message: Text(alertDescriptionText),
+                              dismissButton: .default(Text("OK")))
+                    }
+                }
             }
 
             ToolbarItem(placement: .confirmationAction) {
