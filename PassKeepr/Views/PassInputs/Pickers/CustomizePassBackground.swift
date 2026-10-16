@@ -75,6 +75,7 @@ struct CustomizePassBackground: View {
                     } label: {
                         Image(systemName: "info.circle")
                             .foregroundColor(.secondary)
+                            .font(.system(size: 12))
                     }
                     .buttonStyle(PlainButtonStyle())
                     .alert(isPresented: $showAlert) {
