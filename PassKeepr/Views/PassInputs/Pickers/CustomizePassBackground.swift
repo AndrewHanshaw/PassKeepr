@@ -209,6 +209,13 @@ struct CustomizePassBackground: View {
             }
             .listSectionBackgroundModifier()
 
+            if tempPassObject.isCustomStripImageOn {
+                Text("Enabling the background image will disable the Strip image")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .padding(.top, 4)
+            }
+
             VStack(spacing: 20) {
                 if tempPassObject.isBackgroundImageOn {
                     Menu {

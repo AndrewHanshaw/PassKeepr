@@ -26,6 +26,14 @@ struct StripImageSelection: View {
                         passObject.isBackgroundImageOn = false
                     }
                 }
+
+            if passObject.isBackgroundImageOn {
+                Text("Enabling the strip image will disable the background image")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 14)
+                    .transition(.opacity)
+            }
         }
     }
 }

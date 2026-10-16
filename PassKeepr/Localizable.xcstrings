@@ -449,6 +449,26 @@
         }
       }
     },
+    "Enabling the background image will disable the Strip image" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Включение фонового изображения отключит баннер"
+          }
+        }
+      }
+    },
+    "Enabling the strip image will disable the background image" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Включение баннера отключит фоновое изображение"
+          }
+        }
+      }
+    },
     "Encoding" : {
       "localizations" : {
         "ru" : {
