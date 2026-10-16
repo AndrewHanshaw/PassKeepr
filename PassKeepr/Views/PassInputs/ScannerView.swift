@@ -3,12 +3,18 @@ import Vision
 import VisionKit
 
 struct ScannerView: View {
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+
     @Binding var scannedData: String
     @Binding var scannedBarcodeType: BarcodeType?
     @Binding var showScanner: Bool
 
     @State private var tempScanData = ""
     @State private var tempScanBarcodeType: BarcodeType?
+
+    private var isLandscape: Bool {
+        verticalSizeClass == .compact
+    }
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -30,6 +36,7 @@ struct ScannerView: View {
                 }
                 .background(Color(UIColor.secondarySystemBackground))
             }
+
             VStack(spacing: 20) {
                 var displayedString: String {
                     if tempScanData.isEmpty || (tempScanBarcodeType == nil) {
@@ -53,7 +60,13 @@ struct ScannerView: View {
                         .transition(.opacity)
                         .animation(.smooth, value: displayedString)
                 } else {
-                    // Fallback on earlier versions
+                    Text(displayedString)
+                        .font(.system(size: 18))
+                        .multilineTextAlignment(.center)
+                        .padding()
+                        .background(Color(UIColor.tertiarySystemBackground))
+                        .cornerRadius(10)
+                        .transition(.opacity)
                 }
 
                 Button("Insert") {
@@ -66,7 +79,7 @@ struct ScannerView: View {
                 .padding(16)
                 .accentColorProminentButtonStyleIfAvailable()
             }
-            .padding(.bottom, 100)
+            .padding(.bottom, isLandscape ? 10 : 100)
         }
     }
 }
