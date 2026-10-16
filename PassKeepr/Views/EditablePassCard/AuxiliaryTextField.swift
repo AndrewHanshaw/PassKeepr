@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct AuxiliaryTextField: View {
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+
     var backgroundBrightness: BackgroundBrightness
     var disableButton: Bool
 
@@ -12,6 +14,10 @@ struct AuxiliaryTextField: View {
 
     var isCurrency: Bool
     var currencyCode: String
+
+    private var isLandscape: Bool {
+        verticalSizeClass == .compact
+    }
 
     @State private var isCustomizeTextPresented = false
 
@@ -76,7 +82,7 @@ struct AuxiliaryTextField: View {
             .buttonStyle(PlainButtonStyle())
             .disabled(disableButton)
         }
-        .popover(isPresented: $isCustomizeTextPresented, arrowEdge: .top) {
+        .popover(isPresented: $isCustomizeTextPresented, arrowEdge: isLandscape ? .leading : .top) {
             CustomizePassTextField(textLabel: $textLabel, text: $text)
                 .presentationCompactAdaptation((.popover))
         }
