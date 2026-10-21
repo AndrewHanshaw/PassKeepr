@@ -171,20 +171,14 @@ func generatePass(passObject: PassObject) -> URL? {
 
         var passStyleString: String
 
-        // Strip image takes priority for pass style
-        if passObject.stripImage != Data() {
-            if passObject.thumbnailImage != Data() && !passObject.isCustomStripImageOn {
-                passStyleString = "generic"
-            } else {
-                passStyleString = "storeCard"
-            }
-        } else if passObject.backgroundImage != Data() && passObject.isBackgroundImageOn {
-            // If there is a background image
+        // Background image takes priority for pass style
+        if passObject.isBackgroundImageOn && passObject.backgroundImage != Data() && getIsBackgroundImageSupported(passObject: passObject) {
             passStyleString = "eventTicket"
-        } else if passObject.isCoupon {
+        } else if passObject.isCoupon { // Coupon passes can have strip images, that toggle is the next-highest priority
             passStyleString = "coupon"
-        } else {
-            // Default to generic
+        } else if shouldStripImageBeAddedToPass(passObject: passObject) { // non-coupon passes with strip images
+            passStyleString = "storeCard"
+        } else { // Default to generic
             passStyleString = "generic"
         }
 
@@ -235,7 +229,7 @@ func generatePass(passObject: PassObject) -> URL? {
                 print("PassObject has stripImage but is not of style 'storeCard'")
             }
 
-            if passObject.backgroundImage != Data() {
+            if passObject.backgroundImage != Data(), passObject.isBackgroundImageOn {
                 print("PassObject has background image and strip image. Not saving strip image")
             } else {
                 saveSingleScaleImage(from: passObject.stripImage, name: "strip", passDirectory: passDirectory, maxWidth: PassKitConstants.StripImage.width, maxHeight: PassKitConstants.StripImage.height)
@@ -253,7 +247,9 @@ func generatePass(passObject: PassObject) -> URL? {
             saveImageVariants(from: passObject.logoImage, name: "logo", passDirectory: passDirectory, maxWidth: PassKitConstants.LogoImage.width, maxHeight: PassKitConstants.LogoImage.height)
         }
 
-        if passObject.thumbnailImage != Data(), passStyleString == "generic" || passStyleString == "eventTicket" {
+        // The pass thumbnail image should only be included for generic and eventTicket passes, and only if the custom strip image toggle is off (because in the preview display that we render, the strip image placeholder is shown even if the strip image doesn't containa any data)
+        // For passes with actual strip image data (barcode or custom), the pass will be storeCard, so the generic/eventTicket check will kick out of this conditional
+        if passObject.thumbnailImage != Data(), passStyleString == "generic" || passStyleString == "eventTicket", !passObject.isCustomStripImageOn {
             saveImageVariants(from: passObject.thumbnailImage, name: "thumbnail", passDirectory: passDirectory, maxWidth: PassKitConstants.ThumbnailImage.width, maxHeight: PassKitConstants.ThumbnailImage.height)
         }
 
