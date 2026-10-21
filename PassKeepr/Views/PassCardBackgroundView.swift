@@ -155,7 +155,7 @@ struct PassCardBackgroundView: View {
                 .opacity(colors.shadowOpacity)
                 .padding(.bottom, -4)
 
-            if passObject.isBackgroundImageOn && passObject.backgroundImage != Data() {
+            if passObject.isBackgroundImageOn && passObject.backgroundImage != Data() && !passObject.isCustomStripImageOn {
                 imageBackground
             } else if passObject.isCoupon {
                 scallopedBackground
