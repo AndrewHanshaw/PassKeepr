@@ -94,7 +94,6 @@ struct CustomizePassBackground: View {
 
                     if tempPassObject.isBackgroundImageOn && tempPassObject.backgroundImage != Data() {
                         // Store the largest (3x) variant so imports/exports can downscale as needed
-                        tempPassObject.stripImage = Data()
 
                         // Center-crop existing thumbnail to 1:1 to match background image pass layout
                         if tempPassObject.thumbnailImage != Data(), let thumbUI = UIImage(data: tempPassObject.thumbnailImage), let cgThumb = thumbUI.cgImage {
