@@ -172,6 +172,11 @@ struct PassCardBackgroundView: View {
                 decodeBackgroundImage(newValue)
             }
         }
+        .onChange(of: passObject.isBackgroundImageOn) { _, isOn in
+            if isOn && passObject.backgroundImage != Data() {
+                decodeBackgroundImage(passObject.backgroundImage)
+            }
+        }
         .onAppear {
             if passObject.isBackgroundImageOn {
                 decodeBackgroundImage(passObject.backgroundImage)
