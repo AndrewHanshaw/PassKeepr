@@ -134,7 +134,8 @@ func generatePass(passObject: PassObject, directory: URL = URL.applicationSuppor
             passData.merge(["expirationDate": formatter.string(from: passObject.expirationDate)]) { _, _ in }
         }
         if !passObject.locations.isEmpty {
-            let encoded: [[String: Any]] = passObject.locations.map { loc in
+            // PassKit allows at most ten relevant locations per pass
+            let encoded: [[String: Any]] = passObject.locations.prefix(10).map { loc in
                 var d: [String: Any] = ["latitude": loc.latitude, "longitude": loc.longitude]
                 if !loc.relevantText.isEmpty {
                     d["relevantText"] = loc.relevantText

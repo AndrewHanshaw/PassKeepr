@@ -344,10 +344,9 @@ final class GeneratePassFixtureTests: XCTestCase {
         ])
     }
 
-    /// Pins current behavior, which deviates from the guide: Apple caps
-    /// relevant locations at ten, but the generator passes through however
-    /// many the PassObject holds, so all eleven are emitted.
-    func testElevenLocationsPass() throws {
+    /// Apple caps relevant locations at ten per pass, so a PassObject
+    /// holding eleven locations emits only the first ten, in order.
+    func testLocationsCappedAtTenPass() throws {
         var pass = PassObject()
         pass.id = try uuid("00000000-0000-0000-0000-000000000010")
         pass.locations = (0 ..< 11).map { index in
@@ -358,7 +357,7 @@ final class GeneratePassFixtureTests: XCTestCase {
 
         XCTAssertEqual(Set(json.keys), baseTopLevelKeys.union(["generic", "locations"]))
         let locations = try XCTUnwrap(json["locations"] as? [[String: Any]])
-        XCTAssertEqual(locations.count, 11)
+        XCTAssertEqual(locations.count, 10)
         for (index, location) in locations.enumerated() {
             XCTAssertEqual((location["latitude"] as? NSNumber)?.doubleValue, 37.0 + Double(index))
             XCTAssertEqual((location["longitude"] as? NSNumber)?.doubleValue, -122.0 - Double(index))
