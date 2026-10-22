@@ -521,15 +521,9 @@ func shouldBackgroundImageBeAddedToPass(passObject: PassObject) -> Bool {
     }
 }
 
-func getIsStripImageSupported(passObject: PassObject) -> Bool {
-    if passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) || passObject.isCustomStripImageOn {
-        return true
-    } else {
-        return false
-    }
-}
-
 func shouldStripImageBeAddedToPass(passObject: PassObject) -> Bool {
-    guard passObject.stripImage != Data() else { return false }
-    return passObject.isCustomStripImageOn || getIsStripImageSupported(passObject: passObject)
+    guard passObject.stripImage != Data() else { return false } // Always return false if there is no strip image data
+
+    // If there is strip image data, it should be added to the pass if it is a custom strip image, or if it is a valid barcode of a type that uses a strip image
+    return passObject.isCustomStripImageOn || (passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) && passObject.barcodeType.doesBarcodeUseStripImage())
 }
