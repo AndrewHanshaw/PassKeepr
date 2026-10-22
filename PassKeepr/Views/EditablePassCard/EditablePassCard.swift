@@ -76,8 +76,12 @@ struct EditablePassCard: View {
                             if passObject.isCustomStripImageOn {
                                 CustomStripImage(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, passObject: $passObject, isCustomizeStripImagePresented: $isCustomizeStripImagePresented)
                                     .frame(width: size.width)
-                            } else {
+                            } else if !passObject.isCoupon {
                                 PrimaryTextFieldGeneric(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, passObject: $passObject, isCustomizeThumbnailImagePresented: $isCustomizeThumbnailImagePresented, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
+                                    .padding(.horizontal, 10)
+                                    .frame(maxWidth: size.width, maxHeight: size.height * 0.2)
+                            } else {
+                                PrimaryTextFieldStoreCard(backgroundBrightness: passBackgroundBrightness, disableButton: isSigningPass, textLabel: $passObject.primaryFieldLabel, text: $passObject.primaryFieldText, textColor: Color(hex: passObject.foregroundColor), labelColor: Color(hex: passObject.labelColor))
                                     .padding(.horizontal, 10)
                                     .frame(maxWidth: size.width, maxHeight: size.height * 0.2)
                             }
