@@ -150,6 +150,16 @@
         }
       }
     },
+    "Background images aren't available with the selected barcode type" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фоновые изображения недоступны для выбранного типа штрихкода"
+          }
+        }
+      }
+    },
     "Barcode Data" : {
       "localizations" : {
         "ru" : {

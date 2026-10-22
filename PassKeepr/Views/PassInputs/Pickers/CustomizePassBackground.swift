@@ -176,6 +176,10 @@ struct CustomizePassBackground: View {
         }
     }
 
+    private var isBackgroundImageSupported: Bool {
+        getIsBackgroundImageSupported(passObject: tempPassObject)
+    }
+
     @ViewBuilder
     private var formFields: some View {
         VStack(spacing: 0) {
@@ -205,8 +209,18 @@ struct CustomizePassBackground: View {
                         }
                     }
                     .padding(14)
+                    // Barcode types rendered as a strip image can't be combined with a background image in the signed pass.
+                    // Stay enabled if it's somehow already on, so the user can still turn it off.
+                    .disabled(!isBackgroundImageSupported && !tempPassObject.isBackgroundImageOn)
             }
             .listSectionBackgroundModifier()
+
+            if !isBackgroundImageSupported {
+                Text("Background images aren't available with the selected barcode type")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .padding(.top, 4)
+            }
 
             if tempPassObject.isCustomStripImageOn {
                 Text("Enabling the background image will disable the Strip image")
