@@ -94,14 +94,6 @@ func saveImageVariants(from data: Data, name: String, passDirectory: URL, maxWid
     }
 }
 
-// Fields required by every PassKit pass
-// These are not customizable by the user, so they're kept separate from the PassObject used to otherwise build the pass
-let requiredFields: [String: Any] = [
-    "formatVersion": 1,
-    "teamIdentifier": "NZDS56Z4Q9",
-    "organizationName": "PassKeepr",
-]
-
 public let signNonceUserInfoKey = "signNonce"
 
 // Initializes a new PassKit pass for the given pass
@@ -117,108 +109,16 @@ public func generatePass(passObject: PassObject, directory: URL = URL.applicatio
         let fileURL = passDirectory.appendingPathComponent("pass.json")
         fileManager.createFile(atPath: fileURL.path, contents: Data())
 
-        // Add the required data to the pass
-        var passData: [String: Any] = requiredFields
-        passData["passTypeIdentifier"] = "pass.com.hanshaw.passKeepr.\(passObject.group)"
-        passData.merge(["description": passObject.description]) { _, _ in }
-        passData.merge(["serialNumber": passObject.id.uuidString]) { _, _ in }
+        // Add the pass.json contents provided by the model layer
+        var passJSON = passObject.passJSONDictionary
         // Unique per generated pass so we can tell whether Wallet holds this exact version (vs. an older one with the same serial number)
-        passData["userInfo"] = [signNonceUserInfoKey: UUID().uuidString]
-        passData.merge(["foregroundColor": passObject.foregroundColor.toRGBString()]) { _, _ in }
-        passData.merge(["backgroundColor": passObject.backgroundColor.toRGBString()]) { _, _ in }
-        passData.merge(["labelColor": passObject.labelColor.toRGBString()]) { _, _ in }
-        if passObject.hasExpirationDate {
-            let formatter = ISO8601DateFormatter()
-            formatter.formatOptions = [.withInternetDateTime]
-            passData.merge(["expirationDate": formatter.string(from: passObject.expirationDate)]) { _, _ in }
-        }
-        if !passObject.locations.isEmpty {
-            // PassKit allows at most ten relevant locations per pass
-            let encoded: [[String: Any]] = passObject.locations.prefix(10).map { loc in
-                var d: [String: Any] = ["latitude": loc.latitude, "longitude": loc.longitude]
-                if !loc.relevantText.isEmpty {
-                    d["relevantText"] = loc.relevantText
-                }
-                return d
-            }
-            passData.merge(["locations": encoded]) { _, _ in }
-        }
-        if !passObject.associatedStoreIdentifiers.isEmpty {
-            passData.merge(["associatedStoreIdentifiers": passObject.associatedStoreIdentifiers]) { _, _ in }
-        }
+        passJSON["userInfo"] = [signNonceUserInfoKey: UUID().uuidString]
+        let jsonData = try JSONSerialization.data(withJSONObject: passJSON, options: .prettyPrinted)
+        try jsonData.write(to: fileURL)
 
-        // Add customizable data to the pass
-        var data: [String: Any] = [:]
-
-        // A primary field with a strip image *is* strictly allowed by PassKit, however it looks horrible, so I'm just disabling it for now to avoid having to even think about it
-        if !passObject.shouldAddStripImage && !passObject.isCustomStripImageOn {
-            let primaryFields: [String: Any] = passFieldDict(
-                key: "primary",
-                label: passObject.primaryFieldLabel,
-                text: passObject.primaryFieldText,
-                isCurrency: passObject.isCurrencyFieldsOn && passObject.isPrimaryFieldCurrency,
-                currencyCode: passObject.currencyCode
-            )
-
-            data.merge(["primaryFields": [primaryFields]]) { _, _ in }
-        }
-
-        if passObject.headerFieldOneLabel != "" || passObject.headerFieldOneText != "" || passObject.isHeaderFieldTwoOn {
-            data.merge(encodeHeaderFields(passObject: passObject)) { _, _ in }
-        }
-
-        if passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" || passObject.isSecondaryFieldTwoOn || passObject.isSecondaryFieldThreeOn {
-            data.merge(encodeSecondaryFields(passObject: passObject)) { _, _ in }
-        }
-
-        if !passObject.isCustomStripImageOn && (passObject.auxiliaryFieldOneLabel != "" || passObject.auxiliaryFieldOneText != "" || passObject.isAuxiliaryFieldTwoOn || passObject.isAuxiliaryFieldThreeOn) {
-            data.merge(encodeAuxiliaryFields(passObject: passObject)) { _, _ in }
-        }
-
-        // The model layer decides which images the package will actually
-        // contain and which pass style the pass is
+        // The model layer decides which images the package will actually contain
         let includeBackgroundImage = passObject.shouldIncludeBackgroundImage
         let includeStripImage = passObject.shouldIncludeStripImage
-
-        var passStyle: [String: Any] = [passObject.passStyleKey: data]
-
-        var barcodeFields: [String: Any] = [:]
-
-        if passObject.barcodeType == BarcodeType.code128 || passObject.barcodeType == BarcodeType.pdf417 || passObject.barcodeType == BarcodeType.qr, passObject.barcodeString != "" {
-            if passObject.barcodeType == BarcodeType.code128 {
-                barcodeFields = [
-                    "message": passObject.barcodeString,
-                    "format": "PKBarcodeFormatCode128",
-                    "messageEncoding": "iso-8859-1",
-                ]
-            } else if passObject.barcodeType == BarcodeType.pdf417 {
-                barcodeFields = [
-                    "message": passObject.barcodeString,
-                    "format": "PKBarcodeFormatPDF417",
-                    "messageEncoding": "iso-8859-1",
-                ]
-            } else if passObject.barcodeType == BarcodeType.qr {
-                let safeEncoding = passObject.qrCodeEncoding.isCompatible(with: passObject.barcodeString)
-                    ? passObject.qrCodeEncoding
-                    : QrCodeEncoding.minimumEncoding(for: passObject.barcodeString)
-                barcodeFields = [
-                    "message": passObject.barcodeString,
-                    "format": "PKBarcodeFormatQR",
-                    "messageEncoding": safeEncoding.ianaEncodingName,
-                ]
-            }
-
-            if passObject.altText != "" {
-                barcodeFields.merge(["altText": passObject.altText]) { _, _ in }
-            }
-
-            passStyle.merge(["barcode": barcodeFields]) { _, _ in }
-        }
-
-        passData.merge(passStyle) { _, _ in }
-
-        let jsonData = try JSONSerialization.data(withJSONObject: passData, options: .prettyPrinted)
-        try jsonData.write(to: fileURL)
 
         saveImageVariants(from: passObject.passIcon, name: "icon", passDirectory: passDirectory, maxWidth: PassKitConstants.IconImage.width, maxHeight: PassKitConstants.IconImage.height)
 
@@ -306,158 +206,6 @@ public func currencyFieldValue(_ text: String, locale: Locale = .current) -> Dou
     cleaned = cleaned.replacingOccurrences(of: decimalSeparator, with: ".")
 
     return Double(cleaned) ?? 0
-}
-
-// Builds a single PassKit field dictionary, encoding it as a currency amount ("currencyCode" + numeric
-// "value") when isCurrency is true, or as a plain string value otherwise.
-func passFieldDict(key: String, label: String, text: String, isCurrency: Bool, currencyCode: String, blankIfEmpty: Bool = false) -> [String: Any] {
-    var field: [String: Any] = [
-        "key": key,
-        "label": label,
-    ]
-
-    if isCurrency {
-        field["currencyCode"] = currencyCode
-        field["value"] = currencyFieldValue(text)
-    } else {
-        field["value"] = blankIfEmpty && text.isEmpty ? " " : text
-    }
-
-    return field
-}
-
-func encodeHeaderFields(passObject: PassObject) -> [String: Any] {
-    var encodedData: [Any] = []
-
-    if passObject.headerFieldOneLabel != "" || passObject.headerFieldOneText != "" {
-        let headerField1 = passFieldDict(
-            key: "header1",
-            label: passObject.headerFieldOneLabel,
-            text: passObject.headerFieldOneText,
-            isCurrency: passObject.isCurrencyFieldsOn && passObject.isHeaderFieldOneCurrency,
-            currencyCode: passObject.currencyCode
-        )
-
-        encodedData.append(headerField1)
-    }
-
-    if passObject.isHeaderFieldTwoOn == true {
-        let headerField2 = passFieldDict(
-            key: "header2",
-            label: passObject.headerFieldTwoLabel,
-            text: passObject.headerFieldTwoText,
-            isCurrency: passObject.isCurrencyFieldsOn && passObject.isHeaderFieldTwoCurrency,
-            currencyCode: passObject.currencyCode
-        )
-
-        encodedData.append(headerField2)
-    }
-
-    return [
-        "headerFields": encodedData,
-    ]
-}
-
-func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
-    var encodedData: [Any] = []
-
-    let hasFieldThree = passObject.isSecondaryFieldThreeOn
-    let hasFieldTwo = passObject.isSecondaryFieldTwoOn || hasFieldThree
-    let hasFieldOne = passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" || hasFieldTwo
-
-    if hasFieldOne {
-        let secondaryField1 = passFieldDict(
-            key: "secondary1",
-            label: passObject.secondaryFieldOneLabel,
-            text: passObject.secondaryFieldOneText,
-            isCurrency: passObject.isCurrencyFieldsOn && passObject.isSecondaryFieldOneCurrency,
-            currencyCode: passObject.currencyCode,
-            blankIfEmpty: true
-        )
-
-        encodedData.append(secondaryField1)
-    }
-
-    if hasFieldTwo {
-        let secondaryField2 = passFieldDict(
-            key: "secondary2",
-            label: passObject.secondaryFieldTwoLabel,
-            text: passObject.secondaryFieldTwoText,
-            isCurrency: passObject.isCurrencyFieldsOn && passObject.isSecondaryFieldTwoCurrency,
-            currencyCode: passObject.currencyCode,
-            blankIfEmpty: true
-        )
-
-        encodedData.append(secondaryField2)
-    }
-
-    if hasFieldThree {
-        let secondaryField3 = passFieldDict(
-            key: "secondary3",
-            label: passObject.secondaryFieldThreeLabel,
-            text: passObject.secondaryFieldThreeText,
-            isCurrency: passObject.isCurrencyFieldsOn && passObject.isSecondaryFieldThreeCurrency,
-            currencyCode: passObject.currencyCode,
-            blankIfEmpty: true
-        )
-
-        encodedData.append(secondaryField3)
-    }
-
-    return [
-        "secondaryFields": encodedData,
-    ]
-}
-
-func encodeAuxiliaryFields(passObject: PassObject) -> [String: Any] {
-    var encodedData: [Any] = []
-
-    let hasFieldThree = passObject.isAuxiliaryFieldThreeOn
-    let hasFieldTwo = passObject.isAuxiliaryFieldTwoOn || hasFieldThree
-    let hasFieldOne = passObject.auxiliaryFieldOneLabel != "" || passObject.auxiliaryFieldOneText != "" || hasFieldTwo
-
-    if hasFieldOne {
-        let auxiliaryField1 = passFieldDict(
-            key: "auxiliary1",
-            label: passObject.auxiliaryFieldOneLabel,
-            text: passObject.auxiliaryFieldOneText,
-            isCurrency: passObject.isCurrencyFieldsOn && passObject.isAuxiliaryFieldOneCurrency,
-            currencyCode: passObject.currencyCode,
-            blankIfEmpty: true
-        )
-
-        encodedData.append(auxiliaryField1)
-    }
-
-    if hasFieldTwo {
-        let auxiliaryField2 = passFieldDict(
-            key: "auxiliary2",
-            label: passObject.auxiliaryFieldTwoLabel,
-            text: passObject.auxiliaryFieldTwoText,
-            isCurrency: passObject.isCurrencyFieldsOn && passObject.isAuxiliaryFieldTwoCurrency,
-            currencyCode: passObject.currencyCode,
-            blankIfEmpty: true
-        )
-
-        encodedData.append(auxiliaryField2)
-    }
-
-    if hasFieldThree {
-        let auxiliaryField3 = passFieldDict(
-            key: "auxiliary3",
-            label: passObject.auxiliaryFieldThreeLabel,
-            text: passObject.auxiliaryFieldThreeText,
-            isCurrency: passObject.isCurrencyFieldsOn && passObject.isAuxiliaryFieldThreeCurrency,
-            currencyCode: passObject.currencyCode,
-            blankIfEmpty: true
-        )
-
-        encodedData.append(auxiliaryField3)
-    }
-
-    return [
-        "auxiliaryFields": encodedData,
-    ]
 }
 
 // Saves an image as a single 1x PNG, downscaling to fit within the given max dimensions if necessary
