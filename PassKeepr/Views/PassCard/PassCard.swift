@@ -31,7 +31,7 @@ struct PassCard: View {
                         .frame(height: size.height * 0.2)
                         .padding(0)
 
-                    if shouldStripImageBeAddedToPass(passObject: passObject) {
+                    if passObject.shouldIncludeStripImage {
                         if let uiImage = UIImage(data: passObject.stripImage) {
                             let imageAspectRatio = uiImage.size.width / uiImage.size.height
                             Image(uiImage: uiImage)

@@ -151,7 +151,7 @@ public func generatePass(passObject: PassObject, directory: URL = URL.applicatio
         var data: [String: Any] = [:]
 
         // A primary field with a strip image *is* strictly allowed by PassKit, however it looks horrible, so I'm just disabling it for now to avoid having to even think about it
-        if !shouldStripImageBeAddedToPass(passObject: passObject) && !passObject.isCustomStripImageOn {
+        if !passObject.shouldAddStripImage && !passObject.isCustomStripImageOn {
             let primaryFields: [String: Any] = passFieldDict(
                 key: "primary",
                 label: passObject.primaryFieldLabel,
@@ -175,20 +175,12 @@ public func generatePass(passObject: PassObject, directory: URL = URL.applicatio
             data.merge(encodeAuxiliaryFields(passObject: passObject)) { _, _ in }
         }
 
-        var passStyleString: String
+        // The model layer decides which images the package will actually
+        // contain and which pass style the pass is
+        let includeBackgroundImage = passObject.shouldIncludeBackgroundImage
+        let includeStripImage = passObject.shouldIncludeStripImage
 
-        // Background image takes priority for pass style
-        if passObject.isBackgroundImageOn && passObject.backgroundImage != Data() && getIsBackgroundImageSupported(passObject: passObject) {
-            passStyleString = "eventTicket"
-        } else if passObject.isCoupon { // Coupon passes can have strip images, that toggle is the next-highest priority
-            passStyleString = "coupon"
-        } else if shouldStripImageBeAddedToPass(passObject: passObject) { // non-coupon passes with strip images
-            passStyleString = "storeCard"
-        } else { // Default to generic
-            passStyleString = "generic"
-        }
-
-        var passStyle: [String: Any] = [passStyleString: data]
+        var passStyle: [String: Any] = [passObject.passStyleKey: data]
 
         var barcodeFields: [String: Any] = [:]
 
@@ -230,8 +222,8 @@ public func generatePass(passObject: PassObject, directory: URL = URL.applicatio
 
         saveImageVariants(from: passObject.passIcon, name: "icon", passDirectory: passDirectory, maxWidth: PassKitConstants.IconImage.width, maxHeight: PassKitConstants.IconImage.height)
 
-        if shouldStripImageBeAddedToPass(passObject: passObject) {
-            if passStyleString != "storeCard" {
+        if includeStripImage {
+            if passObject.passStyleKey != "storeCard" {
                 print("PassObject has stripImage but is not of style 'storeCard'")
             }
 
@@ -242,8 +234,8 @@ public func generatePass(passObject: PassObject, directory: URL = URL.applicatio
             }
         }
 
-        if shouldBackgroundImageBeAddedToPass(passObject: passObject) {
-            if passStyleString != "eventTicket" {
+        if includeBackgroundImage {
+            if passObject.passStyleKey != "eventTicket" {
                 print("PassObject should have background image but is not of style 'eventTicket'")
             }
             saveSingleScaleImage(from: passObject.backgroundImage, name: "background", passDirectory: passDirectory, maxWidth: PassKitConstants.BackgroundImage.width, maxHeight: PassKitConstants.BackgroundImage.height)
@@ -255,7 +247,7 @@ public func generatePass(passObject: PassObject, directory: URL = URL.applicatio
 
         // The pass thumbnail image should only be included for generic and eventTicket passes, and only if the custom strip image toggle is off (because in the preview display that we render, the strip image placeholder is shown even if the strip image doesn't containa any data)
         // For passes with actual strip image data (barcode or custom), the pass will be storeCard, so the generic/eventTicket check will kick out of this conditional
-        if passObject.thumbnailImage != Data(), passStyleString == "generic" || passStyleString == "eventTicket", !passObject.isCustomStripImageOn {
+        if passObject.thumbnailImage != Data(), passObject.passStyleKey == "generic" || passObject.passStyleKey == "eventTicket", !passObject.isCustomStripImageOn {
             saveImageVariants(from: passObject.thumbnailImage, name: "thumbnail", passDirectory: passDirectory, maxWidth: PassKitConstants.ThumbnailImage.width, maxHeight: PassKitConstants.ThumbnailImage.height)
         }
 
@@ -499,27 +491,4 @@ func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: Stri
     } catch {
         print("Error saving image: \(error.localizedDescription)")
     }
-}
-
-public func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
-    if (passObject.barcodeType == BarcodeType.code128) || (passObject.barcodeType == BarcodeType.pdf417) || (passObject.barcodeType == BarcodeType.qr) || (passObject.barcodeType == BarcodeType.none) {
-        return true
-    } else {
-        return false
-    }
-}
-
-public func shouldBackgroundImageBeAddedToPass(passObject: PassObject) -> Bool {
-    if (passObject.isBackgroundImageOn == true && passObject.backgroundImage != Data()) && getIsBackgroundImageSupported(passObject: passObject) {
-        return true
-    } else {
-        return false
-    }
-}
-
-public func shouldStripImageBeAddedToPass(passObject: PassObject) -> Bool {
-    guard passObject.stripImage != Data() else { return false } // Always return false if there is no strip image data
-
-    // If there is strip image data, it should be added to the pass if it is a custom strip image, or if it is a valid barcode of a type that uses a strip image
-    return passObject.isCustomStripImageOn || (passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) && passObject.barcodeType.doesBarcodeUseStripImage())
 }
