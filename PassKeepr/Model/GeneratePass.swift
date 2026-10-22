@@ -103,6 +103,8 @@ let requiredFields: [String: Any] = [
     "organizationName": "PassKeepr",
 ]
 
+let signNonceUserInfoKey = "signNonce"
+
 // Initializes a new PassKit pass for the given pass
 func generatePass(passObject: PassObject) -> URL? {
     let fileManager = FileManager.default
@@ -121,6 +123,8 @@ func generatePass(passObject: PassObject) -> URL? {
         passData["passTypeIdentifier"] = "pass.com.hanshaw.passKeepr.\(passObject.group)"
         passData.merge(["description": passObject.description]) { _, _ in }
         passData.merge(["serialNumber": passObject.id.uuidString]) { _, _ in }
+        // Unique per generated pass so we can tell whether Wallet holds this exact version (vs. an older one with the same serial number)
+        passData["userInfo"] = [signNonceUserInfoKey: UUID().uuidString]
         passData.merge(["foregroundColor": passObject.foregroundColor.toRGBString()]) { _, _ in }
         passData.merge(["backgroundColor": passObject.backgroundColor.toRGBString()]) { _, _ in }
         passData.merge(["labelColor": passObject.labelColor.toRGBString()]) { _, _ in }

@@ -30,7 +30,15 @@ struct AddToWalletView: UIViewControllerRepresentable {
         func addPassesViewControllerDidFinish(_ controller: PKAddPassesViewController) {
             // Check if the pass was added
             let passLibrary = PKPassLibrary()
-            let wasAdded = passLibrary.containsPass(parent.pass)
+            let wasAdded: Bool
+            if let nonce = parent.pass.userInfo?[signNonceUserInfoKey] as? String {
+                // containsPass only matches on pass type identifier + serial number, so it returns true
+                // when an older version of this pass is already in Wallet. Compare the per-sign nonce instead.
+                let walletPass = passLibrary.pass(withPassTypeIdentifier: parent.pass.passTypeIdentifier, serialNumber: parent.pass.serialNumber)
+                wasAdded = (walletPass?.userInfo?[signNonceUserInfoKey] as? String) == nonce
+            } else {
+                wasAdded = passLibrary.containsPass(parent.pass) // fallback for passes without a nonce, use the standard containsPass check
+            }
 
             // Call the callback with the result
             parent.onDismiss?(wasAdded)
