@@ -6,7 +6,6 @@ import SwiftyCrop
 struct CustomizePassBackground: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.verticalSizeClass) private var verticalSizeClass
-    @Environment(\.displayScale) private var displayScale
 
     @Binding var passObject: PassObject
 
@@ -270,24 +269,6 @@ struct CustomizePassBackground: View {
             }
             .padding(.top, 20)
         }
-    }
-
-    func scaleImage(image: UIImage, scalePercent: CGFloat) -> UIImage? {
-        // Calculate the target size based on the scale percentage
-        let targetSize = CGSize(
-            width: image.size.width * scalePercent,
-            height: image.size.height * scalePercent
-        )
-
-        // Ensure we have a valid renderer
-        let renderer = ImageRenderer(content: Image(uiImage: image)
-            .resizable()
-            .scaledToFit()
-            .frame(width: targetSize.width, height: targetSize.height))
-
-        // Render the scaled-down image
-        renderer.scale = displayScale // Maintain screen scale for quality
-        return renderer.uiImage
     }
 }
 
