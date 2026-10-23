@@ -253,8 +253,14 @@ struct EditPass: View {
         }
         .onChange(of: tempObject) { _, newValue in
             objectToEdit = newValue
-            if isNewPass && !modelData.passObjects.contains(where: { $0.id == newValue.id }) {
-                modelData.passObjects.append(newValue)
+            if isNewPass {
+                // In the add flow objectToEdit is a local copy, not an element of modelData.passObjects,
+                // so the stored pass has to be appended on the first change and updated on later ones.
+                if let index = modelData.passObjects.firstIndex(where: { $0.id == newValue.id }) {
+                    modelData.passObjects[index] = newValue
+                } else {
+                    modelData.passObjects.append(newValue)
+                }
             }
             modelData.scheduleEncodePassObjects()
         }
