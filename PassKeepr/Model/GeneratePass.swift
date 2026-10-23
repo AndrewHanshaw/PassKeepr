@@ -293,11 +293,21 @@ func zipDirectory(uuid: UUID) throws -> URL? {
 
 // Converts a user-entered field value into a decimal amount suitable for a PassKit currency field,
 // tolerating common formatting characters (currency symbols, thousands separators, whitespace).
-func currencyFieldValue(_ text: String) -> Double {
-    let cleaned = text
+// Separators are interpreted using the given locale, so "1,50" is 1.5 in a comma-decimal locale (e.g. de_DE)
+// while "1,500" is 1500 in en_US.
+func currencyFieldValue(_ text: String, locale: Locale = .current) -> Double {
+    let decimalSeparator = locale.decimalSeparator ?? "."
+    let groupingSeparator = locale.groupingSeparator ?? ","
+
+    var cleaned = text
         .trimmingCharacters(in: .whitespacesAndNewlines)
-        .replacingOccurrences(of: ",", with: "")
-        .filter { $0.isNumber || $0 == "." || $0 == "-" }
+        .filter { $0.isNumber || $0 == "-" || String($0) == decimalSeparator || String($0) == groupingSeparator }
+
+    // Drop grouping separators first, then normalize the locale's decimal separator to "." for Double parsing.
+    if groupingSeparator != decimalSeparator {
+        cleaned = cleaned.replacingOccurrences(of: groupingSeparator, with: "")
+    }
+    cleaned = cleaned.replacingOccurrences(of: decimalSeparator, with: ".")
 
     return Double(cleaned) ?? 0
 }
