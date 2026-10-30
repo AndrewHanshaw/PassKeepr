@@ -1,5 +1,6 @@
 import _PhotosUI_SwiftUI
 import CoreImage
+import PassKeeprCore
 import SwiftUI
 import SwiftyCrop
 

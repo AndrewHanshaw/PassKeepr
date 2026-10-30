@@ -2,6 +2,7 @@ import _PhotosUI_SwiftUI
 import CoreImage
 import CoreImage.CIFilterBuiltins
 import MCEmojiPicker
+import PassKeeprCore
 import SwiftUI
 import SwiftyCrop
 import SymbolPicker

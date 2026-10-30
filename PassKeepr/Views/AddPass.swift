@@ -1,3 +1,4 @@
+import PassKeeprCore
 import PassKit
 import SwiftUI
 

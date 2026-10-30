@@ -1,4 +1,5 @@
 import Foundation
+import PassKeeprCore
 import ZIPFoundation
 
 /// Import a .pkpass file and convert it to a PassObject.

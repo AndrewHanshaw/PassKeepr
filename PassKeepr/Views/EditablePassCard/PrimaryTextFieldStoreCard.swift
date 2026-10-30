@@ -1,5 +1,6 @@
 // This field only applies to Store Cards, which for some reason display the text much larger than normal, and also displays the label below the text
 // This text field also takes up more of the overall pass, about 15% over the normal 10% for a primary field
+import PassKeeprCore
 import SwiftUI
 
 struct PrimaryTextFieldStoreCard: View {

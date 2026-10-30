@@ -1,3 +1,4 @@
+import PassKeeprCore
 import SwiftUI
 
 struct AuxiliaryFieldSelection: View {

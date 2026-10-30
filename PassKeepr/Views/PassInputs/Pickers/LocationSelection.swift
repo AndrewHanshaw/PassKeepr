@@ -1,6 +1,7 @@
 import CoreLocation
 import LocationPicker
 import MapKit
+import PassKeeprCore
 import SwiftUI
 
 @Observable

@@ -1,5 +1,6 @@
 import _PhotosUI_SwiftUI
 import MCEmojiPicker
+import PassKeeprCore
 import SwiftUI
 import SwiftyCrop
 import SymbolPicker

@@ -1,3 +1,4 @@
+import PassKeeprCore
 import PhotosUI
 import SwiftUI
 import Vision

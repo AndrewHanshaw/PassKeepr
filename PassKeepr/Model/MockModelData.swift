@@ -1,6 +1,7 @@
 // Mock ModelData to be used for preview/testing purposes
 
 import Foundation
+import PassKeeprCore
 
 @Observable
 class MockModelData: ModelData {
@@ -22,179 +23,38 @@ class MockModelData: ModelData {
 }
 
 private extension PassObject {
-    static let preview1 = PassObject(
-        id: UUID(),
-        group: 2,
-        passIcon: (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data(),
-        passIconType: ImageType.photo,
-        barcodeString: "1234",
-        barcodeType: BarcodeType.code128,
-        barcodeBorder: 0,
-        stripImage: Data(),
-        backgroundImage: Data(),
-        isBackgroundImageOn: false,
-        logoImage: Data(),
-        logoImageType: ImageType.none,
-        thumbnailImage: Data(),
-        thumbnailImageType: ImageType.none,
-        qrCodeCorrectionLevel: QrCodeCorrectionLevel.medium,
-        qrCodeEncoding: QrCodeEncoding.ascii,
-        qrCodeType: QrCodeType.standard,
-        altText: "",
-        foregroundColor: 0xFF00FF,
-        backgroundColor: 0xFFFFFF,
-        labelColor: 0x000000,
-        description: "Preview pass 1",
-        headerFieldOneLabel: "",
-        headerFieldOneText: "",
-        isHeaderFieldTwoOn: false,
-        headerFieldTwoLabel: "",
-        headerFieldTwoText: "",
-        primaryFieldLabel: "",
-        primaryFieldText: "",
-        secondaryFieldOneLabel: "",
-        secondaryFieldOneText: "",
-        isSecondaryFieldTwoOn: false,
-        secondaryFieldTwoLabel: "",
-        secondaryFieldTwoText: "",
-        isSecondaryFieldThreeOn: false,
-        secondaryFieldThreeLabel: "",
-        secondaryFieldThreeText: "",
-        isAuxiliaryFieldOneOn: false,
-        auxiliaryFieldOneLabel: "",
-        auxiliaryFieldOneText: "",
-        isAuxiliaryFieldTwoOn: false,
-        auxiliaryFieldTwoLabel: "",
-        auxiliaryFieldTwoText: "",
-        isAuxiliaryFieldThreeOn: false,
-        auxiliaryFieldThreeLabel: "",
-        auxiliaryFieldThreeText: "",
-        isCustomStripImageOn: false,
-        logoSymbolName: "info.circle",
-        logoSymbolColor: 0x0000FF,
-        thumbnailSymbolName: "info.circle",
-        thumbnailSymbolColor: 0x0000FF,
-        passIconSymbolName: "",
-        passIconSymbolColor: 0x000000,
-        passIconBackgroundColor: 0xFFFFFF,
-        associatedStoreIdentifiers: [0],
-        wifiSSID: "",
-        wifiPassword: "",
-        wifiSecurity: .wpa,
-        wifiIsHidden: false,
-        vcardFirstName: "",
-        vcardLastName: "",
-        vcardCompany: "",
-        vcardPhone: "",
-        vcardEmail: "",
-        vcardURL: "",
-        vcardAddress: "",
-        vcardSocial: "",
-        vcardHasBirthday: false,
-        vcardBirthday: Date(),
-        vcardCustomFields: [],
-        hasExpirationDate: false,
-        expirationDate: Date(),
-        locations: [PassLocation(latitude: 11.111, longitude: 22.222, relevantText: "Some Text")],
-        isCurrencyFieldsOn: false,
-        currencyCode: "USD",
-        isPrimaryFieldCurrency: false,
-        isHeaderFieldOneCurrency: false,
-        isHeaderFieldTwoCurrency: false,
-        isSecondaryFieldOneCurrency: false,
-        isSecondaryFieldTwoCurrency: false,
-        isSecondaryFieldThreeCurrency: false,
-        isAuxiliaryFieldOneCurrency: false,
-        isAuxiliaryFieldTwoCurrency: false,
-        isAuxiliaryFieldThreeCurrency: false,
-        isCoupon: false
-    )
+    static let preview1: PassObject = {
+        var pass = PassObject()
+        pass.group = 2
+        pass.barcodeString = "1234"
+        pass.barcodeType = .code128
+        pass.foregroundColor = 0xFF00FF
+        pass.description = "Preview pass 1"
+        pass.logoSymbolName = "info.circle"
+        pass.logoSymbolColor = 0x0000FF
+        pass.thumbnailSymbolName = "info.circle"
+        pass.thumbnailSymbolColor = 0x0000FF
+        pass.associatedStoreIdentifiers = [0]
+        pass.isAuxiliaryFieldOneOn = false
+        pass.locations = [PassLocation(latitude: 11.111, longitude: 22.222, relevantText: "Some Text")]
+        return pass
+    }()
 
-    static let preview2 = PassObject(
-        id: UUID(),
-        group: 1,
-        passIcon: (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data(),
-        passIconType: ImageType.photo,
-        barcodeString: "1234",
-        barcodeType: BarcodeType.code128,
-        barcodeBorder: 0,
-        stripImage: Data(),
-        backgroundImage: Data(),
-        isBackgroundImageOn: true,
-        logoImage: Data(),
-        logoImageType: ImageType.none,
-        thumbnailImage: Data(),
-        thumbnailImageType: ImageType.none,
-        qrCodeCorrectionLevel: QrCodeCorrectionLevel.medium,
-        qrCodeEncoding: QrCodeEncoding.ascii,
-        qrCodeType: QrCodeType.standard,
-        altText: "",
-        foregroundColor: 0xFF00FF,
-        backgroundColor: 0xFFFFFF,
-        labelColor: 0x000000,
-        description: "Preview pass 0",
-        headerFieldOneLabel: "",
-        headerFieldOneText: "",
-        isHeaderFieldTwoOn: false,
-        headerFieldTwoLabel: "",
-        headerFieldTwoText: "",
-        primaryFieldLabel: "",
-        primaryFieldText: "",
-        secondaryFieldOneLabel: "",
-        secondaryFieldOneText: "",
-        isSecondaryFieldTwoOn: false,
-        secondaryFieldTwoLabel: "",
-        secondaryFieldTwoText: "",
-        isSecondaryFieldThreeOn: false,
-        secondaryFieldThreeLabel: "",
-        secondaryFieldThreeText: "",
-        isAuxiliaryFieldOneOn: false,
-        auxiliaryFieldOneLabel: "",
-        auxiliaryFieldOneText: "",
-        isAuxiliaryFieldTwoOn: false,
-        auxiliaryFieldTwoLabel: "",
-        auxiliaryFieldTwoText: "",
-        isAuxiliaryFieldThreeOn: false,
-        auxiliaryFieldThreeLabel: "",
-        auxiliaryFieldThreeText: "",
-        isCustomStripImageOn: false,
-        logoSymbolName: "checkmark",
-        logoSymbolColor: 0x0000FF,
-        thumbnailSymbolName: "checkmark",
-        thumbnailSymbolColor: 0x0000FF,
-        passIconSymbolName: "",
-        passIconSymbolColor: 0x000000,
-        passIconBackgroundColor: 0xFFFFFF,
-        associatedStoreIdentifiers: [0],
-        wifiSSID: "",
-        wifiPassword: "",
-        wifiSecurity: .wpa,
-        wifiIsHidden: false,
-        vcardFirstName: "",
-        vcardLastName: "",
-        vcardCompany: "",
-        vcardPhone: "",
-        vcardEmail: "",
-        vcardURL: "",
-        vcardAddress: "",
-        vcardSocial: "",
-        vcardHasBirthday: false,
-        vcardBirthday: Date(),
-        vcardCustomFields: [],
-        hasExpirationDate: false,
-        expirationDate: Date(),
-        locations: [PassLocation(latitude: 33.333, longitude: 44.444, relevantText: "Some more Text")],
-        isCurrencyFieldsOn: false,
-        currencyCode: "USD",
-        isPrimaryFieldCurrency: false,
-        isHeaderFieldOneCurrency: false,
-        isHeaderFieldTwoCurrency: false,
-        isSecondaryFieldOneCurrency: false,
-        isSecondaryFieldTwoCurrency: false,
-        isSecondaryFieldThreeCurrency: false,
-        isAuxiliaryFieldOneCurrency: false,
-        isAuxiliaryFieldTwoCurrency: false,
-        isAuxiliaryFieldThreeCurrency: false,
-        isCoupon: false
-    )
+    static let preview2: PassObject = {
+        var pass = PassObject()
+        pass.group = 1
+        pass.barcodeString = "1234"
+        pass.barcodeType = .code128
+        pass.isBackgroundImageOn = true
+        pass.foregroundColor = 0xFF00FF
+        pass.description = "Preview pass 0"
+        pass.logoSymbolName = "checkmark"
+        pass.logoSymbolColor = 0x0000FF
+        pass.thumbnailSymbolName = "checkmark"
+        pass.thumbnailSymbolColor = 0x0000FF
+        pass.associatedStoreIdentifiers = [0]
+        pass.isAuxiliaryFieldOneOn = false
+        pass.locations = [PassLocation(latitude: 33.333, longitude: 44.444, relevantText: "Some more Text")]
+        return pass
+    }()
 }

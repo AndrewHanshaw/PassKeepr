@@ -1,3 +1,4 @@
+import PassKeeprCore
 import SwiftUI
 
 // Shared styling logic for the pass card background: border/shadow color math (`PassCardBackgroundColors`),

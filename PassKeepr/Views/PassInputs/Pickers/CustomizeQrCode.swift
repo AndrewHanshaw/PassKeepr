@@ -1,3 +1,4 @@
+import PassKeeprCore
 import PhotosUI
 import SwiftUI
 import Vision
@@ -47,7 +48,7 @@ struct CustomizeQrCode: View {
             return tempQrCodeData
         case .wifi:
             guard !tempPassObject.wifiSSID.isEmpty else { return "" }
-            return WifiQrCode.formatWifi(from: tempPassObject)
+            return WifiCodec.formatWifi(from: tempPassObject)
         case .vcard:
             let hasContent = [
                 tempPassObject.vcardFirstName, tempPassObject.vcardLastName,
@@ -55,7 +56,7 @@ struct CustomizeQrCode: View {
                 tempPassObject.vcardEmail,
             ].contains { !$0.isEmpty }
             guard hasContent else { return "" }
-            return VCardQrCode.formatVCard(from: tempPassObject)
+            return VCardCodec.formatVCard(from: tempPassObject)
         }
     }
 
@@ -323,14 +324,14 @@ struct CustomizeQrCode: View {
         let upper = code.uppercased()
         if upper.hasPrefix("WIFI:") {
             tempQrCodeType = .wifi
-            let p = WifiQrCode.parseWifi(code)
+            let p = WifiCodec.parseWifi(code)
             tempPassObject.wifiSSID = p.ssid
             tempPassObject.wifiPassword = p.password
             tempPassObject.wifiSecurity = p.security
             tempPassObject.wifiIsHidden = p.isHidden
         } else if upper.contains("BEGIN:VCARD") {
             tempQrCodeType = .vcard
-            VCardQrCode.applyParsed(code, to: &tempPassObject)
+            VCardCodec.applyParsed(code, to: &tempPassObject)
         } else {
             tempQrCodeType = .standard
             tempQrCodeData = code

@@ -1,4 +1,5 @@
 import CoreImage.CIFilterBuiltins
+import PassKeeprCore
 import SwiftUI
 
 struct QRCodeView: View {

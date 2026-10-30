@@ -1,3 +1,4 @@
+import PassKeeprCore
 import SwiftUI
 
 let PASS_GRID_PADDING: CGFloat = 14

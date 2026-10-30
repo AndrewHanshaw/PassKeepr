@@ -1,4 +1,5 @@
 import Foundation
+import PassKeeprCore
 
 // Formats a raw value as a localized currency string using the given ISO 4217 currency code.
 // Falls back to the original text if formatting fails.
