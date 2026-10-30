@@ -106,9 +106,9 @@ let requiredFields: [String: Any] = [
 let signNonceUserInfoKey = "signNonce"
 
 // Initializes a new PassKit pass for the given pass
-func generatePass(passObject: PassObject) -> URL? {
+func generatePass(passObject: PassObject, directory: URL = URL.applicationSupportDirectory) -> URL? {
     let fileManager = FileManager.default
-    let passDirectory = URL.applicationSupportDirectory.appending(path: "\(passObject.id.uuidString).pass")
+    let passDirectory = directory.appending(path: "\(passObject.id.uuidString).pass")
 
     do {
         // Create the directory for the pass
@@ -136,7 +136,9 @@ func generatePass(passObject: PassObject) -> URL? {
         if !passObject.locations.isEmpty {
             let encoded: [[String: Any]] = passObject.locations.map { loc in
                 var d: [String: Any] = ["latitude": loc.latitude, "longitude": loc.longitude]
-                if !loc.relevantText.isEmpty { d["relevantText"] = loc.relevantText }
+                if !loc.relevantText.isEmpty {
+                    d["relevantText"] = loc.relevantText
+                }
                 return d
             }
             passData.merge(["locations": encoded]) { _, _ in }
@@ -257,7 +259,7 @@ func generatePass(passObject: PassObject) -> URL? {
             saveImageVariants(from: passObject.thumbnailImage, name: "thumbnail", passDirectory: passDirectory, maxWidth: PassKitConstants.ThumbnailImage.width, maxHeight: PassKitConstants.ThumbnailImage.height)
         }
 
-        if let pkpassDir = try zipDirectory(uuid: passObject.id) {
+        if let pkpassDir = try zipDirectory(uuid: passObject.id, directory: directory) {
             return pkpassDir
         } else {
             return nil
@@ -268,10 +270,10 @@ func generatePass(passObject: PassObject) -> URL? {
     }
 }
 
-func zipDirectory(uuid: UUID) throws -> URL? {
+func zipDirectory(uuid: UUID, directory: URL = URL.applicationSupportDirectory) throws -> URL? {
     let fileManager = FileManager()
-    let passDirectory = URL.applicationSupportDirectory.appending(path: "\(uuid.uuidString).pass")
-    let pkpassDirectory = URL.applicationSupportDirectory.appending(path: "\(uuid.uuidString).pkpass")
+    let passDirectory = directory.appending(path: "\(uuid.uuidString).pass")
+    let pkpassDirectory = directory.appending(path: "\(uuid.uuidString).pkpass")
 
     let archive: Archive
     do {
@@ -359,11 +361,9 @@ func encodeHeaderFields(passObject: PassObject) -> [String: Any] {
         encodedData.append(headerField2)
     }
 
-    let headerFields: [String: Any] = [
+    return [
         "headerFields": encodedData,
     ]
-
-    return headerFields
 }
 
 func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
@@ -412,11 +412,9 @@ func encodeSecondaryFields(passObject: PassObject) -> [String: Any] {
         encodedData.append(secondaryField3)
     }
 
-    let secondaryFields: [String: Any] = [
+    return [
         "secondaryFields": encodedData,
     ]
-
-    return secondaryFields
 }
 
 func encodeAuxiliaryFields(passObject: PassObject) -> [String: Any] {
@@ -465,11 +463,9 @@ func encodeAuxiliaryFields(passObject: PassObject) -> [String: Any] {
         encodedData.append(auxiliaryField3)
     }
 
-    let auxiliaryFields: [String: Any] = [
+    return [
         "auxiliaryFields": encodedData,
     ]
-
-    return auxiliaryFields
 }
 
 // Saves an image as a single 1x PNG, downscaling to fit within the given max dimensions if necessary
