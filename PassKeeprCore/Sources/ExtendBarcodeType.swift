@@ -52,14 +52,16 @@ public extension BarcodeType {
         }
     }
 
-    func keyboardType() -> UIKeyboardType {
-        switch self {
-        case BarcodeType.code128, BarcodeType.code39, BarcodeType.code93:
-            return .default
-        default:
-            return .numberPad
+    #if canImport(UIKit)
+        func keyboardType() -> UIKeyboardType {
+            switch self {
+            case BarcodeType.code128, BarcodeType.code39, BarcodeType.code93:
+                return .default
+            default:
+                return .numberPad
+            }
         }
-    }
+    #endif
 
     func doesBarcodeUseStripImage() -> Bool {
         switch self {

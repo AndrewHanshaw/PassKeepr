@@ -1,21 +1,20 @@
+import CoreGraphics
 import Foundation
-import UIKit
 import ZIPFoundation
 
 // Helper: save 1x and optional @2x/@3x variants from PassObject image
 func saveImageVariants(from data: Data, name: String, passDirectory: URL, maxWidth: CGFloat, maxHeight: CGFloat) {
-    guard let ui = UIImage(data: data) else {
+    guard let cgImage = ImageIOHelpers.decode(data) else {
         // Not a decodable image - write raw data
         savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: name)
         return
     }
 
-    // Prefer actual pixel dims from cgImage when available
-    let srcPixelW: CGFloat = (ui.cgImage != nil) ? CGFloat(ui.cgImage!.width) : (ui.size.width * ui.scale)
-    let srcPixelH: CGFloat = (ui.cgImage != nil) ? CGFloat(ui.cgImage!.height) : (ui.size.height * ui.scale)
+    let srcPixelW = CGFloat(cgImage.width)
+    let srcPixelH = CGFloat(cgImage.height)
 
     // Debug: initial sizes
-    print("[saveImageVariants] name=\(name) srcPixels=\(Int(srcPixelW))x\(Int(srcPixelH)) ui.size=\(ui.size) ui.scale=\(ui.scale)")
+    print("[saveImageVariants] name=\(name) srcPixels=\(Int(srcPixelW))x\(Int(srcPixelH))")
 
     // Thresholds for 1x/2x/3x
     let t1W = maxWidth
@@ -28,7 +27,7 @@ func saveImageVariants(from data: Data, name: String, passDirectory: URL, maxWid
 
     // Helper to save data or resized image for a given pixel size
     func saveResized(_ targetW: Int, _ targetH: Int, fileSuffix: String?) {
-        if let resized = ui.resize(targetSize: CGSize(width: CGFloat(targetW), height: CGFloat(targetH)))?.pngData() {
+        if let resized = ImageIOHelpers.resizedPNGData(from: cgImage, width: targetW, height: targetH) {
             let fileName = fileSuffix != nil ? "\(name)@\(fileSuffix!)" : name
             savePNGToDirectory(pngData: resized, destinationDirectory: passDirectory, fileName: fileName)
         }
@@ -61,7 +60,7 @@ func saveImageVariants(from data: Data, name: String, passDirectory: URL, maxWid
         if final3xW == Int(srcPixelW.rounded()), final3xH == Int(srcPixelH.rounded()) {
             print("[saveImageVariants] saving original as \(name)@3x.png")
             savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: "\(name)@3x")
-        } else if let png3 = ui.resize(targetSize: CGSize(width: CGFloat(final3xW), height: CGFloat(final3xH)))?.pngData() {
+        } else if let png3 = ImageIOHelpers.resizedPNGData(from: cgImage, width: final3xW, height: final3xH) {
             print("[saveImageVariants] saving resized 3x \(final3xW)x\(final3xH) as \(name)@3x.png")
             savePNGToDirectory(pngData: png3, destinationDirectory: passDirectory, fileName: "\(name)@3x")
         }
@@ -471,7 +470,7 @@ func encodeAuxiliaryFields(passObject: PassObject) -> [String: Any] {
 
 // Saves an image as a single 1x PNG, downscaling to fit within the given max dimensions if necessary
 func saveSingleScaleImage(from data: Data, name: String, passDirectory: URL, maxWidth: CGFloat, maxHeight: CGFloat) {
-    guard let ui = UIImage(data: data), let cgImage = ui.cgImage else {
+    guard let cgImage = ImageIOHelpers.decode(data) else {
         savePNGToDirectory(pngData: data, destinationDirectory: passDirectory, fileName: name)
         return
     }
@@ -485,7 +484,7 @@ func saveSingleScaleImage(from data: Data, name: String, passDirectory: URL, max
         let scale = min(maxWidth / srcW, maxHeight / srcH)
         let targetW = max(1, Int((srcW * scale).rounded()))
         let targetH = max(1, Int((srcH * scale).rounded()))
-        if let resized = ui.resize(targetSize: CGSize(width: targetW, height: targetH))?.pngData() {
+        if let resized = ImageIOHelpers.resizedPNGData(from: cgImage, width: targetW, height: targetH) {
             savePNGToDirectory(pngData: resized, destinationDirectory: passDirectory, fileName: name)
         }
     }

@@ -149,7 +149,7 @@ public struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferab
 public extension PassObject {
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
-        let defaultIcon = (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
+        let defaultIcon = Self.defaultPassIconData()
 
         id = try c.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
         group = try c.decodeIfPresent(Int.self, forKey: .group) ?? 1
@@ -272,16 +272,21 @@ public extension PassObject {
         return BackgroundBrightness(brightness: (0.299 * red) + (0.587 * green) + (0.114 * blue))
     }
 
-    static func computeImageBrightness(from data: Data) -> BackgroundBrightness? {
-        guard data != Data(), let image = UIImage(data: data) else { return nil }
-        let brightness = image.resizeToFit(maxWidth: 40, maxHeight: 40).averageBrightness() ?? 0.5
+    static func defaultPassIconData() -> Data {
+        let bundle = Bundle.module
+        return (try? Data(contentsOf: bundle.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
+    }
+
+    internal static func computeImageBrightness(from data: Data) -> BackgroundBrightness? {
+        guard data != Data(), let image = ImageIOHelpers.decode(data) else { return nil }
+        let brightness = ImageIOHelpers.averageBrightness(of: image, maxWidth: 40, maxHeight: 40) ?? 0.5
         return BackgroundBrightness(brightness: brightness)
     }
 }
 
 public extension PassObject {
     init() {
-        let defaultIcon = (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
+        let defaultIcon = Self.defaultPassIconData()
 
         self.init(
             id: UUID(),
