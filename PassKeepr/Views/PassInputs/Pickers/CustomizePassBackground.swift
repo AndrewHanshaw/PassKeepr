@@ -92,7 +92,7 @@ struct CustomizePassBackground: View {
                         tempPassObject.isBackgroundImageOn = false // Don't leave the flag on if the user didn't select a background image
                     }
 
-                    if tempPassObject.isBackgroundImageOn && tempPassObject.backgroundImage != Data() {
+                    if tempPassObject.hasBackgroundImage {
                         // Store the largest (3x) variant so imports/exports can downscale as needed
 
                         // Center-crop existing thumbnail to 1:1 to match background image pass layout
@@ -128,7 +128,7 @@ struct CustomizePassBackground: View {
         .navigationBarTitleDisplayMode(.inline)
         .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : Color(UIColor.systemBackground))
         .onChange(of: tempPassObject.backgroundImage) {
-            if tempPassObject.isBackgroundImageOn && tempPassObject.backgroundImage != Data() {
+            if tempPassObject.hasBackgroundImage {
                 // Force white text when a background color is set
                 tempPassObject.foregroundColor = Color.white.toHex()
             }

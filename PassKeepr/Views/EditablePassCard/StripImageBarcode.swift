@@ -12,7 +12,7 @@ struct StripImageBarcodeView: View {
     var body: some View {
         ZStack {
             Group {
-                if shouldShowStripBarcodeImage() {
+                if passObject.hasStripBarcodeImage {
                     Image(uiImage: UIImage(data: passObject.stripImage)!)
                         .resizable()
                 } else {
@@ -37,7 +37,7 @@ struct StripImageBarcodeView: View {
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.green, .white)
                     .font(.system(size: 24))
-                    .offset(x: shouldShowStripBarcodeImage() ? 12 : 7, y: 12)
+                    .offset(x: passObject.hasStripBarcodeImage ? 12 : 7, y: 12)
                     .shadow(radius: 2, x: 0, y: 0)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             }
@@ -45,10 +45,6 @@ struct StripImageBarcodeView: View {
             .disabled(disableButton)
         }
         .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
-    }
-
-    func shouldShowStripBarcodeImage() -> Bool {
-        passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) == true && passObject.stripImage != Data()
     }
 }
 

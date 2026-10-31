@@ -80,7 +80,7 @@ struct PassCard: View {
                         .frame(height: size.height * 0.1)
                     }
 
-                    if passObject.secondaryFieldOneLabel != "" || passObject.secondaryFieldOneText != "" {
+                    if passObject.hasSecondaryFieldOneContent {
                         HStack {
                             ZStack(alignment: .leading) {
                                 Text(passObject.secondaryFieldOneLabel)
