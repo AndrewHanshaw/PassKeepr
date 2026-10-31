@@ -13,10 +13,14 @@ open class ModelData: ObservableObject {
 
     public let filename: String = "PassKeeprData.json"
 
+    // Directory the data file lives in. Injectable so tests can use a temporary directory.
+    public let directory: URL
+
     @Published open var passObjects: [PassObject] = [] // Holds all PassObjects in a single array
     @Published public var tutorialStage: Int = 0
 
-    public init() {
+    public init(directory: URL = URL.applicationSupportDirectory) {
+        self.directory = directory
         if let loadedData: PassKeeprData = load(filename) {
             passObjects = loadedData.passObjects
             tutorialStage = loadedData.tutorialStage
@@ -52,8 +56,7 @@ open class ModelData: ObservableObject {
     }
 
     public func load<T: Decodable>(_ filename: String) -> T? {
-        let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        let file = applicationSupportDirectory.appendingPathComponent(filename)
+        let file = directory.appendingPathComponent(filename)
         let data: Data
 
         do {
@@ -71,11 +74,10 @@ open class ModelData: ObservableObject {
     }
 
     public func encode<T: Encodable>(_ filename: String, _ data: T) {
-        let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        let file = applicationSupportDirectory.appendingPathComponent(filename)
+        let file = directory.appendingPathComponent(filename)
 
         do {
-            try FileManager.default.createDirectory(at: applicationSupportDirectory, withIntermediateDirectories: true)
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
             let encoder = JSONEncoder()
             encoder.outputFormatting = .prettyPrinted
             let encodedData = try encoder.encode(data)
@@ -99,8 +101,7 @@ open class ModelData: ObservableObject {
     }
 
     public func deleteDataFile() {
-        let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        let fileURL = applicationSupportDirectory.appendingPathComponent(filename)
+        let fileURL = directory.appendingPathComponent(filename)
 
         do {
             if FileManager.default.fileExists(atPath: fileURL.path) {

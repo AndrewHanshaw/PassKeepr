@@ -14,7 +14,7 @@ class MockModelData: ModelData {
         }
     }
 
-    override init() {
+    init() {
         super.init()
         // Initialize with mock data
         passObjects = [PassObject.preview1, PassObject.preview2]
