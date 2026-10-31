@@ -49,6 +49,38 @@ final class WifiCodecTests: XCTestCase {
         XCTAssertEqual(parsed.isHidden, false)
     }
 
+    func testParseWifiRoundTripWithSpecialCharacters() {
+        let ssid = "My;Net,work\"\\"
+        let password = "p;a:s;s,\\;\""
+        let original = WifiCodec.formatWifi(
+            ssid: ssid,
+            security: .wep,
+            password: password,
+            isHidden: true
+        )
+        let parsed = WifiCodec.parseWifi(original)
+        XCTAssertEqual(parsed.ssid, ssid)
+        XCTAssertEqual(parsed.password, password)
+        XCTAssertEqual(parsed.security, .wep)
+        XCTAssertEqual(parsed.isHidden, true)
+    }
+
+    func testParseWifiFromExternalQrString() {
+        let parsed = WifiCodec.parseWifi("WIFI:T:WPA;S:Guest\\;5G;P:open\\;sesame;H:true;;")
+        XCTAssertEqual(parsed.ssid, "Guest;5G")
+        XCTAssertEqual(parsed.password, "open;sesame")
+        XCTAssertEqual(parsed.security, .wpa)
+        XCTAssertEqual(parsed.isHidden, true)
+    }
+
+    func testParseWifiOpenNetwork() {
+        let parsed = WifiCodec.parseWifi("WIFI:T:nopass;S:CoffeeShop;P:;H:false;;")
+        XCTAssertEqual(parsed.ssid, "CoffeeShop")
+        XCTAssertEqual(parsed.password, "")
+        XCTAssertEqual(parsed.security, WifiSecurity.none)
+        XCTAssertEqual(parsed.isHidden, false)
+    }
+
     func testParseWifiRejectsNonWifiString() {
         let parsed = WifiCodec.parseWifi("not a wifi string")
         XCTAssertEqual(parsed.ssid, "")

@@ -23,7 +23,7 @@ public enum WifiCodec {
         var security: WifiSecurity = .wpa
         var isHidden = false
         let content = String(string.dropFirst(5))
-        for part in content.components(separatedBy: ";") {
+        for part in splitOnUnescapedSemicolons(content) {
             if part.hasPrefix("S:") {
                 ssid = unescapeWifi(String(part.dropFirst(2)))
             } else if part.hasPrefix("P:") {
@@ -35,6 +35,26 @@ public enum WifiCodec {
             }
         }
         return (ssid, password, security, isHidden)
+    }
+
+    // Splits on `;` but keeps escaped `\;` (and any other escape sequence) intact for `unescapeWifi`
+    private static func splitOnUnescapedSemicolons(_ s: String) -> [String] {
+        var parts: [String] = []
+        var current = ""
+        var iter = s.makeIterator()
+        while let ch = iter.next() {
+            if ch == "\\" {
+                current.append(ch)
+                if let next = iter.next() { current.append(next) }
+            } else if ch == ";" {
+                parts.append(current)
+                current = ""
+            } else {
+                current.append(ch)
+            }
+        }
+        parts.append(current)
+        return parts
     }
 
     private static func escapeWifi(_ s: String) -> String {
