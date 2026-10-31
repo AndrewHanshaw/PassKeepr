@@ -12,12 +12,13 @@ extension Color {
     }
 
     func toHex() -> UInt {
-        let components = cgColor?.components ?? [0, 0, 0, 0] // Default to black if nil
-        let red = UInt(components[0] * 255)
-        let green = UInt(components[1] * 255)
-        let blue = UInt(components[2] * 255)
+        let resolved = resolve(in: EnvironmentValues())
 
-        return (red << 16) + (green << 8) + blue
+        func channel(_ value: Float) -> UInt {
+            UInt((min(1, max(0, value)) * 255).rounded())
+        }
+
+        return (channel(resolved.red) << 16) + (channel(resolved.green) << 8) + channel(resolved.blue)
     }
 
     static func binding(from hexBinding: Binding<UInt>) -> Binding<Color> {
