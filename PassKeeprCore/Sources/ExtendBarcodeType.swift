@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import Vision
 
-extension BarcodeType {
+public extension BarcodeType {
     func info() -> String {
         switch self {
         case BarcodeType.code128:

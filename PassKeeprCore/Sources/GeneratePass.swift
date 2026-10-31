@@ -103,10 +103,10 @@ let requiredFields: [String: Any] = [
     "organizationName": "PassKeepr",
 ]
 
-let signNonceUserInfoKey = "signNonce"
+public let signNonceUserInfoKey = "signNonce"
 
 // Initializes a new PassKit pass for the given pass
-func generatePass(passObject: PassObject, directory: URL = URL.applicationSupportDirectory) -> URL? {
+public func generatePass(passObject: PassObject, directory: URL = URL.applicationSupportDirectory) -> URL? {
     let fileManager = FileManager.default
     let passDirectory = directory.appending(path: "\(passObject.id.uuidString).pass")
 
@@ -300,7 +300,7 @@ func zipDirectory(uuid: UUID, directory: URL = URL.applicationSupportDirectory) 
 // tolerating common formatting characters (currency symbols, thousands separators, whitespace).
 // Separators are interpreted using the given locale, so "1,50" is 1.5 in a comma-decimal locale (e.g. de_DE)
 // while "1,500" is 1500 in en_US.
-func currencyFieldValue(_ text: String, locale: Locale = .current) -> Double {
+public func currencyFieldValue(_ text: String, locale: Locale = .current) -> Double {
     let decimalSeparator = locale.decimalSeparator ?? "."
     let groupingSeparator = locale.groupingSeparator ?? ","
 
@@ -502,7 +502,7 @@ func savePNGToDirectory(pngData: Data, destinationDirectory: URL, fileName: Stri
     }
 }
 
-func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
+public func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
     if (passObject.barcodeType == BarcodeType.code128) || (passObject.barcodeType == BarcodeType.pdf417) || (passObject.barcodeType == BarcodeType.qr) || (passObject.barcodeType == BarcodeType.none) {
         return true
     } else {
@@ -510,7 +510,7 @@ func getIsBackgroundImageSupported(passObject: PassObject) -> Bool {
     }
 }
 
-func shouldBackgroundImageBeAddedToPass(passObject: PassObject) -> Bool {
+public func shouldBackgroundImageBeAddedToPass(passObject: PassObject) -> Bool {
     if (passObject.isBackgroundImageOn == true && passObject.backgroundImage != Data()) && getIsBackgroundImageSupported(passObject: passObject) {
         return true
     } else {
@@ -518,7 +518,7 @@ func shouldBackgroundImageBeAddedToPass(passObject: PassObject) -> Bool {
     }
 }
 
-func shouldStripImageBeAddedToPass(passObject: PassObject) -> Bool {
+public func shouldStripImageBeAddedToPass(passObject: PassObject) -> Bool {
     guard passObject.stripImage != Data() else { return false } // Always return false if there is no strip image data
 
     // If there is strip image data, it should be added to the pass if it is a custom strip image, or if it is a valid barcode of a type that uses a strip image

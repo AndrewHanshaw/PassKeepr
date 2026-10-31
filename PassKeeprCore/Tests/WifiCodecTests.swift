@@ -1,9 +1,9 @@
-@testable import PassKeepr
+@testable import PassKeeprCore
 import XCTest
 
-final class WifiQrCodeTests: XCTestCase {
+final class WifiCodecTests: XCTestCase {
     func testFormatWifiProducesCorrectString() {
-        let result = WifiQrCode.formatWifi(
+        let result = WifiCodec.formatWifi(
             ssid: "MyNetwork",
             security: .wpa,
             password: "hunter2",
@@ -13,7 +13,7 @@ final class WifiQrCodeTests: XCTestCase {
     }
 
     func testFormatWifiEscapesSpecialCharacters() {
-        let result = WifiQrCode.formatWifi(
+        let result = WifiCodec.formatWifi(
             ssid: "My;Network",
             security: .wpa,
             password: "p;a:s;s",
@@ -30,19 +30,19 @@ final class WifiQrCodeTests: XCTestCase {
         pass.wifiPassword = ""
         pass.wifiIsHidden = false
 
-        let result = WifiQrCode.formatWifi(from: pass)
+        let result = WifiCodec.formatWifi(from: pass)
         XCTAssertTrue(result.hasPrefix("WIFI:"))
         XCTAssertTrue(result.contains("S:CoffeeShop"))
     }
 
     func testParseWifiRoundTrip() {
-        let original = WifiQrCode.formatWifi(
+        let original = WifiCodec.formatWifi(
             ssid: "TestSSID",
             security: .wpa,
             password: "testpass",
             isHidden: false
         )
-        let parsed = WifiQrCode.parseWifi(original)
+        let parsed = WifiCodec.parseWifi(original)
         XCTAssertEqual(parsed.ssid, "TestSSID")
         XCTAssertEqual(parsed.password, "testpass")
         XCTAssertEqual(parsed.security, .wpa)
@@ -50,7 +50,7 @@ final class WifiQrCodeTests: XCTestCase {
     }
 
     func testParseWifiRejectsNonWifiString() {
-        let parsed = WifiQrCode.parseWifi("not a wifi string")
+        let parsed = WifiCodec.parseWifi("not a wifi string")
         XCTAssertEqual(parsed.ssid, "")
     }
 }

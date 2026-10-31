@@ -1,11 +1,15 @@
 import Foundation
 
-class pkPassSigner: NSObject, ObservableObject, URLSessionDelegate {
-    @Published var isDataLoaded: Bool = false
-    @Published var fileURL: URL? = nil
-    @Published var uploadErrorMessage: String? = nil
+public class pkPassSigner: NSObject, ObservableObject, URLSessionDelegate {
+    @Published public var isDataLoaded: Bool = false
+    @Published public var fileURL: URL? = nil
+    @Published public var uploadErrorMessage: String? = nil
 
-    func uploadPKPassFile(fileURL: URL, passUuid: UUID) {
+    override public init() {
+        super.init()
+    }
+
+    public func uploadPKPassFile(fileURL: URL, passUuid: UUID) {
         var url = URL(string: "https://pk-server-gules.vercel.app/sign")
 
         if Bundle.main.object(forInfoDictionaryKey: "LocalServer") as? String == "true" {
@@ -96,7 +100,7 @@ class pkPassSigner: NSObject, ObservableObject, URLSessionDelegate {
 
     // Trust the self-signed certificate
     // Called by URLSession automatically as a delegate method when it sees an untrusted cert
-    func urlSession(_: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    public func urlSession(_: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
             if let serverTrust = challenge.protectionSpace.serverTrust {
                 let credential = URLCredential(trust: serverTrust)

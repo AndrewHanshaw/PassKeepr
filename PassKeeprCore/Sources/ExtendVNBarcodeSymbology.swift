@@ -1,6 +1,6 @@
 import Vision
 
-extension VNBarcodeSymbology {
+public extension VNBarcodeSymbology {
     func toBarcodeType() -> BarcodeType? {
         switch self {
         case VNBarcodeSymbology.code128:

@@ -1,9 +1,9 @@
-@testable import PassKeepr
+@testable import PassKeeprCore
 import XCTest
 
-final class VCardQrCodeTests: XCTestCase {
+final class VCardCodecTests: XCTestCase {
     func testFormatVCardProducesValidStructure() {
-        let result = VCardQrCode.formatVCard(
+        let result = VCardCodec.formatVCard(
             firstName: "John",
             lastName: "Doe",
             company: "Acme",
@@ -26,7 +26,7 @@ final class VCardQrCodeTests: XCTestCase {
     }
 
     func testFormatVCardOmitsEmptyFields() {
-        let result = VCardQrCode.formatVCard(
+        let result = VCardCodec.formatVCard(
             firstName: "Jane",
             lastName: "",
             company: "",
@@ -52,7 +52,7 @@ final class VCardQrCodeTests: XCTestCase {
         components.day = 15
         let birthday = try XCTUnwrap(Calendar.current.date(from: components))
 
-        let result = VCardQrCode.formatVCard(
+        let result = VCardCodec.formatVCard(
             firstName: "Bob",
             lastName: "Smith",
             company: "",

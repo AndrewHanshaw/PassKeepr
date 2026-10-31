@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "06A87C4A-D3F2-4DAE-B1F2-5DFA388E4539",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "PassKeeprCoreTests",
+        "name" : "PassKeeprCoreTests"
+      }
+    }
+  ],
+  "version" : 1
+}

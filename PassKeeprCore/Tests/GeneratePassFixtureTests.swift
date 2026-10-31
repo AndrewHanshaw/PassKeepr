@@ -1,5 +1,4 @@
-@testable import PassKeepr
-import UIKit
+@testable import PassKeeprCore
 import XCTest
 import ZIPFoundation
 
@@ -448,20 +447,11 @@ final class GeneratePassFixtureTests: XCTestCase {
     }
 
     private func pngData(width: Int, height: Int) -> Data {
-        let size = CGSize(width: width, height: height)
-        // Scale 1 so the PNG's pixel size equals the requested size, regardless of the device scale
-        let format = UIGraphicsImageRendererFormat()
-        format.scale = 1
-        let renderer = UIGraphicsImageRenderer(size: size, format: format)
-        let image = renderer.image { context in
-            UIColor.red.setFill()
-            context.fill(CGRect(origin: .zero, size: size))
-        }
-        return image.pngData() ?? Data()
+        TestImages.redPNG(width: width, height: height)
     }
 
     private func pixelSize(of data: Data) -> Size? {
-        guard let cgImage = UIImage(data: data)?.cgImage else { return nil }
-        return Size(width: cgImage.width, height: cgImage.height)
+        guard let size = TestImages.pixelSize(of: data) else { return nil }
+        return Size(width: size.width, height: size.height)
     }
 }

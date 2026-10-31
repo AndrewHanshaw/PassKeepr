@@ -1,5 +1,4 @@
-@testable import PassKeepr
-import UIKit
+@testable import PassKeeprCore
 import XCTest
 import ZIPFoundation
 
@@ -505,18 +504,11 @@ final class GeneratePassDesignRulesTests: XCTestCase {
     }
 
     private func pngData(width: Int, height: Int) -> Data {
-        let size = CGSize(width: width, height: height)
-        let renderer = UIGraphicsImageRenderer(size: size)
-        let image = renderer.image { context in
-            UIColor.red.setFill()
-            context.fill(CGRect(origin: .zero, size: size))
-        }
-        return image.pngData() ?? Data()
+        TestImages.redPNG(width: width, height: height)
     }
 
     private func pixelSize(of data: Data) -> (width: Int, height: Int)? {
-        guard let cgImage = UIImage(data: data)?.cgImage else { return nil }
-        return (cgImage.width, cgImage.height)
+        TestImages.pixelSize(of: data)
     }
 
     private func assertRGBColor(_ value: Any?, file: StaticString = #filePath, line: UInt = #line) {

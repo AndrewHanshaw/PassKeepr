@@ -1,4 +1,4 @@
-@testable import PassKeepr
+@testable import PassKeeprCore
 import SwiftUI
 import XCTest
 

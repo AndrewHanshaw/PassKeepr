@@ -1,24 +1,29 @@
 import Foundation
 
-class ModelData: ObservableObject {
-    struct PassKeeprData: Codable {
-        var passObjects: [PassObject]
-        var tutorialStage: Int
+open class ModelData: ObservableObject {
+    public struct PassKeeprData: Codable {
+        public var passObjects: [PassObject]
+        public var tutorialStage: Int
+
+        public init(passObjects: [PassObject], tutorialStage: Int) {
+            self.passObjects = passObjects
+            self.tutorialStage = tutorialStage
+        }
     }
 
-    let filename: String = "PassKeeprData.json"
+    public let filename: String = "PassKeeprData.json"
 
-    @Published var passObjects: [PassObject] = [] // Holds all PassObjects in a single array
-    @Published var tutorialStage: Int = 0
+    @Published open var passObjects: [PassObject] = [] // Holds all PassObjects in a single array
+    @Published public var tutorialStage: Int = 0
 
-    init() {
+    public init() {
         if let loadedData: PassKeeprData = load(filename) {
             passObjects = loadedData.passObjects
             tutorialStage = loadedData.tutorialStage
         }
     }
 
-    func encodePassObjects() {
+    public func encodePassObjects() {
         let data = PassKeeprData(passObjects: passObjects, tutorialStage: tutorialStage)
         encode(filename, data)
     }
@@ -29,7 +34,7 @@ class ModelData: ObservableObject {
     // keystroke or ColorPicker drag frame while editing a pass). Encoding + writing the whole passes
     // array (including all embedded image data) to disk is too expensive to do on every single change,
     // so rapid-fire calls each restart a short delay and only the last one actually writes to disk.
-    func scheduleEncodePassObjects(after delay: Duration = .milliseconds(400)) {
+    public func scheduleEncodePassObjects(after delay: Duration = .milliseconds(400)) {
         pendingEncodeTask?.cancel()
         pendingEncodeTask = Task { [weak self] in
             try? await Task.sleep(for: delay)
@@ -40,13 +45,13 @@ class ModelData: ObservableObject {
 
     // Cancels any pending debounced encode and writes immediately, so a scheduled save is never
     // lost if the caller goes away (e.g. a view disappearing) before the delay elapses.
-    func flushPendingEncode() {
+    public func flushPendingEncode() {
         pendingEncodeTask?.cancel()
         pendingEncodeTask = nil
         encodePassObjects()
     }
 
-    func load<T: Decodable>(_ filename: String) -> T? {
+    public func load<T: Decodable>(_ filename: String) -> T? {
         let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         let file = applicationSupportDirectory.appendingPathComponent(filename)
         let data: Data
@@ -65,7 +70,7 @@ class ModelData: ObservableObject {
         }
     }
 
-    func encode<T: Encodable>(_ filename: String, _ data: T) {
+    public func encode<T: Encodable>(_ filename: String, _ data: T) {
         let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         let file = applicationSupportDirectory.appendingPathComponent(filename)
 
@@ -80,7 +85,7 @@ class ModelData: ObservableObject {
         }
     }
 
-    func deleteItemByID(_ idToDelete: UUID) {
+    public func deleteItemByID(_ idToDelete: UUID) {
         if let index = passObjects.firstIndex(where: { $0.id == idToDelete }) {
             passObjects.remove(at: index)
 
@@ -88,12 +93,12 @@ class ModelData: ObservableObject {
         }
     }
 
-    func deleteAllItems() {
+    public func deleteAllItems() {
         passObjects.removeAll()
         encodePassObjects()
     }
 
-    func deleteDataFile() {
+    public func deleteDataFile() {
         let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
         let fileURL = applicationSupportDirectory.appendingPathComponent(filename)
 

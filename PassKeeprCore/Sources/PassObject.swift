@@ -1,20 +1,20 @@
 import Foundation
 import SwiftUI
 
-struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
-    static let defaultDescription: String = "PassKeepr Pass"
-    var id: UUID
-    var group: Int
-    var passIcon: Data
-    var passIconType: ImageType
-    var barcodeString: String
-    var barcodeType: BarcodeType
-    var barcodeBorder: Double
-    var stripImage: Data // PNG data for all passes that use the strip image (may be a barcode, picture, etc)
+public struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
+    public static let defaultDescription: String = "PassKeepr Pass"
+    public var id: UUID
+    public var group: Int
+    public var passIcon: Data
+    public var passIconType: ImageType
+    public var barcodeString: String
+    public var barcodeType: BarcodeType
+    public var barcodeBorder: Double
+    public var stripImage: Data // PNG data for all passes that use the strip image (may be a barcode, picture, etc)
     // PNG data for all passes that use the background image. Assigning this automatically
     // recomputes `imageBackgroundBrightness` below (see `didSet`), so callers can just set it
     // directly instead of going through a separate update method.
-    var backgroundImage: Data {
+    public var backgroundImage: Data {
         didSet {
             guard backgroundImage != oldValue else { return }
             imageBackgroundBrightness = Self.computeImageBrightness(from: backgroundImage)
@@ -22,91 +22,91 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
         }
     }
 
-    var isBackgroundImageOn: Bool
+    public var isBackgroundImageOn: Bool
 
     // Cached brightness classification of `backgroundImage`, kept in sync automatically by
     // `backgroundImage`'s `didSet` rather than being recomputed every time a card is rendered.
     // `nil` means there's no background image, in which case `backgroundBrightness` falls back
     // to `backgroundColor` (which is cheap enough to compute on the fly, so it needs no cache).
-    var imageBackgroundBrightness: BackgroundBrightness? = nil
-    var logoImage: Data // PNG data for all passes that use the logo image
-    var logoImageType: ImageType
-    var thumbnailImage: Data // PNG data for thumbnail image (90x90 points, aspect ratio 2:3 to 3:2)
-    var thumbnailImageType: ImageType
-    var qrCodeCorrectionLevel: QrCodeCorrectionLevel
-    var qrCodeEncoding: QrCodeEncoding
-    var qrCodeType: QrCodeType
-    var altText: String
-    var foregroundColor: UInt
-    var backgroundColor: UInt
-    var labelColor: UInt
-    var description: String
-    var headerFieldOneLabel: String
-    var headerFieldOneText: String
-    var isHeaderFieldTwoOn: Bool
-    var headerFieldTwoLabel: String
-    var headerFieldTwoText: String
+    public var imageBackgroundBrightness: BackgroundBrightness? = nil
+    public var logoImage: Data // PNG data for all passes that use the logo image
+    public var logoImageType: ImageType
+    public var thumbnailImage: Data // PNG data for thumbnail image (90x90 points, aspect ratio 2:3 to 3:2)
+    public var thumbnailImageType: ImageType
+    public var qrCodeCorrectionLevel: QrCodeCorrectionLevel
+    public var qrCodeEncoding: QrCodeEncoding
+    public var qrCodeType: QrCodeType
+    public var altText: String
+    public var foregroundColor: UInt
+    public var backgroundColor: UInt
+    public var labelColor: UInt
+    public var description: String
+    public var headerFieldOneLabel: String
+    public var headerFieldOneText: String
+    public var isHeaderFieldTwoOn: Bool
+    public var headerFieldTwoLabel: String
+    public var headerFieldTwoText: String
     /* Technically, PassKit supports a third header field, but the space available is so tight that a third one is effectively useless. Maybe this will change later */
-    var primaryFieldLabel: String
-    var primaryFieldText: String
-    var secondaryFieldOneLabel: String
-    var secondaryFieldOneText: String
-    var isSecondaryFieldTwoOn: Bool
-    var secondaryFieldTwoLabel: String
-    var secondaryFieldTwoText: String
-    var isSecondaryFieldThreeOn: Bool
-    var secondaryFieldThreeLabel: String
-    var secondaryFieldThreeText: String
-    var isAuxiliaryFieldOneOn: Bool
-    var auxiliaryFieldOneLabel: String
-    var auxiliaryFieldOneText: String
-    var isAuxiliaryFieldTwoOn: Bool
-    var auxiliaryFieldTwoLabel: String
-    var auxiliaryFieldTwoText: String
-    var isAuxiliaryFieldThreeOn: Bool
-    var auxiliaryFieldThreeLabel: String
-    var auxiliaryFieldThreeText: String
-    var isCustomStripImageOn: Bool
-    var logoSymbolName: String
-    var logoSymbolColor: UInt
-    var thumbnailSymbolName: String
-    var thumbnailSymbolColor: UInt
-    var passIconSymbolName: String
-    var passIconSymbolColor: UInt
-    var passIconBackgroundColor: UInt
-    var associatedStoreIdentifiers: [Int]
+    public var primaryFieldLabel: String
+    public var primaryFieldText: String
+    public var secondaryFieldOneLabel: String
+    public var secondaryFieldOneText: String
+    public var isSecondaryFieldTwoOn: Bool
+    public var secondaryFieldTwoLabel: String
+    public var secondaryFieldTwoText: String
+    public var isSecondaryFieldThreeOn: Bool
+    public var secondaryFieldThreeLabel: String
+    public var secondaryFieldThreeText: String
+    public var isAuxiliaryFieldOneOn: Bool
+    public var auxiliaryFieldOneLabel: String
+    public var auxiliaryFieldOneText: String
+    public var isAuxiliaryFieldTwoOn: Bool
+    public var auxiliaryFieldTwoLabel: String
+    public var auxiliaryFieldTwoText: String
+    public var isAuxiliaryFieldThreeOn: Bool
+    public var auxiliaryFieldThreeLabel: String
+    public var auxiliaryFieldThreeText: String
+    public var isCustomStripImageOn: Bool
+    public var logoSymbolName: String
+    public var logoSymbolColor: UInt
+    public var thumbnailSymbolName: String
+    public var thumbnailSymbolColor: UInt
+    public var passIconSymbolName: String
+    public var passIconSymbolColor: UInt
+    public var passIconBackgroundColor: UInt
+    public var associatedStoreIdentifiers: [Int]
     // WiFi QR Code
-    var wifiSSID: String
-    var wifiPassword: String
-    var wifiSecurity: WifiSecurity
-    var wifiIsHidden: Bool
+    public var wifiSSID: String
+    public var wifiPassword: String
+    public var wifiSecurity: WifiSecurity
+    public var wifiIsHidden: Bool
     // vCard QR Code
-    var vcardFirstName: String
-    var vcardLastName: String
-    var vcardCompany: String
-    var vcardPhone: String
-    var vcardEmail: String
-    var vcardURL: String
-    var vcardAddress: String
-    var vcardSocial: String
-    var vcardHasBirthday: Bool
-    var vcardBirthday: Date
-    var vcardCustomFields: [VCardCustomField]
-    var hasExpirationDate: Bool
-    var expirationDate: Date
-    var locations: [PassLocation]
-    var isCurrencyFieldsOn: Bool
-    var currencyCode: String
-    var isPrimaryFieldCurrency: Bool
-    var isHeaderFieldOneCurrency: Bool
-    var isHeaderFieldTwoCurrency: Bool
-    var isSecondaryFieldOneCurrency: Bool
-    var isSecondaryFieldTwoCurrency: Bool
-    var isSecondaryFieldThreeCurrency: Bool
-    var isAuxiliaryFieldOneCurrency: Bool
-    var isAuxiliaryFieldTwoCurrency: Bool
-    var isAuxiliaryFieldThreeCurrency: Bool
-    var isCoupon: Bool
+    public var vcardFirstName: String
+    public var vcardLastName: String
+    public var vcardCompany: String
+    public var vcardPhone: String
+    public var vcardEmail: String
+    public var vcardURL: String
+    public var vcardAddress: String
+    public var vcardSocial: String
+    public var vcardHasBirthday: Bool
+    public var vcardBirthday: Date
+    public var vcardCustomFields: [VCardCustomField]
+    public var hasExpirationDate: Bool
+    public var expirationDate: Date
+    public var locations: [PassLocation]
+    public var isCurrencyFieldsOn: Bool
+    public var currencyCode: String
+    public var isPrimaryFieldCurrency: Bool
+    public var isHeaderFieldOneCurrency: Bool
+    public var isHeaderFieldTwoCurrency: Bool
+    public var isSecondaryFieldOneCurrency: Bool
+    public var isSecondaryFieldTwoCurrency: Bool
+    public var isSecondaryFieldThreeCurrency: Bool
+    public var isAuxiliaryFieldOneCurrency: Bool
+    public var isAuxiliaryFieldTwoCurrency: Bool
+    public var isAuxiliaryFieldThreeCurrency: Bool
+    public var isCoupon: Bool
 
     enum CodingKeys: String, CodingKey {
         case id, group, passIcon, passIconType, barcodeString, barcodeType, barcodeBorder
@@ -141,12 +141,12 @@ struct PassObject: Codable, Identifiable, Equatable, Hashable, Transferable {
         case isBackgroundImageOn
     }
 
-    static var transferRepresentation: some TransferRepresentation {
+    public static var transferRepresentation: some TransferRepresentation {
         CodableRepresentation(contentType: .data)
     }
 }
 
-extension PassObject {
+public extension PassObject {
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         let defaultIcon = (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
@@ -255,7 +255,7 @@ extension PassObject {
     }
 }
 
-extension PassObject {
+public extension PassObject {
     // The brightness bucket used to keep card chrome (shadows, strokes, text overlays) legible
     // against whatever is actually behind the card: the background image if there is one,
     // otherwise the background color. Cheap to read in both cases — the image case is kept
@@ -279,7 +279,7 @@ extension PassObject {
     }
 }
 
-extension PassObject {
+public extension PassObject {
     init() {
         let defaultIcon = (try? Data(contentsOf: Bundle.main.url(forResource: "DefaultPassIcon", withExtension: "png") ?? URL(fileURLWithPath: ""))) ?? Data()
 
@@ -464,13 +464,13 @@ extension PassObject {
     }
 }
 
-enum QrCodeCorrectionLevel: Codable, CustomStringConvertible, CaseIterable {
+public enum QrCodeCorrectionLevel: Codable, CustomStringConvertible, CaseIterable {
     case low
     case medium
     case quartile
     case high
 
-    var description: String {
+    public var description: String {
         switch self {
         case .low: return "L"
         case .medium: return "M"
@@ -480,12 +480,12 @@ enum QrCodeCorrectionLevel: Codable, CustomStringConvertible, CaseIterable {
     }
 }
 
-enum QrCodeEncoding: Codable, CustomStringConvertible, CaseIterable {
+public enum QrCodeEncoding: Codable, CustomStringConvertible, CaseIterable {
     case ascii
     case utf8
     case unicode
 
-    func toStringEncoding() -> String.Encoding {
+    public func toStringEncoding() -> String.Encoding {
         switch self {
         case .ascii: return .ascii
         case .utf8: return .utf8
@@ -493,7 +493,7 @@ enum QrCodeEncoding: Codable, CustomStringConvertible, CaseIterable {
         }
     }
 
-    var ianaEncodingName: String {
+    public var ianaEncodingName: String {
         switch self {
         case .ascii: return "us-ascii"
         case .utf8: return "utf-8"
@@ -501,17 +501,17 @@ enum QrCodeEncoding: Codable, CustomStringConvertible, CaseIterable {
         }
     }
 
-    func isCompatible(with string: String) -> Bool {
+    public func isCompatible(with string: String) -> Bool {
         string.data(using: toStringEncoding()) != nil
     }
 
-    static func minimumEncoding(for string: String) -> QrCodeEncoding {
+    public static func minimumEncoding(for string: String) -> QrCodeEncoding {
         if string.data(using: .ascii) != nil { return .ascii }
         if string.data(using: .utf8) != nil { return .utf8 }
         return .unicode
     }
 
-    var description: String {
+    public var description: String {
         switch self {
         case .ascii: return "ASCII"
         case .utf8: return "UTF-8"
@@ -520,12 +520,12 @@ enum QrCodeEncoding: Codable, CustomStringConvertible, CaseIterable {
     }
 }
 
-enum QrCodeType: Codable, CustomStringConvertible, CaseIterable {
+public enum QrCodeType: Codable, CustomStringConvertible, CaseIterable {
     case standard
     case wifi
     case vcard
 
-    var description: String {
+    public var description: String {
         switch self {
         case .standard: return "Standard"
         case .wifi: return "Wi-Fi"
@@ -534,12 +534,12 @@ enum QrCodeType: Codable, CustomStringConvertible, CaseIterable {
     }
 }
 
-enum WifiSecurity: String, Codable, CaseIterable, Hashable {
+public enum WifiSecurity: String, Codable, CaseIterable, Hashable {
     case none = "nopass"
     case wep = "WEP"
     case wpa = "WPA"
 
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .none: return "None"
         case .wep: return "WEP"
@@ -548,20 +548,33 @@ enum WifiSecurity: String, Codable, CaseIterable, Hashable {
     }
 }
 
-struct VCardCustomField: Identifiable, Equatable, Codable, Hashable {
-    var id = UUID()
-    var label: String = ""
-    var value: String = ""
+public struct VCardCustomField: Identifiable, Equatable, Codable, Hashable {
+    public var id = UUID()
+    public var label: String = ""
+    public var value: String = ""
+
+    public init(id: UUID = UUID(), label: String = "", value: String = "") {
+        self.id = id
+        self.label = label
+        self.value = value
+    }
 }
 
-struct PassLocation: Identifiable, Equatable, Codable, Hashable {
-    var id = UUID()
-    var latitude: Double = 0.0
-    var longitude: Double = 0.0
-    var relevantText: String = ""
+public struct PassLocation: Identifiable, Equatable, Codable, Hashable {
+    public var id = UUID()
+    public var latitude: Double = 0.0
+    public var longitude: Double = 0.0
+    public var relevantText: String = ""
+
+    public init(id: UUID = UUID(), latitude: Double = 0.0, longitude: Double = 0.0, relevantText: String = "") {
+        self.id = id
+        self.latitude = latitude
+        self.longitude = longitude
+        self.relevantText = relevantText
+    }
 }
 
-enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {
+public enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {
     case none
     case code128 // natively supported by PassKit
     case code93
@@ -572,7 +585,7 @@ enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {
     case pdf417 // natively supported by PassKit
     case qr
 
-    var description: String {
+    public var description: String {
         switch self {
         case .none: return "None"
         case .code128: return "Code 128"
@@ -586,16 +599,16 @@ enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIterable {
         }
     }
 
-    var id: Self { self }
+    public var id: Self { self }
 }
 
-enum ImageType: Codable, CustomStringConvertible, CaseIterable {
+public enum ImageType: Codable, CustomStringConvertible, CaseIterable {
     case photo
     case emoji
     case symbol
     case none
 
-    var description: String {
+    public var description: String {
         switch self {
         case .photo: return "Photo"
         case .emoji: return "Emoji"
@@ -605,12 +618,12 @@ enum ImageType: Codable, CustomStringConvertible, CaseIterable {
     }
 }
 
-enum BarcodeCategory: CaseIterable, CustomStringConvertible {
+public enum BarcodeCategory: CaseIterable, CustomStringConvertible {
     case none
     case oneDimensional
     case twoDimensional
 
-    var description: String {
+    public var description: String {
         switch self {
         case .none: return "None"
         case .oneDimensional: return "1D Barcode"
