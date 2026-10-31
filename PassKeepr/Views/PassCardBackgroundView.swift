@@ -113,7 +113,7 @@ struct PassCardBackgroundView: View {
     // Shared by both the shadow (filled) and the gradient overlay (used as a clip shape) so the
     // two always agree on which silhouette - notched, scalloped, or plain rounded - to use.
     private var backgroundShape: AnyShape {
-        PassCardShape.background(hasBackgroundImage: passObject.isBackgroundImageOn && passObject.backgroundImage != Data(), isCoupon: passObject.isCoupon, scallopsPerEdge: scallopsPerEdge)
+        PassCardShape.background(hasBackgroundImage: passObject.shouldIncludeBackgroundImage, isCoupon: passObject.isCoupon, scallopsPerEdge: scallopsPerEdge)
     }
 
     private func notchShape(insetAmount: CGFloat = 0) -> AnyShape {
@@ -125,7 +125,7 @@ struct PassCardBackgroundView: View {
     }
 
     private var shadow: some View {
-        if passObject.isBackgroundImageOn && passObject.backgroundImage != Data() {
+        if passObject.shouldIncludeBackgroundImage {
             return AnyView(
                 Image(uiImage: cachedBackgroundImage ?? UIImage())
                     .resizable()
@@ -156,7 +156,7 @@ struct PassCardBackgroundView: View {
                 .opacity(colors.shadowOpacity)
                 .padding(.bottom, -4)
 
-            if passObject.isBackgroundImageOn && passObject.backgroundImage != Data() && !passObject.isCustomStripImageOn {
+            if passObject.shouldIncludeBackgroundImage {
                 imageBackground
             } else if passObject.isCoupon {
                 scallopedBackground

@@ -12,29 +12,48 @@ let requiredFields: [String: Any] = [
 // (which pass style it is and which images belong in the generated pass).
 // GeneratePass uses these to create the pass,
 // and keeping them on the model means the decisions live with the data they are derived from.
-extension PassObject {
+public extension PassObject {
+    // Whether this pass's barcode type is one PassKit displays natively,
+    // rather than one the app renders as an image. Includes .none: with no
+    // barcode, there is nothing to render as an image either.
+    var isNativeBarcodeType: Bool {
+        (barcodeType == BarcodeType.code128) || (barcodeType == BarcodeType.pdf417) || (barcodeType == BarcodeType.qr) || (barcodeType == BarcodeType.none)
+    }
+
     // Whether a background image can be shown for this pass's barcode type
-    public var isBackgroundImageSupported: Bool {
-        if (barcodeType == BarcodeType.code128) || (barcodeType == BarcodeType.pdf417) || (barcodeType == BarcodeType.qr) || (barcodeType == BarcodeType.none) {
-            return true
-        } else {
-            return false
-        }
+    var isBackgroundImageSupported: Bool {
+        isNativeBarcodeType
+    }
+
+    // Whether the user has a background image set and turned on, regardless of whether it can be used
+    var hasBackgroundImage: Bool {
+        isBackgroundImageOn && backgroundImage != Data()
+    }
+
+    // Whether the first header field has a label or text to show
+    var hasHeaderFieldOneContent: Bool {
+        headerFieldOneLabel != "" || headerFieldOneText != ""
+    }
+
+    // Whether the first secondary field has a label or text to show
+    var hasSecondaryFieldOneContent: Bool {
+        secondaryFieldOneLabel != "" || secondaryFieldOneText != ""
+    }
+
+    // Whether the first auxiliary field has a label or text to show
+    var hasAuxiliaryFieldOneContent: Bool {
+        auxiliaryFieldOneLabel != "" || auxiliaryFieldOneText != ""
     }
 
     // Whether the background image belongs in the generated package
-    public var shouldIncludeBackgroundImage: Bool {
-        if (isBackgroundImageOn && backgroundImage != Data()) && isBackgroundImageSupported {
-            return true
-        } else {
-            return false
-        }
+    var shouldIncludeBackgroundImage: Bool {
+        hasBackgroundImage && isBackgroundImageSupported
     }
 
     // Whether there is a rendered strip barcode to show: a barcode type the app renders as an image,
     // a valid barcode value, and the generated strip data.
     // Unlike shouldAddStripImage, this does not consider the user's custom strip image.
-    public var hasStripBarcodeImage: Bool {
+    var hasStripBarcodeImage: Bool {
         barcodeType.doesBarcodeUseStripImage()
             && barcodeType.isEnteredBarcodeValueValid(string: barcodeString)
             && stripImage != Data()
@@ -42,7 +61,7 @@ extension PassObject {
 
     // Whether a strip image applies to this pass, before the background image is taken into account:
     // either a rendered strip barcode, or the user's custom strip image.
-    public var shouldAddStripImage: Bool {
+    internal var shouldAddStripImage: Bool {
         hasStripBarcodeImage || (isCustomStripImageOn && stripImage != Data())
     }
 
@@ -55,7 +74,7 @@ extension PassObject {
 
     // The pass style key for pass.json, chosen from the images the package will actually contain
     // so the style never claims an image that is not included
-    var passStyleKey: String {
+    internal var passStyleKey: String {
         if shouldIncludeBackgroundImage {
             return "eventTicket"
         } else if isCoupon { // Coupon passes can have strip images, that toggle is the next-highest priority
@@ -69,7 +88,7 @@ extension PassObject {
     }
 
     // The complete dictionary written to pass.json when this pass is generated
-    var passJSONDictionary: [String: Any] {
+    internal var passJSONDictionary: [String: Any] {
         // Add the required data to the pass
         var passData: [String: Any] = requiredFields
         passData["passTypeIdentifier"] = "pass.com.hanshaw.passKeepr.\(group)"
@@ -114,15 +133,15 @@ extension PassObject {
             data.merge(["primaryFields": [primaryFields]]) { _, _ in }
         }
 
-        if headerFieldOneLabel != "" || headerFieldOneText != "" || isHeaderFieldTwoOn {
+        if hasHeaderFieldOneContent || isHeaderFieldTwoOn {
             data.merge(encodedHeaderFields) { _, _ in }
         }
 
-        if secondaryFieldOneLabel != "" || secondaryFieldOneText != "" || isSecondaryFieldTwoOn || isSecondaryFieldThreeOn {
+        if hasSecondaryFieldOneContent || isSecondaryFieldTwoOn || isSecondaryFieldThreeOn {
             data.merge(encodedSecondaryFields) { _, _ in }
         }
 
-        if !isCustomStripImageOn, auxiliaryFieldOneLabel != "" || auxiliaryFieldOneText != "" || isAuxiliaryFieldTwoOn || isAuxiliaryFieldThreeOn {
+        if !isCustomStripImageOn, hasAuxiliaryFieldOneContent || isAuxiliaryFieldTwoOn || isAuxiliaryFieldThreeOn {
             data.merge(encodedAuxiliaryFields) { _, _ in }
         }
 
@@ -138,7 +157,7 @@ extension PassObject {
     }
 
     // The PassKit barcode dictionary for pass.json, or nil when this pass has no natively displayable barcode
-    var barcodeDictionary: [String: Any]? {
+    internal var barcodeDictionary: [String: Any]? {
         guard barcodeType == BarcodeType.code128 || barcodeType == BarcodeType.pdf417 || barcodeType == BarcodeType.qr, barcodeString != "" else {
             return nil
         }
@@ -175,10 +194,10 @@ extension PassObject {
         return barcodeFields
     }
 
-    var encodedHeaderFields: [String: Any] {
+    internal var encodedHeaderFields: [String: Any] {
         var encodedData: [Any] = []
 
-        if headerFieldOneLabel != "" || headerFieldOneText != "" {
+        if hasHeaderFieldOneContent {
             let headerField1 = passFieldDict(
                 key: "header1",
                 label: headerFieldOneLabel,
@@ -207,12 +226,12 @@ extension PassObject {
         ]
     }
 
-    var encodedSecondaryFields: [String: Any] {
+    internal var encodedSecondaryFields: [String: Any] {
         var encodedData: [Any] = []
 
         let hasFieldThree = isSecondaryFieldThreeOn
         let hasFieldTwo = isSecondaryFieldTwoOn || hasFieldThree
-        let hasFieldOne = secondaryFieldOneLabel != "" || secondaryFieldOneText != "" || hasFieldTwo
+        let hasFieldOne = hasSecondaryFieldOneContent || hasFieldTwo
 
         if hasFieldOne {
             let secondaryField1 = passFieldDict(
@@ -258,12 +277,12 @@ extension PassObject {
         ]
     }
 
-    var encodedAuxiliaryFields: [String: Any] {
+    internal var encodedAuxiliaryFields: [String: Any] {
         var encodedData: [Any] = []
 
         let hasFieldThree = isAuxiliaryFieldThreeOn
         let hasFieldTwo = isAuxiliaryFieldTwoOn || hasFieldThree
-        let hasFieldOne = auxiliaryFieldOneLabel != "" || auxiliaryFieldOneText != "" || hasFieldTwo
+        let hasFieldOne = hasAuxiliaryFieldOneContent || hasFieldTwo
 
         if hasFieldOne {
             let auxiliaryField1 = passFieldDict(
