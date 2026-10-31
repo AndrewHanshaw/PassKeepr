@@ -44,6 +44,7 @@
 		BA32E2DB30957C57005205F4 /* PersistenceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA32E2DA30957C57005205F4 /* PersistenceTests.swift */; };
 		BA32E2E430957D2B005205F4 /* GeneratePassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA32E2E330957D2B005205F4 /* GeneratePassTests.swift */; };
 		BA32E2ED30957E4E005205F4 /* GeneratePassDesignRulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA32E2EC30957E4E005205F4 /* GeneratePassDesignRulesTests.swift */; };
+		BA32E2F630957F0A005205F4 /* GeneratePassFixtureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA32E2F530957F0A005205F4 /* GeneratePassFixtureTests.swift */; };
 		BA34ACA930328BB000604733 /* PassCardBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA34ACA830328BB000604733 /* PassCardBackgroundView.swift */; };
 		BA409E422CF427160079193E /* EditablePassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA409E412CF427160079193E /* EditablePassCard.swift */; };
 		BA428B842D49CF870024B8B1 /* EAN13View.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA428B832D49CF870024B8B1 /* EAN13View.swift */; };
@@ -197,6 +198,7 @@
 		BA32E2DA30957C57005205F4 /* PersistenceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceTests.swift; sourceTree = "<group>"; };
 		BA32E2E330957D2B005205F4 /* GeneratePassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePassTests.swift; sourceTree = "<group>"; };
 		BA32E2EC30957E4E005205F4 /* GeneratePassDesignRulesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePassDesignRulesTests.swift; sourceTree = "<group>"; };
+		BA32E2F530957F0A005205F4 /* GeneratePassFixtureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePassFixtureTests.swift; sourceTree = "<group>"; };
 		BA34ACA830328BB000604733 /* PassCardBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassCardBackgroundView.swift; sourceTree = "<group>"; };
 		BA409E412CF427160079193E /* EditablePassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePassCard.swift; sourceTree = "<group>"; };
 		BA428B832D49CF870024B8B1 /* EAN13View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EAN13View.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 		3A02E7492AF6EE1B00383BC2 /* PassKeeprTests */ = {
 			isa = PBXGroup;
 			children = (
+				BA32E2F530957F0A005205F4 /* GeneratePassFixtureTests.swift */,
 				BA32E2EC30957E4E005205F4 /* GeneratePassDesignRulesTests.swift */,
 				BA32E2E330957D2B005205F4 /* GeneratePassTests.swift */,
 				BA32E2DA30957C57005205F4 /* PersistenceTests.swift */,
@@ -842,6 +845,7 @@
 				BA32E2CE3095788F005205F4 /* WifiQrCodeTests.swift in Sources */,
 				BA32E2CF3095788F005205F4 /* ColorConversionTests.swift in Sources */,
 				BA32E2D03095788F005205F4 /* PassObjectCodableTests.swift in Sources */,
+				BA32E2F630957F0A005205F4 /* GeneratePassFixtureTests.swift in Sources */,
 				BA32E2DB30957C57005205F4 /* PersistenceTests.swift in Sources */,
 				BA32E2D13095788F005205F4 /* BarcodeTypeMappingTests.swift in Sources */,
 				BA32E2D23095788F005205F4 /* VCardQrCodeTests.swift in Sources */,
