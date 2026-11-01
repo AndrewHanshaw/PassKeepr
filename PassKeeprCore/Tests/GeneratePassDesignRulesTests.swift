@@ -141,6 +141,21 @@ final class GeneratePassDesignRulesTests: XCTestCase {
         XCTAssertNil(files["strip.png"])
     }
 
+    // A background image can't be used with a strip-rendered barcode type, so a leftover background must not cost the pass its strip image.
+    func testStripBarcodeKeepsStripImageDespiteLeftoverBackground() throws {
+        var pass = PassObject()
+        pass.barcodeType = .ean13
+        pass.barcodeString = "1234567890123"
+        pass.backgroundImage = pngData(width: 300, height: 400)
+        pass.stripImage = pngData(width: 600, height: 200)
+
+        let (json, files) = try generatePackage(from: pass)
+
+        XCTAssertEqual(styleKey(in: json), "storeCard")
+        XCTAssertNotNil(files["strip.png"])
+        XCTAssertNil(files["background.png"])
+    }
+
     func testFieldsHaveKeyLabelAndValue() throws {
         let pass = fullyPopulatedPass()
 

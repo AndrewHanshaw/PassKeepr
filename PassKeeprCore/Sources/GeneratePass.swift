@@ -123,21 +123,10 @@ public func generatePass(passObject: PassObject, directory: URL = URL.applicatio
         saveImageVariants(from: passObject.passIcon, name: "icon", passDirectory: passDirectory, maxWidth: PassKitConstants.IconImage.width, maxHeight: PassKitConstants.IconImage.height)
 
         if includeStripImage {
-            if passObject.passStyleKey != "storeCard" {
-                print("PassObject has stripImage but is not of style 'storeCard'")
-            }
-
-            if passObject.backgroundImage != Data(), passObject.isBackgroundImageOn {
-                print("PassObject has background image and strip image. Not saving strip image")
-            } else {
-                saveSingleScaleImage(from: passObject.stripImage, name: "strip", passDirectory: passDirectory, maxWidth: PassKitConstants.StripImage.width, maxHeight: PassKitConstants.StripImage.height)
-            }
+            saveSingleScaleImage(from: passObject.stripImage, name: "strip", passDirectory: passDirectory, maxWidth: PassKitConstants.StripImage.width, maxHeight: PassKitConstants.StripImage.height)
         }
 
         if includeBackgroundImage {
-            if passObject.passStyleKey != "eventTicket" {
-                print("PassObject should have background image but is not of style 'eventTicket'")
-            }
             saveSingleScaleImage(from: passObject.backgroundImage, name: "background", passDirectory: passDirectory, maxWidth: PassKitConstants.BackgroundImage.width, maxHeight: PassKitConstants.BackgroundImage.height)
         }
 
