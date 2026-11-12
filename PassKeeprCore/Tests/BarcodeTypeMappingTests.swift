@@ -27,6 +27,10 @@ final class BarcodeTypeMappingTests: XCTestCase {
         XCTAssertEqual(VNBarcodeSymbology.upce.toBarcodeType(), .upce)
     }
 
+    func testEAN8MapsToEAN8() {
+        XCTAssertEqual(VNBarcodeSymbology.ean8.toBarcodeType(), .ean8)
+    }
+
     func testUnsupportedSymbologyReturnsNil() {
         XCTAssertNil(VNBarcodeSymbology.aztec.toBarcodeType())
         XCTAssertNil(VNBarcodeSymbology.pdf417.toBarcodeType())
