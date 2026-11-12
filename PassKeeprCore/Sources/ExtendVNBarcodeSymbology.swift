@@ -16,6 +16,8 @@ public extension VNBarcodeSymbology {
             return BarcodeType.ean13
         case VNBarcodeSymbology.ean8:
             return BarcodeType.ean8
+        case VNBarcodeSymbology.itf14, VNBarcodeSymbology.i2of5:
+            return BarcodeType.itf
         case VNBarcodeSymbology.qr:
             return BarcodeType.qr
         default:
