@@ -9,6 +9,10 @@ using namespace metal;
 
     int currentSegment = int((position.x)/segmentSize);
 
+    if (currentSegment < 0 || currentSegment >= int(numberOfSegmentsInput[0])) {
+        return half4(1,1,1,1);
+    }
+
     int currentByte = currentSegment / 8;
     int currentBit  = currentSegment % 8;
 
