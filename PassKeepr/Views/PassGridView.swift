@@ -69,6 +69,23 @@ struct PassGridView: View {
         return max(PADDING, remainingSpace / 2)
     }
 
+    // The size of one pass card, computed once here from the measured grid width
+    // iPad cards are a fixed width
+    // iPhone cards stretch to fill the flexible columns.
+    // Height follows the pass aspect ratio, matching the .aspectRatio applied to each cell
+    private var cardWidth: CGFloat {
+        if horizontalSizeClass == .regular {
+            return FIXED_CARD_WIDTH
+        }
+        guard gridWidth > 0 else { return 0 }
+        let totalSpacing = sidePadding * 2 + CGFloat(max(columnCount - 1, 0)) * PADDING
+        return max(0, (gridWidth - totalSpacing) / CGFloat(columnCount))
+    }
+
+    private var cardSize: CGSize {
+        CGSize(width: cardWidth, height: cardWidth / PassKitConstants.passAspectRatio)
+    }
+
     private var columns: [GridItem] {
         if horizontalSizeClass == .regular {
             // `.adaptive` has SwiftUI's own layout engine compute how many fixed-width cards
@@ -276,7 +293,7 @@ struct PassGridView: View {
     @ViewBuilder
     private func passCell(for id: UUID) -> some View {
         if let bindingIndex = modelData.passObjects.firstIndex(where: { $0.id == id }) {
-            PassCardContainer(passObject: $modelData.passObjects[bindingIndex], zoomNamespace: zoomNamespace)
+            PassCardContainer(passObject: $modelData.passObjects[bindingIndex], cardSize: cardSize, zoomNamespace: zoomNamespace)
                 .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fill)
                 .opacity(dragProperties.draggedID == id ? 0.001 : 1.0)
                 .onDrag {
@@ -328,11 +345,12 @@ struct PassGridView: View {
 
 struct PassCardContainer: View {
     @Binding var passObject: PassObject
+    var cardSize: CGSize
     var zoomNamespace: Namespace.ID
 
     var body: some View {
         NavigationLink(value: passObject.id) {
-            PassCard(passObject: passObject)
+            PassCard(passObject: passObject, cardSize: cardSize)
         }
         .buttonStyle(.plain)
         .matchedTransitionSourceIfAvailable(id: passObject.id, in: zoomNamespace)

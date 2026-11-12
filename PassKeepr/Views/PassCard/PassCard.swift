@@ -4,31 +4,28 @@ import SwiftUI
 struct PassCard: View {
     @EnvironmentObject var modelData: ModelData
     @EnvironmentObject var passSigner: pkPassSigner
-    @State private var size: CGSize = CGSizeZero
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var isSigningForShare = false
     @State private var shareURL: URL? = nil
     @State private var showShareSheet = false
     var passObject: PassObject
+    var cardSize: CGSize
+
+    // Horizontal padding on each side of the 1D barcode container.
+    private static let barcodeHorizontalPadding: CGFloat = 20
+
+    // Width available to the 1D barcode, after the horizontal padding applied to its container below.
+    private var barcodeWidth: CGFloat {
+        max(0, cardSize.width - 2 * Self.barcodeHorizontalPadding)
+    }
 
     var body: some View {
         PassCardBackgroundView(passObject: passObject, scallopsPerEdge: 30)
-            .background(GeometryReader { geometry in
-                Color.clear
-                    .onAppear {
-                        size = geometry.size
-                    }
-                    .onChange(of: geometry.size) {
-                        Task {
-                            size = geometry.size
-                        }
-                    }
-            })
             .overlay(
                 VStack {
                     PassCardTopSection(passObject: passObject)
-                        .frame(height: size.height * 0.2)
+                        .frame(height: cardSize.height * 0.2)
                         .padding(0)
 
                     if passObject.shouldIncludeStripImage {
@@ -77,7 +74,7 @@ struct PassCard: View {
                             .padding(.leading, 8)
                             Spacer()
                         }
-                        .frame(height: size.height * 0.1)
+                        .frame(height: cardSize.height * 0.1)
                     }
 
                     if passObject.hasSecondaryFieldOneContent {
@@ -106,12 +103,12 @@ struct PassCard: View {
                             .padding(.leading, 8)
                             Spacer()
                         }
-                        .frame(height: size.height * 0.1)
+                        .frame(height: cardSize.height * 0.1)
                     }
                     Spacer()
 
                     if passObject.barcodeType == BarcodeType.qr, passObject.barcodeString != "" {
-                        QRCodeView(data: passObject.barcodeString, correctionLevel: passObject.qrCodeCorrectionLevel, encoding: passObject.qrCodeEncoding)
+                        QRCodeView(data: passObject.barcodeString, correctionLevel: passObject.qrCodeCorrectionLevel, encoding: passObject.qrCodeEncoding, targetWidth: 60)
                             .padding(3)
                             .background {
                                 RoundedRectangle(cornerRadius: 2)
@@ -123,10 +120,10 @@ struct PassCard: View {
                         Group {
                             if passObject.barcodeType.isEnteredBarcodeValueValid(string: passObject.barcodeString) == true {
                                 if passObject.barcodeType == BarcodeType.code128 {
-                                    Code128View(data: passObject.barcodeString)
+                                    Code128View(data: passObject.barcodeString, targetWidth: barcodeWidth)
                                         .padding(10)
                                 } else if passObject.barcodeType == BarcodeType.pdf417 {
-                                    PDF417View(data: passObject.barcodeString)
+                                    PDF417View(data: passObject.barcodeString, targetWidth: barcodeWidth, targetHeight: barcodeWidth / 3)
                                         .padding(5)
                                 }
                             }
@@ -136,7 +133,7 @@ struct PassCard: View {
                                 .fill(Color.white)
                         }
                         .aspectRatio(3, contentMode: .fit)
-                        .padding(.horizontal, 20)
+                        .padding(.horizontal, Self.barcodeHorizontalPadding)
                         .padding(.bottom, 15)
                     }
                 }
@@ -246,5 +243,5 @@ struct ActivityView: UIViewControllerRepresentable {
 }
 
 #Preview {
-    PassCard(passObject: MockModelData().passObjects[0])
+    PassCard(passObject: MockModelData().passObjects[0], cardSize: CGSize(width: 180, height: 180 / PassKitConstants.passAspectRatio))
 }
