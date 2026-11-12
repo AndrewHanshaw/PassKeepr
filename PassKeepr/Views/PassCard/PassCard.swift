@@ -4,6 +4,8 @@ import SwiftUI
 struct PassCard: View {
     @EnvironmentObject var modelData: ModelData
     @EnvironmentObject var passSigner: pkPassSigner
+    @Environment(\.displayScale) private var displayScale
+    @State private var cachedStripImage: UIImage?
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var isSigningForShare = false
@@ -29,7 +31,7 @@ struct PassCard: View {
                         .padding(0)
 
                     if passObject.shouldIncludeStripImage {
-                        if let uiImage = UIImage(data: passObject.stripImage) {
+                        if let uiImage = cachedStripImage {
                             let imageAspectRatio = uiImage.size.width / uiImage.size.height
                             Image(uiImage: uiImage)
                                 .resizable()
@@ -138,6 +140,23 @@ struct PassCard: View {
                     }
                 }
             )
+            .onAppear {
+                decodeStripImage()
+            }
+            .onChange(of: passObject.stripImage) { _, _ in
+                decodeStripImage()
+            }
+            .onChange(of: passObject.shouldIncludeStripImage) { _, _ in
+                // shouldIncludeStripImage comes from the toggle for the custom strip image/barcode or background image
+                // so it can change without stripImage itself changing.
+                decodeStripImage()
+            }
+            .onChange(of: cardSize) { _, _ in
+                // cardSize is 0 until the grid's first geometry measurement
+                // a decode attempted then returns nil
+                // retry once the real size (and display width) is known.
+                decodeStripImage()
+            }
             .contextMenu {
                 Button(action: {
                     preparePassForShare()
@@ -185,6 +204,15 @@ struct PassCard: View {
             .alert(isPresented: $showAlert) {
                 Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
             }
+    }
+
+    private func decodeStripImage() {
+        guard passObject.shouldIncludeStripImage else {
+            cachedStripImage = nil
+            return
+        }
+
+        cachedStripImage = decodedImage(from: passObject.stripImage, maxPixelSize: cardSize.width * displayScale)
     }
 
     private func preparePassForShare() {
