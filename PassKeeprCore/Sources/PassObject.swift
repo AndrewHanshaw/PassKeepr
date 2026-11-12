@@ -587,6 +587,7 @@ public enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIte
     case upce
     case upca
     case ean13
+    case ean8
     case pdf417 // natively supported by PassKit
     case qr
 
@@ -599,6 +600,7 @@ public enum BarcodeType: Codable, CustomStringConvertible, Identifiable, CaseIte
         case .upce: return "UPC-E"
         case .upca: return "UPC-A"
         case .ean13: return "EAN-13"
+        case .ean8: return "EAN-8"
         case .pdf417: return "PDF417"
         case .qr: return "QR Code"
         }

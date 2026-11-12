@@ -183,6 +183,11 @@ struct CustomizeBarcode: View {
                         .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                         .frame(maxWidth: .infinity)
 
+                case BarcodeType.ean8:
+                    EAN8View(value: $tempBarcodeData, border: tempBarcodeBorder)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
                 case BarcodeType.qr:
                     EmptyView()
                 }
@@ -369,6 +374,10 @@ struct CustomizeBarcode: View {
             tempStripImage = ImageRenderer(content:
                 EAN13View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)
             ).uiImage?.pngData() ?? Data()
+
+        case BarcodeType.ean8:
+            tempStripImage = ImageRenderer(content:
+                EAN8View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
 
         default:
             break

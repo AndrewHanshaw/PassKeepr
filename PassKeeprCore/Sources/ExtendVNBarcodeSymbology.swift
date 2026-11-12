@@ -14,6 +14,8 @@ public extension VNBarcodeSymbology {
         // there is no VNBarcodeSymbology.upca. It is lumped in with ean13, and scanned barcodes are given a leading 0
         case VNBarcodeSymbology.ean13:
             return BarcodeType.ean13
+        case VNBarcodeSymbology.ean8:
+            return BarcodeType.ean8
         case VNBarcodeSymbology.qr:
             return BarcodeType.qr
         default:

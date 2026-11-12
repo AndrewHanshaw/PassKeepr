@@ -70,6 +70,7 @@
               "kind": "group",
               "path": "Metal",
               "children": [
+                { "path": "EAN8View.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
                 { "path": "OneDimensionalBarcodeFilter.metal", "target-membership": [ "PassKeepr/compile-sources" ] },
                 { "path": "UPCEView.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
                 { "path": "UPCAView.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
