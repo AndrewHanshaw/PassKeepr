@@ -14,6 +14,14 @@ struct PassCard: View {
     var passObject: PassObject
     var cardSize: CGSize
 
+    // false for the drag preview
+    // (the system can't snapshot a drawingGroup() texture, so the lifted preview comes out blank)
+    // The preview draws the background live instead.
+    var flattensBackground: Bool = true
+
+    // Extra room around the card inside the flattened background texture so the shadow isn't clipped.
+    private static let shadowBleed: CGFloat = 24
+
     // Horizontal padding on each side of the 1D barcode container.
     private static let barcodeHorizontalPadding: CGFloat = 20
 
@@ -22,8 +30,32 @@ struct PassCard: View {
         max(0, cardSize.width - 2 * Self.barcodeHorizontalPadding)
     }
 
+    // Flattens the view for the grid
+    // renders the background (shadow, background photo, scalloped path)
+    // once per card into a cached texture instead of re-rasterizing it on every frame while scrolling
+    // The overlay text and barcode stay vector-sharp above it.
+    // Edit mode is untouched (EditablePassCard should not use this modifier)
+
+    // drawingGroup() clips to its bounds, and the blurred shadow extends past the card
+    // The card is pinned to cardSize and padded by shadowBleed before flattening
+    // so the texture has room for the shadow
+    // the negative padding afterwards restores the original layout size.
+    @ViewBuilder
+    private var cardBackground: some View {
+        let background = PassCardBackgroundView(passObject: passObject, scallopsPerEdge: 30)
+        if flattensBackground {
+            background
+                .frame(width: cardSize.width, height: cardSize.height)
+                .padding(Self.shadowBleed)
+                .drawingGroup()
+                .padding(-Self.shadowBleed)
+        } else {
+            background
+        }
+    }
+
     var body: some View {
-        PassCardBackgroundView(passObject: passObject, scallopsPerEdge: 30)
+        cardBackground
             .overlay(
                 VStack {
                     PassCardTopSection(passObject: passObject)

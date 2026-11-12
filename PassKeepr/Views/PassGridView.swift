@@ -313,6 +313,14 @@ struct PassGridView: View {
                     dragProperties.draggedID = id
                     lastDraggedID = id
                     return NSItemProvider(object: NSString(string: id.uuidString))
+                } preview: {
+                    // The system snapshot of the flattened (drawingGroup) card is blank, so lift an unflattened copy instead.
+                    PassCard(
+                        passObject: modelData.passObjects[bindingIndex],
+                        cardSize: cardSize,
+                        flattensBackground: false
+                    )
+                    .frame(width: cardSize.width, height: cardSize.height)
                 }
                 .onDrop(
                     of: [.text],
