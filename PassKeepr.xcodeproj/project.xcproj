@@ -61,6 +61,7 @@
               "kind": "group",
               "path": "CoreImage",
               "children": [
+                { "path": "BarcodeImageCache.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
                 { "path": "AztecView.swift", "encoding": "utf8", "target-membership": [ "PassKeepr/compile-sources" ] },
                 { "path": "PDF417View.swift", "encoding": "utf8", "target-membership": [ "PassKeepr/compile-sources" ] },
                 { "path": "Code128View.swift", "target-membership": [ "PassKeepr/compile-sources" ] },

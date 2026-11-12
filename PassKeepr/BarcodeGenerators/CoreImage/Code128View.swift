@@ -3,15 +3,15 @@ import SwiftUI
 
 struct Code128View: View {
     var data: String
+    var targetWidth: CGFloat = 400
     @Environment(\.displayScale) private var displayScale
 
     var body: some View {
-        GeometryReader { geometry in
-            if let code128BarcodeImage = GenerateCode128Barcode(string: data, viewWidth: geometry.size.width, displayScale: displayScale) {
-                Image(uiImage: code128BarcodeImage)
-                    .resizable()
-                    .frame(width: geometry.size.width)
-            }
+        if let code128BarcodeImage = GenerateCode128Barcode(string: data, viewWidth: targetWidth, displayScale: displayScale) {
+            Image(uiImage: code128BarcodeImage)
+                .resizable()
+                // Fill whatever space the parent offers, in both axes. The bars are uniform vertically, so stretching the height is lossless.
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
@@ -21,6 +21,12 @@ struct Code128View: View {
 }
 
 func GenerateCode128Barcode(string: String, viewWidth: CGFloat, displayScale: CGFloat) -> UIImage? {
+    let pixelWidth = max(1, Int((viewWidth * displayScale).rounded()))
+    let cacheKey = "code128|\(string)|\(pixelWidth)"
+    if let cached = BarcodeImageCache.cachedImage(forKey: cacheKey) {
+        return cached
+    }
+
     let filter = CIFilter.code128BarcodeGenerator()
 
     filter.quietSpace = 4
@@ -28,16 +34,18 @@ func GenerateCode128Barcode(string: String, viewWidth: CGFloat, displayScale: CG
 
     guard let outputImage = filter.outputImage else { return nil }
 
-    let xScale = viewWidth / outputImage.extent.size.width
-    let yScale = viewWidth / outputImage.extent.size.height
-
+    // Non-uniform scale: width to the target pixel width, height to a 3:1
+    // image (matching the grid's barcode container). The image is stretched
+    // to fit its container by SwiftUI, so only the bar height is affected.
+    let xScale = CGFloat(pixelWidth) / outputImage.extent.size.width
+    let yScale = (CGFloat(pixelWidth) / 3) / outputImage.extent.size.height
     let scaledImage = outputImage.transformed(by: CGAffineTransform(scaleX: xScale, y: yScale))
 
-    // Convert the CIImage to a UIImage
-    let context = CIContext()
-    if let cgImage = context.createCGImage(scaledImage, from: scaledImage.extent) {
-        let qrCodeImage = UIImage(cgImage: cgImage, scale: displayScale, orientation: .up)
-        return qrCodeImage
+    // Convert the CIImage to a UIImage, using the shared context
+    if let cgImage = BarcodeImageCache.context.createCGImage(scaledImage, from: scaledImage.extent) {
+        let code128Image = UIImage(cgImage: cgImage, scale: displayScale, orientation: .up)
+        BarcodeImageCache.store(code128Image, forKey: cacheKey)
+        return code128Image
     }
 
     return nil
