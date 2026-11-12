@@ -5,7 +5,7 @@ import XCTest
 // independent of the zipped package produced by `generatePass`.
 final class PassObjectPassGenerationTests: XCTestCase {
     private let nativeBarcodeTypes: [BarcodeType] = [.code128, .pdf417, .qr, .none]
-    private let stripBarcodeTypes: [BarcodeType] = [.code39, .code93, .upce, .upca, .ean13, .ean8]
+    private let stripBarcodeTypes: [BarcodeType] = [.code39, .code93, .upce, .upca, .ean13, .ean8, .itf]
 
     private let image = TestImages.redPNG(width: 100, height: 100)
 
@@ -110,7 +110,7 @@ final class PassObjectPassGenerationTests: XCTestCase {
     }
 
     func testStripBarcodeWithValidValueAddsStripImage() {
-        for (type, value) in [(BarcodeType.ean13, validEAN13), (.upca, "123456789012"), (.upce, "123456"), (.ean8, "12345670"), (.code39, "ABC-123"), (.code93, "ABC-123")] {
+        for (type, value) in [(BarcodeType.ean13, validEAN13), (.upca, "123456789012"), (.upce, "123456"), (.ean8, "12345670"), (.itf, "12345678901231"), (.code39, "ABC-123"), (.code93, "ABC-123")] {
             var pass = PassObject()
             pass.barcodeType = type
             pass.barcodeString = value
@@ -146,7 +146,7 @@ final class PassObjectPassGenerationTests: XCTestCase {
     }
 
     func testHasStripBarcodeImageRequiresStripTypeValidValueAndData() {
-        for (type, value) in [(BarcodeType.ean13, validEAN13), (.upca, "123456789012"), (.upce, "123456"), (.ean8, "12345670"), (.code39, "ABC-123"), (.code93, "ABC-123")] {
+        for (type, value) in [(BarcodeType.ean13, validEAN13), (.upca, "123456789012"), (.upce, "123456"), (.ean8, "12345670"), (.itf, "12345678901231"), (.code39, "ABC-123"), (.code93, "ABC-123")] {
             var pass = PassObject()
             pass.barcodeType = type
             pass.barcodeString = value

@@ -31,6 +31,11 @@ final class BarcodeTypeMappingTests: XCTestCase {
         XCTAssertEqual(VNBarcodeSymbology.ean8.toBarcodeType(), .ean8)
     }
 
+    func testITF14AndI2of5MapToITF() {
+        XCTAssertEqual(VNBarcodeSymbology.itf14.toBarcodeType(), .itf)
+        XCTAssertEqual(VNBarcodeSymbology.i2of5.toBarcodeType(), .itf)
+    }
+
     func testUnsupportedSymbologyReturnsNil() {
         XCTAssertNil(VNBarcodeSymbology.aztec.toBarcodeType())
         XCTAssertNil(VNBarcodeSymbology.pdf417.toBarcodeType())

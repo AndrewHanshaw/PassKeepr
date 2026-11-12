@@ -24,7 +24,7 @@ struct ScannerView: View {
                     shouldStartScanning: $showScanner,
                     scannedText: $tempScanData,
                     scannedBarcodeType: $tempScanBarcodeType,
-                    dataToScanFor: [.barcode(symbologies: [.qr, .code128, .upce, .ean13, .code39, .code93, .ean8])]
+                    dataToScanFor: [.barcode(symbologies: [.qr, .code128, .upce, .ean13, .code39, .code93, .ean8, .itf14, .i2of5])]
                 )
             } else if !DataScannerViewController.isSupported {
                 VStack(alignment: .center) {

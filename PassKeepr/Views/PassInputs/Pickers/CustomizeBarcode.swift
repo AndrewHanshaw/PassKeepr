@@ -188,6 +188,11 @@ struct CustomizeBarcode: View {
                         .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
                         .frame(maxWidth: .infinity)
 
+                case BarcodeType.itf:
+                    ITFView(value: $tempBarcodeData, border: tempBarcodeBorder)
+                        .aspectRatio(PassKitConstants.StripImage.aspectRatio, contentMode: .fit)
+                        .frame(maxWidth: .infinity)
+
                 case BarcodeType.qr:
                     EmptyView()
                 }
@@ -222,7 +227,7 @@ struct CustomizeBarcode: View {
                     {
                         if let imageBarcode = GetBarcodeFromImage(image: image) {
                             switch imageBarcode.barcodeType {
-                            case BarcodeType.code128, BarcodeType.code93, BarcodeType.code39, BarcodeType.upce, BarcodeType.pdf417, BarcodeType.ean13, BarcodeType.upca, BarcodeType.ean8:
+                            case BarcodeType.code128, BarcodeType.code93, BarcodeType.code39, BarcodeType.upce, BarcodeType.pdf417, BarcodeType.ean13, BarcodeType.upca, BarcodeType.ean8, BarcodeType.itf:
                                 tempBarcodeData = imageBarcode.payload
                                 tempBarcodeType = imageBarcode.barcodeType
                             default:
@@ -378,6 +383,10 @@ struct CustomizeBarcode: View {
         case BarcodeType.ean8:
             tempStripImage = ImageRenderer(content:
                 EAN8View(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
+
+        case BarcodeType.itf:
+            tempStripImage = ImageRenderer(content:
+                ITFView(value: $tempBarcodeData, border: tempBarcodeBorder).frame(width: PassKitConstants.StripImage.width, height: PassKitConstants.StripImage.height)).uiImage?.pngData() ?? Data()
 
         default:
             break
