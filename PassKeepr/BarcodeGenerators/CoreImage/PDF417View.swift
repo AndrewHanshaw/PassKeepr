@@ -43,7 +43,7 @@ func GeneratePDF417Barcode(string: String, viewWidth: CGFloat, viewHeight: CGFlo
     let scaledImage = outputImage.transformed(by: CGAffineTransform(scaleX: xScale, y: yScale))
 
     // Convert the CIImage to a UIImage, using the shared context
-    if let cgImage = BarcodeImageCache.context.createCGImage(scaledImage, from: scaledImage.extent) {
+    if let cgImage = SharedCIContext.context.createCGImage(scaledImage, from: scaledImage.extent) {
         let pdf417Image = UIImage(cgImage: cgImage, scale: displayScale, orientation: .up)
         BarcodeImageCache.store(pdf417Image, forKey: cacheKey)
         return pdf417Image

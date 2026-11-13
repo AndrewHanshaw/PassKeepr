@@ -42,7 +42,7 @@ struct PassCard: View {
     // the negative padding afterwards restores the original layout size.
     @ViewBuilder
     private var cardBackground: some View {
-        let background = PassCardBackgroundView(passObject: passObject, scallopsPerEdge: 30)
+        let background = PassCardBackgroundView(passObject: passObject, scallopsPerEdge: 30, gridCardSize: cardSize)
         if flattensBackground {
             background
                 .frame(width: cardSize.width, height: cardSize.height)

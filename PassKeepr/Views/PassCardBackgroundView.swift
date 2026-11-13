@@ -97,7 +97,11 @@ enum PassCardShape {
 // source of truth for all of it now.
 struct PassCardBackgroundView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.displayScale) private var displayScale
     @State private var cachedBackgroundImage: UIImage?
+    // For the grid only, fallback for the baked image below, set once background generation finishes.
+    // The body reads `PassBackgroundImageCache` first so a cache hit never waits on state.
+    @State private var bakedBlurredImage: UIImage?
 
     var passObject: PassObject
     var isEditable: Bool = false
@@ -105,6 +109,47 @@ struct PassCardBackgroundView: View {
     // Shape sizing - `nil` uses each shape's own default (used by the full-size editable card).
     // The smaller read-only `PassCard` overrides these to match its reduced rendered size.
     var scallopsPerEdge: Int?
+
+    // Set only by the scrolling pass grid (`PassCard`), with the card's size in points.
+    // In this mode the background photo is downscaled to the card's pixel size and its blur is baked into
+    // a cached image once (see `PassBackgroundImageCache`) instead of decoding the full-resolution
+    // photo and running live `.blur` passes per card.
+    // `nil` keeps the original full-resolution, live-blur rendering (for edit and picker screens)
+    var gridCardSize: CGSize?
+
+    private var isGridMode: Bool { gridCardSize != nil }
+
+    // The card's size in device pixels, or nil if there is nothing to bake
+    // (not grid mode, no background photo, or the card size has not been measured yet).
+    private var bakePixelSize: CGSize? {
+        guard let size = gridCardSize, size.width > 0, size.height > 0, passObject.shouldIncludeBackgroundImage else { return nil }
+        return CGSize(width: (size.width * displayScale).rounded(), height: (size.height * displayScale).rounded())
+    }
+
+    private struct BakeID: Hashable {
+        var id: UUID
+        var dataCount: Int
+        var pixelSize: CGSize
+    }
+
+    private var bakeID: BakeID? {
+        bakePixelSize.map { BakeID(id: passObject.id, dataCount: passObject.backgroundImage.count, pixelSize: $0) }
+    }
+
+    private func bakedImage(fallback: UIImage?) -> UIImage? {
+        if let size = bakePixelSize,
+           let hit = PassBackgroundImageCache.cachedImage(id: passObject.id, dataCount: passObject.backgroundImage.count, pixelSize: size)
+        {
+            return hit
+        }
+        return fallback
+    }
+
+    // Photo used by the shadow, border and background layers; in grid mode its blur is already baked in
+    // (the shadow layer just blurs it a bit further).
+    private var blurredPhotoImage: UIImage? {
+        isGridMode ? bakedImage(fallback: bakedBlurredImage) : cachedBackgroundImage
+    }
 
     private var colors: PassCardBackgroundColors {
         PassCardBackgroundColors(backgroundColor: passObject.backgroundColor, backgroundBrightness: passObject.backgroundBrightness, colorScheme: colorScheme)
@@ -127,7 +172,7 @@ struct PassCardBackgroundView: View {
     private var shadow: some View {
         if passObject.shouldIncludeBackgroundImage {
             return AnyView(
-                Image(uiImage: cachedBackgroundImage ?? UIImage())
+                Image(uiImage: blurredPhotoImage ?? UIImage())
                     .resizable()
                     .scaleEffect(1.05)
                     .clipShape(notchShape(insetAmount: 2))
@@ -169,35 +214,73 @@ struct PassCardBackgroundView: View {
             }
         }
         .onChange(of: passObject.backgroundImage) { _, newValue in
-            if passObject.isBackgroundImageOn {
+            if !isGridMode, passObject.isBackgroundImageOn {
                 decodeBackgroundImage(newValue)
             }
         }
         .onChange(of: passObject.isBackgroundImageOn) { _, isOn in
-            if isOn && passObject.backgroundImage != Data() {
+            if !isGridMode, isOn && passObject.backgroundImage != Data() {
                 decodeBackgroundImage(passObject.backgroundImage)
             }
         }
         .onAppear {
-            if passObject.isBackgroundImageOn {
+            if !isGridMode, passObject.isBackgroundImageOn {
                 decodeBackgroundImage(passObject.backgroundImage)
             }
+        }
+        // Generate the downscaled/pre-blurred images off the main thread
+        // Re-runs when the photo or the card's pixel size changes
+        .task(id: bakeID) {
+            await bakeGridImages()
+        }
+    }
+
+    private func bakeGridImages() async {
+        guard let pixelSize = bakePixelSize else {
+            bakedBlurredImage = nil
+            return
+        }
+        let id = passObject.id
+        let data = passObject.backgroundImage
+        let scale = displayScale
+        if PassBackgroundImageCache.cachedImage(id: id, dataCount: data.count, pixelSize: pixelSize) != nil {
+            return
+        }
+        let result = await Task.detached(priority: .userInitiated) {
+            PassBackgroundImageCache.generate(id: id, data: data, pixelSize: pixelSize, displayScale: scale)
+        }.value
+        guard !Task.isCancelled else { return }
+        bakedBlurredImage = result
+    }
+
+    // The photo for the border and background layers
+    // In grid mode the blur is already baked into the image, it is applied live everywhere else
+    // Only call when `blurredPhotoImage` is non-nil.
+    @ViewBuilder
+    private func blurredPhoto(_ image: UIImage) -> some View {
+        if isGridMode {
+            Image(uiImage: image)
+                .resizable()
+                .scaleEffect(1.05)
+        } else {
+            Image(uiImage: image)
+                .resizable()
+                .scaleEffect(1.05) // Scale up the image slightly to prevent a semitransparent halo around the image
+                .blur(radius: 6)
         }
     }
 
     private var imageBackground: some View {
-        ZStack {
+        let photo = blurredPhotoImage
+        return ZStack {
             // Border - the same photo, tinted darker/lighter, so the border reads as an edge of the
             // actual image instead of a flat, unrelated color.
             notchShape()
                 .fill(Color.clear)
                 .background(
-                    cachedBackgroundImage != nil ?
+                    photo != nil ?
                         AnyView(
-                            Image(uiImage: cachedBackgroundImage!)
-                                .resizable()
-                                .scaleEffect(1.05)
-                                .blur(radius: 6)
+                            blurredPhoto(photo!)
                                 .overlay(colors.imageBorderTint)
                                 .clipShape(notchShape())
                         )
@@ -208,12 +291,9 @@ struct PassCardBackgroundView: View {
             notchShape(insetAmount: 2)
                 .fill(Color.clear)
                 .background(
-                    cachedBackgroundImage != nil ?
+                    photo != nil ?
                         AnyView(
-                            Image(uiImage: cachedBackgroundImage!)
-                                .resizable()
-                                .scaleEffect(1.05) // Scale up the image slightly to prevent a semitransparent halo around the image
-                                .blur(radius: 6)
+                            blurredPhoto(photo!)
                                 .clipShape(notchShape(insetAmount: 2))
                         )
                         : AnyView(Color.clear)

@@ -3,7 +3,6 @@ import UIKit
 
 // Shared cache for the CoreImage barcode generators
 enum BarcodeImageCache {
-    static let context = CIContext()
     static let cache: NSCache<NSString, UIImage> = {
         let cache = NSCache<NSString, UIImage>()
         // Barcode images are cached at display-pixel size, and edit screens regenerate one per edit

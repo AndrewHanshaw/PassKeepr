@@ -42,7 +42,7 @@ func GenerateCode128Barcode(string: String, viewWidth: CGFloat, displayScale: CG
     let scaledImage = outputImage.transformed(by: CGAffineTransform(scaleX: xScale, y: yScale))
 
     // Convert the CIImage to a UIImage, using the shared context
-    if let cgImage = BarcodeImageCache.context.createCGImage(scaledImage, from: scaledImage.extent) {
+    if let cgImage = SharedCIContext.context.createCGImage(scaledImage, from: scaledImage.extent) {
         let code128Image = UIImage(cgImage: cgImage, scale: displayScale, orientation: .up)
         BarcodeImageCache.store(code128Image, forKey: cacheKey)
         return code128Image

@@ -44,7 +44,7 @@ func GenerateQRCode(string: String, viewWidth: CGFloat, correctionLevel: QrCodeC
     let scaledImage = outputImage.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
 
     // Convert the CIImage to a UIImage, using the shared context
-    if let cgImage = BarcodeImageCache.context.createCGImage(scaledImage, from: scaledImage.extent) {
+    if let cgImage = SharedCIContext.context.createCGImage(scaledImage, from: scaledImage.extent) {
         let qrCodeImage = UIImage(cgImage: cgImage, scale: displayScale, orientation: .up)
         BarcodeImageCache.store(qrCodeImage, forKey: cacheKey)
         return qrCodeImage
