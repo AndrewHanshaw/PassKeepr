@@ -1,18 +1,24 @@
 import PassKeeprCore
 import SwiftUI
 
+// Context-menu actions for the cards in PassGridView.
+// A reference type because SwiftUI can't compare closure properties
+// so passing closures into PassCard made every card's body re-run whenever the grid's body did (e.g. during a drag)
+// The grid creates one instance and keeps it for its lifetime
+// so PassCard sees the same reference every time and can skip body when nothing else changed.
+final class PassCardActions {
+    var share: (UUID) -> Void = { _ in }
+    var duplicate: (UUID) -> Void = { _ in }
+    var delete: (UUID) -> Void = { _ in }
+}
+
 struct PassCard: View {
-    @EnvironmentObject var modelData: ModelData
-    @EnvironmentObject var passSigner: pkPassSigner
     @Environment(\.displayScale) private var displayScale
     @State private var cachedStripImage: UIImage?
-    @State private var showAlert = false
-    @State private var alertMessage = ""
-    @State private var isSigningForShare = false
-    @State private var shareURL: URL? = nil
-    @State private var showShareSheet = false
     var passObject: PassObject
     var cardSize: CGSize
+    var isSigningForShare: Bool = false
+    var actions = PassCardActions()
 
     // false for the drag preview
     // (the system can't snapshot a drawingGroup() texture, so the lifted preview comes out blank)
@@ -190,9 +196,9 @@ struct PassCard: View {
                 decodeStripImage()
             }
             .contextMenu {
-                Button(action: {
-                    preparePassForShare()
-                }) {
+                Button {
+                    actions.share(passObject.id)
+                } label: {
                     if isSigningForShare {
                         Label("Signing...", systemImage: "hourglass")
                     } else {
@@ -201,40 +207,17 @@ struct PassCard: View {
                 }
                 .disabled(isSigningForShare)
 
-                Button(action: {
-                    let newPass = passObject.duplicate()
-                    modelData.passObjects.append(newPass)
-                    modelData.encodePassObjects()
-
-                    if generatePass(passObject: newPass) == nil {
-                        alertMessage = "Failed to generate pass file"
-                        showAlert = true
-                    }
-                }) {
+                Button {
+                    actions.duplicate(passObject.id)
+                } label: {
                     Label("Duplicate", systemImage: "rectangle.portrait.on.rectangle.portrait")
                 }
 
-                Button(role: .destructive, action: {
-                    modelData.deleteItemByID(passObject.id)
-                }) {
+                Button(role: .destructive) {
+                    actions.delete(passObject.id)
+                } label: {
                     Label("Delete", systemImage: "trash")
                 }
-            }
-            .sheet(isPresented: $showShareSheet) {
-                if let shareURL = shareURL {
-                    ActivityView(activityItems: [shareURL])
-                }
-            }
-            .onChange(of: passSigner.isDataLoaded) { _, newValue in
-                if newValue && isSigningForShare {
-                    shareURL = passSigner.fileURL
-                    showShareSheet = true
-                    isSigningForShare = false
-                    passSigner.isDataLoaded = false // Reset for next share
-                }
-            }
-            .alert(isPresented: $showAlert) {
-                Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
             }
     }
 
@@ -245,46 +228,6 @@ struct PassCard: View {
         }
 
         cachedStripImage = decodedImage(from: passObject.stripImage, maxPixelSize: cardSize.width * displayScale)
-    }
-
-    private func preparePassForShare() {
-        isSigningForShare = true
-        alertMessage = ""
-
-        // Clean up old files before generating new ones
-        let fileManager = FileManager.default
-        let appSupportDirectory = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
-        let oldPkpassURL = appSupportDirectory.appendingPathComponent("\(passObject.id).pkpass")
-        let oldPassDirectory = appSupportDirectory.appendingPathComponent("\(passObject.id).pass")
-
-        do {
-            // Remove old pkpass file if it exists
-            if fileManager.fileExists(atPath: oldPkpassURL.path) {
-                try fileManager.removeItem(at: oldPkpassURL)
-            }
-            // Remove old pass directory if it exists
-            if fileManager.fileExists(atPath: oldPassDirectory.path) {
-                try fileManager.removeItem(at: oldPassDirectory)
-            }
-        } catch {
-            alertMessage = "Failed to clean up old pass files: \(error.localizedDescription)"
-            showAlert = true
-            isSigningForShare = false
-            return
-        }
-
-        // Generate the unsigned pass
-        guard let passDirectory = generatePass(passObject: passObject) else {
-            alertMessage = "Failed to generate pass file"
-            showAlert = true
-            isSigningForShare = false
-            return
-        }
-
-        // Upload for signing
-        Task {
-            passSigner.uploadPKPassFile(fileURL: passDirectory, passUuid: passObject.id)
-        }
     }
 }
 

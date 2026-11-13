@@ -23,6 +23,7 @@ class DragState: ObservableObject {
 
 struct PassGridView: View {
     @EnvironmentObject var modelData: ModelData
+    @EnvironmentObject var passSigner: pkPassSigner
 
     @Binding var importedPassURL: URL?
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
@@ -50,6 +51,14 @@ struct PassGridView: View {
     @State private var shouldShowNFCAlert = false
     @State private var shouldShowImportErrorAlert = false
     @State private var importErrorMessage = ""
+
+    // Share/duplicate/delete (context menu actions). Owned here, once for the whole grid instead per-card
+    @State private var signingPassID: UUID?
+    @State private var shareURL: URL?
+    @State private var showShareSheet = false
+    @State private var shareErrorMessage = ""
+    @State private var showShareError = false
+    @State private var cardActions = PassCardActions()
 
     private var columnCount: Int {
         if horizontalSizeClass == .regular {
@@ -225,6 +234,24 @@ struct PassGridView: View {
             } message: {
                 Text(importErrorMessage)
             }
+            .sheet(isPresented: $showShareSheet) {
+                if let shareURL {
+                    ActivityView(activityItems: [shareURL])
+                }
+            }
+            .alert("Error", isPresented: $showShareError) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(shareErrorMessage)
+            }
+            .onChange(of: passSigner.isDataLoaded) { _, newValue in
+                if newValue, signingPassID != nil {
+                    shareURL = passSigner.fileURL
+                    showShareSheet = true
+                    signingPassID = nil
+                    passSigner.isDataLoaded = false // Reset for next share
+                }
+            }
         } // ZStack
         .onGeometryChange(for: CGSize.self) { proxy in
             proxy.size
@@ -275,6 +302,13 @@ struct PassGridView: View {
         .onAppear {
             // initial order = current model order
             dragState.orderIDs = modelData.passObjects.map(\.id)
+
+            // Wire the cards' context-menu actions
+            // The cards hold the same PassCardActions instance for the grid's lifetime
+            // only its closures are (re)assigned here.
+            cardActions.share = { sharePass(id: $0) }
+            cardActions.duplicate = { duplicatePass(id: $0) }
+            cardActions.delete = { modelData.deleteItemByID($0) }
         }
         .onChange(of: modelData.passObjects.count) { _, _ in
             // Keep orderIDs in sync when items are added/removed:
@@ -293,48 +327,54 @@ struct PassGridView: View {
     @ViewBuilder
     private func passCell(for id: UUID) -> some View {
         if let bindingIndex = modelData.passObjects.firstIndex(where: { $0.id == id }) {
-            PassCardContainer(passObject: $modelData.passObjects[bindingIndex], cardSize: cardSize, zoomNamespace: zoomNamespace)
-                .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fill)
-                .opacity(dragProperties.draggedID == id ? 0.001 : 1.0)
-                .onDrag {
-                    // Check if this is a spurious drag call after a recent drop.
-                    // Bug introduced in iOS 18, where onDrag is called an additional time after dropping the item.
-                    // Fixed in iOS 27
-                    if #available(iOS 18.0, *) {
-                        if #unavailable(iOS 27.0) {
-                            if let lastDropTime = lastDragEnded,
-                               lastDraggedID == id,
-                               Date().timeIntervalSince(lastDropTime) < 1.3
-                            {
-                                return NSItemProvider()
-                            }
+            PassCardContainer(
+                passObject: $modelData.passObjects[bindingIndex],
+                cardSize: cardSize,
+                zoomNamespace: zoomNamespace,
+                isSigningForShare: signingPassID == id,
+                actions: cardActions
+            )
+            .aspectRatio(PassKitConstants.passAspectRatio, contentMode: .fill)
+            .opacity(dragProperties.draggedID == id ? 0.001 : 1.0)
+            .onDrag {
+                // Check if this is a spurious drag call after a recent drop.
+                // Bug introduced in iOS 18, where onDrag is called an additional time after dropping the item.
+                // Fixed in iOS 27
+                if #available(iOS 18.0, *) {
+                    if #unavailable(iOS 27.0) {
+                        if let lastDropTime = lastDragEnded,
+                           lastDraggedID == id,
+                           Date().timeIntervalSince(lastDropTime) < 1.3
+                        {
+                            return NSItemProvider()
                         }
                     }
-                    dragProperties.draggedID = id
-                    lastDraggedID = id
-                    return NSItemProvider(object: NSString(string: id.uuidString))
-                } preview: {
-                    // The system snapshot of the flattened (drawingGroup) card is blank, so lift an unflattened copy instead.
-                    PassCard(
-                        passObject: modelData.passObjects[bindingIndex],
-                        cardSize: cardSize,
-                        flattensBackground: false
-                    )
-                    .frame(width: cardSize.width, height: cardSize.height)
                 }
-                .onDrop(
-                    of: [.text],
-                    delegate: PassDropDelegate(
-                        destinationID: id,
-                        dragState: dragState,
-                        dragProperties: dragProperties,
-                        onDropCompleted: {
-                            commitNewOrder()
-                            dragProperties.draggedID = nil
-                            lastDragEnded = Date()
-                        }
-                    )
+                dragProperties.draggedID = id
+                lastDraggedID = id
+                return NSItemProvider(object: NSString(string: id.uuidString))
+            } preview: {
+                // The system snapshot of the flattened (drawingGroup) card is blank, so lift an unflattened copy instead.
+                PassCard(
+                    passObject: modelData.passObjects[bindingIndex],
+                    cardSize: cardSize,
+                    flattensBackground: false
                 )
+                .frame(width: cardSize.width, height: cardSize.height)
+            }
+            .onDrop(
+                of: [.text],
+                delegate: PassDropDelegate(
+                    destinationID: id,
+                    dragState: dragState,
+                    dragProperties: dragProperties,
+                    onDropCompleted: {
+                        commitNewOrder()
+                        dragProperties.draggedID = nil
+                        lastDragEnded = Date()
+                    }
+                )
+            )
         }
     }
 
@@ -349,16 +389,76 @@ struct PassGridView: View {
         }
         modelData.encodePassObjects()
     }
+
+    private func presentShareError(_ message: String) {
+        shareErrorMessage = message
+        showShareError = true
+        signingPassID = nil
+    }
+
+    private func duplicatePass(id: UUID) {
+        guard let passObject = modelData.passObjects.first(where: { $0.id == id }) else { return }
+        let newPass = passObject.duplicate()
+        modelData.passObjects.append(newPass)
+        modelData.encodePassObjects()
+
+        if generatePass(passObject: newPass) == nil {
+            presentShareError("Failed to generate pass file")
+        }
+    }
+
+    private func sharePass(id: UUID) {
+        guard let passObject = modelData.passObjects.first(where: { $0.id == id }) else { return }
+        signingPassID = id
+
+        // Clean up old files before generating new ones
+        let fileManager = FileManager.default
+        let appSupportDirectory = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let oldPkpassURL = appSupportDirectory.appendingPathComponent("\(id).pkpass")
+        let oldPassDirectory = appSupportDirectory.appendingPathComponent("\(id).pass")
+
+        do {
+            // Remove old pkpass file if it exists
+            if fileManager.fileExists(atPath: oldPkpassURL.path) {
+                try fileManager.removeItem(at: oldPkpassURL)
+            }
+            // Remove old pass directory if it exists
+            if fileManager.fileExists(atPath: oldPassDirectory.path) {
+                try fileManager.removeItem(at: oldPassDirectory)
+            }
+        } catch {
+            presentShareError("Failed to clean up old pass files: \(error.localizedDescription)")
+            return
+        }
+
+        // Generate the unsigned pass
+        guard let passDirectory = generatePass(passObject: passObject) else {
+            presentShareError("Failed to generate pass file")
+            return
+        }
+
+        // Upload for signing
+        Task {
+            passSigner.uploadPKPassFile(fileURL: passDirectory, passUuid: id)
+        }
+    }
 }
 
 struct PassCardContainer: View {
     @Binding var passObject: PassObject
     var cardSize: CGSize
     var zoomNamespace: Namespace.ID
+    var isSigningForShare: Bool
+    var actions: PassCardActions
 
     var body: some View {
         NavigationLink(value: passObject.id) {
-            PassCard(passObject: passObject, cardSize: cardSize)
+            PassCard(
+                passObject: passObject,
+                cardSize: cardSize,
+                isSigningForShare: isSigningForShare,
+                actions: actions
+            )
         }
         .buttonStyle(.plain)
         .matchedTransitionSourceIfAvailable(id: passObject.id, in: zoomNamespace)
