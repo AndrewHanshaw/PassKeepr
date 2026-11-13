@@ -37,7 +37,6 @@ struct PassGridView: View {
     @Namespace private var zoomNamespace
 
     @State private var isLandscape: Bool = false
-    @State private var isDuoOuterPortrait: Bool = false
 
     @StateObject private var dragState = DragState()
     @State private var dragProperties = DragProperties()
@@ -100,32 +99,11 @@ struct PassGridView: View {
                     }
                     .navigationTitle("My Passes")
                     .navigationBarTitleDisplayMode(.inline)
-                } else if isDuoOuterPortrait { // terrible hack for iPhone Duo outer screen portrait orientation
-                    // The iPhone Duo moves the toolbar buttons to the side so the space above the passGrid is only used for the fancy navigation title
-                    // So fall back to the large nav bar title which scrolls with the content
+                } else {
                     ScrollView {
                         passGrid
                     }
                     .navigationTitle("My Passes")
-                } else {
-                    FancyNavTitleScrollView(
-                        navigationTitle: "My Passes",
-                        titleView: {
-                            Text("My Passes")
-                                .font(.system(.largeTitle, design: .rounded, weight: .bold))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.leading, 20)
-                                .padding(.bottom, -16)
-                                .padding(.top, -4)
-                        },
-                        navBarView: {
-                            Text("My Passes")
-                                .font(.system(.headline, design: .rounded, weight: .bold))
-                        },
-                        content: {
-                            passGrid
-                        }
-                    )
                 }
             }
             .scrollDisabled(modelData.passObjects.isEmpty)
@@ -236,7 +214,6 @@ struct PassGridView: View {
         } action: { newSize in
             isLandscape = newSize.width > newSize.height
             gridWidth = newSize.width
-            isDuoOuterPortrait = newSize.width == 382.0 // Terrible hack but this is the only way I found to detect this
         }
         .navigationDestination(for: UUID.self) { id in
             if let index = modelData.passObjects.firstIndex(where: { $0.id == id }) {

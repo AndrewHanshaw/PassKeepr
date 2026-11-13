@@ -87,7 +87,6 @@
           "path": "Helpers",
           "children": [
             { "path": "iOS27Helpers.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
-            { "path": "FancyNavTitleScrollView.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
             { "path": "iOS18Helpers.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
             { "path": "CameraImagePicker.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
             { "path": "SwiftyCropConfiguration+AppStyle.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
