@@ -39,19 +39,19 @@ public extension BarcodeType {
             let regex = /^[0-9a-zA-Z \-$%.\/+]+$/
             return string.firstMatch(of: regex) != nil
         case BarcodeType.upce:
-            let regex = /^\d{6}$/
+            let regex = /^[0-9]{6}$/
             return string.firstMatch(of: regex) != nil
         case BarcodeType.upca:
-            let regex = /^\d{12}$/
+            let regex = /^[0-9]{12}$/
             return string.firstMatch(of: regex) != nil
         case BarcodeType.ean13:
-            let regex = /^\d{13}$/
+            let regex = /^[0-9]{13}$/
             return string.firstMatch(of: regex) != nil
         case BarcodeType.ean8:
-            let regex = /^\d{8}$/
+            let regex = /^[0-9]{8}$/
             return string.firstMatch(of: regex) != nil
         case BarcodeType.itf:
-            let regex = /^(\d{2}){1,13}$/
+            let regex = /^([0-9]{2}){1,13}$/
             return string.firstMatch(of: regex) != nil
         case BarcodeType.pdf417:
             let regex = /^[ -~]+$/
@@ -62,13 +62,27 @@ public extension BarcodeType {
         }
     }
 
+    // True for every symbology that can only encode ASCII. QR (and `none`) accept arbitrary text.
+    var acceptsOnlyASCII: Bool {
+        switch self {
+        case BarcodeType.qr, BarcodeType.none:
+            return false
+        default:
+            return true
+        }
+    }
+
     #if canImport(UIKit)
         func keyboardType() -> UIKeyboardType {
             switch self {
-            case BarcodeType.code128, BarcodeType.code39, BarcodeType.code93, BarcodeType.pdf417, BarcodeType.qr:
+            case BarcodeType.qr, BarcodeType.none:
+                // Any text is allowed
                 return .default
-            default:
-                return .numberPad
+            case BarcodeType.code128, BarcodeType.code39, BarcodeType.code93, BarcodeType.pdf417:
+                return .asciiCapable
+            case BarcodeType.upce, BarcodeType.upca, BarcodeType.ean13, BarcodeType.ean8, BarcodeType.itf:
+                // Not .numberPad: in some locales that shows non-ASCII numerals (e.g. Arabic-Indic), which can't be encoded.
+                return .asciiCapableNumberPad
             }
         }
     #endif
@@ -96,5 +110,25 @@ public extension BarcodeType {
         case .pdf417: return BarcodeCategory.oneDimensional
         case .qr: return BarcodeCategory.twoDimensional
         }
+    }
+}
+
+public extension String {
+    /// Replaces decimal digits from other scripts (Arabic-Indic, fullwidth, ...) with ASCII 0-9.
+    /// Every other character is left unchanged.
+    func normalizingDigitsToASCII() -> String {
+        var scalars = String.UnicodeScalarView()
+        for scalar in unicodeScalars {
+            if !scalar.isASCII,
+               scalar.properties.generalCategory == .decimalNumber,
+               let value = scalar.properties.numericValue,
+               (0 ... 9).contains(value)
+            {
+                scalars.append(Unicode.Scalar(UInt8(48 + Int(value))))
+            } else {
+                scalars.append(scalar)
+            }
+        }
+        return String(scalars)
     }
 }

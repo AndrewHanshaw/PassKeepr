@@ -242,7 +242,13 @@ struct CustomizeBarcode: View {
                 }
             }
             .onChange(of: tempBarcodeData) {
-                render()
+                // ASCII-only barcodes can't encode other numerals (Arabic-Indic, fullwidth, ...); convert any typed or pasted by the user. Changing the value re-runs this, which then renders.
+                let normalized = tempBarcodeType.acceptsOnlyASCII ? tempBarcodeData.normalizingDigitsToASCII() : tempBarcodeData
+                if normalized != tempBarcodeData {
+                    tempBarcodeData = normalized
+                } else {
+                    render()
+                }
             }
             .onChange(of: tempBarcodeType) {
                 render()
@@ -321,7 +327,6 @@ struct CustomizeBarcode: View {
                         TextField("Barcode Data", text: $tempBarcodeData)
                             .keyboardType(tempBarcodeType.keyboardType())
                             .disableAutocorrection(true)
-                            .keyboardType(.asciiCapable)
                     } label: {
                         Text("Data")
                     }

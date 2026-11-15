@@ -35,4 +35,45 @@ final class BarcodeValueValidationTests: XCTestCase {
             XCTAssertFalse(BarcodeType.itf.isEnteredBarcodeValueValid(string: value), "\"\(value)\"")
         }
     }
+
+    // The generators only encode ASCII digits, so non-ASCII numerals (e.g. from a localized number pad) must be rejected.
+    func testDigitOnlyTypesRejectNonASCIIDigits() {
+        let arabicIndic = "٠١٢٣٤٥٦٧٨٩"
+        let fullwidth = "０１２３４５６７８９"
+        let cases: [(BarcodeType, Int)] = [(.upce, 6), (.upca, 12), (.ean13, 13), (.ean8, 8), (.itf, 14)]
+        for (type, length) in cases {
+            for digits in [arabicIndic, fullwidth] {
+                let value = String((digits + digits).prefix(length))
+                XCTAssertFalse(type.isEnteredBarcodeValueValid(string: value), "\(type) accepted \"\(value)\"")
+            }
+        }
+    }
+
+    func testNormalizingDigitsConvertsOtherScriptsToASCII() {
+        XCTAssertEqual("٠١٢٣٤٥٦٧٨٩".normalizingDigitsToASCII(), "0123456789") // Arabic-Indic
+        XCTAssertEqual("۰۱۲۳۴۵۶۷۸۹".normalizingDigitsToASCII(), "0123456789") // Extended Arabic-Indic (Persian)
+        XCTAssertEqual("०१२३४५६७८९".normalizingDigitsToASCII(), "0123456789") // Devanagari
+        XCTAssertEqual("０１２３４５６７８９".normalizingDigitsToASCII(), "0123456789") // Fullwidth
+    }
+
+    func testNormalizingDigitsLeavesEverythingElseAlone() {
+        for value in ["", "0123456789", "ABC-123 xyz", "½²", "日本語"] {
+            XCTAssertEqual(value.normalizingDigitsToASCII(), value)
+        }
+        XCTAssertEqual("ab١٢-cd".normalizingDigitsToASCII(), "ab12-cd")
+    }
+
+    func testOnlyQRAndNoneAcceptNonASCII() {
+        for type in BarcodeType.allCases {
+            XCTAssertEqual(type.acceptsOnlyASCII, type != .qr && type != .none, "\(type)")
+        }
+        XCTAssertFalse(BarcodeType.code128.isEnteredBarcodeValueValid(string: "é"))
+        XCTAssertFalse(BarcodeType.pdf417.isEnteredBarcodeValueValid(string: "é"))
+        XCTAssertTrue(BarcodeType.qr.isEnteredBarcodeValueValid(string: "é"))
+    }
+
+    func testNormalizedLocalizedDigitsAreValid() {
+        XCTAssertTrue(BarcodeType.ean8.isEnteredBarcodeValueValid(string: "١٢٣٤٥٦٧٠".normalizingDigitsToASCII()))
+        XCTAssertTrue(BarcodeType.itf.isEnteredBarcodeValueValid(string: "１２３４５６７８９０１２３１".normalizingDigitsToASCII()))
+    }
 }
