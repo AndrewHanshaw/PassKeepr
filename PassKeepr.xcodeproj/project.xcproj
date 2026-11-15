@@ -97,7 +97,6 @@
             { "path": "FormatCurrencyText.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
             { "path": "iOS26Helpers.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
             { "path": "TextFieldDynamicWidth.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
-            { "path": "MeasureViewSize.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
             { "path": "DecodedImage.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
             { "path": "SharedCIContext.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
             { "path": "PassBackgroundImageCache.swift", "target-membership": [ "PassKeepr/compile-sources" ] },
