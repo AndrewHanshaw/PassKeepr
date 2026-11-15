@@ -65,7 +65,7 @@ public extension BarcodeType {
     #if canImport(UIKit)
         func keyboardType() -> UIKeyboardType {
             switch self {
-            case BarcodeType.code128, BarcodeType.code39, BarcodeType.code93:
+            case BarcodeType.code128, BarcodeType.code39, BarcodeType.code93, BarcodeType.pdf417, BarcodeType.qr:
                 return .default
             default:
                 return .numberPad

@@ -13,7 +13,6 @@ struct CustomizeQrCode: View {
 
     @State private var tempQrCodeData: String = ""
     @State private var tempAltText: String = ""
-    @State private var tempBarcodeType: BarcodeType = .code128
     @State private var tempQrCodeCorrectionLevel: QrCodeCorrectionLevel = .quartile
     @State private var tempQrCodeEncoding: QrCodeEncoding = .ascii
     @State private var tempQrCodeType: QrCodeType = .standard
@@ -249,7 +248,6 @@ struct CustomizeQrCode: View {
             case .standard:
                 LabeledContent {
                     TextField("QR Code Data", text: $tempQrCodeData, axis: .vertical)
-                        .keyboardType(tempBarcodeType.keyboardType())
                         .disableAutocorrection(true)
                         .lineLimit(1 ... 20)
                 } label: {
