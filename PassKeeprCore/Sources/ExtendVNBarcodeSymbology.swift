@@ -20,6 +20,8 @@ public extension VNBarcodeSymbology {
             return BarcodeType.itf
         case VNBarcodeSymbology.qr:
             return BarcodeType.qr
+        case VNBarcodeSymbology.pdf417:
+            return BarcodeType.pdf417
         default:
             return nil
         }

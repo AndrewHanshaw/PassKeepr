@@ -36,8 +36,11 @@ final class BarcodeTypeMappingTests: XCTestCase {
         XCTAssertEqual(VNBarcodeSymbology.i2of5.toBarcodeType(), .itf)
     }
 
+    func testPDF417MapsToPDF417() {
+        XCTAssertEqual(VNBarcodeSymbology.pdf417.toBarcodeType(), .pdf417)
+    }
+
     func testUnsupportedSymbologyReturnsNil() {
         XCTAssertNil(VNBarcodeSymbology.aztec.toBarcodeType())
-        XCTAssertNil(VNBarcodeSymbology.pdf417.toBarcodeType())
     }
 }
