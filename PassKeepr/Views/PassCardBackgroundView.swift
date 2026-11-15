@@ -24,6 +24,21 @@ struct PassCardBackgroundColors {
         backgroundBrightness == .veryDark ? Color.white.opacity(0.18) : Color.black.opacity(0.18)
     }
 
+    // Solid-color cards cast a shadow of their own color, which disappears when it matches the
+    // backdrop: very light cards in light mode (a white card's shadow is white on a light
+    // background) get dark gray, and very dark cards in dark mode (a black card's shadow is black
+    // on a dark background) get a mid-light gray. Every other combination contrasts fine as is.
+    var shadowColor: Color {
+        switch (backgroundBrightness, colorScheme) {
+        case (.veryLight, .light):
+            return Color(white: 0.2)
+        case (.veryDark, .dark):
+            return Color(white: 0.4)
+        default:
+            return Color(hex: backgroundColor)
+        }
+    }
+
     var shadowOpacity: Double {
         switch backgroundBrightness {
         case .veryDark:
@@ -180,13 +195,13 @@ struct PassCardBackgroundView: View {
         } else if passObject.isCoupon {
             return AnyView(
                 scallopShape(insetAmount: 2)
-                    .fill(Color(hex: passObject.backgroundColor))
+                    .fill(colors.shadowColor)
             )
         } else {
             return AnyView(
                 RoundedRectangle(cornerRadius: 10)
                     .inset(by: 2)
-                    .fill(Color(hex: passObject.backgroundColor))
+                    .fill(colors.shadowColor)
             )
         }
     }
